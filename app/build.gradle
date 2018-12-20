@@ -1,0 +1,77 @@
+apply plugin: 'com.android.application'
+
+apply plugin: 'kotlin-android'
+
+apply plugin: 'kotlin-android-extensions'
+
+android {
+    compileSdkVersion 26
+    defaultConfig {
+        applicationId "com.novel.cn"
+        minSdkVersion 17
+        targetSdkVersion 26
+        versionCode 1
+        versionName "1.0"
+        multiDexEnabled true
+
+
+        //添加如下配置就OK了，butterknife
+        javaCompileOptions { annotationProcessorOptions { includeCompileClasspath = true } }
+        testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
+    }
+    buildTypes {
+        release {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+        }
+    }
+
+    //关于图片框架 builed.gradle下添加依赖
+    packagingOptions {
+        exclude 'META-INF/rxjava.properties'
+    }
+}
+
+configurations.all {
+    resolutionStrategy.force 'com.android.support:support-annotations:27.1.1'
+}
+
+allprojects {
+    repositories {
+        jcenter()
+        maven { url 'https://jitpack.io' }
+    }
+}
+
+
+dependencies {
+    implementation fileTree(dir: 'libs', include: ['*.jar'])
+    implementation"org.jetbrains.kotlin:kotlin-stdlib-jre7:$kotlin_version"
+    implementation 'com.android.support:appcompat-v7:26.1.0'
+    implementation 'com.android.support.constraint:constraint-layout:1.1.3'
+    testImplementation 'junit:junit:4.12'
+    androidTestImplementation 'com.android.support.test:runner:1.0.2'
+    androidTestImplementation 'com.android.support.test.espresso:espresso-core:3.0.2'
+
+    compile 'com.jakewharton:butterknife:7.0.1'
+    compile 'com.google.code.gson:gson:2.6.2'
+    compile 'com.zhy:autolayout:1.4.5'
+    compile 'com.github.fingdo:stateLayout:1.0.4'
+    compile 'com.yanzhenjie:recyclerview-swipe:1.0.2'
+    compile 'com.contrarywind:Android-PickerView:3.2.7'
+    compile 'org.greenrobot:eventbus:3.0.0'
+    compile 'com.github.CymChad:BaseRecyclerViewAdapterHelper:2.9.0'
+
+    compile 'net.danlew:android.joda:2.9.3'
+    compile 'com.squareup.okhttp3:okhttp:3.4.1'
+    compile 'com.squareup.okhttp3:logging-interceptor:3.4.1'
+    compile 'com.squareup.retrofit2:retrofit:2.1.0'
+    compile 'com.squareup.retrofit2:adapter-rxjava:2.1.0'
+    compile 'com.squareup.retrofit2:converter-gson:2.1.0'
+    compile 'com.squareup.sqlbrite:sqlbrite:0.7.0'
+    compile 'io.reactivex:rxandroid:1.2.1'
+    compile 'io.reactivex:rxjava:1.1.6'
+
+    implementation 'com.github.LuckSiege.PictureSelector:picture_library:v2.2.3'
+    compile 'com.facebook.fresco:fresco:1.1.0'
+}
