@@ -12,13 +12,29 @@
         android:supportsRtl="true"
         tools:replace="android:theme"
         android:theme="@style/TranslucentTheme">
-        <activity android:name=".ui.MainActivity">
+
+
+        <activity
+            android:name=".ui.LoginActivity"
+            android:screenOrientation="portrait"
+            >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
-
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+
+
+        <activity android:name=".ui.MainActivity"
+            android:screenOrientation="portrait"/>
+
+
+        <meta-data
+            android:name="design_width"
+            android:value="750" />
+        <meta-data
+            android:name="design_height"
+            android:value="1334" />
     </application>
 
 </manifest>
