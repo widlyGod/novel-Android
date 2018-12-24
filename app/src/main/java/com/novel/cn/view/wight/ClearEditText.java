@@ -16,29 +16,34 @@ import android.widget.EditText;
 import android.widget.Toast;
 
 import com.novel.cn.R;
+import com.novel.cn.util.LogUtil;
 
 /**自定义清除的edittext  TextInputEditText
  * Created by jackieli on 2018/12/21.
  */
 
-public class ClearEditText extends android.support.v7.widget.AppCompatEditText implements View.OnFocusChangeListener, TextWatcher {
+public class ClearEditText extends TextInputEditText implements View.OnFocusChangeListener, TextWatcher {
 
 
     public ClearEditText(Context context) {
         super(context);
+        LogUtil.e("执行1参数");
     }
 
     public ClearEditText(Context context, AttributeSet attrs) {
         super(context, attrs);
-    }
+        LogUtil.e("执行2参数");
 
-    public ClearEditText(Context context, AttributeSet attrs, int defStyleAttr) {
-        super(context, attrs, defStyleAttr);
         TypedArray array = context.getTheme()
                 .obtainStyledAttributes(new int[] {android.R.attr.colorAccent});
         colorAccent = array.getColor(0, 0xFF00FF);
         array.recycle();
         initClearDrawable(context);
+    }
+
+    public ClearEditText(Context context, AttributeSet attrs, int defStyleAttr) {
+        super(context, attrs, defStyleAttr);
+        LogUtil.e("执行3参数");
     }
 
 
@@ -73,6 +78,8 @@ public class ClearEditText extends android.support.v7.widget.AppCompatEditText i
     private void setClearIconVisible(boolean visible) {
         Drawable right = visible ? mClearDrawable : null;
         setCompoundDrawables(getCompoundDrawables()[0], getCompoundDrawables()[1], right, getCompoundDrawables()[3]);
+//        Drawable right = mClearDrawable;
+//        setCompoundDrawables(right, getCompoundDrawables()[1], getCompoundDrawables()[2], getCompoundDrawables()[3]);
     }
 
     //点击事件一键删除
@@ -115,7 +122,6 @@ public class ClearEditText extends android.support.v7.widget.AppCompatEditText i
         } else {
             setClearIconVisible(false);
         }
-
     }
     /**
      * 当输入框里面内容发生变化的时候回调的方法

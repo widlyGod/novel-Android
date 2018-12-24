@@ -3,6 +3,8 @@ package com.novel.cn.app;
 import android.app.Activity;
 import android.support.multidex.MultiDexApplication;
 
+import com.novel.cn.util.Utils;
+
 import java.util.LinkedList;
 import java.util.List;
 
@@ -21,6 +23,8 @@ public class NovelApplication extends MultiDexApplication {
     public void onCreate() {
         super.onCreate();
         instance = this;
+        Utils.init(this);
+
 
     }
 
