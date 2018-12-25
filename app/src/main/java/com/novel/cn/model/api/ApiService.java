@@ -1,6 +1,16 @@
 package com.novel.cn.model.api;
 
 
+import com.novel.cn.model.entity.BaseBean;
+import com.novel.cn.model.entity.BaseObjectBean;
+import com.novel.cn.model.entity.UserBean;
+
+import okhttp3.RequestBody;
+import retrofit2.http.Body;
+import retrofit2.http.Headers;
+import retrofit2.http.POST;
+import retrofit2.http.Url;
+import rx.Observable;
 
 /**
  * Created by YUNW-01 on 2017/10/18.
@@ -8,6 +18,24 @@ package com.novel.cn.model.api;
 
 public interface ApiService {
 
+
+    @Headers({"Content-Type: application/json", "Accept: application/json"})
+    @POST
+    Observable<BaseBean> sendCode(@Url String url,@Body RequestBody info);
+
+
+    @Headers({"Content-Type: application/json", "Accept: application/json"})
+    @POST("novelUserService/user/registerFromApp")
+    Observable<BaseObjectBean<UserBean>> register(@Body RequestBody info);
+
+
+    @Headers({"Content-Type: application/json", "Accept: application/json"})
+    @POST("novelUserService/user/login")
+    Observable<BaseObjectBean<UserBean>> login(@Body RequestBody info);
+
+    @Headers({"Content-Type: application/json", "Accept: application/json"})
+    @POST("novelUserService/user/forgetPwd")
+    Observable<BaseBean> forgetPwd(@Body RequestBody info);
 
     //替换BaseBean为泛型
 //    /*  ctrl+shift+/  sendCode       publicRequest                 登陆注册                                   */

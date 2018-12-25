@@ -3,6 +3,10 @@
     xmlns:tools="http://schemas.android.com/tools"
     package="com.novel.cn">
 
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+    <uses-permission android:name="android.permission.INTERNET" />
+
+
     <application
         android:name=".app.NovelApplication"
         android:allowBackup="true"
@@ -27,7 +31,8 @@
 
         <activity android:name=".ui.MainActivity"
             android:screenOrientation="portrait"/>
-
+        <activity android:name=".ui.ForgetPasswordActivity"
+            android:screenOrientation="portrait"/>
 
         <meta-data
             android:name="design_width"
