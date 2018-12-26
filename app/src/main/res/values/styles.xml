@@ -66,6 +66,19 @@
         <item name="android:windowContentOverlay">@null</item>
     </style>
 
+
+    <style name="home_rb">
+        <item name="android:layout_width">0dp</item>
+        <item name="android:layout_weight">1</item>
+        <item name="android:gravity">center</item>
+        <item name="android:button">@null</item>
+        <item name="android:textSize">12sp</item>
+        <item name="android:drawablePadding">15px</item>
+        <item name="android:background">@null</item>
+    </style>
+
+
+
     <!--
         写在TextInputLayout上
     -->

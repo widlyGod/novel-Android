@@ -178,9 +178,12 @@ public class ForgetPasswordActivity extends AutoLayoutActivity implements LoginC
     @Override
     public void otherRegisterResponse(BaseBean data) {
     }
+
     @Override
-    public void otherLoginResponse(BaseBean data, String type, String opid, String sex, String face, String regId) {
+    public void otherLoginResponse(BaseObjectBean<UserBean> data, String type, String opid, String sex, String face) {
+
     }
+
     @Override
     public void registerSuccess(BaseObjectBean<UserBean> data) {
     }

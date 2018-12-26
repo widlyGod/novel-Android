@@ -86,6 +86,10 @@ public class UserBean {
         return new Gson().fromJson(str, listType);
     }
 
+
+
+
+
     public String getBaiduOpenId() {
         return baiduOpenId;
     }

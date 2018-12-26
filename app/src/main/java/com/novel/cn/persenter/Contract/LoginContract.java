@@ -17,7 +17,7 @@ public interface LoginContract extends BaseComtract {
     interface View extends BaseView {
         void loginSuccess(BaseObjectBean<UserBean> data);
         void otherRegisterResponse(BaseBean data);
-        void otherLoginResponse(BaseBean data,String type,String opid,String sex, String face,String regId);
+        void otherLoginResponse(BaseObjectBean<UserBean> data,String type,String opid,String sex, String face);
 
         void registerSuccess(BaseObjectBean<UserBean> data);
         void sendCodeSuccess(BaseBean data);
@@ -32,7 +32,7 @@ public interface LoginContract extends BaseComtract {
         void sendCode(String url, String keyword);
         void register(String nickName, String keyword, String userPassword,String code);
         void login(String keyword, String userPwd);
-        void otherLogin(String opid, String type,String sex,String face);
+        void otherLogin( String opid,String userName,   String face,  String sex,String type);
         void otherRegister(String type,String opid,String sex, String face);
         void forgetPwd(String userPassword, String userEmail, String code);
     }

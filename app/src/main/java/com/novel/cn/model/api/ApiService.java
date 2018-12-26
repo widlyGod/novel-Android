@@ -37,6 +37,11 @@ public interface ApiService {
     @POST("novelUserService/user/forgetPwd")
     Observable<BaseBean> forgetPwd(@Body RequestBody info);
 
+
+    @Headers({"Content-Type: application/json", "Accept: application/json"})
+    @POST
+    Observable<BaseObjectBean<UserBean>> otherLoginRegister(@Url String url,@Body RequestBody info);
+
     //替换BaseBean为泛型
 //    /*  ctrl+shift+/  sendCode       publicRequest                 登陆注册                                   */
 //    @Headers({"Content-Type: application/json", "Accept: application/json"})

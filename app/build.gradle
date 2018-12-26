@@ -1,8 +1,36 @@
 apply plugin: 'com.android.application'
-
 apply plugin: 'kotlin-android'
-
+apply plugin: "com.mob.sdk"
 apply plugin: 'kotlin-android-extensions'
+
+
+MobSDK {
+    appKey "2961d71891b67"
+    appSecret "ffa60299580e1e8d877c9e136a46731a"
+
+    ShareSDK {
+        //平台配置信息
+        devInfo {
+            SinaWeibo {
+                appKey "568898243"
+                appSecret "38a4f8204cc784f81f9f0daaf31e02e3"
+                callbackUri "http://www.weibo.com"
+                shareByAppClient false
+            }
+            Wechat {
+                appId "wx87550c9d5f515694"
+                appSecret "e757af166a58acfadafa68a4c4fca701"
+            }
+            QQ {
+                appId "1107996617"
+                appKey "9HKlm84cd4ocXLWC"
+                shareByAppClient true
+
+            }
+        }
+    }
+
+}
 
 android {
     compileSdkVersion 26

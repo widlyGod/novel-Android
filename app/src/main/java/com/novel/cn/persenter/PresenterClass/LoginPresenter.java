@@ -11,6 +11,7 @@ import com.novel.cn.util.JsonUtils;
 import com.novel.cn.util.LogUtil;
 
 import okhttp3.RequestBody;
+import rx.Subscriber;
 import rx.android.schedulers.AndroidSchedulers;
 import rx.schedulers.Schedulers;
 
@@ -77,6 +78,7 @@ public class LoginPresenter implements LoginContract.Presenter {
         jsonUtils.addField("keyword", keyword);
         jsonUtils.addField("userPassword", userPassword);
         jsonUtils.addField("code", code);
+        jsonUtils.addField("channelId","-1");
         String bodyString = jsonUtils.build().toString();
         RequestBody body= RequestBody.create(okhttp3.MediaType.parse("application/json; charset=utf-8"),bodyString);
         ApiClient.service.register(body)
@@ -148,8 +150,48 @@ public class LoginPresenter implements LoginContract.Presenter {
     }
 
     @Override
-    public void otherLogin(String opid, String type, String sex, String face) {
+    public void otherLogin(final String opid,String userName,  final String face, final String sex,String type) {
+        HttpUtils.httpInterceptor.isAddHead(false);
 
+        final String finalStringType = type;
+        JsonUtils jsonUtils = new JsonUtils();
+        jsonUtils.addField("openId", opid);
+        jsonUtils.addField("nickName", userName);
+        jsonUtils.addField("photo", face);
+        jsonUtils.addField("gender", sex);
+        jsonUtils.addField("channelId", "-1");
+
+        String url="";
+        if(finalStringType.equals("qq")){
+            url="novelUserService/login/qqLogin";
+        }else if(finalStringType.equals("微信")){
+            url="novelUserService/login/wxLogin";
+        }else{
+            url="novelUserService/login/wbLogin";
+        }
+
+        String bodyString = jsonUtils.build().toString();
+        LogUtil.e("tag","url="+url+"otherLogin bodyString="+bodyString);
+        RequestBody body= RequestBody.create(okhttp3.MediaType.parse("application/json; charset=utf-8"),bodyString);
+        ApiClient.service.otherLoginRegister(url,body)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .unsubscribeOn(Schedulers.io())         //销毁时销毁Retrofit
+                .subscribe(new Subscriber<BaseObjectBean<UserBean>>() {
+                    @Override
+                    public void onCompleted() {
+                    }
+                    @Override
+                    public void onError(Throwable e) {
+                        LogUtil.e("tag","otherLogin onError="+e.getMessage());
+                        view.fail(e.getMessage());
+                    }
+                    @Override
+                    public void onNext(BaseObjectBean<UserBean> s) {
+                        LogUtil.e("tag","otherLogin数据="+s.toString());
+                        view.otherLoginResponse(s, finalStringType,opid,sex,face);
+                    }
+                });
     }
 
     @Override

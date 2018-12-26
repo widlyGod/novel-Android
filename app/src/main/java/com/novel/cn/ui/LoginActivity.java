@@ -23,6 +23,7 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.gson.Gson;
 import com.jakewharton.rxbinding.widget.RxTextView;
 import com.novel.cn.R;
 import com.novel.cn.model.entity.BaseBean;
@@ -30,18 +31,27 @@ import com.novel.cn.model.entity.BaseObjectBean;
 import com.novel.cn.model.entity.UserBean;
 import com.novel.cn.persenter.Contract.LoginContract;
 import com.novel.cn.persenter.PresenterClass.LoginPresenter;
+import com.novel.cn.util.LogUtil;
 import com.novel.cn.util.PartsUtil;
 import com.novel.cn.util.SharePrefUtil;
 import com.novel.cn.util.ToastUtils;
 import com.novel.cn.view.wight.Dialog_Loading;
 import com.zhy.autolayout.AutoLayoutActivity;
 
+import java.util.HashMap;
 import java.util.Map;
 import java.util.concurrent.TimeUnit;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
+import cn.sharesdk.framework.Platform;
+import cn.sharesdk.framework.PlatformActionListener;
+import cn.sharesdk.framework.PlatformDb;
+import cn.sharesdk.framework.ShareSDK;
+import cn.sharesdk.sina.weibo.SinaWeibo;
+import cn.sharesdk.tencent.qq.QQ;
+import cn.sharesdk.wechat.friends.Wechat;
 import rx.Observable;
 import rx.Subscriber;
 import rx.android.schedulers.AndroidSchedulers;
@@ -52,7 +62,7 @@ import rx.functions.Func1;
 import rx.functions.Func2;
 import rx.functions.Func5;
 
-/**3.接口接入
+/**
  * 登录界面
  * Created by jackieli on 2018/12/20.
  */
@@ -147,11 +157,13 @@ public class LoginActivity extends AutoLayoutActivity implements LoginContract.V
         presenter.setMvpView(this, "");
         dialog_loading = new Dialog_Loading(this, R.style.Dialog);
         dialog_loading.setCancelable(false);
-        UserBean userBean= (UserBean) SharePrefUtil.getObj(this,"user");
-        if(userBean!=null){
-            etUsername.setText(userBean.getUserEmail());
+        String userBean= SharePrefUtil.getString(getApplicationContext(),"user","");
+        if(!userBean.equals("")){
+            UserBean userBean1=UserBean.objectFromData(userBean);
+            if(userBean1.getUserEmail()!=null){
+                etUsername.setText(userBean1.getUserEmail());
+            }
         }
-
 
 
         tablayout.addTab(tablayout.newTab().setText("账号登录"));
@@ -213,19 +225,33 @@ public class LoginActivity extends AutoLayoutActivity implements LoginContract.V
         }
     }
 
+
+
+
     @OnClick({R.id.iv_left, R.id.iv_qq, R.id.iv_wx, R.id.iv_wb,R.id.tv_sendyzm,R.id.tv_yhzcxy,R.id.tv_forpw,R.id.btn_LoginOrRes})
     public void onViewClicked(View view) {
         switch (view.getId()) {
             case R.id.iv_left: {//返回键
+                finish();
+                Intent intent=new Intent(this, MainActivity.class);
+                startActivity(intent);
             }
             break;
             case R.id.iv_qq: {//qq
+                Platform qq = ShareSDK.getPlatform(QQ.NAME);
+                loginwx(qq, 0);
             }
             break;
             case R.id.iv_wx: {//微信
+                Platform wx = ShareSDK.getPlatform(Wechat.NAME);
+                loginwx(wx, 1);
             }
             break;
             case R.id.iv_wb: {//微博
+                Platform weibo = ShareSDK.getPlatform(SinaWeibo.NAME);
+                //  1、 新浪微博开放平台应用没有审核通过，不能用sso登陆，否则报错 加以下代码关闭
+                //        weibo.SSOSetting(true);
+                loginwx(weibo, 2);
             }
             break;
             case R.id.tv_sendyzm: {//发送注册验证码
@@ -282,9 +308,91 @@ public class LoginActivity extends AutoLayoutActivity implements LoginContract.V
                 }
             }
             break;
-
         }
     }
+
+    //先调登录，登录如果没有该用户，则调注册，有该用户直接登录
+    //登陆微信
+    private void loginwx(Platform other, final int type) {
+        String stringType=type+"";
+        switch (type){
+            case 0:
+                stringType="qq";
+                break;
+            case 1:
+                stringType="微信";
+                break;
+            case 2:
+                stringType="微博";
+                break;
+        }
+        final String stringTypex=stringType;
+//        other.SSOSetting(false);//优先选择调用手机客户端界面   true是网页界面
+        other.setPlatformActionListener(new PlatformActionListener() {
+            //当第三方授权登录成功，把SharedPreferences的值改变，并获取用户信息，跳转主页面
+            @Override
+            public void onComplete(Platform platform, int i, HashMap<String, Object> hashMap) {
+                PlatformDb db = platform.getDb();
+                String accessToken = db.getToken(); // 获取授权token
+                final String openId = db.getUserId(); // 获取用户在此平台的ID
+                final String username = db.getUserName();
+                String sex=db.getUserGender();
+                final String usericon = db.getUserIcon();
+                //微博回调=2277089710 jackie_lixx http://tva1.sinaimg.cn/crop.0.0.852.852.1024/87b9a1aejw8f3w2ca85bwj20no0np76z.jpg  m
+                LogUtil.e("tag", "第三方登陆回调=" + openId+username + usericon+sex);
+                platform.getDb().exportData();
+                // 1或0   男,女
+                if(sex.equals("m")){
+                    sex="1";
+                }else{
+                    sex="0";
+                }
+                final String finalSex = sex;
+                //当前线程与主线程不一致，所以要在主线程运行
+                LoginActivity.this.runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        dialog_loading.show();
+                        presenter.otherLogin(openId,username,usericon,finalSex,stringTypex);
+                    }
+                });
+            }
+
+            @Override
+            public void onError(Platform platform, int i, Throwable throwable) {
+                String message = throwable.getMessage();
+                LogUtil.e("第三方登陆回调错误信息:"+message);
+                String localizedMessage = throwable.getLocalizedMessage();
+                final int typex = type;
+                final int ix = i;
+                runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        if (typex == 0 && ix == 1) {
+                            Toast.makeText(LoginActivity.this, "qq客户端不存在", Toast.LENGTH_SHORT).show();
+                        } else if (typex == 1 && ix == 8) {
+                            Toast.makeText(LoginActivity.this, "微信客户端不存在", Toast.LENGTH_SHORT).show();
+                        } else {
+                            Toast.makeText(LoginActivity.this, "错误", Toast.LENGTH_SHORT).show();
+                        }
+                    }
+                });
+            }
+
+            @Override
+            public void onCancel(Platform platform, int i) {
+                LogUtil.e("第三方登陆回调onCancel:");
+            }
+        });
+        if(other.isClientValid()){
+            //{"msg":"the user modify password wrong","ret":-73}
+            other.removeAccount(true);
+        }
+        other.showUser(null);//验证加获取用户信息
+    }
+
+
+
 
     private String errorText="";
 
@@ -397,8 +505,9 @@ public class LoginActivity extends AutoLayoutActivity implements LoginContract.V
         }
 
         if(data.isSuccess()){
-            SharePrefUtil.saveObj(this,"user",data.getData());
+            SharePrefUtil.saveBoolean(LoginActivity.this, "isLogin", true);
             SharePrefUtil.saveString(this,"sessionId",data.getData().getSessionId());
+            SharePrefUtil.saveString(getApplicationContext(),"user",new Gson().toJson(data.getData()));
             finish();
             Intent intent=new Intent(this, MainActivity.class);
             startActivity(intent);
@@ -412,9 +521,28 @@ public class LoginActivity extends AutoLayoutActivity implements LoginContract.V
 
 
     }
+
     //第三方登录成功
     @Override
-    public void otherLoginResponse(BaseBean data, String type, String opid, String sex, String face, String regId) {
+    public void otherLoginResponse(BaseObjectBean<UserBean> data, String type, String opid, String sex, String face) {
+        if(dialog_loading.isShowing()){
+            dialog_loading.dismiss();
+        }
+
+        if(data.isSuccess()){
+            SharePrefUtil.saveBoolean(LoginActivity.this, "isLogin", true);
+            SharePrefUtil.saveString(this,"sessionId",data.getData().getSessionId());
+            SharePrefUtil.saveString(getApplicationContext(),"user",new Gson().toJson(data.getData()));
+            finish();
+            Intent intent=new Intent(this, MainActivity.class);
+            startActivity(intent);
+        }else{
+            if(btnType==0){
+                tv_messagelogin.setText(data.getMessage());
+            }else{
+                tv_messageregist.setText(data.getMessage());
+            }
+        }
 
     }
     //注册成功
@@ -429,8 +557,9 @@ public class LoginActivity extends AutoLayoutActivity implements LoginContract.V
 //        presenter.login(userName,pw);
 
         if(data.isSuccess()){
-            SharePrefUtil.saveObj(this,"user",data.getData());
+            SharePrefUtil.saveBoolean(LoginActivity.this, "isLogin", true);
             SharePrefUtil.saveString(this,"sessionId",data.getData().getSessionId());
+            SharePrefUtil.saveString(getApplicationContext(),"user",new Gson().toJson(data.getData()));
             finish();
             Intent intent=new Intent(this, MainActivity.class);
             startActivity(intent);
@@ -445,7 +574,12 @@ public class LoginActivity extends AutoLayoutActivity implements LoginContract.V
             dialog_loading.dismiss();
         }
 
-        ToastUtils.showShortToast("发送成功");
+        if(data.isSuccess()==false){
+            ToastUtils.showShortToast(data.getMessage());
+        }else{
+            ToastUtils.showShortToast("发送成功");
+        }
+
         // 0秒延迟，1秒后计步器+1
         Observable.interval(0, 1, TimeUnit.SECONDS)
                 .take(count + 1) // 默认是从10开始的10 9 8 7 6 5 4 3 2 ## 1是不会执行的，为啥呢，因为到1的时候就已经走完了，应该去更新UI了，所以做一个+1的处理

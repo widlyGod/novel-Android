@@ -3,6 +3,7 @@ package com.novel.cn.app;
 import android.app.Activity;
 import android.support.multidex.MultiDexApplication;
 
+import com.mob.MobSDK;
 import com.novel.cn.util.Utils;
 
 import java.util.LinkedList;
@@ -24,7 +25,7 @@ public class NovelApplication extends MultiDexApplication {
         super.onCreate();
         instance = this;
         Utils.init(this);
-
+        MobSDK.init(this);
 
     }
 

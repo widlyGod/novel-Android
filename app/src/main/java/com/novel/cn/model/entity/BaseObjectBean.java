@@ -51,7 +51,7 @@ public class BaseObjectBean<T> implements Serializable {
                 "success=" + success +
                 ", code='" + code + '\'' +
                 ", message='" + message + '\'' +
-                ", data=" + data.toString() +
+                ", data=" + data +
                 '}';
     }
 }
