@@ -56,7 +56,7 @@
             android:textColor="@drawable/cb_color" />
 
         <RadioButton
-            android:id="@+id/radiobutton_my"
+            android:id="@+id/rb_my"
             android:drawableTop="@drawable/st_rbmy"
             style="@style/home_rb"
             android:layout_height="match_parent"

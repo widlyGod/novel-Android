@@ -63,7 +63,7 @@ import rx.functions.Func2;
 import rx.functions.Func5;
 
 /**
- * 登录界面
+ *
  * Created by jackieli on 2018/12/20.
  */
 
@@ -233,8 +233,7 @@ public class LoginActivity extends AutoLayoutActivity implements LoginContract.V
         switch (view.getId()) {
             case R.id.iv_left: {//返回键
                 finish();
-                Intent intent=new Intent(this, MainActivity.class);
-                startActivity(intent);
+
             }
             break;
             case R.id.iv_qq: {//qq
@@ -509,8 +508,7 @@ public class LoginActivity extends AutoLayoutActivity implements LoginContract.V
             SharePrefUtil.saveString(this,"sessionId",data.getData().getSessionId());
             SharePrefUtil.saveString(getApplicationContext(),"user",new Gson().toJson(data.getData()));
             finish();
-            Intent intent=new Intent(this, MainActivity.class);
-            startActivity(intent);
+
         }else{
             tv_messagelogin.setText(data.getMessage());
         }
@@ -534,8 +532,7 @@ public class LoginActivity extends AutoLayoutActivity implements LoginContract.V
             SharePrefUtil.saveString(this,"sessionId",data.getData().getSessionId());
             SharePrefUtil.saveString(getApplicationContext(),"user",new Gson().toJson(data.getData()));
             finish();
-            Intent intent=new Intent(this, MainActivity.class);
-            startActivity(intent);
+
         }else{
             if(btnType==0){
                 tv_messagelogin.setText(data.getMessage());
@@ -561,8 +558,8 @@ public class LoginActivity extends AutoLayoutActivity implements LoginContract.V
             SharePrefUtil.saveString(this,"sessionId",data.getData().getSessionId());
             SharePrefUtil.saveString(getApplicationContext(),"user",new Gson().toJson(data.getData()));
             finish();
-            Intent intent=new Intent(this, MainActivity.class);
-            startActivity(intent);
+//            Intent intent=new Intent(this, MainActivity.class);
+//            startActivity(intent);
         }else{
             tv_messagelogin.setText(data.getMessage());
         }

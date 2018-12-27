@@ -3,6 +3,7 @@ package com.novel.cn.app;
 import android.app.Activity;
 import android.support.multidex.MultiDexApplication;
 
+import com.facebook.drawee.backends.pipeline.Fresco;
 import com.mob.MobSDK;
 import com.novel.cn.util.Utils;
 
@@ -27,6 +28,13 @@ public class NovelApplication extends MultiDexApplication {
         Utils.init(this);
         MobSDK.init(this);
 
+        initFresco();
+
+    }
+
+
+    private void initFresco() {
+        Fresco.initialize(this);
     }
 
     //得到application

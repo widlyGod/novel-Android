@@ -24,7 +24,7 @@
         android:theme="@style/TranslucentTheme">
 
         <activity
-            android:name=".ui.LoginActivity"
+            android:name=".ui.MainActivity"
             android:screenOrientation="portrait"
             >
             <intent-filter>
@@ -34,7 +34,7 @@
         </activity>
 
 
-        <activity android:name=".ui.MainActivity"
+        <activity android:name=".ui.LoginActivity"
             android:screenOrientation="portrait"/>
         <activity android:name=".ui.ForgetPasswordActivity"
             android:screenOrientation="portrait"/>
