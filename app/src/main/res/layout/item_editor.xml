@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content">
+
+
+    <ImageView
+        android:id="@+id/iv_book"
+        android:layout_width="198px"
+        android:layout_height="264px" />
+
+    <TextView
+        android:id="@+id/tv_bookName"
+        android:layout_marginTop="18px"
+        android:layout_below="@+id/iv_book"
+        android:textColor="#666666"
+        android:textSize="11sp"
+        android:singleLine="true"
+        android:ellipsize="end"
+        android:layout_width="198px"
+        android:layout_height="wrap_content" />
+
+
+</RelativeLayout>

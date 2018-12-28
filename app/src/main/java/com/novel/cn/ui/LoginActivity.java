@@ -249,7 +249,7 @@ public class LoginActivity extends AutoLayoutActivity implements LoginContract.V
             case R.id.iv_wb: {//微博
                 Platform weibo = ShareSDK.getPlatform(SinaWeibo.NAME);
                 //  1、 新浪微博开放平台应用没有审核通过，不能用sso登陆，否则报错 加以下代码关闭
-                //        weibo.SSOSetting(true);
+                weibo.SSOSetting(true);
                 loginwx(weibo, 2);
             }
             break;

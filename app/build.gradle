@@ -12,8 +12,8 @@ MobSDK {
         //平台配置信息
         devInfo {
             SinaWeibo {
-                appKey "568898243"
-                appSecret "38a4f8204cc784f81f9f0daaf31e02e3"
+                appKey "1960304501"
+                appSecret "41bca940eb91e2e42ec3bb3b49e12af0"
                 callbackUri "http://www.weibo.com"
                 shareByAppClient false
             }
