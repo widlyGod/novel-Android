@@ -45,10 +45,13 @@ public class FreeBookLayout extends LinearLayout {
      * @param list
      */
     public void setFreeBookLayout(List<HomeReturnBean.DataBean.FreeRecommendBean> list) {
+        item0.setFreeBookItem(list.size()>=1 ?list.get(0):null);
+        item1.setFreeBookItem(list.size()>=2 ?list.get(1):null);
+    }
 
-        item0.setFreeBookItem(list.get(0));
-        item1.setFreeBookItem(list.get(1));
-
+    public void setBestNovelLayout(List<HomeReturnBean.DataBean.BestNovelRecommendBean> list) {
+        item0.setBestNovelItem(list.size()>=1 ?list.get(0):null);
+        item1.setBestNovelItem(list.size()>=2 ?list.get(1):null);
     }
 
 }

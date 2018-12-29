@@ -2,11 +2,14 @@ package com.novel.cn.model.api;
 
 
 import com.novel.cn.model.entity.BaseBean;
+import com.novel.cn.model.entity.BaseListObjectBean;
 import com.novel.cn.model.entity.BaseObjectBean;
+import com.novel.cn.model.entity.HomeReturnBean;
 import com.novel.cn.model.entity.UserBean;
 
 import okhttp3.RequestBody;
 import retrofit2.http.Body;
+import retrofit2.http.GET;
 import retrofit2.http.Headers;
 import retrofit2.http.POST;
 import retrofit2.http.Url;
@@ -41,6 +44,17 @@ public interface ApiService {
     @Headers({"Content-Type: application/json", "Accept: application/json"})
     @POST
     Observable<BaseObjectBean<UserBean>> otherLoginRegister(@Url String url,@Body RequestBody info);
+
+
+    @Headers({"Content-Type: application/json", "Accept: application/json"})
+    @GET("novelOAService/mobile/homepage")
+    Observable<HomeReturnBean> getHomepage();
+
+
+    @Headers({"Content-Type: application/json", "Accept: application/json"})
+    @POST("novelOAService/mobile/homepage")
+    Observable<BaseListObjectBean<HomeReturnBean.DataBean.RecentUpdateBean>> getRecentUpdatedNovel(@Body RequestBody info);
+
 
     //替换BaseBean为泛型
 //    /*  ctrl+shift+/  sendCode       publicRequest                 登陆注册                                   */

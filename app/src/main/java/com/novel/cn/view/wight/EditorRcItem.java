@@ -10,6 +10,7 @@ import android.widget.TextView;
 import com.bumptech.glide.Glide;
 import com.novel.cn.R;
 import com.novel.cn.model.entity.HomeReturnBean;
+import com.novel.cn.util.LogUtil;
 import com.novel.cn.util.ToastUtils;
 
 /**
@@ -52,42 +53,57 @@ public class EditorRcItem extends RelativeLayout {
 
     //主编推荐
     public void setEditorRcItem(final HomeReturnBean.DataBean.EditorRecommendBean bean){
-        setOnClickListener(new OnClickListener() {
-            @Override
-            public void onClick(View view) {
+        if(bean!=null){
+            setOnClickListener(new OnClickListener() {
+                @Override
+                public void onClick(View view) {
 //                Intent intent=new Intent(contextall,);
 //                intent.putExtra("id",bean.getNovelId());
 //                contextall.startActivity(intent);
-                ToastUtils.showShortToast("跳转书籍详情");
-            }
-        });
+                    ToastUtils.showShortToast("跳转书籍详情");
+                }
+            });
 
-        //http://59.110.124.41:80/novel_a/novel/fd1dc45252b6493bb9be18133be42164/novel_img_1543892370367_0.jpg
-        Glide.with(contextall)
-                .load(bean.getNovelPhoto())
-                .into(iv_book);
+            //http://59.110.124.41:80/novel_a/novel/fd1dc45252b6493bb9be18133be42164/novel_img_1543892370367_0.jpg
+            Glide.with(contextall)
+                    .load(bean.getNovelPhoto())
+                    .into(iv_book);
+            LogUtil.e("图片加载:"+bean.getNovelPhoto());
+            tv_bookName.setText(bean.getNovelTitle());
+            iv_book.setVisibility(VISIBLE);
+            tv_bookName.setVisibility(VISIBLE);
+        }else{
+            iv_book.setVisibility(INVISIBLE);
+            tv_bookName.setVisibility(INVISIBLE);
+        }
 
-        tv_bookName.setText(bean.getNovelTitle());
     }
 
     //大神专区
     public void setEditorFourRcItem(final HomeReturnBean.DataBean.BestAuthorZoneBean bean){
-        setOnClickListener(new OnClickListener() {
-            @Override
-            public void onClick(View view) {
+        if(bean!=null){
+            setOnClickListener(new OnClickListener() {
+                @Override
+                public void onClick(View view) {
 //                Intent intent=new Intent(contextall,);
 //                intent.putExtra("id",bean.getNovelId());
 //                contextall.startActivity(intent);
-                ToastUtils.showShortToast("跳转书籍详情");
-            }
-        });
+                    ToastUtils.showShortToast("跳转书籍详情");
+                }
+            });
 
-        //http://59.110.124.41:80/novel_a/novel/fd1dc45252b6493bb9be18133be42164/novel_img_1543892370367_0.jpg
-        Glide.with(contextall)
-                .load(bean.getNovelPhoto())
-                .into(iv_book);
+            //http://59.110.124.41:80/novel_a/novel/fd1dc45252b6493bb9be18133be42164/novel_img_1543892370367_0.jpg
+            Glide.with(contextall)
+                    .load(bean.getNovelPhoto())
+                    .into(iv_book);
 
-        tv_bookName.setText(bean.getNovelTitle());
+            tv_bookName.setText(bean.getNovelTitle());
+            iv_book.setVisibility(VISIBLE);
+            tv_bookName.setVisibility(VISIBLE);
+        }else{
+            iv_book.setVisibility(INVISIBLE);
+            tv_bookName.setVisibility(INVISIBLE);
+        }
     }
 
 }

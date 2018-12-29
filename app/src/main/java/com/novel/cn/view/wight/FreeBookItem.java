@@ -19,6 +19,7 @@ import com.novel.cn.util.ToastUtils;
 
 public class FreeBookItem extends RelativeLayout {
 
+    private RelativeLayout relativeLayout;
     private ImageView iv_book;
     private TextView tv_novelTitle;
     private Context contextall;
@@ -42,6 +43,7 @@ public class FreeBookItem extends RelativeLayout {
     private void init(Context context) {
         inflate(context, R.layout.item_freerec, this);
         contextall=context;
+        relativeLayout=findViewById(R.id.rl_free);
         iv_book = (ImageView) findViewById(R.id.iv_book);
         tv_novelTitle = (TextView) findViewById(R.id.tv_novelTitle);
         tv_novelAuthor = (TextView) findViewById(R.id.tv_novelTitle);
@@ -62,33 +64,72 @@ public class FreeBookItem extends RelativeLayout {
 
     //主编推荐
     public void setFreeBookItem(final HomeReturnBean.DataBean.FreeRecommendBean bean){
-        setOnClickListener(new OnClickListener() {
-            @Override
-            public void onClick(View view) {
+        if(bean!=null){
+            setOnClickListener(new OnClickListener() {
+                @Override
+                public void onClick(View view) {
 //                Intent intent=new Intent(contextall,);
 //                intent.putExtra("id",bean.getNovelId());
 //                contextall.startActivity(intent);
-                ToastUtils.showShortToast("跳转书籍详情");
-            }
-        });
+                    ToastUtils.showShortToast("跳转书籍详情");
+                }
+            });
 
-        Glide.with(contextall)
-                .load(bean.getNovelPhoto())
-                .into(iv_book);
+            Glide.with(contextall)
+                    .load(bean.getNovelPhoto())
+                    .into(iv_book);
 
-        tv_novelTitle.setText(bean.getNovelTitle());
-        tv_novelAuthor.setText(bean.getNovelAuthor());
-        tv_type.setText(bean.getNovelAuthor());
-        btn_add.setOnClickListener(new OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                ToastUtils.showShortToast("已加入书架");
-            }
-        });
-        tv_jieshao.setText(bean.getNovelIntro());
+            tv_novelTitle.setText(bean.getNovelTitle());
+            tv_novelAuthor.setText(bean.getNovelAuthor());
+            tv_type.setText(bean.getNovelAuthor());
+            btn_add.setOnClickListener(new OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    ToastUtils.showShortToast("已加入书架");
+                }
+            });
+            tv_jieshao.setText(bean.getNovelIntro());
 
+            relativeLayout.setVisibility(VISIBLE);
+        }else{
+            relativeLayout.setVisibility(INVISIBLE);
+        }
     }
 
+
+    //最佳推荐
+    public void setBestNovelItem(final HomeReturnBean.DataBean.BestNovelRecommendBean bean){
+        if(bean!=null){
+            setOnClickListener(new OnClickListener() {
+                @Override
+                public void onClick(View view) {
+//                Intent intent=new Intent(contextall,);
+//                intent.putExtra("id",bean.getNovelId());
+//                contextall.startActivity(intent);
+                    ToastUtils.showShortToast("跳转书籍详情");
+                }
+            });
+
+            Glide.with(contextall)
+                    .load(bean.getNovelPhoto())
+                    .into(iv_book);
+
+            tv_novelTitle.setText(bean.getNovelTitle());
+            tv_novelAuthor.setText(bean.getNovelAuthor());
+            tv_type.setText(bean.getNovelAuthor());
+            btn_add.setOnClickListener(new OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    ToastUtils.showShortToast("已加入书架");
+                }
+            });
+            tv_jieshao.setText(bean.getNovelIntro());
+
+            relativeLayout.setVisibility(VISIBLE);
+        }else{
+            relativeLayout.setVisibility(INVISIBLE);
+        }
+    }
 
 
 }

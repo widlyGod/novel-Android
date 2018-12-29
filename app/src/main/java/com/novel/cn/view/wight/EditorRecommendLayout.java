@@ -30,11 +30,9 @@ public class EditorRecommendLayout extends LinearLayout {
         init(context);
     }
 
-    private void init(Context context)
-    {
+    private void init(Context context) {
         //把指定的布局作为当前控件的视图效果
         inflate(context, R.layout.layout_etrct, this);
-
         item0 = (EditorRcItem) findViewById(R.id.editorrcitem0);
         item1 = (EditorRcItem) findViewById(R.id.editorrcitem1);
         item2 = (EditorRcItem) findViewById(R.id.editorrcitem2);
@@ -48,11 +46,9 @@ public class EditorRecommendLayout extends LinearLayout {
      * @param list
      */
     public void setEditorRecommendList(List<HomeReturnBean.DataBean.EditorRecommendBean> list) {
-
-        item0.setEditorRcItem(list.get(0));
-        item1.setEditorRcItem(list.get(1));
-        item2.setEditorRcItem(list.get(2));
-
+        item0.setEditorRcItem(list.size()>=1 ?list.get(0):null);
+        item1.setEditorRcItem(list.size()>=2 ?list.get(1):null);
+        item2.setEditorRcItem(list.size()>=3 ?list.get(2):null);
     }
 
 }

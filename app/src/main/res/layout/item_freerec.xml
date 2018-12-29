@@ -5,6 +5,11 @@
     android:orientation="vertical"
     android:paddingBottom="50px">
 
+    <RelativeLayout
+        android:id="@+id/rl_free"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
     <ImageView
         android:id="@+id/iv_book"
         android:layout_width="171px"
@@ -79,6 +84,6 @@
         android:layout_below="@+id/tv_type"
         android:layout_width="match_parent"
         android:layout_height="wrap_content" />
-
+    </RelativeLayout>
 
 </RelativeLayout>

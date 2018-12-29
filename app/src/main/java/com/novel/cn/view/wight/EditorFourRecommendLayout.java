@@ -50,11 +50,10 @@ public class EditorFourRecommendLayout extends LinearLayout {
      * @param list
      */
     public void setEditorRecommendList(List<HomeReturnBean.DataBean.BestAuthorZoneBean> list) {
-
-        item0.setEditorFourRcItem(list.get(0));
-        item1.setEditorFourRcItem(list.get(1));
-        item2.setEditorFourRcItem(list.get(2));
-        item3.setEditorFourRcItem(list.get(3));
+        item0.setEditorFourRcItem(list.size()>=1 ?list.get(0):null);
+        item1.setEditorFourRcItem(list.size()>=2 ?list.get(1):null);
+        item2.setEditorFourRcItem(list.size()>=3 ?list.get(2):null);
+        item3.setEditorFourRcItem(list.size()>=4 ?list.get(3):null);
     }
 
 }
