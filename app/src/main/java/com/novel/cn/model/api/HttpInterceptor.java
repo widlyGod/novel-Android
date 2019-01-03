@@ -31,7 +31,7 @@ public class HttpInterceptor implements Interceptor {
         Request original = chain.request();
         Request.Builder requestBuilder;
         if (isAddHead) {
-            String seesionId = SharePrefUtil.getString(NovelApplication.getInstance(), "token", "");
+            String seesionId = SharePrefUtil.getString(NovelApplication.getInstance(), "sessionId", "");
 
             LogUtil.e("seesionId=" + seesionId);
 //            LogUtil.e("User-Agent=" + getUserAgent());

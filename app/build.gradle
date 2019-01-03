@@ -106,4 +106,10 @@ dependencies {
     compile 'com.youth.banner:banner:1.4.1'
     implementation 'com.github.LuckSiege.PictureSelector:picture_library:v2.2.3'
     compile 'com.facebook.fresco:fresco:1.1.0'
+
+    // 支付宝
+    compile (name: 'alipaySdk-15.5.9-20181123210601', ext: 'aar')
+    //微信支付
+    compile 'com.tencent.mm.opensdk:wechat-sdk-android-with-mta:+'
+
 }

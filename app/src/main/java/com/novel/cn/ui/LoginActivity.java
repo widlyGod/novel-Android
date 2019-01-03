@@ -241,7 +241,7 @@ public class LoginActivity extends AutoLayoutActivity implements LoginContract.V
                 loginwx(qq, 0);
             }
             break;
-            case R.id.iv_wx: {//微信
+            case R.id.iv_wx: {//wx
                 Platform wx = ShareSDK.getPlatform(Wechat.NAME);
                 loginwx(wx, 1);
             }
@@ -319,7 +319,7 @@ public class LoginActivity extends AutoLayoutActivity implements LoginContract.V
                 stringType="qq";
                 break;
             case 1:
-                stringType="微信";
+                stringType="wx";
                 break;
             case 2:
                 stringType="微博";
@@ -505,6 +505,8 @@ public class LoginActivity extends AutoLayoutActivity implements LoginContract.V
 
         if(data.isSuccess()){
             SharePrefUtil.saveBoolean(LoginActivity.this, "isLogin", true);
+
+            LogUtil.e("登录保存sessionId="+data.getData().getSessionId());
             SharePrefUtil.saveString(this,"sessionId",data.getData().getSessionId());
             SharePrefUtil.saveString(getApplicationContext(),"user",new Gson().toJson(data.getData()));
             finish();

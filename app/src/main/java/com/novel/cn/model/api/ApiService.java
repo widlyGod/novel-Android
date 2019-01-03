@@ -55,6 +55,12 @@ public interface ApiService {
     @POST("novelOAService/mobile/homepage")
     Observable<BaseListObjectBean<HomeReturnBean.DataBean.RecentUpdateBean>> getRecentUpdatedNovel(@Body RequestBody info);
 
+//    @POST("aliPayCenter/appTrade")
+
+    @Headers({"Content-Type: application/json", "Accept: application/json"})
+    @POST("novelOAService/upayCenter/upayCenterRecharge")
+    Observable<String> upayCenterRecharge(@Body RequestBody info);
+
 
     //替换BaseBean为泛型
 //    /*  ctrl+shift+/  sendCode       publicRequest                 登陆注册                                   */

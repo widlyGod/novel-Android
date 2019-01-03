@@ -164,7 +164,7 @@ public class LoginPresenter implements LoginContract.Presenter {
         String url="";
         if(finalStringType.equals("qq")){
             url="novelUserService/login/qqLogin";
-        }else if(finalStringType.equals("微信")){
+        }else if(finalStringType.equals("wx")){
             url="novelUserService/login/wxLogin";
         }else{
             url="novelUserService/login/wbLogin";
