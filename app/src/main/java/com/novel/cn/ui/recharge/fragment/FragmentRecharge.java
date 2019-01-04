@@ -101,7 +101,8 @@ public class FragmentRecharge extends BaseFragment implements FragmentRechargeCo
     @OnClick(R.id.btn_cz)
     public void onViewClicked() {
 
-        presenter.getPayInfo(type+"","2", Integer.parseInt(etJe.getText().toString()));
+//        ToastUtils.showShortToast("金额="+Double.parseDouble(etJe.getText().toString()));
+        presenter.getPayInfo(type+"","2", Double.parseDouble(etJe.getText().toString()));
 
     }
     //获取支付宝订单成功
@@ -120,8 +121,8 @@ public class FragmentRecharge extends BaseFragment implements FragmentRechargeCo
     @Override
     public void getWxDataSuccess(WxOrderBean data) {
         if(data.isSuccess()){
-//            PaymentHelper helper=new PaymentHelper();
-//            helper.startWeChatPay(getActivity(),data.getData().getPayCode());
+            PaymentHelper helper=new PaymentHelper();
+            helper.startWeChatPay(getActivity(),data.getData().getPayCode());
         }else{
             ToastUtils.showShortToast(data.getMessage());
         }

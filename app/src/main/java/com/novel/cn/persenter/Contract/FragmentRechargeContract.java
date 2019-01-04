@@ -23,7 +23,7 @@ public interface FragmentRechargeContract extends BaseComtract {
     }
 
     interface Presenter extends BasePresenter<FragmentRechargeContract.View> {
-        void getPayInfo(String rechargeCode,String requestCode,int orderAmount);
+        void getPayInfo(String rechargeCode,String requestCode,double orderAmount);
     }
 
 

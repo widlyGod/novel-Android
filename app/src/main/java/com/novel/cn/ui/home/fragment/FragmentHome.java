@@ -94,7 +94,7 @@ public class FragmentHome extends BaseFragment implements OnBannerClickListener,
 
         presenter=new FragmentHomePresenter();
         presenter.setMvpView(this,"");
-//        presenter.getHomePage();
+        presenter.getHomePage();
         rv.setLayoutManager(new LinearLayoutManager(getActivity()));
         adapter = new RecentUpdatesAdapter(R.layout.item_recentupdates, null, this, getActivity());
         adapter.setOnLoadMoreListener(this, rv);
@@ -104,22 +104,22 @@ public class FragmentHome extends BaseFragment implements OnBannerClickListener,
         banner.setOnBannerClickListener(this);
         //设置图片加载器
         banner.setImageLoader(new GlideImageLoader());
-//        inintHomeView();
+        inintHomeView();
 
 
-//        handler = new Handler();
-//        runnable = new Runnable() {
-//            @Override
-//            public void run() {
-//                //要做的事情
-//                if(handler!=null){
-//                    pane2.changeFreeBook();
-//                    pane3.changeFreeBook();
-//                    handler.postDelayed(this, 5000);//600000
-//                }
-//            }
-//        };
-//        handler.postDelayed(runnable, 5000);//每10分钟执行一次runnable.  1000=1s  600000
+        handler = new Handler();
+        runnable = new Runnable() {
+            @Override
+            public void run() {
+                //要做的事情
+                if(handler!=null){
+                    pane2.changeFreeBook();
+                    pane3.changeFreeBook();
+                    handler.postDelayed(this, 5000);//600000
+                }
+            }
+        };
+        handler.postDelayed(runnable, 5000);//每10分钟执行一次runnable.  1000=1s  600000
     }
 
 
@@ -153,6 +153,7 @@ public class FragmentHome extends BaseFragment implements OnBannerClickListener,
 //        pane3.setRecommend(bean.getData());
         ll_book.addView(pane3);
         ll_book.addView(LayoutInflater.from(getActivity()).inflate(R.layout.whitebackground, null));
+
     }
 
     /**
@@ -224,7 +225,7 @@ public class FragmentHome extends BaseFragment implements OnBannerClickListener,
     @Override
     public void onLoadMoreRequested() {
         pageNo++;
-//        presenter.getRecentUpdatedNovel(pageNo+"", "10");
+        presenter.getRecentUpdatedNovel(pageNo+"", "10");
     }
 
     //获取首页成功
@@ -298,4 +299,5 @@ public class FragmentHome extends BaseFragment implements OnBannerClickListener,
         banner.stopAutoPlay();
         ButterKnife.unbind(this);
     }
+
 }

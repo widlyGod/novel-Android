@@ -17,9 +17,8 @@ public final class ApiClient {
 //    public static final String API_BASE_URL = "http://1923l5782e.51mypc.cn:11507/noteappapi/";
 
     //http://192.168.5.56:8080/novelapi/
-
+    //    public static final String API_BASE_URL = "http://192.168.5.246:8083/";
     public static final String API_BASE_URL = "http://59.110.124.41/novelapi/";
-//    public static final String API_BASE_URL = "http://192.168.5.246:8083/";
 
     private ApiClient() {
 

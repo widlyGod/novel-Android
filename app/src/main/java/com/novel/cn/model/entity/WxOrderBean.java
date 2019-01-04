@@ -17,7 +17,7 @@ public class WxOrderBean {
     /**
      * basePage : null
      * code : 1
-     * data : {"tradeNumber":"20190102173849000000292","payCode":{"nonce_str":"f10f571ad9e346ab80795aec00f528b8","out_trade_no":"20190102173849000000292","appid":"wx681bb7c8ec4c6754","total_fee":"100","sign":"380EB8AD8F8F01741F5E856D21D48D7B","trade_type":"APP","body":"用户[枫叶余香844257]充值小说网阅读币","mch_id":"1498301862","notify_url":"http://www.levis.kim:8083/weixinPayCenter/notifyPay","sign_type":"MD5","spbill_create_ip":"172.16.200.141"}}
+     * data : {"tradeNumber":"20190103174229000000308","payCode":{"timeStamp":"1546508549851","nonce_str":"f5iO9za2DlCyRzw9","appid":"wx87550c9d5f515694","sign":"A2A095414B20E3FCF905872E5972B12E","trade_type":"APP","return_msg":"OK","result_code":"SUCCESS","mch_id":"1521730251","return_code":"SUCCESS","prepay_id":"wx03174229819493c217c28fce0487759103"}}
      * message : 微信支付app下单成功
      * success : true
      */
@@ -83,8 +83,8 @@ public class WxOrderBean {
 
     public static class DataBean {
         /**
-         * tradeNumber : 20190102173849000000292
-         * payCode : {"nonce_str":"f10f571ad9e346ab80795aec00f528b8","out_trade_no":"20190102173849000000292","appid":"wx681bb7c8ec4c6754","total_fee":"100","sign":"380EB8AD8F8F01741F5E856D21D48D7B","trade_type":"APP","body":"用户[枫叶余香844257]充值小说网阅读币","mch_id":"1498301862","notify_url":"http://www.levis.kim:8083/weixinPayCenter/notifyPay","sign_type":"MD5","spbill_create_ip":"172.16.200.141"}
+         * tradeNumber : 20190103174229000000308
+         * payCode : {"timeStamp":"1546508549851","nonce_str":"f5iO9za2DlCyRzw9","appid":"wx87550c9d5f515694","sign":"A2A095414B20E3FCF905872E5972B12E","trade_type":"APP","return_msg":"OK","result_code":"SUCCESS","mch_id":"1521730251","return_code":"SUCCESS","prepay_id":"wx03174229819493c217c28fce0487759103"}
          */
 
         private String tradeNumber;
@@ -121,30 +121,28 @@ public class WxOrderBean {
 
         public static class PayCodeBean {
             /**
-             * nonce_str : f10f571ad9e346ab80795aec00f528b8
-             * out_trade_no : 20190102173849000000292
-             * appid : wx681bb7c8ec4c6754
-             * total_fee : 100
-             * sign : 380EB8AD8F8F01741F5E856D21D48D7B
+             * timeStamp : 1546508549851
+             * nonce_str : f5iO9za2DlCyRzw9
+             * appid : wx87550c9d5f515694
+             * sign : A2A095414B20E3FCF905872E5972B12E
              * trade_type : APP
-             * body : 用户[枫叶余香844257]充值小说网阅读币
-             * mch_id : 1498301862
-             * notify_url : http://www.levis.kim:8083/weixinPayCenter/notifyPay
-             * sign_type : MD5
-             * spbill_create_ip : 172.16.200.141
+             * return_msg : OK
+             * result_code : SUCCESS
+             * mch_id : 1521730251
+             * return_code : SUCCESS
+             * prepay_id : wx03174229819493c217c28fce0487759103
              */
 
+            private String timeStamp;
             private String nonce_str;
-            private String out_trade_no;
             private String appid;
-            private String total_fee;
             private String sign;
             private String trade_type;
-            private String body;
+            private String return_msg;
+            private String result_code;
             private String mch_id;
-            private String notify_url;
-            private String sign_type;
-            private String spbill_create_ip;
+            private String return_code;
+            private String prepay_id;
 
             public static PayCodeBean objectFromData(String str) {
 
@@ -159,6 +157,14 @@ public class WxOrderBean {
                 return new Gson().fromJson(str, listType);
             }
 
+            public String getTimeStamp() {
+                return timeStamp;
+            }
+
+            public void setTimeStamp(String timeStamp) {
+                this.timeStamp = timeStamp;
+            }
+
             public String getNonce_str() {
                 return nonce_str;
             }
@@ -167,28 +173,12 @@ public class WxOrderBean {
                 this.nonce_str = nonce_str;
             }
 
-            public String getOut_trade_no() {
-                return out_trade_no;
-            }
-
-            public void setOut_trade_no(String out_trade_no) {
-                this.out_trade_no = out_trade_no;
-            }
-
             public String getAppid() {
                 return appid;
             }
 
             public void setAppid(String appid) {
                 this.appid = appid;
-            }
-
-            public String getTotal_fee() {
-                return total_fee;
-            }
-
-            public void setTotal_fee(String total_fee) {
-                this.total_fee = total_fee;
             }
 
             public String getSign() {
@@ -207,12 +197,20 @@ public class WxOrderBean {
                 this.trade_type = trade_type;
             }
 
-            public String getBody() {
-                return body;
+            public String getReturn_msg() {
+                return return_msg;
             }
 
-            public void setBody(String body) {
-                this.body = body;
+            public void setReturn_msg(String return_msg) {
+                this.return_msg = return_msg;
+            }
+
+            public String getResult_code() {
+                return result_code;
+            }
+
+            public void setResult_code(String result_code) {
+                this.result_code = result_code;
             }
 
             public String getMch_id() {
@@ -223,28 +221,20 @@ public class WxOrderBean {
                 this.mch_id = mch_id;
             }
 
-            public String getNotify_url() {
-                return notify_url;
+            public String getReturn_code() {
+                return return_code;
             }
 
-            public void setNotify_url(String notify_url) {
-                this.notify_url = notify_url;
+            public void setReturn_code(String return_code) {
+                this.return_code = return_code;
             }
 
-            public String getSign_type() {
-                return sign_type;
+            public String getPrepay_id() {
+                return prepay_id;
             }
 
-            public void setSign_type(String sign_type) {
-                this.sign_type = sign_type;
-            }
-
-            public String getSpbill_create_ip() {
-                return spbill_create_ip;
-            }
-
-            public void setSpbill_create_ip(String spbill_create_ip) {
-                this.spbill_create_ip = spbill_create_ip;
+            public void setPrepay_id(String prepay_id) {
+                this.prepay_id = prepay_id;
             }
         }
     }

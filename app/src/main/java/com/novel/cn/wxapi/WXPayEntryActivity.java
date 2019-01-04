@@ -6,6 +6,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import com.novel.cn.R;
+import com.novel.cn.util.LogUtil;
 import com.novel.cn.util.ToastUtils;
 import com.tencent.mm.opensdk.constants.ConstantsAPI;
 import com.tencent.mm.opensdk.modelbase.BaseReq;
@@ -19,12 +20,15 @@ public class WXPayEntryActivity extends Activity implements IWXAPIEventHandler {
 	private static final String TAG = "MicroMsg.SDKSample.WXPayEntryActivity";
 	
     private IWXAPI api;
-	
+
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 		setContentView(R.layout.pay_result);
 
+
+
+		LogUtil.e("WXPayEntryActivity界面启动");
 		//必须写
     	api = WXAPIFactory.createWXAPI(this, WxPayConfig.APP_ID);
         api.handleIntent(getIntent(), this);
@@ -53,7 +57,7 @@ public class WXPayEntryActivity extends Activity implements IWXAPIEventHandler {
 
 	@Override
 	public void onResp(BaseResp resp) {
-		Log.e("tag", "onPayFinish, errCode = " + resp.errCode);
+		ToastUtils.showShortToast("tag", "WXPayEntryActivity onResp = " + resp.errCode);
 		if (resp.getType() == ConstantsAPI.COMMAND_PAY_BY_WX) {
 			int code = resp.errCode;
 			switch (code) {
@@ -63,7 +67,7 @@ public class WXPayEntryActivity extends Activity implements IWXAPIEventHandler {
 				case -1:
 					finish();
 					// 支付失败 可能的原因：签名错误、未注册APPID、项目设置APPID不正确、注册的APPID与设置的不匹配、其他异常等
-					ToastUtils.showShortToast("支付失败");
+					ToastUtils.showShortToast("支付失败"+resp.errCode);
 					break;
 				case -2:
 					finish();

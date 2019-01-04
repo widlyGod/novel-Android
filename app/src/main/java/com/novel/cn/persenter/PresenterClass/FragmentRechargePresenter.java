@@ -35,7 +35,7 @@ public class FragmentRechargePresenter implements FragmentRechargeContract.Prese
     }
 
     @Override
-    public void getPayInfo(final String rechargeCode, String requestCode, int orderAmount) {
+    public void getPayInfo(final String rechargeCode, String requestCode, double orderAmount) {
         JsonUtils jsonUtils = new JsonUtils();
         jsonUtils.addField("rechargeCode", rechargeCode);
         jsonUtils.addField("requestCode", requestCode);

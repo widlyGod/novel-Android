@@ -4,6 +4,7 @@ import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.os.Handler;
 import android.os.Message;
+import android.provider.ContactsContract;
 import android.text.TextUtils;
 import android.util.Log;
 
@@ -98,16 +99,16 @@ public class PaymentHelper {
 //        req.timeStamp = payReponse.getTimestamp();
 //        req.packageValue = payReponse.getPackagex(); //Sign=WXPay
 
+
         //1.partnerId商户号	2.prepayId预支付交易会话ID	3.packageValue扩展字段	4.nonceStr随机字符串   5.timestamp时间戳  6.sign签名
         req.partnerId = payReponse.getMch_id();
-        req.prepayId = payReponse.getOut_trade_no();
+        req.prepayId = payReponse.getPrepay_id();
         req.packageValue = "Sign=WXPay"; //Sign=WXPay
         req.nonceStr = payReponse.getNonce_str();
-        req.timeStamp = payReponse.getTotal_fee();
+        req.timeStamp = payReponse.getTimeStamp();
         req.sign = payReponse.getSign();
 
         wxapi.sendReq(req); //发送调起微信的请求
-
     }
 
 
