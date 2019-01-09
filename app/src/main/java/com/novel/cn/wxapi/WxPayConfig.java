@@ -11,5 +11,4 @@ public class WxPayConfig {
     public static final String APP_ID = "wx87550c9d5f515694";//填写你自己的appId
 
 
-
 }

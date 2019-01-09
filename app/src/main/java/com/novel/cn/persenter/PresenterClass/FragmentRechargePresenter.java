@@ -5,6 +5,7 @@ import com.novel.cn.model.api.BaseSubscriber;
 import com.novel.cn.model.entity.AplipayOrderBean;
 import com.novel.cn.model.entity.BaseBean;
 import com.novel.cn.model.entity.HomeReturnBean;
+import com.novel.cn.model.entity.QueryUpayBean;
 import com.novel.cn.model.entity.WxOrderBean;
 import com.novel.cn.model.util.HttpUtils;
 import com.novel.cn.persenter.Contract.FragmentHomeContract;
@@ -80,6 +81,37 @@ public class FragmentRechargePresenter implements FragmentRechargeContract.Prese
 //                            BaseBean aplipayOrderBean=BaseBean.objectFromData(baseBean);
                             view.getAplipayDataSuccess(aplipayOrderBean);
                         }
+                    }
+                });
+
+    }
+
+
+    //查询用户阅读币
+    @Override
+    public void quePayInfo() {
+
+        ApiClient.service.queryUpayCenter()
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .unsubscribeOn(Schedulers.io())         //销毁时销毁Retrofit
+                .subscribe(new BaseSubscriber<QueryUpayBean>() {
+                    @Override
+                    protected void noConnectInternet() {
+                        view.noConnectInternet();
+                    }
+                    @Override
+                    public void onCompleted() {
+                    }
+                    @Override
+                    public void onError(Throwable e) {
+                        LogUtil.e("tag","queryUpayCenter错误="+e.getMessage());
+                        view.fail(e.getMessage());
+                    }
+                    @Override
+                    public void onNext(QueryUpayBean baseBean) {
+                        LogUtil.e("tag","queryUpayCenter数据="+baseBean);
+                        view.querySuccess(baseBean);
                     }
                 });
 

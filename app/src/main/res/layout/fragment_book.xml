@@ -1,18 +1,40 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
+    android:orientation="vertical"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <LinearLayout
+            android:orientation="vertical"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+
+    <Button
+        android:id="@+id/button"
+        android:text="获取信息"
+        android:layout_gravity="center_horizontal"
+        android:layout_width="200dp"
+        android:layout_height="50dp" />
+
+
     <TextView
+        android:id="@+id/tv_xx"
+        android:layout_marginTop="20dp"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="我的书架"
+        android:text="信息:"
         android:textSize="20sp"
-        tools:layout_editor_absoluteX="152dp"
-        tools:layout_editor_absoluteY="270dp"
-        tools:ignore="MissingConstraints" />
+        />
+
+        </LinearLayout>
+    </ScrollView>
 
 
-</android.support.constraint.ConstraintLayout>
+</LinearLayout>

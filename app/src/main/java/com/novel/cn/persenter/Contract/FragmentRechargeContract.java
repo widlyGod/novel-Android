@@ -7,6 +7,7 @@ import com.novel.cn.model.entity.AplipayOrderBean;
 import com.novel.cn.model.entity.BaseBean;
 import com.novel.cn.model.entity.BaseListObjectBean;
 import com.novel.cn.model.entity.HomeReturnBean;
+import com.novel.cn.model.entity.QueryUpayBean;
 import com.novel.cn.model.entity.WxOrderBean;
 
 /**充值的contract
@@ -16,6 +17,7 @@ import com.novel.cn.model.entity.WxOrderBean;
 public interface FragmentRechargeContract extends BaseComtract {
 
     interface View extends BaseView {
+        void querySuccess(QueryUpayBean queryUpayBean);
         void getAplipayDataSuccess(AplipayOrderBean data);
         void getWxDataSuccess(WxOrderBean data);
         void fail(String message);
@@ -24,6 +26,8 @@ public interface FragmentRechargeContract extends BaseComtract {
 
     interface Presenter extends BasePresenter<FragmentRechargeContract.View> {
         void getPayInfo(String rechargeCode,String requestCode,double orderAmount);
+
+        void quePayInfo();
     }
 
 

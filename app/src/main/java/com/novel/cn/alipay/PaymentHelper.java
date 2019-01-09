@@ -2,6 +2,7 @@ package com.novel.cn.alipay;
 
 import android.annotation.SuppressLint;
 import android.app.Activity;
+import android.content.Context;
 import android.os.Handler;
 import android.os.Message;
 import android.provider.ContactsContract;
@@ -19,6 +20,8 @@ import com.tencent.mm.opensdk.modelpay.PayReq;
 import com.tencent.mm.opensdk.openapi.IWXAPI;
 import com.tencent.mm.opensdk.openapi.WXAPIFactory;
 
+import org.greenrobot.eventbus.EventBus;
+
 import java.util.Map;
 
 /**
@@ -35,25 +38,21 @@ public class PaymentHelper {
     /**
      * 支付宝支付
      */
-//    public void  startAliPay(Activity activity, PayReponse payReponse, String payRMB) {
     public void  startAliPay(Activity activity, String orderInfo) {
         this.mthis = activity;
         if (activity == null || orderInfo == null) {
             return;
         }
-        //不需要以下代码，均在服务端拼接
-//        if (TextUtils.isEmpty(AlipayConfig.PARTNER) || TextUtils.isEmpty(AlipayConfig.RSA2_PRIVATE) || TextUtils.isEmpty(AlipayConfig.SELLER)) {
-//            return;
-//        }
+
+
 
         /**
-         * 这里只是为了方便直接向商户展示支付宝的整个支付流程；所以Demo中加签过程直接放在客户端完成；
+         * 这里只是为了方便直接向商户展示支付宝的整个支付流程；所以加签过程直接放在客户端完成；
          * 真实App里，privateKey等数据严禁放在客户端，加签过程务必要放在服务端完成；
          * 防止商户私密数据泄露，造成不必要的资金损失，及面临各种安全风险；
          * 点击支付按钮出现的错误码，请查看：https://tech.open.alipay.com/support/knowledge/index.htm?categoryId=24120&scrollcheck=1#/?_k=d783mj
          * orderInfo的获取必须来自服务端；
          */
-
 //        boolean rsa2 = (AlipayConfig.RSA2_PRIVATE.length() > 0);
 //        boolean rsa2 =true;
 //        Map<String, String> params = OrderInfoUtil2_0.buildOrderParamMap(AlipayConfig.APPID, rsa2, "1");
@@ -76,37 +75,32 @@ public class PaymentHelper {
     /**
      * 微信支付
      */
-    public void startWeChatPay(Activity activity, WxOrderBean.DataBean.PayCodeBean payReponse) {
+    public void startWeChatPay(Context activity, WxOrderBean.DataBean.PayCodeBean payReponse) {
         if (activity == null || payReponse == null)
             return;
-        if (!WxPayConfig.APP_ID.equals(payReponse.getAppid()))
+        if (!WxPayConfig.APP_ID.equals(payReponse.getAppid())){
+            ToastUtils.showShortToast("签名不对应");
             return;
-
+        }
+        //true
         IWXAPI wxapi = WXAPIFactory.createWXAPI(activity, WxPayConfig.APP_ID, true);
+//        final IWXAPI msgApi = WXAPIFactory.createWXAPI(activity, null);
         // 将该app注册到微信
         wxapi.registerApp(WxPayConfig.APP_ID);
         if (!wxapi.isWXAppInstalled()) {
             ToastUtils.showShortToast("你没有安装微信");
             return;
         }
-
         //我们把请求到的参数全部给微信
         PayReq req = new PayReq(); //调起微信APP的对象
         req.appId = WxPayConfig.APP_ID;
-//        req.partnerId = payReponse.getPartnerid();
-//        req.prepayId = payReponse.getPrepayid();
-//        req.nonceStr = payReponse.getNoncestr();
-//        req.timeStamp = payReponse.getTimestamp();
-//        req.packageValue = payReponse.getPackagex(); //Sign=WXPay
-
-
         //1.partnerId商户号	2.prepayId预支付交易会话ID	3.packageValue扩展字段	4.nonceStr随机字符串   5.timestamp时间戳  6.sign签名
         req.partnerId = payReponse.getMch_id();
         req.prepayId = payReponse.getPrepay_id();
         req.packageValue = "Sign=WXPay"; //Sign=WXPay
         req.nonceStr = payReponse.getNonce_str();
-        req.timeStamp = payReponse.getTimeStamp();
         req.sign = payReponse.getSign();
+        req.timeStamp = payReponse.getTimeStamp();
 
         wxapi.sendReq(req); //发送调起微信的请求
     }
@@ -178,8 +172,7 @@ public class PaymentHelper {
                     LogUtil.e("支付宝", "支付宝mHandler=" + resultStatus);
                     // 判断resultStatus 为“9000”则代表支付成功，具体状态码代表参考：https://docs.open.alipay.com/204/105301
                     if (TextUtils.equals(resultStatus, "9000")) {
-                        ToastUtils.showShortToast("支付成功");
-//                        EventBus.getDefault().post(new PayResultEvent());//支付成功后，发个通知
+                        EventBus.getDefault().post("支付成功");//支付成功后，发个通知
                     } else {
                         // 判断resultStatus 为非“9000”则代表可能支付失败
                         // “8000”代表支付结果因为支付渠道原因或者系统原因还在等待支付结果确认，最终交易是否成功以服务端异步通知为准（小概率状态）
@@ -195,6 +188,7 @@ public class PaymentHelper {
                     break;
             }
         }
+
     };
 
 

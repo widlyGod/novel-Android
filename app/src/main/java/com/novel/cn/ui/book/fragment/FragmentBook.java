@@ -1,23 +1,61 @@
 package com.novel.cn.ui.book.fragment;
 
+import android.annotation.SuppressLint;
+import android.content.Context;
+import android.net.wifi.WifiInfo;
+import android.net.wifi.WifiManager;
+import android.os.Build;
+import android.os.Bundle;
+import android.telephony.TelephonyManager;
+import android.util.Log;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
+import android.widget.Button;
+import android.widget.TextView;
+
 import com.novel.cn.R;
 import com.novel.cn.base.BaseFragment;
-import com.novel.cn.interfaceFolder.FragmentListener;
+
+import org.json.JSONObject;
+
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.net.HttpURLConnection;
+import java.net.URL;
+import java.net.URLConnection;
+
+import butterknife.Bind;
+import butterknife.ButterKnife;
+import butterknife.OnClick;
 
 /**
  * Created by jackieli on 2018/12/26.
  */
 
-public class FragmentBook extends BaseFragment{
+public class FragmentBook extends BaseFragment {
 
+
+    @Bind(R.id.button)
+    Button button;
+    @Bind(R.id.tv_xx)
+    TextView tvXx;
 
     @Override
     public int getLayoutId() {
         return R.layout.fragment_book;
     }
 
+    private WifiInfo wifiInfo;
+
     @Override
     public void initViews() {
+        WifiManager wifiManager = (WifiManager) getActivity().getApplicationContext().getSystemService(Context.WIFI_SERVICE);
+        wifiInfo = wifiManager.getConnectionInfo();
+
+
 
     }
 
@@ -25,6 +63,144 @@ public class FragmentBook extends BaseFragment{
     public void initData() {
 
     }
+
+
+
+    @OnClick(R.id.button)
+    public void onViewClicked() {
+        String kuan = getActivity().getResources().getDisplayMetrics().widthPixels + "";
+        String gao = getActivity().getResources().getDisplayMetrics().heightPixels + "";
+        String imei = getIMEI(getActivity());//IMEI
+        String changshang = Build.MANUFACTURER;//厂商
+        String product = Build.PRODUCT;//产品名
+        String brand = Build.BRAND;//手机品牌
+        String model = Build.MODEL;//手机型号
+        String board = Build.BOARD;//手机主板名
+        String device = Build.DEVICE;//手机设备名
+        String SERIAL = Build.SERIAL;//硬件序列号
+        String sdk_int = Build.VERSION.SDK_INT + "";//SDK版本
+        String release = Build.VERSION.RELEASE + "";//Android版本
+        String te1 = getPHOne(getActivity());//获取本机号码
+        String sim = getSimSerialNumber(getActivity());//获得SIM卡的序号
+        String result = wifiInfo.getMacAddress();//MAC地址
+
+
+        tvXx.setText("手机宽="+kuan+"\n  手机高="+gao+"\n  IMEI="+imei+"\n  厂商="+changshang+"\n  产品名="+product
+                +"\n  手机品牌="+brand+"\n   手机型号="+model+"\n  手机主板名="+board+"\n  手机设备名="+device
+                +"\n  硬件序列号="+SERIAL+"\n   SDK版本="+sdk_int+"\n  Android版本="+release+"\n  获取本机号码="+te1
+                +"\n  获得SIM卡的序号="+sim+"\n   MAC地址="+result
+                +"\n   ");
+
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                // 获取外网ip
+                final String ip = getOutNetIP(getActivity(),0);
+                getActivity().runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        tvXx.setText(tvXx.getText().toString()+"\n ip = "+ip);
+                    }
+                });
+            }
+        }).start();
+    }
+
+    @SuppressLint("MissingPermission")
+    public static String getIMEI(Context context) {
+        TelephonyManager tm = (TelephonyManager) context.getSystemService(Context.TELEPHONY_SERVICE);
+        String deviceId = tm.getDeviceId();
+        if (deviceId == null) {
+            return "Unkonw";
+        } else {
+            return deviceId;
+        }
+
+    }
+
+    @SuppressLint("MissingPermission")
+    public static String getPHOne(Context context) {
+        TelephonyManager tm = (TelephonyManager) context.getSystemService(Context.TELEPHONY_SERVICE);
+        String phone = tm.getLine1Number();
+        if (phone == null) {
+            return "Unkonw";
+        } else {
+            return phone;
+        }
+
+    }
+
+    @SuppressLint("MissingPermission")
+    public static String getSimSerialNumber(Context context) {
+        TelephonyManager tm = (TelephonyManager) context.getSystemService(Context.TELEPHONY_SERVICE);
+        String phone = tm.getSimSerialNumber();
+        if (phone == null) {
+            return "Unkonw";
+        } else {
+            return phone;
+        }
+
+    }
+
+    /**
+     * 获取外网的IP(必须放到子线程里处理)
+     */
+    private static String[] platforms = {
+            "http://pv.sohu.com/cityjson",
+            "http://pv.sohu.com/cityjson?ie=utf-8",
+            "http://ip.chinaz.com/getip.aspx"
+    };
+    public static String getOutNetIP(Context context, int index) {
+        if (index < platforms.length) {
+            BufferedReader buff = null;
+            HttpURLConnection urlConnection = null;
+            try {
+                URL url = new URL(platforms[index]);
+                urlConnection = (HttpURLConnection) url.openConnection();
+                urlConnection.setRequestMethod("GET");
+                urlConnection.setReadTimeout(5000);//读取超时
+                urlConnection.setConnectTimeout(5000);//连接超时
+                urlConnection.setDoInput(true);
+                urlConnection.setUseCaches(false);
+
+                int responseCode = urlConnection.getResponseCode();
+                if (responseCode == HttpURLConnection.HTTP_OK) {//找到服务器的情况下,可能还会找到别的网站返回html格式的数据
+                    InputStream is = urlConnection.getInputStream();
+                    buff = new BufferedReader(new InputStreamReader(is, "UTF-8"));//注意编码，会出现乱码
+                    StringBuilder builder = new StringBuilder();
+                    String line = null;
+                    while ((line = buff.readLine()) != null) {
+                        builder.append(line);
+                    }
+
+                    buff.close();//内部会关闭 InputStream
+                    urlConnection.disconnect();
+
+                    Log.e("xiaoman", builder.toString());
+                    if (index == 0 || index == 1) {
+                        //截取字符串
+                        int satrtIndex = builder.indexOf("{");//包含[
+                        int endIndex = builder.indexOf("}");//包含]
+                        String json = builder.substring(satrtIndex, endIndex + 1);//包含[satrtIndex,endIndex)
+                        JSONObject jo = new JSONObject(json);
+                        String ip = jo.getString("cip");
+
+                        return ip;
+                    } else if (index == 2) {
+                        JSONObject jo = new JSONObject(builder.toString());
+                        return jo.getString("ip");
+                    }
+                }
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        } else {
+            return "";
+        }
+        return getOutNetIP(context, ++index);
+    }
+
+
 
 
 }

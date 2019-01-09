@@ -5,6 +5,7 @@ import com.novel.cn.model.entity.BaseBean;
 import com.novel.cn.model.entity.BaseListObjectBean;
 import com.novel.cn.model.entity.BaseObjectBean;
 import com.novel.cn.model.entity.HomeReturnBean;
+import com.novel.cn.model.entity.QueryUpayBean;
 import com.novel.cn.model.entity.UserBean;
 
 import okhttp3.RequestBody;
@@ -56,22 +57,15 @@ public interface ApiService {
     Observable<BaseListObjectBean<HomeReturnBean.DataBean.RecentUpdateBean>> getRecentUpdatedNovel(@Body RequestBody info);
 
 //    @POST("aliPayCenter/appTrade")
-
     @Headers({"Content-Type: application/json", "Accept: application/json"})
     @POST("novelOAService/upayCenter/upayCenterRecharge")
     Observable<String> upayCenterRecharge(@Body RequestBody info);
 
+    @Headers({"Content-Type: application/json", "Accept: application/json"})
+    @POST("novelOAService/accountCenter/queryPersonAccount")
+    Observable<QueryUpayBean> queryUpayCenter();
 
-    //替换BaseBean为泛型
-//    /*  ctrl+shift+/  sendCode       publicRequest                 登陆注册                                   */
-//    @Headers({"Content-Type: application/json", "Accept: application/json"})
-//    @POST
-//    Observable<BaseBean> publicRequest(@Url String url, @Body RequestBody info);
-//
-//    //    @POST("noteAppOAService/user/login")
-//    @Headers({"Content-Type: application/json", "Accept: application/json"})
-//    @POST("noteAppOAService/user/login")
-//    Observable<BaseBean> login(@Body RequestBody info);
+
 //
 //                  /*  ctrl+shift+/                          新建笔记                                   */
 //
@@ -89,9 +83,6 @@ public interface ApiService {
 //    @Streaming //大文件时要加不然会OOM
 //    @GET
 //    Observable<ResponseBody> fileDownload(@Url String url);
-//
-//
-//    @Streaming
-//    @GET
-//    Observable<ResponseBody> downloadApk(@Url String url);
+
+
 }

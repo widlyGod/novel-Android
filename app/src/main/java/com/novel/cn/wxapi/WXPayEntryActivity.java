@@ -5,6 +5,8 @@ import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
+import android.widget.TextView;
+
 import com.novel.cn.R;
 import com.novel.cn.util.LogUtil;
 import com.novel.cn.util.ToastUtils;
@@ -21,18 +23,18 @@ public class WXPayEntryActivity extends Activity implements IWXAPIEventHandler {
 	
     private IWXAPI api;
 
+    private TextView textView;
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 		setContentView(R.layout.pay_result);
 
-
+		textView=findViewById(R.id.tv_zfjg);
 
 		LogUtil.e("WXPayEntryActivity界面启动");
 		//必须写
     	api = WXAPIFactory.createWXAPI(this, WxPayConfig.APP_ID);
         api.handleIntent(getIntent(), this);
-
 
     }
 
@@ -57,7 +59,6 @@ public class WXPayEntryActivity extends Activity implements IWXAPIEventHandler {
 
 	@Override
 	public void onResp(BaseResp resp) {
-		ToastUtils.showShortToast("tag", "WXPayEntryActivity onResp = " + resp.errCode);
 		if (resp.getType() == ConstantsAPI.COMMAND_PAY_BY_WX) {
 			int code = resp.errCode;
 			switch (code) {
@@ -65,9 +66,10 @@ public class WXPayEntryActivity extends Activity implements IWXAPIEventHandler {
 					ToastUtils.showShortToast("支付成功");
 					break;
 				case -1:
-					finish();
+//					finish();
 					// 支付失败 可能的原因：签名错误、未注册APPID、项目设置APPID不正确、注册的APPID与设置的不匹配、其他异常等
-					ToastUtils.showShortToast("支付失败"+resp.errCode);
+					textView.setText("支付失败errCode="+resp.errCode+",errStr="+resp.errStr+",openId="+resp.openId+",transaction="+resp.transaction+",checkArgs="+resp.checkArgs());
+					ToastUtils.showShortToast("支付失败"+resp.errCode+resp.errStr);
 					break;
 				case -2:
 					finish();

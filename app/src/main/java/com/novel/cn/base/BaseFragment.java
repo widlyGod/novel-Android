@@ -7,6 +7,9 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import com.novel.cn.interfaceFolder.FragmentListener;
+
+import org.greenrobot.eventbus.EventBus;
+
 import butterknife.ButterKnife;
 
 /**fragment基类
@@ -58,6 +61,10 @@ public abstract class BaseFragment extends Fragment {
     }
 
 
-
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        EventBus.getDefault().unregister(this);//取消注册
+    }
 
 }

@@ -7,7 +7,7 @@ import android.util.AttributeSet;
 import android.view.Gravity;
 import android.widget.RadioButton;
 
-/**
+/** 可设置图片pading得radiobutton
  * Created by jackieli on 2019/1/2.
  */
 
