@@ -1,19 +1,98 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.constraint.ConstraintLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    xmlns:tools="http://schemas.android.com/tools">
+    android:layout_height="match_parent">
 
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="110dp"
+        android:background="@drawable/personalcenter_bg">
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="?attr/actionBarSize">
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerInParent="true"
+                android:text="个人中心"
+                android:textColor="@android:color/white"
+                android:textSize="18sp" />
+            <ImageView
+                android:id="@+id/iv_mynews"
+                android:layout_centerVertical="true"
+                android:src="@drawable/my_new"
+                android:layout_marginRight="60px"
+                android:layout_alignParentRight="true"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+        </RelativeLayout>
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:id="@+id/rl_tx"
+        android:layout_width="160px"
+        android:layout_height="160px"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="63dp"
+        android:background="@drawable/circle_shape">
+        <ImageView
+            android:id="@+id/iv_personiv"
+            android:layout_width="150px"
+            android:layout_height="150px"
+            android:layout_centerInParent="true"
+            android:src="@drawable/personimage" />
+    </RelativeLayout>
 
     <TextView
+        android:id="@+id/tv_name"
+        android:textSize="15sp"
+        android:textColor="#333333"
+        android:layout_below="@+id/rl_tx"
+        android:layout_marginTop="24px"
+        android:text="游客"
+        android:layout_centerHorizontal="true"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="我的"
-        android:textSize="20sp"
-        tools:layout_editor_absoluteX="152dp"
-        tools:layout_editor_absoluteY="270dp"
-        tools:ignore="MissingConstraints" />
+        android:layout_height="wrap_content" />
+    <TextView
+        android:id="@+id/tv_level"
+        android:background="@drawable/bule_bg"
+        android:text="LV4"
+        android:paddingLeft="5dp"
+        android:paddingRight="5dp"
+        android:paddingTop="2dp"
+        android:paddingBottom="2dp"
+        android:textColor="#50adf8"
+        android:textSize="10sp"
+        android:layout_centerHorizontal="true"
+        android:layout_below="@+id/tv_name"
+        android:layout_marginTop="24px"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" />
+
+    <TextView
+        android:id="@+id/tv_gy"
+        android:text="这家伙很懒，什么都没有留下"
+        android:textColor="#666666"
+        android:textSize="13sp"
+        android:layout_centerHorizontal="true"
+        android:layout_below="@+id/tv_level"
+        android:layout_marginTop="24px"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" />
+
+    <LinearLayout
+        android:layout_centerHorizontal="true"
+        android:layout_below="@+id/tv_gy"
+        android:layout_marginTop="62px"
+        android:layout_width="300dp"
+        android:layout_height="100dp">
 
 
-</android.support.constraint.ConstraintLayout>
+
+
+    </LinearLayout>
+
+
+</RelativeLayout>

@@ -145,11 +145,11 @@
 
                 <com.novel.cn.view.wight.MRadioGroup
                     android:id="@+id/myradiogroup"
-                    android:columnCount="2"
-                    android:rowCount="2"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="40px">
+                    android:layout_marginTop="40px"
+                    android:columnCount="2"
+                    android:rowCount="2">
 
                     <com.novel.cn.view.wight.MRadioButton
                         android:id="@+id/ll_twenty"
@@ -160,12 +160,11 @@
                         android:paddingLeft="20px">
 
                         <TextView
-
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_marginTop="15px"
                             android:text="20元"
-                            android:textColor="#333333"
+                            android:textColor="@drawable/czje_color"
                             android:textSize="20sp" />
 
                         <TextView
@@ -173,7 +172,7 @@
                             android:layout_height="wrap_content"
                             android:layout_marginTop="75px"
                             android:text="2000阅读币(+3.0点数)"
-                            android:textColor="#333333"
+                            android:textColor="@drawable/czje_color"
                             android:textSize="12sp" />
 
                     </com.novel.cn.view.wight.MRadioButton>
@@ -193,7 +192,7 @@
                             android:layout_height="wrap_content"
                             android:layout_marginTop="15px"
                             android:text="30元"
-                            android:textColor="#333333"
+                            android:textColor="@drawable/czje_color"
                             android:textSize="20sp" />
 
                         <TextView
@@ -201,7 +200,7 @@
                             android:layout_height="wrap_content"
                             android:layout_marginTop="75px"
                             android:text="3000阅读币(+4.5点数)"
-                            android:textColor="#333333"
+                            android:textColor="@drawable/czje_color"
                             android:textSize="12sp" />
 
                     </com.novel.cn.view.wight.MRadioButton>
@@ -221,7 +220,7 @@
                             android:layout_height="wrap_content"
                             android:layout_marginTop="15px"
                             android:text="50元"
-                            android:textColor="#333333"
+                            android:textColor="@drawable/czje_color"
                             android:textSize="20sp" />
 
                         <TextView
@@ -229,7 +228,7 @@
                             android:layout_height="wrap_content"
                             android:layout_marginTop="75px"
                             android:text="5000阅读币(+9.0点数)"
-                            android:textColor="#333333"
+                            android:textColor="@drawable/czje_color"
                             android:textSize="12sp" />
 
                     </com.novel.cn.view.wight.MRadioButton>
@@ -251,7 +250,7 @@
                             android:layout_height="wrap_content"
                             android:layout_marginTop="15px"
                             android:text="100元"
-                            android:textColor="#333333"
+                            android:textColor="@drawable/czje_color"
                             android:textSize="20sp" />
 
                         <TextView
@@ -259,24 +258,41 @@
                             android:layout_height="wrap_content"
                             android:layout_marginTop="75px"
                             android:text="10000阅读币(+22.0点数)"
-                            android:textColor="#333333"
+                            android:textColor="@drawable/czje_color"
                             android:textSize="12sp" />
 
                     </com.novel.cn.view.wight.MRadioButton>
                 </com.novel.cn.view.wight.MRadioGroup>
 
-                <EditText
-                    android:id="@+id/et_je"
+
+                <RelativeLayout
                     android:layout_width="match_parent"
                     android:layout_height="110px"
-                    android:layout_marginTop="30px"
-                    android:background="@drawable/shape_etseach"
-                    android:drawableLeft="@drawable/rmb"
-                    android:drawablePadding="16px"
-                    android:hint="请输入其他金额"
-                    android:inputType="numberDecimal"
-                    android:paddingLeft="20px"
-                    android:textColor="@android:color/black" />
+                    android:layout_marginTop="30px">
+
+                    <EditText
+                        android:id="@+id/et_je"
+                        android:layout_width="match_parent"
+                        android:layout_height="110px"
+                        android:background="@drawable/shape_etseach"
+                        android:drawableLeft="@drawable/rmb"
+                        android:drawablePadding="16px"
+                        android:hint="请输入其他金额"
+                        android:inputType="numberDecimal"
+                        android:paddingLeft="20px"
+                        android:textColor="@android:color/black" />
+                    
+                    <TextView
+                        android:id="@+id/tv_je"
+                        android:textSize="13sp"
+                        android:textColor="#999999"
+                        android:layout_marginRight="10dp"
+                        android:layout_alignParentRight="true"
+                        android:layout_centerVertical="true"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content" />
+                    
+                </RelativeLayout>
 
                 <Button
                     android:id="@+id/btn_cz"
@@ -284,17 +300,14 @@
                     android:layout_height="90px"
                     android:layout_marginBottom="40px"
                     android:layout_marginTop="50px"
-                    android:background="@drawable/shape_login_conbtn"
+                    android:clickable="false"
+                    android:background="@drawable/shape_login_btn"
                     android:text="确定充值"
                     android:textColor="@android:color/white"
                     android:textSize="16sp" />
 
             </LinearLayout>
-
-
-            <!--
-                                android:background="@drawable/shape_etseach"
-            -->
+<!--    android:background="@drawable/shape_login_conbtn"   -->
 
         </RelativeLayout>
     </ScrollView>

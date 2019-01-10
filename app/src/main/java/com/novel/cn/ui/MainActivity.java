@@ -16,6 +16,7 @@ import com.novel.cn.ui.book.fragment.FragmentBook;
 import com.novel.cn.ui.home.fragment.FragmentHome;
 import com.novel.cn.ui.my.fragment.FragmentMy;
 import com.novel.cn.ui.recharge.fragment.FragmentRecharge;
+import com.novel.cn.util.Utils;
 import com.novel.cn.view.wight.Dialog_Loading;
 import com.zhy.autolayout.AutoLayoutActivity;
 
@@ -87,6 +88,7 @@ public class MainActivity extends AutoLayoutActivity implements FragmentListener
             @Override
             public void onCheckedChanged(RadioGroup group, int checkedId) {
                 int index = 0;
+//                Utils.hintKeyBoard(MainActivity.this);
                 switch (checkedId) {
                     case R.id.rb_home:
                         index = 0;

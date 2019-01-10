@@ -104,10 +104,11 @@ public class HomeBookPanel extends LinearLayout implements View.OnClickListener 
                     freeBookLayout1.setFreeBookLayout(etList);
                     isAnotherBook = true;
                 } else {
-                    freeBookLayout1.setFreeBookLayout(etList.subList(0,2));
+                    freeBookLayout1.setFreeBookLayout(etList.subList(0, 2));
                 }
                 addView(freeBookLayout1);
-            }break;
+            }
+            break;
             case 3: {
                 tv_specialArea.setText("精品推荐");
                 List<HomeReturnBean.DataBean.BestNovelRecommendBean> etList = recommend.getBestNovelRecommend();
@@ -116,10 +117,11 @@ public class HomeBookPanel extends LinearLayout implements View.OnClickListener 
                     freeBookLayout2.setBestNovelLayout(etList);
                     isAnotherBook = true;
                 } else {
-                    freeBookLayout2.setBestNovelLayout(etList.subList(0,2));
+                    freeBookLayout2.setBestNovelLayout(etList.subList(0, 2));
                 }
                 addView(freeBookLayout2);
-            }break;
+            }
+            break;
         }
 
     }
@@ -145,20 +147,20 @@ public class HomeBookPanel extends LinearLayout implements View.OnClickListener 
                     if (etList.size() <= 12) {//本数小于12
                         layoutFour1.setEditorRecommendList(isChange == true ?
                                 etList.subList(0, 4)
-                                :etList.subList(8, etList.size()) );
+                                : etList.subList(8, etList.size()));
                         layoutFour2.setEditorRecommendList(isChange == true ?
                                 etList.subList(4, etList.size())
-                                :new ArrayList<HomeReturnBean.DataBean.BestAuthorZoneBean>());
+                                : new ArrayList<HomeReturnBean.DataBean.BestAuthorZoneBean>());
                         isChange = !isChange;
                     } else {//本书大于12
                         isAnotherBook = true;
 
                         layoutFour1.setEditorRecommendList(isChange == true ?
                                 etList.subList(0, 4)
-                                :etList.subList(8, 12) );
+                                : etList.subList(8, 12));
                         layoutFour2.setEditorRecommendList(isChange == true ?
                                 etList.subList(4, etList.size())
-                                :etList.subList(12, etList.size()));
+                                : etList.subList(12, etList.size()));
                         isChange = !isChange;
                     }
                 }
@@ -168,19 +170,21 @@ public class HomeBookPanel extends LinearLayout implements View.OnClickListener 
     }
 
     //每隔两秒更换的定时任务
-    public void changeFreeBook(){
-        if(type==2){//免费推荐
-            List<HomeReturnBean.DataBean.FreeRecommendBean> etList = bean.getFreeRecommend();
-            //如果点击过换一批了，换回原来的
-            freeBookLayout1.setFreeBookLayout(isChange == true ? etList : etList.subList(2, etList.size()));
-        }else{//精品推荐
-            List<HomeReturnBean.DataBean.BestNovelRecommendBean> etList = bean.getBestNovelRecommend();
-            //如果点击过换一批了，换回原来的
-            freeBookLayout2.setBestNovelLayout(isChange == true ? etList : etList.subList(2, etList.size()));
-        }
-        isChange = !isChange;
-    }
+    public void changeFreeBook() {
+        if (bean != null) {
+            if (type == 2) {//免费推荐
+                List<HomeReturnBean.DataBean.FreeRecommendBean> etList = bean.getFreeRecommend();
+                //如果点击过换一批了，换回原来的
+                freeBookLayout1.setFreeBookLayout(isChange == true ? etList : etList.subList(2, etList.size()));
 
+            } else {//精品推荐
+                List<HomeReturnBean.DataBean.BestNovelRecommendBean> etList = bean.getBestNovelRecommend();
+                //如果点击过换一批了，换回原来的
+                freeBookLayout2.setBestNovelLayout(isChange == true ? etList : etList.subList(2, etList.size()));
+            }
+            isChange = !isChange;
+        }
+    }
 
 
 }

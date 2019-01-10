@@ -2,6 +2,7 @@ package com.novel.cn.view.wight;
 
 import android.content.Context;
 import android.content.res.TypedArray;
+import android.graphics.Color;
 import android.util.AttributeSet;
 import android.util.Log;
 import android.view.MotionEvent;
@@ -9,6 +10,7 @@ import android.view.SoundEffectConstants;
 import android.view.View;
 import android.widget.Checkable;
 import android.widget.FrameLayout;
+import android.widget.TextView;
 
 import com.novel.cn.R;
 
@@ -119,6 +121,14 @@ public class MRadioButton extends FrameLayout implements Checkable {
         for (int i = 0; i < getChildCount(); i++) {
             View v = getChildAt(i);
             v.setSelected(selected);
+            //对子控件得颜色进行改变
+            TextView vx= (TextView) v;
+            if(selected){
+                vx.setTextColor(Color.WHITE);
+            }else{
+                vx.setTextColor(Color.parseColor("#333333"));
+            }
+
         }
     }
 

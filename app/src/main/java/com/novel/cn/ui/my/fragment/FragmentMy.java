@@ -9,6 +9,8 @@ import com.novel.cn.interfaceFolder.FragmentListener;
  */
 
 public class FragmentMy extends BaseFragment  {
+
+
     @Override
     public int getLayoutId() {
         return R.layout.fragment_my;

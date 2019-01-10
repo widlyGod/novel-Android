@@ -1,33 +1,42 @@
 package com.novel.cn.ui.recharge.fragment;
 
-import android.os.Handler;
-import android.os.Message;
-import android.support.v7.widget.AppCompatCheckBox;
+import android.app.Activity;
+import android.content.Context;
+import android.os.Bundle;
+import android.support.v4.content.ContextCompat;
+import android.text.Editable;
+import android.text.TextWatcher;
+import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
+import android.view.ViewGroup;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
-import android.widget.CheckBox;
 import android.widget.EditText;
-import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RadioGroup;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.alipay.sdk.app.EnvUtils;
+import com.jakewharton.rxbinding.widget.RxRadioGroup;
+import com.jakewharton.rxbinding.widget.RxTextView;
 import com.novel.cn.R;
 import com.novel.cn.alipay.PaymentHelper;
 import com.novel.cn.base.BaseFragment;
 import com.novel.cn.model.entity.AplipayOrderBean;
-import com.novel.cn.model.entity.BaseBean;
 import com.novel.cn.model.entity.QueryUpayBean;
 import com.novel.cn.model.entity.UserBean;
 import com.novel.cn.model.entity.WxOrderBean;
 import com.novel.cn.persenter.Contract.FragmentRechargeContract;
 import com.novel.cn.persenter.PresenterClass.FragmentRechargePresenter;
 import com.novel.cn.ui.LoginActivity;
+import com.novel.cn.ui.MainActivity;
+import com.novel.cn.util.CalculationUtil;
 import com.novel.cn.util.LogUtil;
 import com.novel.cn.util.SharePrefUtil;
 import com.novel.cn.util.ToastUtils;
+import com.novel.cn.util.Utils;
 import com.novel.cn.view.wight.CustomRadioButton;
 import com.novel.cn.view.wight.MRadioButton;
 import com.novel.cn.view.wight.MRadioGroup;
@@ -35,23 +44,16 @@ import com.novel.cn.view.wight.MRadioGroup;
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
 
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.InputStreamReader;
-import java.net.HttpURLConnection;
-import java.net.URL;
-import java.net.URLConnection;
-
 import butterknife.Bind;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
+import rx.Observable;
 
 /**
  * Created by jackieli on 2018/12/26.
  */
 
-public class FragmentRecharge extends BaseFragment implements FragmentRechargeContract.View {
+public class FragmentRecharge extends BaseFragment implements FragmentRechargeContract.View, View.OnTouchListener, View.OnFocusChangeListener {
 
 
     @Bind(R.id.appbar)
@@ -86,7 +88,9 @@ public class FragmentRecharge extends BaseFragment implements FragmentRechargeCo
     @Bind(R.id.btn_cz)
     Button btnCz;
     FragmentRechargePresenter presenter;
-    //充值金额有小数还是都是整数，微信支付与支付宝测试，界面与逻辑的完善
+    @Bind(R.id.tv_je)
+    TextView tvJe;
+    //充值金额最多输入两位小数，微信支付测试
 
 
     @Override
@@ -94,7 +98,8 @@ public class FragmentRecharge extends BaseFragment implements FragmentRechargeCo
         return R.layout.fragment_recharge;
     }
 
-    private int type=0;
+    private int rctype = 0;     //充值类型
+    private double czje = 0;    //充值金额
 
     @Override
     public void initViews() {
@@ -107,42 +112,124 @@ public class FragmentRecharge extends BaseFragment implements FragmentRechargeCo
             public void onCheckedChanged(RadioGroup radioGroup, int checkedId) {
                 switch (checkedId) {
                     case R.id.rb_wx:
-                        type = 0;
+                        rctype = 0;
                         break;
                     case R.id.rb_zfb:
-                        type = 1;
+                        rctype = 1;
                         break;
                 }
             }
         });
-
 
         mRadioGroup.setOnCheckedChangeListener(new MRadioGroup.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(View group, int checkedId) {
                 switch (checkedId) {
                     case R.id.ll_twenty:
-                        LogUtil.e("切换20");
+                        clearFoucus(20);
                         break;
                     case R.id.ll_thirty:
-                        LogUtil.e("切换30");
+                        clearFoucus(30);
                         break;
                     case R.id.ll_fifty:
-                        LogUtil.e("切换50");
+                        clearFoucus(50);
                         break;
                     case R.id.ll_hundred:
-                        LogUtil.e("切换100");
+                        clearFoucus(100);
                         break;
                 }
             }
         });
 
+        //输入框限制两位小数点输入，文字改变监听，输入框与选择按钮得切换
+        etJe.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+                etJe.setFocusable(true);
+            }
+            @Override
+            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+            }
+            @Override
+            public void afterTextChanged(Editable editable) {
+                String text=etJe.getText().toString();
+                if(text.length()>0){
+                    double jine=Double.parseDouble(text);
+                    czje=jine;
+                    tvJe.setText(jine*100+"阅读币"+CalculationUtil.givePoint(text));
+                    setBtnIsCanClick(czje);
+                }else {
+                    setBtnIsCanClick(0);
+                    tvJe.setText("0阅读币");
+                }
+            }
+        });
+
+        etJe.setOnFocusChangeListener(this);
+        etJe.setOnTouchListener(this);
+
     }
+
+
+    public void setBtnIsCanClick(double jine){
+        if(jine>=1){
+            btnCz.setClickable(true);
+            btnCz.setText("确定（共"+czje+"元)");
+            btnCz.setBackground(ContextCompat.getDrawable(getActivity(), R.drawable.shape_login_conbtn));
+        }else{
+            btnCz.setClickable(false);
+            btnCz.setText("确定");
+            btnCz.setBackground(ContextCompat.getDrawable(getActivity(), R.drawable.shape_login_btn));
+        }
+    }
+
+
+    //输入框有焦点，按钮选中，取消输入框焦点
+    public void clearFoucus(double num){
+        //软键盘消失
+        MainActivity activity = (MainActivity) getActivity();
+        Utils.hintKeyBoard(activity);
+        tvJe.setText("");
+        etJe.setText("");
+        etJe.clearFocus();//失去焦点
+        etJe.setFocusable(false);
+
+        czje = num;
+        setBtnIsCanClick(czje);
+    }
+
+    //输入框获得焦点，取消按钮选中
+    @Override
+    public void onFocusChange(View view, boolean b) {
+        if(b){
+            setBtnIsCanClick(0);
+//                    int radioButtonId = mRadioGroup.getCheckedRadioButtonId();
+            for (int i=0;i<mRadioGroup.getChildCount();i++){
+                MRadioButton mRadioButton= (MRadioButton) mRadioGroup.getChildAt(i);
+                mRadioButton.setChecked(false);
+            }
+        }
+    }
+
+    //触摸输入框，重新获得焦点
+    @Override
+    public boolean onTouch(View view, MotionEvent motionEvent) {
+        etJe.setFocusable(true);
+        etJe.setFocusableInTouchMode(true);
+        etJe.requestFocus();
+        etJe.findFocus();
+
+        return false;
+    }
+
+
+
 
     @Override
     public void initData() {
-        presenter=new FragmentRechargePresenter();
-        presenter.setMvpView(this,"");
+        presenter = new FragmentRechargePresenter();
+        presenter.setMvpView(this, "");
 
 
         presenter.quePayInfo();
@@ -151,8 +238,7 @@ public class FragmentRecharge extends BaseFragment implements FragmentRechargeCo
     @OnClick(R.id.btn_cz)
     public void onViewClicked() {
 
-//        ToastUtils.showShortToast("金额="+Double.parseDouble(etJe.getText().toString()));
-        presenter.getPayInfo(type+"","2", Double.parseDouble(etJe.getText().toString()));
+        presenter.getPayInfo(rctype + "", "2", czje);
 
     }
 
@@ -160,23 +246,23 @@ public class FragmentRecharge extends BaseFragment implements FragmentRechargeCo
     @Override
     public void querySuccess(QueryUpayBean queryUpayBean) {
 
-        boolean isLogin=SharePrefUtil.getBoolean(getActivity(), "isLogin", false);
-        String userBean= SharePrefUtil.getString(getActivity(),"user","");
-        String userName="";
-        if(!userBean.equals("")){
-            UserBean userBean1=UserBean.objectFromData(userBean);
-            userName=userBean1.getUserName();
+        boolean isLogin = SharePrefUtil.getBoolean(getActivity(), "isLogin", false);
+        String userBean = SharePrefUtil.getString(getActivity(), "user", "");
+        String userName = "";
+        if (!userBean.equals("")) {
+            UserBean userBean1 = UserBean.objectFromData(userBean);
+            userName = userBean1.getUserName();
         }
 
-        if(isLogin){
-            if(queryUpayBean.isSuccess()){
-                tvAccount.setText("充值账号 "+userName);
-                tvBalance.setText("账号余额 "+queryUpayBean.getData().getGoldNumber()+"阅读币");
-            }else{
-                tvAccount.setText("充值账号 "+userName);
+        if (isLogin) {
+            if (queryUpayBean.isSuccess()) {
+                tvAccount.setText("充值账号 " + userName);
+                tvBalance.setText("账号余额 " + queryUpayBean.getData().getGoldNumber() + "阅读币");
+            } else {
+                tvAccount.setText("充值账号 " + userName);
                 tvBalance.setText("账号余额 0阅读币");
             }
-        }else{
+        } else {
             tvAccount.setText("充值账号 游客");
             tvBalance.setText("账号余额 0阅读币");
         }
@@ -187,11 +273,11 @@ public class FragmentRecharge extends BaseFragment implements FragmentRechargeCo
     @Override
     public void getAplipayDataSuccess(AplipayOrderBean data) {
 
-        if(data.isSuccess()){
-            PaymentHelper helper=new PaymentHelper();
+        if (data.isSuccess()) {
+            PaymentHelper helper = new PaymentHelper();
 //            helper.startAliPay(getActivity(),data.getData().toString());
-            helper.startAliPay(getActivity(),data.getData().getPayCode().toString());
-        }else{
+            helper.startAliPay(getActivity(), data.getData().getPayCode().toString());
+        } else {
             ToastUtils.showShortToast(data.getMessage());
         }
 
@@ -200,10 +286,10 @@ public class FragmentRecharge extends BaseFragment implements FragmentRechargeCo
     //获取微信订单成功
     @Override
     public void getWxDataSuccess(WxOrderBean data) {
-        if(data.isSuccess()){
-            PaymentHelper helper=new PaymentHelper();
-            helper.startWeChatPay(getActivity(),data.getData().getPayCode());
-        }else{
+        if (data.isSuccess()) {
+            PaymentHelper helper = new PaymentHelper();
+            helper.startWeChatPay(getActivity(), data.getData().getPayCode());
+        } else {
             ToastUtils.showShortToast(data.getMessage());
         }
     }
@@ -211,7 +297,7 @@ public class FragmentRecharge extends BaseFragment implements FragmentRechargeCo
     //失败
     @Override
     public void fail(String message) {
-        LogUtil.e("支付message:"+message);
+        LogUtil.e("支付message:" + message);
     }
 
     //无网络
@@ -221,16 +307,13 @@ public class FragmentRecharge extends BaseFragment implements FragmentRechargeCo
     }
 
 
-
     @Subscribe          //订阅事件FirstEvent,EventBus接收消息
     public void onEventMainThread(String event) {
-        if(event.equals("支付成功")){
+        if (event.equals("支付成功")) {
             LogUtil.e("执行了onEventMainThread方法支付成功");
             presenter.quePayInfo();
         }
     }
-
-
 
 
 }
