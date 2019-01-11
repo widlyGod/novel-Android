@@ -5,6 +5,7 @@ import com.novel.cn.model.entity.BaseBean;
 import com.novel.cn.model.entity.BaseListObjectBean;
 import com.novel.cn.model.entity.BaseObjectBean;
 import com.novel.cn.model.entity.HomeReturnBean;
+import com.novel.cn.model.entity.PersonDataBean;
 import com.novel.cn.model.entity.QueryUpayBean;
 import com.novel.cn.model.entity.UserBean;
 
@@ -65,6 +66,10 @@ public interface ApiService {
     @POST("novelOAService/accountCenter/queryPersonAccount")
     Observable<QueryUpayBean> queryUpayCenter();
 
+
+    @Headers({"Content-Type: application/json", "Accept: application/json"})
+    @GET("novelOAService/mobile/personCenter")
+    Observable<PersonDataBean> personCenter();
 
 //
 //                  /*  ctrl+shift+/                          新建笔记                                   */
