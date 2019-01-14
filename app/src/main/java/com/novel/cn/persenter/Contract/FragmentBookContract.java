@@ -5,28 +5,27 @@ import com.novel.cn.base.BaseComtract;
 import com.novel.cn.base.BasePresenter;
 import com.novel.cn.base.BaseView;
 import com.novel.cn.model.entity.BaseBean;
-import com.novel.cn.model.entity.BaseListObjectBean;
-import com.novel.cn.model.entity.HomeReturnBean;
+import com.novel.cn.model.entity.BookShelfBean;
 import com.novel.cn.model.entity.PersonDataBean;
 
 /**
  *
  */
 
-public interface FragmentMyContract extends BaseComtract {
+public interface FragmentBookContract extends BaseComtract {
 
 
     interface View extends BaseView {
-        void getPersonDataSuccess(PersonDataBean data);
-        void logoutSuccess(BaseBean baseBean);
+        void getBookDataSuccess(BookShelfBean bean,boolean isLoadMore);
+        void cancelOperSuccess(BaseBean baseBean);
         void fail(String message);
         void noConnectInternet();
     }
 
 
     interface Presenter extends BasePresenter<View> {
-        void getPersonData();
-        void logout();
+        void getBookData(int type,boolean isLoadMore,String pageNum,String pageSize);
+        void cancelOper(int type);
 
     }
 

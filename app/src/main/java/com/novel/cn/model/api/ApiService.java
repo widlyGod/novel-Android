@@ -4,6 +4,7 @@ package com.novel.cn.model.api;
 import com.novel.cn.model.entity.BaseBean;
 import com.novel.cn.model.entity.BaseListObjectBean;
 import com.novel.cn.model.entity.BaseObjectBean;
+import com.novel.cn.model.entity.BookShelfBean;
 import com.novel.cn.model.entity.HomeReturnBean;
 import com.novel.cn.model.entity.PersonDataBean;
 import com.novel.cn.model.entity.QueryUpayBean;
@@ -71,8 +72,20 @@ public interface ApiService {
     @GET("novelOAService/mobile/personCenter")
     Observable<PersonDataBean> personCenter();
 
+
+    @Headers({"Content-Type: application/json", "Accept: application/json"})
+    @GET("novelUserService/user/logout")
+    Observable<BaseBean> logout();
+
+
+    @Headers({"Content-Type: application/json", "Accept: application/json"})
+    @POST
+    Observable<BookShelfBean> getBookshelfData(@Url String url,@Body RequestBody info);
+
+
+
 //
-//                  /*  ctrl+shift+/                          新建笔记                                   */
+//                  /*  ctrl+shift+/        BookShelfBean          新建笔记                                   */
 //
 //    //上传文件      FileBean
 //    @Multipart

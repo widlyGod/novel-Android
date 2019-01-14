@@ -22,10 +22,12 @@ import com.novel.cn.interfaceFolder.ItemClickListener;
 import com.novel.cn.model.entity.BaseListObjectBean;
 import com.novel.cn.model.entity.BaseObjectBean;
 import com.novel.cn.model.entity.HomeReturnBean;
+import com.novel.cn.model.entity.UserBean;
 import com.novel.cn.persenter.Contract.FragmentHomeContract;
 import com.novel.cn.persenter.PresenterClass.FragmentHomePresenter;
 import com.novel.cn.ui.LoginActivity;
 import com.novel.cn.util.LogUtil;
+import com.novel.cn.util.SharePrefUtil;
 import com.novel.cn.util.ToastUtils;
 import com.novel.cn.view.adapter.RecentUpdatesAdapter;
 import com.novel.cn.view.wight.CustomLoadMoreView;
@@ -87,11 +89,9 @@ public class FragmentHome extends BaseFragment implements OnBannerClickListener,
     }
 
 
-    //水平3，8     垂直2，2，13
+
     @Override
     public void initViews() {
-
-
         presenter=new FragmentHomePresenter();
         presenter.setMvpView(this,"");
         presenter.getHomePage();
@@ -290,6 +290,34 @@ public class FragmentHome extends BaseFragment implements OnBannerClickListener,
     @Override
     public void noConnectInternet() {
         ToastUtils.showShortToast("网络错误，请检查网络");
+    }
+
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        setTouXImage();
+    }
+
+    @Override
+    public void onHiddenChanged(boolean hidden) {
+        super.onHiddenChanged(hidden);
+        LogUtil.e("fragmentMy 更新个人信息="+hidden);
+        setTouXImage();
+    }
+
+    public void setTouXImage(){
+        boolean isLogin = SharePrefUtil.getBoolean(getActivity(), "isLogin", false);
+        if(isLogin){
+            LogUtil.e("fragmentHome 更新个人信息");
+            String userBean= SharePrefUtil.getString(getActivity(),"user","");
+            if(!userBean.equals("")){
+                UserBean userBean1=UserBean.objectFromData(userBean);
+                if(userBean1.getUserPhoto()!=null){
+                    ivFragmentPersonalFace.setImageURI(userBean1.getUserPhoto());
+                }
+            }
+        }
     }
 
 

@@ -95,14 +95,22 @@ public class PaymentHelper {
         PayReq req = new PayReq(); //调起微信APP的对象
         req.appId = WxPayConfig.APP_ID;
         //1.partnerId商户号	2.prepayId预支付交易会话ID	3.packageValue扩展字段	4.nonceStr随机字符串   5.timestamp时间戳  6.sign签名
-        req.partnerId = payReponse.getMch_id();
-        req.prepayId = payReponse.getPrepay_id();
+//        req.partnerId = payReponse.getMch_id();
+//        req.prepayId = payReponse.getPrepay_id();
+//        req.packageValue = "Sign=WXPay"; //Sign=WXPay
+//        req.nonceStr = payReponse.getNonce_str();
+//        req.sign = payReponse.getSign();
+//        req.timeStamp = payReponse.getTimeStamp();
+
+        req.partnerId = payReponse.getPartnerid();
+        req.prepayId = payReponse.getPrepayid();
         req.packageValue = "Sign=WXPay"; //Sign=WXPay
-        req.nonceStr = payReponse.getNonce_str();
+        req.nonceStr = payReponse.getNoncestr();
         req.sign = payReponse.getSign();
-        req.timeStamp = payReponse.getTimeStamp();
+        req.timeStamp = payReponse.getTimestamp();
 
         wxapi.sendReq(req); //发送调起微信的请求
+
     }
 
 

@@ -1,60 +1,90 @@
 package com.novel.cn.ui.book.fragment;
 
-import android.annotation.SuppressLint;
-import android.content.Context;
-import android.net.wifi.WifiInfo;
-import android.net.wifi.WifiManager;
-import android.os.Build;
 import android.os.Bundle;
-import android.telephony.TelephonyManager;
-import android.util.Log;
+import android.support.design.widget.TabLayout;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
 import android.widget.TextView;
 
+import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.novel.cn.R;
 import com.novel.cn.base.BaseFragment;
+import com.novel.cn.interfaceFolder.ItemClickListener;
+import com.novel.cn.model.entity.BaseBean;
+import com.novel.cn.model.entity.BookShelfBean;
+import com.novel.cn.model.entity.PersonDataBean;
+import com.novel.cn.persenter.Contract.FragmentBookContract;
+import com.novel.cn.persenter.PresenterClass.FragmentBookPresenter;
+import com.novel.cn.util.LogUtil;
+import com.novel.cn.util.ToastUtils;
+import com.novel.cn.view.adapter.BookShelfAdapter;
+import com.novel.cn.view.adapter.RecentUpdatesAdapter;
+import com.novel.cn.view.wight.CustomLoadMoreView;
 
-import org.json.JSONObject;
-
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.InputStreamReader;
-import java.net.HttpURLConnection;
-import java.net.URL;
-import java.net.URLConnection;
+import java.util.List;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
-import butterknife.OnClick;
 
 /**
  * Created by jackieli on 2018/12/26.
  */
 
-public class FragmentBook extends BaseFragment {
+public class FragmentBook extends BaseFragment implements FragmentBookContract.View, ItemClickListener, BaseQuickAdapter.RequestLoadMoreListener {
 
 
-    @Bind(R.id.button)
-    Button button;
-    @Bind(R.id.tv_xx)
-    TextView tvXx;
+    @Bind(R.id.tablayout)
+    TabLayout tablayout;
+    @Bind(R.id.tv_collectionBook)
+    TextView tvCollectionBook;
+    @Bind(R.id.rv)
+    RecyclerView rv;
+    private FragmentBookPresenter presenter;
+    private BookShelfAdapter adapter;
+    private int pageNum=1;
+    private int type=0;
+
 
     @Override
     public int getLayoutId() {
         return R.layout.fragment_book;
     }
 
-    private WifiInfo wifiInfo;
-
     @Override
     public void initViews() {
-        WifiManager wifiManager = (WifiManager) getActivity().getApplicationContext().getSystemService(Context.WIFI_SERVICE);
-        wifiInfo = wifiManager.getConnectionInfo();
+        presenter=new FragmentBookPresenter();
+        presenter.setMvpView(this,"");
+        presenter.getBookData(type,false,"1","10");
 
+        rv.setLayoutManager(new LinearLayoutManager(getActivity()));
+        adapter = new BookShelfAdapter(R.layout.adapter_bookshelf, null, this, getActivity());
+        adapter.setOnLoadMoreListener(this, rv);
+        adapter.setLoadMoreView(new CustomLoadMoreView());
+        rv.setAdapter(adapter);
+
+        tablayout.addTab(tablayout.newTab().setText("我的收藏"));
+        tablayout.addTab(tablayout.newTab().setText("我的订阅"));
+        tablayout.addTab(tablayout.newTab().setText("阅读历史"));
+        tablayout.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
+            @Override
+            public void onTabSelected(TabLayout.Tab tab) {
+                //选择了哪个书架模块
+                type=tab.getPosition();
+                adapter.setType(type);
+                presenter.getBookData(type,false,"1","10");
+                //0我的收藏     1我的订阅   2阅读历史
+
+            }
+            @Override
+            public void onTabUnselected(TabLayout.Tab tab) {
+            }
+            @Override
+            public void onTabReselected(TabLayout.Tab tab) {
+            }
+        });
 
 
     }
@@ -65,141 +95,69 @@ public class FragmentBook extends BaseFragment {
     }
 
 
+    @Override
+    public void iteamClickCallback(int type, Object parameter1, Object parameter2) {
 
-    @OnClick(R.id.button)
-    public void onViewClicked() {
-        String kuan = getActivity().getResources().getDisplayMetrics().widthPixels + "";
-        String gao = getActivity().getResources().getDisplayMetrics().heightPixels + "";
-        String imei = getIMEI(getActivity());//IMEI
-        String changshang = Build.MANUFACTURER;//厂商
-        String product = Build.PRODUCT;//产品名
-        String brand = Build.BRAND;//手机品牌
-        String model = Build.MODEL;//手机型号
-        String board = Build.BOARD;//手机主板名
-        String device = Build.DEVICE;//手机设备名
-        String SERIAL = Build.SERIAL;//硬件序列号
-        String sdk_int = Build.VERSION.SDK_INT + "";//SDK版本
-        String release = Build.VERSION.RELEASE + "";//Android版本
-        String te1 = getPHOne(getActivity());//获取本机号码
-        String sim = getSimSerialNumber(getActivity());//获得SIM卡的序号
-        String result = wifiInfo.getMacAddress();//MAC地址
+    }
+
+    @Override
+    public void onLoadMoreRequested() {
+        pageNum++;
+        presenter.getBookData(type,true,pageNum+"","10");
+    }
 
 
-        tvXx.setText("手机宽="+kuan+"\n  手机高="+gao+"\n  IMEI="+imei+"\n  厂商="+changshang+"\n  产品名="+product
-                +"\n  手机品牌="+brand+"\n   手机型号="+model+"\n  手机主板名="+board+"\n  手机设备名="+device
-                +"\n  硬件序列号="+SERIAL+"\n   SDK版本="+sdk_int+"\n  Android版本="+release+"\n  获取本机号码="+te1
-                +"\n  获得SIM卡的序号="+sim+"\n   MAC地址="+result
-                +"\n   ");
 
-        new Thread(new Runnable() {
-            @Override
-            public void run() {
-                // 获取外网ip
-                final String ip = getOutNetIP(getActivity(),0);
-                getActivity().runOnUiThread(new Runnable() {
-                    @Override
-                    public void run() {
-                        tvXx.setText(tvXx.getText().toString()+"\n ip = "+ip);
-                    }
-                });
+
+    //获取书籍列表成功
+    @Override
+    public void getBookDataSuccess(BookShelfBean baseBean,boolean isLoadMore) {
+
+        List<BookShelfBean.DataBean.BookBean> dataBeans = baseBean.getData().getBook();
+
+        BookShelfBean.DataBean.BookBean bookBean=new BookShelfBean.DataBean.BookBean();
+        bookBean.setNovelTitle("标题");
+        bookBean.setNewChapter(2);
+        bookBean.setNewChapterTitle("更新了这一章节");
+        dataBeans.add(bookBean);
+
+
+        if (dataBeans != null) {
+            if (isLoadMore) {
+                adapter.addData(adapter.getData().size() == 0 ? 0 : adapter.getData().size(), dataBeans);
+            } else {
+                tvCollectionBook.setText("收藏书籍:"+baseBean.getData().getTotal()+"本");
+                adapter.setNewData(dataBeans);
             }
-        }).start();
-    }
-
-    @SuppressLint("MissingPermission")
-    public static String getIMEI(Context context) {
-        TelephonyManager tm = (TelephonyManager) context.getSystemService(Context.TELEPHONY_SERVICE);
-        String deviceId = tm.getDeviceId();
-        if (deviceId == null) {
-            return "Unkonw";
-        } else {
-            return deviceId;
-        }
-
-    }
-
-    @SuppressLint("MissingPermission")
-    public static String getPHOne(Context context) {
-        TelephonyManager tm = (TelephonyManager) context.getSystemService(Context.TELEPHONY_SERVICE);
-        String phone = tm.getLine1Number();
-        if (phone == null) {
-            return "Unkonw";
-        } else {
-            return phone;
-        }
-
-    }
-
-    @SuppressLint("MissingPermission")
-    public static String getSimSerialNumber(Context context) {
-        TelephonyManager tm = (TelephonyManager) context.getSystemService(Context.TELEPHONY_SERVICE);
-        String phone = tm.getSimSerialNumber();
-        if (phone == null) {
-            return "Unkonw";
-        } else {
-            return phone;
-        }
-
-    }
-
-    /**
-     * 获取外网的IP(必须放到子线程里处理)
-     */
-    private static String[] platforms = {
-            "http://pv.sohu.com/cityjson",
-            "http://pv.sohu.com/cityjson?ie=utf-8",
-            "http://ip.chinaz.com/getip.aspx"
-    };
-    public static String getOutNetIP(Context context, int index) {
-        if (index < platforms.length) {
-            BufferedReader buff = null;
-            HttpURLConnection urlConnection = null;
-            try {
-                URL url = new URL(platforms[index]);
-                urlConnection = (HttpURLConnection) url.openConnection();
-                urlConnection.setRequestMethod("GET");
-                urlConnection.setReadTimeout(5000);//读取超时
-                urlConnection.setConnectTimeout(5000);//连接超时
-                urlConnection.setDoInput(true);
-                urlConnection.setUseCaches(false);
-
-                int responseCode = urlConnection.getResponseCode();
-                if (responseCode == HttpURLConnection.HTTP_OK) {//找到服务器的情况下,可能还会找到别的网站返回html格式的数据
-                    InputStream is = urlConnection.getInputStream();
-                    buff = new BufferedReader(new InputStreamReader(is, "UTF-8"));//注意编码，会出现乱码
-                    StringBuilder builder = new StringBuilder();
-                    String line = null;
-                    while ((line = buff.readLine()) != null) {
-                        builder.append(line);
-                    }
-
-                    buff.close();//内部会关闭 InputStream
-                    urlConnection.disconnect();
-
-                    Log.e("xiaoman", builder.toString());
-                    if (index == 0 || index == 1) {
-                        //截取字符串
-                        int satrtIndex = builder.indexOf("{");//包含[
-                        int endIndex = builder.indexOf("}");//包含]
-                        String json = builder.substring(satrtIndex, endIndex + 1);//包含[satrtIndex,endIndex)
-                        JSONObject jo = new JSONObject(json);
-                        String ip = jo.getString("cip");
-
-                        return ip;
-                    } else if (index == 2) {
-                        JSONObject jo = new JSONObject(builder.toString());
-                        return jo.getString("ip");
-                    }
-                }
-            } catch (Exception e) {
-                e.printStackTrace();
+            adapter.loadMoreComplete();
+            if (dataBeans.size() < 10) {
+                LogUtil.e("getBookDataSuccess========<100");
+                adapter.loadMoreEnd(isLoadMore == true ? false : true);
             }
         } else {
-            return "";
+            LogUtil.e("getBookDataSuccess-null");
+//            adapter.loadMoreEnd(false);
+            adapter.loadMoreEnd(isLoadMore == true ? false : true);
         }
-        return getOutNetIP(context, ++index);
+
     }
 
+    //取消操作
+    @Override
+    public void cancelOperSuccess(BaseBean baseBean) {
+
+    }
+
+    //失败操作
+    @Override
+    public void fail(String message) {
+        LogUtil.e("我的书架错误信息:"+message);
+    }
+
+    @Override
+    public void noConnectInternet() {
+        ToastUtils.showShortToast("网络错误，请检查网络");
+    }
 
 
 

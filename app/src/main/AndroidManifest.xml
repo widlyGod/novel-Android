@@ -53,9 +53,10 @@
                 <category android:name="android.intent.category.DEFAULT"/>
                 <data android:scheme="wx87550c9d5f515694"/>
             </intent-filter>
-
         </activity>
 
+        <activity android:name=".ui.book.activity.TestInfoActivity"
+            android:screenOrientation="portrait"/>
 
         <meta-data
             android:name="design_width"
@@ -63,6 +64,7 @@
         <meta-data
             android:name="design_height"
             android:value="1334" />
+
     </application>
 
 </manifest>

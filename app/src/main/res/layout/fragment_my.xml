@@ -56,7 +56,7 @@
                     android:layout_width="150px"
                     android:layout_height="150px"
                     android:layout_centerInParent="true"
-                    app:actualImageScaleType="centerCrop"
+                    app:placeholderImageScaleType="fitXY"
                     app:failureImage="@drawable/personimage"
                     app:placeholderImage="@drawable/personimage"
                     app:roundAsCircle="true" />
@@ -217,6 +217,7 @@
 
                 <TextView
                     android:id="@+id/tv_cz"
+                    android:clickable="true"
                     android:layout_width="120px"
                     android:layout_height="50px"
                     android:layout_alignParentRight="true"

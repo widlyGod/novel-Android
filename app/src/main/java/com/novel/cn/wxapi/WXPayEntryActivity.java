@@ -8,6 +8,7 @@ import android.util.Log;
 import android.widget.TextView;
 
 import com.novel.cn.R;
+import com.novel.cn.app.NovelApplication;
 import com.novel.cn.util.LogUtil;
 import com.novel.cn.util.ToastUtils;
 import com.tencent.mm.opensdk.constants.ConstantsAPI;
@@ -63,17 +64,20 @@ public class WXPayEntryActivity extends Activity implements IWXAPIEventHandler {
 			int code = resp.errCode;
 			switch (code) {
 				case 0:
+					//更新阅读币
+					NovelApplication.getMainActivity().setRechargeUpdate();
 					ToastUtils.showShortToast("支付成功");
+					finish();
 					break;
 				case -1:
-//					finish();
 					// 支付失败 可能的原因：签名错误、未注册APPID、项目设置APPID不正确、注册的APPID与设置的不匹配、其他异常等
-					textView.setText("支付失败errCode="+resp.errCode+",errStr="+resp.errStr+",openId="+resp.openId+",transaction="+resp.transaction+",checkArgs="+resp.checkArgs());
-					ToastUtils.showShortToast("支付失败"+resp.errCode+resp.errStr);
+//					textView.setText("支付失败errCode="+resp.errCode+",errStr="+resp.errStr+",openId="+resp.openId+",transaction="+resp.transaction+",checkArgs="+resp.checkArgs());
+					ToastUtils.showShortToast("支付失败");
+					finish();
 					break;
 				case -2:
-					finish();
 					ToastUtils.showShortToast("支付取消");
+					finish();
 					break;
 			}
 		}

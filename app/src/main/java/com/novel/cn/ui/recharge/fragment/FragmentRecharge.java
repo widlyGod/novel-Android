@@ -194,8 +194,8 @@ public class FragmentRecharge extends BaseFragment implements FragmentRechargeCo
         etJe.setText("");
         etJe.clearFocus();//失去焦点
         etJe.setFocusable(false);
-
         czje = num;
+
         setBtnIsCanClick(czje);
     }
 
@@ -237,9 +237,12 @@ public class FragmentRecharge extends BaseFragment implements FragmentRechargeCo
 
     @OnClick(R.id.btn_cz)
     public void onViewClicked() {
-
-        presenter.getPayInfo(rctype + "", "2", czje);
-
+        boolean isLogin = SharePrefUtil.getBoolean(getActivity(), "isLogin", false);
+        if(isLogin){
+            presenter.getPayInfo(rctype + "", "2", czje);
+        }else{
+            ToastUtils.showShortToast("请先登录账户");
+        }
     }
 
     //查询阅读币成功
@@ -310,10 +313,12 @@ public class FragmentRecharge extends BaseFragment implements FragmentRechargeCo
     @Subscribe          //订阅事件FirstEvent,EventBus接收消息
     public void onEventMainThread(String event) {
         if (event.equals("支付成功")) {
-            LogUtil.e("执行了onEventMainThread方法支付成功");
+            etJe.setText("");
             presenter.quePayInfo();
         }
     }
+
+
 
 
 }

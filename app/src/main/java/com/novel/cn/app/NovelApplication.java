@@ -5,6 +5,7 @@ import android.support.multidex.MultiDexApplication;
 
 import com.facebook.drawee.backends.pipeline.Fresco;
 import com.mob.MobSDK;
+import com.novel.cn.ui.MainActivity;
 import com.novel.cn.util.Utils;
 
 import java.util.LinkedList;
@@ -19,7 +20,7 @@ public class NovelApplication extends MultiDexApplication {
 
     private List<Activity> activityList = new LinkedList<Activity>();
     private static NovelApplication instance;
-
+    private static MainActivity mainActivity;
 
     @Override
     public void onCreate() {
@@ -41,6 +42,16 @@ public class NovelApplication extends MultiDexApplication {
     public static NovelApplication getInstance() {
         return instance;
     }
+
+
+    //保存Mainactivity
+    public static void setMainActivity(MainActivity activity){
+        mainActivity=activity;
+    }
+    public static MainActivity getMainActivity(){
+        return mainActivity;
+    }
+
 
 
     //栈管理

@@ -63,7 +63,7 @@ import rx.functions.Func2;
 import rx.functions.Func5;
 
 /**
- *
+ *  缺个登录界面回调显示头像数据
  * Created by jackieli on 2018/12/20.
  */
 
@@ -193,9 +193,9 @@ public class LoginActivity extends AutoLayoutActivity implements LoginContract.V
             }
         });
 
-
-
         etListenerVoid();
+
+
     }
 
 
@@ -233,7 +233,6 @@ public class LoginActivity extends AutoLayoutActivity implements LoginContract.V
         switch (view.getId()) {
             case R.id.iv_left: {//返回键
                 finish();
-
             }
             break;
             case R.id.iv_qq: {//qq

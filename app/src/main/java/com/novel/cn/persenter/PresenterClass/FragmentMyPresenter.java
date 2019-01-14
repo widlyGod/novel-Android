@@ -3,6 +3,7 @@ package com.novel.cn.persenter.PresenterClass;
 
 import com.novel.cn.model.api.ApiClient;
 import com.novel.cn.model.api.BaseSubscriber;
+import com.novel.cn.model.entity.BaseBean;
 import com.novel.cn.model.entity.PersonDataBean;
 import com.novel.cn.persenter.Contract.FragmentMyContract;
 import com.novel.cn.util.JsonUtils;
@@ -55,18 +56,50 @@ public class FragmentMyPresenter implements FragmentMyContract.Presenter {
 
                     @Override
                     public void onError(Throwable e) {
-                        LogUtil.e("tag","register错误="+e.getMessage());
+                        LogUtil.e("tag","getPersonData错误="+e.getMessage());
                         view.fail(e.getMessage());
                     }
 
                     @Override
                     public void onNext(PersonDataBean bean) {
-                        LogUtil.e("tag","register数据="+bean);
+                        LogUtil.e("tag","getPersonData数据="+bean);
                         view.getPersonDataSuccess(bean);
                     }
                 });
     }
 
+    @Override
+    public void logout() {
+
+        ApiClient.service.logout()
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .unsubscribeOn(Schedulers.io())
+                .subscribe(new BaseSubscriber<BaseBean>() {
+
+                    @Override
+                    protected void noConnectInternet() {
+                        view.noConnectInternet();
+                    }
+
+                    @Override
+                    public void onCompleted() {
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+                        LogUtil.e("tag","logout错误="+e.getMessage());
+                        view.fail(e.getMessage());
+                    }
+
+                    @Override
+                    public void onNext(BaseBean bean) {
+                        LogUtil.e("tag","logout数据="+bean);
+                        view.logoutSuccess(bean);
+                    }
+                });
+
+    }
 
 
 }

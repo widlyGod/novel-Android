@@ -11,6 +11,7 @@ import android.widget.RadioButton;
 import android.widget.RadioGroup;
 
 import com.novel.cn.R;
+import com.novel.cn.app.NovelApplication;
 import com.novel.cn.interfaceFolder.FragmentListener;
 import com.novel.cn.ui.book.fragment.FragmentBook;
 import com.novel.cn.ui.home.fragment.FragmentHome;
@@ -50,6 +51,7 @@ public class MainActivity extends AutoLayoutActivity implements FragmentListener
     private ArrayList<Fragment> framgnets;
     private int lastIndex = 0;
     private FragmentHome fragmentHome;
+    private FragmentRecharge fragmentRecharge;
     public Dialog_Loading dialog_loading;
 
 
@@ -59,6 +61,7 @@ public class MainActivity extends AutoLayoutActivity implements FragmentListener
         setContentView(R.layout.activity_main);
         ButterKnife.bind(this);
 
+        NovelApplication.setMainActivity(this);
         initViews();
         checkRequiredPermission();
 
@@ -72,7 +75,8 @@ public class MainActivity extends AutoLayoutActivity implements FragmentListener
         fragmentHome = new FragmentHome();
         framgnets.add(fragmentHome);
         framgnets.add(new FragmentBook());
-        framgnets.add(new FragmentRecharge());
+        fragmentRecharge = new FragmentRecharge();
+        framgnets.add(fragmentRecharge);
         framgnets.add(new FragmentMy());
 
         FragmentTransaction transaction = supportFragmentManager.beginTransaction();
@@ -121,7 +125,7 @@ public class MainActivity extends AutoLayoutActivity implements FragmentListener
     }
 
 
-
+    //mainactivty Back
     @Override
     public void onBackPressed() {
 //        if(radiobuttonFolder.isChecked() && NoteApplication.currentlFolderId !=0){
@@ -137,4 +141,18 @@ public class MainActivity extends AutoLayoutActivity implements FragmentListener
     public void onBackFragment() {
 
     }
+
+    //fragment里面点击
+    @Override
+    public void onClickFragment(Object o) {
+        if((int)o==3){
+            rbRecharge.setChecked(true);
+        }
+    }
+
+
+    public void setRechargeUpdate(){
+        fragmentRecharge.onEventMainThread("支付成功");
+    }
+
 }

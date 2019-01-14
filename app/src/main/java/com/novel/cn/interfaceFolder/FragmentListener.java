@@ -7,5 +7,5 @@ package com.novel.cn.interfaceFolder;
 public interface FragmentListener {
 
     void onBackFragment();
-
+    void onClickFragment(Object o);
 }
