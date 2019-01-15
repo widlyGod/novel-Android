@@ -1,5 +1,6 @@
 package com.novel.cn.ui.book.fragment;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.TabLayout;
 import android.support.v7.widget.LinearLayoutManager;
@@ -33,8 +34,8 @@ import butterknife.ButterKnife;
  * Created by jackieli on 2018/12/26.
  */
 
-public class FragmentBook extends BaseFragment implements FragmentBookContract.View, ItemClickListener, BaseQuickAdapter.RequestLoadMoreListener {
-
+public class FragmentBook extends BaseFragment implements FragmentBookContract.View, ItemClickListener,
+        BaseQuickAdapter.RequestLoadMoreListener {
 
     @Bind(R.id.tablayout)
     TabLayout tablayout;
@@ -45,8 +46,7 @@ public class FragmentBook extends BaseFragment implements FragmentBookContract.V
     private FragmentBookPresenter presenter;
     private BookShelfAdapter adapter;
     private int pageNum=1;
-    private int type=0;
-
+    private int type=1;
 
     @Override
     public int getLayoutId() {
@@ -74,6 +74,7 @@ public class FragmentBook extends BaseFragment implements FragmentBookContract.V
                 //选择了哪个书架模块
                 type=tab.getPosition();
                 adapter.setType(type);
+                pageNum=1;
                 presenter.getBookData(type,false,"1","10");
                 //0我的收藏     1我的订阅   2阅读历史
 
@@ -97,7 +98,17 @@ public class FragmentBook extends BaseFragment implements FragmentBookContract.V
 
     @Override
     public void iteamClickCallback(int type, Object parameter1, Object parameter2) {
-
+        switch (type){
+            case 0://继续阅读
+//                Intent intent=new Intent(getActivity(),);
+//                intent.putExtra("id", (String) parameter1);
+//                startActivity(intent);
+                ToastUtils.showShortToast("进入阅读界面");
+                break;
+            case 1://取消操作
+                presenter.cancelOper(type,(String) parameter1);
+                break;
+        }
     }
 
     @Override
@@ -114,13 +125,18 @@ public class FragmentBook extends BaseFragment implements FragmentBookContract.V
     public void getBookDataSuccess(BookShelfBean baseBean,boolean isLoadMore) {
 
         List<BookShelfBean.DataBean.BookBean> dataBeans = baseBean.getData().getBook();
-
-        BookShelfBean.DataBean.BookBean bookBean=new BookShelfBean.DataBean.BookBean();
-        bookBean.setNovelTitle("标题");
-        bookBean.setNewChapter(2);
-        bookBean.setNewChapterTitle("更新了这一章节");
-        dataBeans.add(bookBean);
-
+//        BookShelfBean.DataBean.BookBean bookBean=new BookShelfBean.DataBean.BookBean();
+//        bookBean.setNovelTitle("标题");
+//        bookBean.setNewChapter(2);
+//        bookBean.setNewChapterTitle("更新了这一章节");
+//        bookBean.setNovelPoto("http://59.110.124.41:80/novel_a/novel/7e01e72401d9443d8416f3bb8020070c/ab47b30a7ee74a5db261f78e647502c0.jpg");
+//        dataBeans.add(bookBean);
+//        BookShelfBean.DataBean.BookBean bookBean2=new BookShelfBean.DataBean.BookBean();
+//        bookBean2.setNovelTitle("标题2");
+//        bookBean2.setNewChapter(2);
+//        bookBean2.setNewChapterTitle("更新了这一章节2");
+//        bookBean2.setNovelPoto("http://59.110.124.41:80/novel_a/novel/7e01e72401d9443d8416f3bb8020070c/ab47b30a7ee74a5db261f78e647502c0.jpg");
+//        dataBeans.add(bookBean2);
 
         if (dataBeans != null) {
             if (isLoadMore) {
@@ -145,8 +161,23 @@ public class FragmentBook extends BaseFragment implements FragmentBookContract.V
     //取消操作
     @Override
     public void cancelOperSuccess(BaseBean baseBean) {
-
+        if(baseBean.isSuccess()){
+            pageNum=1;
+            presenter.getBookData(type,false,"1","10");
+        }else{
+            ToastUtils.showShortToast(baseBean.getMessage());
+        }
     }
+
+    @Override
+    public void onHiddenChanged(boolean hidden) {
+        super.onHiddenChanged(hidden);
+        if(hidden==false) {
+            pageNum=1;
+            presenter.getBookData(type,false,"1","10");
+        }
+    }
+
 
     //失败操作
     @Override

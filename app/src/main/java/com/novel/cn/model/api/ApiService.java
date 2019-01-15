@@ -8,13 +8,19 @@ import com.novel.cn.model.entity.BookShelfBean;
 import com.novel.cn.model.entity.HomeReturnBean;
 import com.novel.cn.model.entity.PersonDataBean;
 import com.novel.cn.model.entity.QueryUpayBean;
+import com.novel.cn.model.entity.RankingBean;
 import com.novel.cn.model.entity.UserBean;
+
+import java.util.Map;
 
 import okhttp3.RequestBody;
 import retrofit2.http.Body;
 import retrofit2.http.GET;
 import retrofit2.http.Headers;
 import retrofit2.http.POST;
+import retrofit2.http.Path;
+import retrofit2.http.Query;
+import retrofit2.http.QueryMap;
 import retrofit2.http.Url;
 import rx.Observable;
 
@@ -82,10 +88,25 @@ public interface ApiService {
     @POST
     Observable<BookShelfBean> getBookshelfData(@Url String url,@Body RequestBody info);
 
+    // @Query("id") int id) 不用拼接在url上
+    //  @Path("newsId") String newsId      @QueryMap Map<String, String> map        需要类似这样@GET("News/{newsId}")拼接
+    @Headers({"Content-Type: application/json", "Accept: application/json"})
+    @GET
+    Observable<BaseBean> cancelOper1(@Url String url,@QueryMap Map<String, String> map);
 
 
-//
-//                  /*  ctrl+shift+/        BookShelfBean          新建笔记                                   */
+
+    @Headers({"Content-Type: application/json", "Accept: application/json"})
+    @POST("novelOAService/novelCollection/saveCollection")
+    Observable<BaseBean> saveCollection(@Body RequestBody info);
+
+    @Headers({"Content-Type: application/json", "Accept: application/json"})
+    @GET("novelOAService/novelList/getList")
+    Observable<RankingBean> getRankingList();
+
+
+
+//                  /*          ctrl+shift+/       */
 //
 //    //上传文件      FileBean
 //    @Multipart

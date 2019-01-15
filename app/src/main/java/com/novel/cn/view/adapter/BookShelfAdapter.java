@@ -1,8 +1,12 @@
 package com.novel.cn.view.adapter;
 
 import android.content.Context;
+import android.graphics.Color;
 import android.support.annotation.LayoutRes;
 import android.support.annotation.Nullable;
+import android.text.SpannableString;
+import android.text.Spanned;
+import android.text.style.ForegroundColorSpan;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -14,6 +18,7 @@ import com.novel.cn.R;
 import com.novel.cn.interfaceFolder.ItemClickListener;
 import com.novel.cn.model.entity.BookShelfBean;
 import com.novel.cn.model.entity.HomeReturnBean;
+import com.novel.cn.util.NumberUtils;
 import com.novel.cn.util.ToastUtils;
 import com.novel.cn.view.wight.StateButton;
 
@@ -43,7 +48,6 @@ public class BookShelfAdapter extends BaseQuickAdapter<BookShelfBean.DataBean.Bo
 
     @Override
     protected void convert(final BaseViewHolder helper, final BookShelfBean.DataBean.BookBean item) {
-
         ImageView iv_book = helper.getView(R.id.iv_book);
         Glide.with(context)
                 .load(item.getNovelPoto())
@@ -51,14 +55,21 @@ public class BookShelfAdapter extends BaseQuickAdapter<BookShelfBean.DataBean.Bo
 
         TextView tv_bookTitle = helper.getView(R.id.tv_bookTitle);
         tv_bookTitle.setText(item.getNovelTitle());
-
         TextView tv_reUpda = helper.getView(R.id.tv_reUpda);
-        tv_reUpda.setText("最近更新:"+item.getNewChapter()+"  "+item.getNewChapterTitle());
+
+
+        String num= "最近更新:第"+NumberUtils.numberKArab2CN(item.getNewChapter())+"章  ";
+        String chapterTitle=item.getNewChapterTitle();
+
+        SpannableString spannableString = new SpannableString(num  +chapterTitle);
+        ForegroundColorSpan colorSpan = new ForegroundColorSpan(Color.parseColor("#757575"));
+        spannableString.setSpan(colorSpan, num.length(), spannableString.length(), Spanned.SPAN_INCLUSIVE_EXCLUSIVE);
+        tv_reUpda.setText(spannableString);
+
 
 
         StateButton btn_jx=helper.getView(R.id.btn_jx);
         StateButton btn_qx=helper.getView(R.id.btn_qx);
-
         switch (type){
             case 0:
                 btn_qx.setText("取消收藏");
@@ -84,7 +95,6 @@ public class BookShelfAdapter extends BaseQuickAdapter<BookShelfBean.DataBean.Bo
         btn_qx.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                ToastUtils.showShortToast("取消操作");
                 listener.iteamClickCallback(1,item.getNovelId(),"");
             }
         });

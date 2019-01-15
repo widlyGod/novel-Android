@@ -26,6 +26,7 @@ import com.novel.cn.model.entity.UserBean;
 import com.novel.cn.persenter.Contract.FragmentHomeContract;
 import com.novel.cn.persenter.PresenterClass.FragmentHomePresenter;
 import com.novel.cn.ui.LoginActivity;
+import com.novel.cn.ui.home.activity.RankingActivity;
 import com.novel.cn.util.LogUtil;
 import com.novel.cn.util.SharePrefUtil;
 import com.novel.cn.util.ToastUtils;
@@ -188,17 +189,17 @@ public class FragmentHome extends BaseFragment implements OnBannerClickListener,
             }
             break;
             case R.id.home_ranking: {
-                ToastUtils.showShortToast("排行");
+                IntentActivity(0);
             }
             break;
             case R.id.home_book:
-                ToastUtils.showShortToast("书籍");
+                ToastUtils.showShortToast("书库");
                 break;
             case R.id.home_boy:
-                ToastUtils.showShortToast("男孩");
+                IntentActivity(1);
                 break;
             case R.id.home_girl:
-                ToastUtils.showShortToast("女孩");
+                IntentActivity(2);
                 break;
             case R.id.tv_hotsearch1:
                 break;
@@ -207,6 +208,13 @@ public class FragmentHome extends BaseFragment implements OnBannerClickListener,
             case R.id.tv_hotsearch3:
                 break;
         }
+    }
+
+
+    public void IntentActivity(int type){
+        Intent intent=new Intent(getActivity(), RankingActivity.class);
+        intent.putExtra("type",type);
+        startActivity(intent);
     }
 
     //广告图的点击事件

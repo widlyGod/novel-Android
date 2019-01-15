@@ -66,6 +66,8 @@
                 app:normalTextColor="@android:color/white"
                 app:normalBackgroundColor="@color/colorOrange"
                 app:radius="10px"
+                android:background="@null"
+                android:minHeight="0dp"
                 />
 <!--  48px  -->
 
@@ -81,6 +83,8 @@
                 app:normalStrokeWidth="2px"
                 app:normalTextColor="@color/colorOrange"
                 app:radius="10px"
+                android:background="@null"
+                android:minHeight="0dp"
                 />
         </LinearLayout>
 

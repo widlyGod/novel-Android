@@ -10,8 +10,18 @@ import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
 import com.novel.cn.R;
+import com.novel.cn.model.api.ApiClient;
+import com.novel.cn.model.api.BaseSubscriber;
+import com.novel.cn.model.entity.BaseBean;
+import com.novel.cn.model.entity.BookShelfBean;
 import com.novel.cn.model.entity.HomeReturnBean;
+import com.novel.cn.util.JsonUtils;
+import com.novel.cn.util.LogUtil;
 import com.novel.cn.util.ToastUtils;
+
+import okhttp3.RequestBody;
+import rx.android.schedulers.AndroidSchedulers;
+import rx.schedulers.Schedulers;
 
 /**
  * Created by jackieli on 2018/12/28.
@@ -85,7 +95,7 @@ public class FreeBookItem extends RelativeLayout {
             btn_add.setOnClickListener(new OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    ToastUtils.showShortToast("已加入书架");
+                    requestNetWork(bean.getNovelId(),"","");
                 }
             });
             tv_jieshao.setText(bean.getNovelIntro());
@@ -120,7 +130,7 @@ public class FreeBookItem extends RelativeLayout {
             btn_add.setOnClickListener(new OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    ToastUtils.showShortToast("已加入书架");
+                    requestNetWork(bean.getNovelId(),"","");
                 }
             });
             tv_jieshao.setText(bean.getNovelIntro());
@@ -129,6 +139,42 @@ public class FreeBookItem extends RelativeLayout {
         }else{
             relativeLayout.setVisibility(INVISIBLE);
         }
+    }
+
+
+    public void requestNetWork(String novel_id,String volumeId,String chapterId){
+        JsonUtils jsonUtils = new JsonUtils();
+        jsonUtils.addField("novel_id", novel_id);
+        jsonUtils.addField("volumeId", volumeId);
+        jsonUtils.addField("chapterId", chapterId);
+        String bodyString = jsonUtils.build().toString();
+        RequestBody body= RequestBody.create(okhttp3.MediaType.parse("application/json; charset=utf-8"),bodyString);
+        ApiClient.service.saveCollection(body)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .unsubscribeOn(Schedulers.io())
+                .subscribe(new BaseSubscriber<BaseBean>() {
+
+                    @Override
+                    protected void noConnectInternet() {
+                        ToastUtils.showShortToast("网络错误，请检查网络");
+                    }
+
+                    @Override
+                    public void onCompleted() {
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+                        LogUtil.e("tag","saveCollection错误="+e.getMessage());
+                    }
+
+                    @Override
+                    public void onNext(BaseBean bean) {
+                        ToastUtils.showShortToast(bean.getMessage());
+                    }
+                });
+
     }
 
 

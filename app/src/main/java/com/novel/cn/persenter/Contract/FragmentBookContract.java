@@ -25,7 +25,7 @@ public interface FragmentBookContract extends BaseComtract {
 
     interface Presenter extends BasePresenter<View> {
         void getBookData(int type,boolean isLoadMore,String pageNum,String pageSize);
-        void cancelOper(int type);
+        void cancelOper(int type,String novel_id);
 
     }
 
