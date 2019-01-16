@@ -149,6 +149,8 @@ public class BookShowBean {
              * writer : 甜心01
              */
 
+            private String isCollection;
+
             private String basePath;
             private String chapter;
             private String chapterId;
@@ -187,6 +189,15 @@ public class BookShowBean {
                 }.getType();
 
                 return new Gson().fromJson(str, listType);
+            }
+
+
+            public String isCollection() {
+                return isCollection;
+            }
+
+            public void setCollection(String collection) {
+                isCollection = collection;
             }
 
             public String getBasePath() {

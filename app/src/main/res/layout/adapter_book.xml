@@ -4,7 +4,8 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:orientation="vertical"
-    android:paddingBottom="50px">
+    android:paddingTop="40px"
+    >
 
     <RelativeLayout
         android:id="@+id/rl_free"
@@ -15,7 +16,17 @@
             android:id="@+id/iv_book"
             android:layout_width="171px"
             android:layout_height="228px"
-            android:layout_marginLeft="60px" />
+            android:layout_marginLeft="30px" />
+
+        <TextView
+            android:id="@+id/tv_num"
+            android:gravity="center"
+            android:layout_width="48px"
+            android:layout_height="30px"
+            android:layout_alignParentTop="true"
+            android:layout_alignStart="@+id/iv_book"
+            android:textColor="@android:color/white"
+            android:textSize="9sp" />
 
         <TextView
             android:id="@+id/tv_novelTitle"
@@ -27,6 +38,19 @@
             android:textColor="#333333"
             android:textSize="13sp" />
 
+
+        <Button
+            android:id="@+id/btn_add"
+            android:layout_marginTop="50px"
+            android:layout_width="130px"
+            android:layout_height="48px"
+            android:layout_alignParentRight="true"
+            android:layout_marginRight="30px"
+            android:background="#01c78a"
+            android:text="加入书架"
+            android:textColor="@color/white"
+            android:textSize="11sp" />
+
         <RelativeLayout
             android:id="@+id/rl_zuozhe"
             android:layout_width="match_parent"
@@ -37,7 +61,7 @@
 
             <TextView
                 android:id="@+id/tv_novelAuthor"
-                android:layout_width="wrap_content"
+                android:layout_width="150dp"
                 android:layout_height="wrap_content"
                 android:layout_centerVertical="true"
                 android:layout_marginLeft="20px"
@@ -45,22 +69,12 @@
                 android:textColor="#fc9924"
                 android:textSize="12sp" />
 
-            <Button
-                android:id="@+id/btn_add"
-                android:layout_width="130px"
-                android:layout_height="48px"
-                android:layout_alignParentRight="true"
-                android:layout_marginRight="60px"
-                android:background="#01c78a"
-                android:text="加入书架"
-                android:textColor="@color/white"
-                android:textSize="11sp" />
         </RelativeLayout>
 
         <TextView
             android:id="@+id/tv_type"
             android:layout_width="70px"
-            android:layout_height="28px"
+            android:layout_height="35px"
             android:layout_below="@+id/rl_zuozhe"
             android:layout_marginLeft="20px"
             android:layout_marginTop="15px"
@@ -70,6 +84,24 @@
             android:text="玄幻"
             android:textColor="#fd6369"
             android:textSize="10sp" />
+
+        <com.novel.cn.view.wight.StateButton
+            android:id="@+id/tv_lianzai"
+            android:layout_width="75px"
+            android:layout_height="35px"
+            android:layout_below="@+id/rl_zuozhe"
+            android:layout_marginLeft="20px"
+            android:layout_marginTop="15px"
+            android:layout_toRightOf="@+id/tv_type"
+            android:background="@null"
+            android:minHeight="0dp"
+            android:text="连载中"
+            android:textColor="#01C78A"
+            android:textSize="10sp"
+            app:normalStrokeColor="#01C78A"
+            app:normalStrokeWidth="1px"
+            app:normalTextColor="#01C78A"
+            app:radius="10px" />
 
         <TextView
             android:id="@+id/tv_jieshao"
@@ -86,5 +118,13 @@
             android:textColor="#999999"
             android:textSize="12sp" />
     </RelativeLayout>
+
+    <View
+        android:layout_below="@+id/rl_free"
+        android:layout_marginLeft="30px"
+        android:layout_marginTop="40px"
+        android:background="#c7c7c7"
+        android:layout_width="match_parent"
+        android:layout_height="1px"/>
 
 </RelativeLayout>

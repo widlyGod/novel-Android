@@ -7,30 +7,31 @@
     <!--
             rb_ranking
                     android:button="@null"
+                    180px
     -->
-    <RelativeLayout
+    <LinearLayout
         android:layout_width="180px"
-        android:layout_height="118px">
-    <View
-        android:id="@+id/view_kuai"
-        android:visibility="gone"
-        android:background="#ff7d00"
-        android:layout_width="8px"
-        android:layout_height="118px"/>
-        
-        
-    <TextView
-        android:id="@+id/tv_text"
-        android:clickable="true"
-        android:textColor="@drawable/cb_color"
-        android:textSize="15sp"
-        android:gravity="center"
-        android:text="综合榜"
-        android:layout_width="180px"
-        android:layout_height="118px" />
+        android:layout_height="118px"
+        android:orientation="horizontal">
 
-    </RelativeLayout>
+        <TextView
+            android:id="@+id/view_kuai"
+            android:layout_width="8px"
+            android:layout_height="match_parent"
+            android:background="#ff7d00" />
 
-    
-    
+
+        <TextView
+            android:id="@+id/tv_text"
+            android:layout_width="180px"
+            android:layout_height="118px"
+            android:clickable="true"
+            android:gravity="center"
+            android:text="综合榜"
+            android:textColor="@drawable/cb_color"
+            android:textSize="15sp" />
+
+    </LinearLayout>
+
+
 </RelativeLayout>

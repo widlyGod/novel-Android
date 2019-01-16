@@ -58,6 +58,8 @@
         <activity android:name=".ui.home.activity.RankingActivity"
             android:screenOrientation="portrait"/>
 
+        <activity android:name=".ui.home.activity.StackRoomActivity"
+            android:screenOrientation="portrait"/>
 
         <activity android:name=".ui.book.activity.TestInfoActivity"
             android:screenOrientation="portrait"/>

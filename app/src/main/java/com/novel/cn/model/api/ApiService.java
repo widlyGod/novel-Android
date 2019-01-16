@@ -4,7 +4,9 @@ package com.novel.cn.model.api;
 import com.novel.cn.model.entity.BaseBean;
 import com.novel.cn.model.entity.BaseListObjectBean;
 import com.novel.cn.model.entity.BaseObjectBean;
+import com.novel.cn.model.entity.BookShelfAllBean;
 import com.novel.cn.model.entity.BookShelfBean;
+import com.novel.cn.model.entity.BookShowBean;
 import com.novel.cn.model.entity.HomeReturnBean;
 import com.novel.cn.model.entity.PersonDataBean;
 import com.novel.cn.model.entity.QueryUpayBean;
@@ -95,7 +97,6 @@ public interface ApiService {
     Observable<BaseBean> cancelOper1(@Url String url,@QueryMap Map<String, String> map);
 
 
-
     @Headers({"Content-Type: application/json", "Accept: application/json"})
     @POST("novelOAService/novelCollection/saveCollection")
     Observable<BaseBean> saveCollection(@Body RequestBody info);
@@ -104,9 +105,20 @@ public interface ApiService {
     @GET("novelOAService/novelList/getList")
     Observable<RankingBean> getRankingList();
 
+    //BookShowBean
+    @Headers({"Content-Type: application/json", "Accept: application/json"})
+    @POST("novelOAService/novelList/getNovelList")
+    Observable<BookShowBean> getNovelList(@Body RequestBody info);
 
 
-//                  /*          ctrl+shift+/       */
+    @Headers({"Content-Type: application/json", "Accept: application/json"})
+    @GET("novelOAService/novelType/getAllTypesMo")
+    Observable<BookShelfAllBean> getAllTypesMo();
+
+
+
+
+//                  /*          ctrl+shift+/    BookShowBean   */
 //
 //    //上传文件      FileBean
 //    @Multipart
