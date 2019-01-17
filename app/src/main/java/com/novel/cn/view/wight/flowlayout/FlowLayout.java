@@ -8,7 +8,7 @@ import android.util.LayoutDirection;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.hytc.note.R;
+import com.novel.cn.R;
 
 import java.util.ArrayList;
 import java.util.Collections;

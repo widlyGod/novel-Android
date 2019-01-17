@@ -27,6 +27,7 @@ import com.novel.cn.persenter.Contract.FragmentHomeContract;
 import com.novel.cn.persenter.PresenterClass.FragmentHomePresenter;
 import com.novel.cn.ui.LoginActivity;
 import com.novel.cn.ui.home.activity.RankingActivity;
+import com.novel.cn.ui.home.activity.StackRoomActivity;
 import com.novel.cn.util.LogUtil;
 import com.novel.cn.util.SharePrefUtil;
 import com.novel.cn.util.ToastUtils;
@@ -186,14 +187,13 @@ public class FragmentHome extends BaseFragment implements OnBannerClickListener,
             case R.id.iv_fragment_personal_face: {
                 Intent intent = new Intent(getActivity(), LoginActivity.class);
                 startActivity(intent);
-            }
-            break;
+            }break;
             case R.id.home_ranking: {
                 IntentActivity(0);
-            }
-            break;
+            }break;
             case R.id.home_book:
-                ToastUtils.showShortToast("书库");
+                Intent intent = new Intent(getActivity(), StackRoomActivity.class);
+                startActivity(intent);
                 break;
             case R.id.home_boy:
                 IntentActivity(1);

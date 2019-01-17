@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:expandableTextView="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/ll_item_new"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical">
+
+
+    <com.hytc.note.view.wight.ExpandableTextView
+        android:id="@+id/expand_text_view"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="80px"
+
+        expandableTextView:animAlphaStart="1"
+        expandableTextView:maxCollapsedLines="1">
+        <LinearLayout
+            android:orientation="horizontal"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+        <View
+            android:id="@+id/view_item_mynew"
+            android:layout_width="24px"
+            android:layout_height="24px"
+            android:layout_marginLeft="10dp"
+            android:layout_marginTop="6dp"
+            android:background="#ffffff" />
+
+        <TextView
+            android:id="@+id/expandable_text"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="5dp"
+            android:layout_weight="1"
+            android:text=""
+            android:textColor="#768a95"
+            android:textSize="15sp" />
+
+        <ImageButton
+            android:id="@+id/expand_collapse"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:paddingBottom="10dp"
+            android:paddingLeft="10dp"
+            android:paddingRight="10dp"
+            android:paddingTop="3dp"
+            android:background="@android:color/transparent"
+             />
+        </LinearLayout>
+
+    </com.hytc.note.view.wight.ExpandableTextView>
+
+
+    <TextView
+    android:id="@+id/tv_item_time"
+    android:text=""
+    android:layout_marginRight="34dp"
+    android:layout_gravity="right"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content" />
+
+</LinearLayout>

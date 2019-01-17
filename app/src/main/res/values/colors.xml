@@ -6,4 +6,8 @@
     <color name="colorOrange">#ff7d00</color>
     <color name="colorGrary">#333333</color>
     <color name="colorWhite">#ffffff</color>
+
+    <color name="c7">#c7c7c7</color>
+    <color name="c6">#666666</color>
+
 </resources>

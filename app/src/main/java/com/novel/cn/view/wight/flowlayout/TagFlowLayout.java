@@ -10,13 +10,11 @@ import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.hytc.note.R;
+import com.novel.cn.R;
 
 import java.util.HashSet;
 import java.util.Iterator;
 import java.util.Set;
-
-import static com.alipay.sdk.app.statistic.c.R;
 
 /**
  *

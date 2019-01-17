@@ -70,6 +70,7 @@ public class MainActivity extends AutoLayoutActivity implements FragmentListener
     }
 
     private void initViews() {
+
         FragmentManager supportFragmentManager = getSupportFragmentManager();
         framgnets = new ArrayList<Fragment>();
         fragmentHome = new FragmentHome();

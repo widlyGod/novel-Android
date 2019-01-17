@@ -1,0 +1,225 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="270dp"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="horizontal">
+
+
+    <RelativeLayout
+        android:layout_width="0dp"
+        android:layout_height="270dp"
+        android:layout_weight="1">
+
+
+        <RadioGroup
+            android:id="@+id/rg_tjzs"
+            android:layout_marginTop="50px"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center_horizontal"
+            android:orientation="horizontal">
+
+            <RadioButton
+                android:id="@+id/rb_tjp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:button="@null"
+                android:text="推荐票" />
+
+            <View
+                android:layout_width="2px"
+                android:layout_height="18dp"
+                android:layout_marginLeft="32px"
+                android:layout_marginRight="32px"
+                android:background="@color/c6" />
+
+            <TextView
+                android:id="@+id/tv_zs"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:button="@null"
+                android:text="砖石" />
+        </RadioGroup>
+
+        <ImageView
+            android:layout_marginTop="52px"
+            android:layout_marginRight="24px"
+            android:layout_alignParentRight="true"
+            android:src="@drawable/detail_que"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+
+        <TextView
+            android:id="@+id/tv_bzzs"
+            android:text="本周砖石"
+            android:layout_below="@+id/rg_tjzs"
+            android:layout_marginTop="40px"
+            android:textColor="@color/c6"
+            android:layout_centerHorizontal="true"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+
+        <TextView
+            android:id="@+id/tv_mc"
+            android:text="0"
+            android:layout_below="@+id/tv_bzzs"
+            android:textColor="@color/c6"
+            android:layout_marginTop="40px"
+            android:layout_centerHorizontal="true"
+            android:textSize="19sp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+
+
+        <TextView
+            android:id="@+id/tv_pmhc"
+            android:text="排行100 还差1颗追上前一名"
+            android:layout_below="@+id/tv_mc"
+            android:textColor="@color/c6"
+            android:layout_marginTop="40px"
+            android:layout_centerHorizontal="true"
+            android:textSize="11sp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+
+        <ImageView
+            android:id="@+id/iv_left"
+            android:src="@drawable/fsdt_zs"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="40px"
+            android:layout_below="@+id/tv_pmhc"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+
+        <com.novel.cn.view.wight.StateButton
+            android:id="@+id/btn_sendLeft"
+            android:layout_below="@+id/iv_left"
+            android:layout_marginTop="40px"
+            android:layout_centerHorizontal="true"
+            app:radius="4px"
+            android:paddingLeft="10dp"
+            android:drawableLeft="@drawable/fsdt_zsx"
+            android:textColor="@android:color/white"
+            android:textSize="10sp"
+            android:text="送砖石"
+            app:normalBackgroundColor="#eb4a4d"
+            android:layout_width="218px"
+            android:layout_height="64px" />
+
+    </RelativeLayout>
+
+
+    <View
+        android:layout_width="1px"
+        android:layout_height="230dp"
+        android:layout_gravity="center_vertical"
+        android:background="@color/c7" />
+
+
+    <RelativeLayout
+        android:layout_width="0dp"
+        android:layout_height="270dp"
+        android:layout_weight="1">
+
+
+        <RadioGroup
+            android:id="@+id/rg_ypds"
+            android:layout_marginTop="50px"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center_horizontal"
+            android:orientation="horizontal">
+
+            <RadioButton
+                android:id="@+id/rb_yp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:button="@null"
+                android:text="月票" />
+
+            <View
+                android:layout_width="2px"
+                android:layout_height="18dp"
+                android:layout_marginLeft="32px"
+                android:layout_marginRight="32px"
+                android:background="@color/c6" />
+
+            <TextView
+                android:id="@+id/tv_ds"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:button="@null"
+                android:text="打赏" />
+        </RadioGroup>
+
+        <ImageView
+            android:layout_marginTop="52px"
+            android:layout_marginRight="24px"
+            android:layout_alignParentRight="true"
+            android:src="@drawable/detail_que"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+
+        <TextView
+            android:id="@+id/tv_bzps"
+            android:text="本周票数"
+            android:layout_below="@+id/rg_ypds"
+            android:layout_marginTop="40px"
+            android:textColor="@color/c6"
+            android:layout_centerHorizontal="true"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+
+        <TextView
+            android:id="@+id/tv_ps"
+            android:text="0"
+            android:layout_below="@+id/tv_bzps"
+            android:textColor="@color/c6"
+            android:layout_marginTop="40px"
+            android:layout_centerHorizontal="true"
+            android:textSize="19sp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+
+
+        <TextView
+            android:id="@+id/tv_pmright"
+            android:text="排行100 还差1颗追上前一名"
+            android:layout_below="@+id/tv_ps"
+            android:textColor="@color/c6"
+            android:layout_marginTop="40px"
+            android:layout_centerHorizontal="true"
+            android:textSize="11sp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+
+        <ImageView
+            android:id="@+id/iv_right"
+            android:src="@drawable/fsdt_zs"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="40px"
+            android:layout_below="@+id/tv_pmright"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+
+        <com.novel.cn.view.wight.StateButton
+            android:id="@+id/btn_sendRight"
+            android:layout_below="@+id/iv_right"
+            android:layout_marginTop="40px"
+            android:layout_centerHorizontal="true"
+            app:radius="4px"
+            android:paddingLeft="10dp"
+            android:drawableLeft="@drawable/fsdt_ypx"
+            android:textColor="@android:color/white"
+            android:textSize="10sp"
+            android:text="送月票"
+            app:normalBackgroundColor="#eb4a4d"
+            android:layout_width="218px"
+            android:layout_height="64px" />
+
+
+    </RelativeLayout>
+
+
+</LinearLayout>
