@@ -26,6 +26,7 @@ import com.novel.cn.model.entity.UserBean;
 import com.novel.cn.persenter.Contract.FragmentHomeContract;
 import com.novel.cn.persenter.PresenterClass.FragmentHomePresenter;
 import com.novel.cn.ui.LoginActivity;
+import com.novel.cn.ui.home.activity.BookDetailsActivity;
 import com.novel.cn.ui.home.activity.RankingActivity;
 import com.novel.cn.ui.home.activity.StackRoomActivity;
 import com.novel.cn.util.LogUtil;
@@ -226,7 +227,9 @@ public class FragmentHome extends BaseFragment implements OnBannerClickListener,
     @Override
     public void iteamClickCallback(int type, Object parameter1, Object parameter2) {
         //跳转逻辑
-        ToastUtils.showShortToast("小说id="+parameter1);
+        Intent intent=new Intent(getActivity(), BookDetailsActivity.class);
+        intent.putExtra("id", (String) parameter1);
+        startActivity(intent);
     }
 
     //底部加载更多

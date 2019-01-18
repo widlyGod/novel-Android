@@ -4,6 +4,7 @@ package com.novel.cn.model.api;
 import com.novel.cn.model.entity.BaseBean;
 import com.novel.cn.model.entity.BaseListObjectBean;
 import com.novel.cn.model.entity.BaseObjectBean;
+import com.novel.cn.model.entity.BookDetailBean;
 import com.novel.cn.model.entity.BookShelfAllBean;
 import com.novel.cn.model.entity.BookShelfBean;
 import com.novel.cn.model.entity.BookShowBean;
@@ -116,7 +117,9 @@ public interface ApiService {
     Observable<BookShelfAllBean> getAllTypesMo();
 
 
-
+    @Headers({"Content-Type: application/json", "Accept: application/json"})
+    @GET("novelOAService/mobile/openNovel")
+    Observable<BookDetailBean> getOpenNovel(@Query("novelId") String novelId);
 
 //                  /*          ctrl+shift+/    BookShowBean   */
 //

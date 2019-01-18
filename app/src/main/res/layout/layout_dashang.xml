@@ -34,7 +34,7 @@
                 android:layout_marginRight="32px"
                 android:background="@color/c6" />
 
-            <TextView
+            <RadioButton
                 android:id="@+id/tv_zs"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -43,6 +43,8 @@
         </RadioGroup>
 
         <ImageView
+            android:id="@+id/iv_queLeft"
+            android:clickable="true"
             android:layout_marginTop="52px"
             android:layout_marginRight="24px"
             android:layout_alignParentRight="true"
@@ -52,7 +54,7 @@
 
         <TextView
             android:id="@+id/tv_bzzs"
-            android:text="本周砖石"
+            android:text="本周推荐票"
             android:layout_below="@+id/rg_tjzs"
             android:layout_marginTop="40px"
             android:textColor="@color/c6"
@@ -84,8 +86,8 @@
             android:layout_height="wrap_content" />
 
         <ImageView
-            android:id="@+id/iv_left"
-            android:src="@drawable/fsdt_zs"
+            android:id="@+id/iv_leftx"
+            android:src="@drawable/fsdt_tjp"
             android:layout_centerHorizontal="true"
             android:layout_marginTop="40px"
             android:layout_below="@+id/tv_pmhc"
@@ -94,15 +96,17 @@
 
         <com.novel.cn.view.wight.StateButton
             android:id="@+id/btn_sendLeft"
-            android:layout_below="@+id/iv_left"
+            android:layout_below="@+id/iv_leftx"
             android:layout_marginTop="40px"
             android:layout_centerHorizontal="true"
+            android:background="@null"
+            android:minHeight="0dp"
             app:radius="4px"
             android:paddingLeft="10dp"
-            android:drawableLeft="@drawable/fsdt_zsx"
+            android:drawableLeft="@drawable/fsdt_jtpx"
             android:textColor="@android:color/white"
             android:textSize="10sp"
-            android:text="送砖石"
+            android:text="送推荐票"
             app:normalBackgroundColor="#eb4a4d"
             android:layout_width="218px"
             android:layout_height="64px" />
@@ -145,8 +149,8 @@
                 android:layout_marginRight="32px"
                 android:background="@color/c6" />
 
-            <TextView
-                android:id="@+id/tv_ds"
+            <RadioButton
+                android:id="@+id/rb_ds"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:button="@null"
@@ -154,6 +158,8 @@
         </RadioGroup>
 
         <ImageView
+            android:id="@+id/iv_queRight"
+            android:clickable="true"
             android:layout_marginTop="52px"
             android:layout_marginRight="24px"
             android:layout_alignParentRight="true"
@@ -163,7 +169,7 @@
 
         <TextView
             android:id="@+id/tv_bzps"
-            android:text="本周票数"
+            android:text="本周月数"
             android:layout_below="@+id/rg_ypds"
             android:layout_marginTop="40px"
             android:textColor="@color/c6"
@@ -195,7 +201,7 @@
             android:layout_height="wrap_content" />
 
         <ImageView
-            android:id="@+id/iv_right"
+            android:id="@+id/iv_rightx"
             android:src="@drawable/fsdt_zs"
             android:layout_centerHorizontal="true"
             android:layout_marginTop="40px"
@@ -205,9 +211,11 @@
 
         <com.novel.cn.view.wight.StateButton
             android:id="@+id/btn_sendRight"
-            android:layout_below="@+id/iv_right"
+            android:layout_below="@+id/iv_rightx"
             android:layout_marginTop="40px"
             android:layout_centerHorizontal="true"
+            android:background="@null"
+            android:minHeight="0dp"
             app:radius="4px"
             android:paddingLeft="10dp"
             android:drawableLeft="@drawable/fsdt_ypx"

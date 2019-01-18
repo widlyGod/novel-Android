@@ -1,6 +1,7 @@
 package com.novel.cn.view.wight;
 
 import android.content.Context;
+import android.content.Intent;
 import android.util.AttributeSet;
 import android.view.View;
 import android.widget.ImageView;
@@ -10,6 +11,7 @@ import android.widget.TextView;
 import com.bumptech.glide.Glide;
 import com.novel.cn.R;
 import com.novel.cn.model.entity.HomeReturnBean;
+import com.novel.cn.ui.home.activity.BookDetailsActivity;
 import com.novel.cn.util.LogUtil;
 import com.novel.cn.util.ToastUtils;
 
@@ -57,10 +59,9 @@ public class EditorRcItem extends RelativeLayout {
             setOnClickListener(new OnClickListener() {
                 @Override
                 public void onClick(View view) {
-//                Intent intent=new Intent(contextall,);
-//                intent.putExtra("id",bean.getNovelId());
-//                contextall.startActivity(intent);
-                    ToastUtils.showShortToast("跳转书籍详情");
+                Intent intent=new Intent(contextall, BookDetailsActivity.class);
+                intent.putExtra("id",bean.getNovelId());
+                contextall.startActivity(intent);
                 }
             });
 
@@ -85,9 +86,9 @@ public class EditorRcItem extends RelativeLayout {
             setOnClickListener(new OnClickListener() {
                 @Override
                 public void onClick(View view) {
-//                Intent intent=new Intent(contextall,);
-//                intent.putExtra("id",bean.getNovelId());
-//                contextall.startActivity(intent);
+                    Intent intent=new Intent(contextall, BookDetailsActivity.class);
+                    intent.putExtra("id",bean.getNovelId());
+                    contextall.startActivity(intent);
                     ToastUtils.showShortToast("跳转书籍详情");
                 }
             });

@@ -86,7 +86,6 @@ public class BookShelfAdapter extends BaseQuickAdapter<BookShelfBean.DataBean.Bo
         btn_jx.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                ToastUtils.showShortToast("继续阅读");
                 listener.iteamClickCallback(0,item.getNovelId(),"");
             }
         });
