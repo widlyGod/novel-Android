@@ -20,6 +20,9 @@ public interface BookDeatilContract extends BaseComtract {
     interface View extends BaseView {
         void getOpenSuccess(BookDetailBean bean);
         void saveCollectionSuccess(BaseBean bean);
+        void queryAccountSuccess(BaseBean bean);
+        void giveOperationSuccess(String message);
+
         void fail(String message);
         void noConnectInternet();
     }
@@ -29,6 +32,9 @@ public interface BookDeatilContract extends BaseComtract {
         void getOpenNovel(String novelId);
         void saveCollection(String novel_id,String volumeId,String chapterId);
 
+
+        void queryPersonAccount();
+        void giveOperation(String novelId,String number,int type);
         //{boardsEnumCode: "ALL", listType: 1, pageNum: 1, pageSize: 10, fromMobile: 1}
 
     }

@@ -1,6 +1,7 @@
 package com.novel.cn.ui.home.activity;
 
 import android.annotation.TargetApi;
+import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Build;
@@ -23,6 +24,7 @@ import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
 import com.novel.cn.R;
+import com.novel.cn.app.Constants;
 import com.novel.cn.model.api.ApiClient;
 import com.novel.cn.model.api.ApiService;
 import com.novel.cn.model.entity.BaseBean;
@@ -30,6 +32,7 @@ import com.novel.cn.model.entity.BookDetailBean;
 import com.novel.cn.persenter.Contract.BookDeatilContract;
 import com.novel.cn.persenter.PresenterClass.BookDetailPresenter;
 import com.novel.cn.util.LogUtil;
+import com.novel.cn.util.NumberUtils;
 import com.novel.cn.util.ToastUtils;
 import com.novel.cn.view.wight.DetailBookPanel;
 import com.novel.cn.view.wight.StateButton;
@@ -134,7 +137,7 @@ public class BookDetailsActivity extends AutoLayoutActivity implements BookDeati
     private BookDetailPresenter presenter;
     private String novelId;
     PopupWindow popupWindow;
-
+    private TextView popTextView;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -172,6 +175,7 @@ public class BookDetailsActivity extends AutoLayoutActivity implements BookDeati
 
 
         View viewx = LayoutInflater.from(BookDetailsActivity.this).inflate(R.layout.pop_bookdetail, null, false);
+        popTextView=viewx.findViewById(R.id.tv_poptv);
         popupWindow = new PopupWindow(viewx, LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.WRAP_CONTENT);
 //                popupWindow.setBackgroundDrawable(new BitmapDrawable());
         popupWindow.setTouchable(true);
@@ -182,16 +186,92 @@ public class BookDetailsActivity extends AutoLayoutActivity implements BookDeati
         ivZddy.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                popTextView.setText(Constants.popzd);
                 popupWindow.showAsDropDown(ivZddy, 0, 0);
             }
         });
 
+
+        rgTjzs.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(RadioGroup radioGroup, int i) {
+                switch (i){
+                    case R.id.rb_tjp:{
+                        radioGroupSetText(0);
+                    }break;
+                    case R.id.tv_zs:{
+                        radioGroupSetText(1);
+                    }break;
+                }
+            }
+        });
+        rgYpds.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(RadioGroup radioGroup, int i) {
+                switch (i){
+                    case R.id.rb_yp:{
+                        radioGroupSetText(2);
+                    }break;
+                    case R.id.rb_ds:{
+                        radioGroupSetText(3);
+                    }break;
+                }
+            }
+        });
+    }
+
+    //0推荐票  1砖石 2月票 3打赏
+    public void radioGroupSetText(int rbType){
+        List<BookDetailBean.DataBean.GiftsBean>list=detailBean.getData().getGifts();
+        if(list!=null && list.size()>=4){
+            switch (rbType){
+                case 0:
+                    tvBzzs.setText("本周推荐票");
+                    if(list.get(0).getType()==0){
+                        tvMc.setText(list.get(0).getRewardCount());
+                        tvPmhc.setText("排行"+list.get(0).getRank()+" 还差"+list.get(0).getDifference()+"颗追上前一名");
+                        ivLeftx.setImageResource(R.drawable.fsdt_tjp);
+                        btnSendLeft.setText("送推荐票");
+                        btnSendLeft.setCompoundDrawablesWithIntrinsicBounds(getResources().getDrawable(R.drawable.fsdt_jtpx),null,null,null);
+                    }
+                    break;
+                case 1:
+                    tvBzzs.setText("本周砖石");
+                    if(list.get(1).getType()==1){
+                        tvMc.setText(list.get(1).getRewardCount());
+                        tvPmhc.setText("排行"+list.get(1).getRank()+" 还差"+list.get(1).getDifference()+"颗追上前一名");
+                        ivLeftx.setImageResource(R.drawable.fsdt_zs);
+                        btnSendLeft.setText("送砖石");
+                        btnSendLeft.setCompoundDrawablesWithIntrinsicBounds(getResources().getDrawable(R.drawable.fsdt_zsx),null,null,null);
+                    }
+                    break;
+                case 2:
+                    tvBzps.setText("本周月票");
+                    if(list.get(2).getType()==2){
+                        tvPs.setText(list.get(2).getRewardCount());
+                        tvPmright.setText("排行"+list.get(2).getRank()+" 还差"+list.get(2).getDifference()+"颗追上前一名");
+                        ivRightx.setImageResource(R.drawable.fsdt_yp);
+                        btnSendRight.setText("送月票");
+                        btnSendRight.setCompoundDrawablesWithIntrinsicBounds(getResources().getDrawable(R.drawable.fsdt_ypx),null,null,null);
+                    }
+                    break;
+                case 3:
+                    tvBzps.setText("本周打赏");
+                    if(list.get(3).getType()==3){
+                        tvPs.setText(list.get(3).getRewardCount());
+                        tvPmright.setText("排行"+list.get(3).getRank()+" 还差"+list.get(3).getDifference()+"颗追上前一名");
+                        ivRightx.setImageResource(R.drawable.fsdt_ds);
+                        btnSendRight.setText("送打赏");
+                        btnSendRight.setCompoundDrawablesWithIntrinsicBounds(getResources().getDrawable(R.drawable.fsdt_dsx),null,null,null);
+                    }
+                    break;
+            }
+        }
     }
 
 
-    @TargetApi(Build.VERSION_CODES.LOLLIPOP)
     @OnClick({R.id.iv_left, R.id.btn_share, R.id.sbtn_jxyd, R.id.sbtn_jrsj, R.id.iv_zddy,
-            R.id.iv_zk, R.id.rl_ml, R.id.iv_queLeft, R.id.btn_sendLeft, R.id.iv_queRight, R.id.btn_sendRight})
+            R.id.iv_zk, R.id.rl_ml, R.id.iv_queLeft, R.id.btn_sendLeft, R.id.iv_queRight, R.id.btn_sendRight,R.id.iv_zj})
     public void onViewClicked(View view) {
         switch (view.getId()) {
             case R.id.iv_left:{
@@ -203,41 +283,51 @@ public class BookDetailsActivity extends AutoLayoutActivity implements BookDeati
                 break;
             case R.id.sbtn_jrsj:
                 break;
-            case R.id.iv_zddy:{
-                LogUtil.e("点击问号");
-//                popupWindow.showAsDropDown(ivZddy, 0, 0);
-            }
-                break;
             case R.id.iv_zk:{
                 //展开
                 if(ivZk.getText().equals("展开")){
                     ivZk.setText("收起");
-                    ivZk.setCompoundDrawables(null,null,getDrawable(R.drawable.down),null);
+                    ivZk.setCompoundDrawablesWithIntrinsicBounds(null,null,getResources().getDrawable(R.drawable.up),null);
                     tvDetail.setMaxLines(5);
                     tvDetail.setText(detailBean.getData().getNovelInfo().getNovelIntro());
                 }else{//缩放
                     ivZk.setText("展开");
-                    ivZk.setCompoundDrawables(null,null,getDrawable(R.drawable.up),null);
+                    ivZk.setCompoundDrawablesWithIntrinsicBounds(null,null,getResources().getDrawable(R.drawable.down),null);
                     tvDetail.setMaxLines(2);
                     tvDetail.setText(detailBean.getData().getNovelInfo().getNovelIntro());
                 }
             }break;
-            case R.id.rl_ml:
-                break;
-            case R.id.iv_queLeft:
-                break;
+            case R.id.rl_ml:{
+                if(detailBean.getData().getNovelInfo().getNovelId()!=null){
+                    Intent intent=new Intent(BookDetailsActivity.this,CatalogActivity.class);
+                    intent.putExtra("id",detailBean.getData().getNovelInfo().getNovelId());
+                    startActivity(intent);
+                }
+            }break;
+            case R.id.iv_queLeft:{
+                if(rbTjp.isChecked()){
+                    popTextView.setText(Constants.poptjp);
+                }else{
+                    popTextView.setText(Constants.popzs);
+                }
+                popupWindow.showAsDropDown(ivQueLeft, 0, 0);
+            }break;
             case R.id.btn_sendLeft:
                 break;
             case R.id.iv_queRight:
                 break;
             case R.id.btn_sendRight:
                 break;
+            case R.id.iv_zj:{
+
+            }break;
         }
     }
 
     List<BookDetailBean.DataBean.GiftsBean>list=new ArrayList<>();
     private BookDetailBean detailBean;
 
+    //书籍详情内容加载
     @Override
     public void getOpenSuccess(BookDetailBean bean) {
         detailBean=bean;
@@ -258,7 +348,8 @@ public class BookDetailsActivity extends AutoLayoutActivity implements BookDeati
             }else{
                 tvLianzai.setText("已完结");
             }
-            tv_zishu.setText(novelInfoBean.getNovelWords()+"字  "+novelInfoBean.getClickNum()+"次点击");
+            tv_zishu.setText(NumberUtils.formatNum(novelInfoBean.getNovelWords(),false)+"字  "
+                    +NumberUtils.formatNum(novelInfoBean.getClickNum(),false)+"次点击");
 
             if(novelInfoBean.getIsCollection()!=null && novelInfoBean.getIsCollection().equals("true")) {
                 sbtnJrsj.setClickable(true);
@@ -273,7 +364,13 @@ public class BookDetailsActivity extends AutoLayoutActivity implements BookDeati
             tvDetail.setText(novelInfoBean.getNovelIntro());
 
             //目录 最新章节：
-            tvMl.setText("目录 最新章节：第"+bean.getData().getNewChapter().getChapter()+"章 "+bean.getData().getNewChapter().getTitle());
+            String zjq="目录 最新章节：第"+bean.getData().getNewChapter().getChapter()+"章 ";
+            String zjh=bean.getData().getNewChapter().getTitle();
+            SpannableString spannableString2 = new SpannableString(zjq  +zjh);
+            ForegroundColorSpan colorSpan2 = new ForegroundColorSpan(Color.parseColor("#757575"));
+            spannableString2.setSpan(colorSpan2,3, zjq.length(), Spanned.SPAN_INCLUSIVE_EXCLUSIVE);
+            tvMl.setText(spannableString2);
+//            tvMl.setText("目录 最新章节：第"+bean.getData().getNewChapter().getChapter()+"章 "+bean.getData().getNewChapter().getTitle());
             tvTime.setText(bean.getData().getNewChapter().getPublishTime());
 
             list=bean.getData().getGifts();
@@ -318,14 +415,27 @@ public class BookDetailsActivity extends AutoLayoutActivity implements BookDeati
         }
     }
 
+    //查询账户回调
+    @Override
+    public void queryAccountSuccess(BaseBean bean) {
+
+    }
+
+    //打赏回调
+    @Override
+    public void giveOperationSuccess(String message) {
+
+    }
+
+
     @Override
     public void fail(String message) {
         LogUtil.e("失败原因:"+message);
     }
-
     @Override
     public void noConnectInternet() {
         ToastUtils.showShortToast("网络错误，请检查网络");
     }
+
 
 }

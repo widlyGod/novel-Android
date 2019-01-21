@@ -68,6 +68,9 @@
         <activity android:name=".ui.book.activity.TestInfoActivity"
             android:screenOrientation="portrait"/>
 
+        <activity android:name=".ui.home.activity.CatalogActivity"
+            android:screenOrientation="portrait"/>
+
         <meta-data
             android:name="design_width"
             android:value="750" />

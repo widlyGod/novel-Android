@@ -22,6 +22,8 @@
 
             <RadioButton
                 android:id="@+id/rb_tjp"
+                android:checked="true"
+                android:textColor="@drawable/rb_textcolor"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:button="@null"
@@ -36,6 +38,7 @@
 
             <RadioButton
                 android:id="@+id/tv_zs"
+                android:textColor="@drawable/rb_textcolor"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:button="@null"
@@ -44,8 +47,9 @@
 
         <ImageView
             android:id="@+id/iv_queLeft"
+            android:padding="4dp"
             android:clickable="true"
-            android:layout_marginTop="52px"
+            android:layout_marginTop="44px"
             android:layout_marginRight="24px"
             android:layout_alignParentRight="true"
             android:src="@drawable/detail_que"
@@ -137,6 +141,8 @@
 
             <RadioButton
                 android:id="@+id/rb_yp"
+                android:checked="true"
+                android:textColor="@drawable/rb_textcolor"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:button="@null"
@@ -151,6 +157,7 @@
 
             <RadioButton
                 android:id="@+id/rb_ds"
+                android:textColor="@drawable/rb_textcolor"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:button="@null"
@@ -160,7 +167,8 @@
         <ImageView
             android:id="@+id/iv_queRight"
             android:clickable="true"
-            android:layout_marginTop="52px"
+            android:padding="4dp"
+            android:layout_marginTop="44px"
             android:layout_marginRight="24px"
             android:layout_alignParentRight="true"
             android:src="@drawable/detail_que"
@@ -169,7 +177,7 @@
 
         <TextView
             android:id="@+id/tv_bzps"
-            android:text="本周月数"
+            android:text="本周月票"
             android:layout_below="@+id/rg_ypds"
             android:layout_marginTop="40px"
             android:textColor="@color/c6"

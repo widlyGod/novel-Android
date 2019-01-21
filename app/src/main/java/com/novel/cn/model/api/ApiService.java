@@ -8,11 +8,13 @@ import com.novel.cn.model.entity.BookDetailBean;
 import com.novel.cn.model.entity.BookShelfAllBean;
 import com.novel.cn.model.entity.BookShelfBean;
 import com.novel.cn.model.entity.BookShowBean;
+import com.novel.cn.model.entity.ChapterBean;
 import com.novel.cn.model.entity.HomeReturnBean;
 import com.novel.cn.model.entity.PersonDataBean;
 import com.novel.cn.model.entity.QueryUpayBean;
 import com.novel.cn.model.entity.RankingBean;
 import com.novel.cn.model.entity.UserBean;
+import com.novel.cn.model.entity.VolumesBean;
 
 import java.util.Map;
 
@@ -120,6 +122,17 @@ public interface ApiService {
     @Headers({"Content-Type: application/json", "Accept: application/json"})
     @GET("novelOAService/mobile/openNovel")
     Observable<BookDetailBean> getOpenNovel(@Query("novelId") String novelId);
+
+
+    @Headers({"Content-Type: application/json", "Accept: application/json"})
+    @GET("novelOAService/mobile/getVolumes")
+    Observable<VolumesBean> getVolumes(@Query("novelId") String novelId);
+
+    @Headers({"Content-Type: application/json", "Accept: application/json"})
+    @POST("novelOAService/mobile/getChapters")
+    Observable<ChapterBean> getChapters(@Body RequestBody info);
+
+
 
 //                  /*          ctrl+shift+/    BookShowBean   */
 //
