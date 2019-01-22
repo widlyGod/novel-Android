@@ -78,7 +78,6 @@ public class FragmentBook extends BaseFragment implements FragmentBookContract.V
                 pageNum=1;
                 presenter.getBookData(type,false,"1","10");
                 //0我的收藏     1我的订阅   2阅读历史
-
             }
             @Override
             public void onTabUnselected(TabLayout.Tab tab) {
@@ -108,6 +107,11 @@ public class FragmentBook extends BaseFragment implements FragmentBookContract.V
             case 1://取消操作
                 presenter.cancelOper(type,(String) parameter1);
                 break;
+            case 2://书籍详情
+                Intent intentx=new Intent(getActivity(), BookDetailsActivity.class);
+                intentx.putExtra("id",(String) parameter1);
+                startActivity(intentx);
+                break;
         }
     }
 
@@ -125,18 +129,6 @@ public class FragmentBook extends BaseFragment implements FragmentBookContract.V
     public void getBookDataSuccess(BookShelfBean baseBean,boolean isLoadMore) {
 
         List<BookShelfBean.DataBean.BookBean> dataBeans = baseBean.getData().getBook();
-//        BookShelfBean.DataBean.BookBean bookBean=new BookShelfBean.DataBean.BookBean();
-//        bookBean.setNovelTitle("标题");
-//        bookBean.setNewChapter(2);
-//        bookBean.setNewChapterTitle("更新了这一章节");
-//        bookBean.setNovelPoto("http://59.110.124.41:80/novel_a/novel/7e01e72401d9443d8416f3bb8020070c/ab47b30a7ee74a5db261f78e647502c0.jpg");
-//        dataBeans.add(bookBean);
-//        BookShelfBean.DataBean.BookBean bookBean2=new BookShelfBean.DataBean.BookBean();
-//        bookBean2.setNovelTitle("标题2");
-//        bookBean2.setNewChapter(2);
-//        bookBean2.setNewChapterTitle("更新了这一章节2");
-//        bookBean2.setNovelPoto("http://59.110.124.41:80/novel_a/novel/7e01e72401d9443d8416f3bb8020070c/ab47b30a7ee74a5db261f78e647502c0.jpg");
-//        dataBeans.add(bookBean2);
 
         if (dataBeans != null) {
             if (isLoadMore) {

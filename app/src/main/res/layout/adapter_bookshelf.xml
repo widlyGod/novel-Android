@@ -13,12 +13,14 @@
 
         <ImageView
             android:id="@+id/iv_book"
+            android:clickable="true"
             android:layout_width="171px"
             android:layout_height="228px"
             android:layout_marginLeft="36px" />
 
         <TextView
             android:id="@+id/tv_bookTitle"
+            android:clickable="true"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginLeft="20px"
@@ -29,6 +31,7 @@
 
         <TextView
             android:id="@+id/tv_reUpda"
+            android:clickable="true"
             android:text="最近更新:"
             android:textColor="#999999"
             android:textSize="12sp"

@@ -7,13 +7,11 @@ import android.view.View;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
-
 import com.bumptech.glide.Glide;
 import com.novel.cn.R;
 import com.novel.cn.model.entity.HomeReturnBean;
 import com.novel.cn.ui.home.activity.BookDetailsActivity;
 import com.novel.cn.util.LogUtil;
-import com.novel.cn.util.ToastUtils;
 
 /**
  * Created by jackieli on 2018/12/28.
@@ -89,7 +87,6 @@ public class EditorRcItem extends RelativeLayout {
                     Intent intent=new Intent(contextall, BookDetailsActivity.class);
                     intent.putExtra("id",bean.getNovelId());
                     contextall.startActivity(intent);
-                    ToastUtils.showShortToast("跳转书籍详情");
                 }
             });
 

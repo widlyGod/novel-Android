@@ -233,8 +233,7 @@ public class BookDetailsActivity extends AutoLayoutActivity implements BookDeati
                         ivLeftx.setImageResource(R.drawable.fsdt_tjp);
                         btnSendLeft.setText("送推荐票");
                         btnSendLeft.setCompoundDrawablesWithIntrinsicBounds(getResources().getDrawable(R.drawable.fsdt_jtpx),null,null,null);
-                    }
-                    break;
+                    }break;
                 case 1:
                     tvBzzs.setText("本周砖石");
                     if(list.get(1).getType()==1){
@@ -243,8 +242,7 @@ public class BookDetailsActivity extends AutoLayoutActivity implements BookDeati
                         ivLeftx.setImageResource(R.drawable.fsdt_zs);
                         btnSendLeft.setText("送砖石");
                         btnSendLeft.setCompoundDrawablesWithIntrinsicBounds(getResources().getDrawable(R.drawable.fsdt_zsx),null,null,null);
-                    }
-                    break;
+                    }break;
                 case 2:
                     tvBzps.setText("本周月票");
                     if(list.get(2).getType()==2){
@@ -253,8 +251,7 @@ public class BookDetailsActivity extends AutoLayoutActivity implements BookDeati
                         ivRightx.setImageResource(R.drawable.fsdt_yp);
                         btnSendRight.setText("送月票");
                         btnSendRight.setCompoundDrawablesWithIntrinsicBounds(getResources().getDrawable(R.drawable.fsdt_ypx),null,null,null);
-                    }
-                    break;
+                    }break;
                 case 3:
                     tvBzps.setText("本周打赏");
                     if(list.get(3).getType()==3){
@@ -263,8 +260,7 @@ public class BookDetailsActivity extends AutoLayoutActivity implements BookDeati
                         ivRightx.setImageResource(R.drawable.fsdt_ds);
                         btnSendRight.setText("送打赏");
                         btnSendRight.setCompoundDrawablesWithIntrinsicBounds(getResources().getDrawable(R.drawable.fsdt_dsx),null,null,null);
-                    }
-                    break;
+                    }break;
             }
         }
     }

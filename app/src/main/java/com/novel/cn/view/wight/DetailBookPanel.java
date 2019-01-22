@@ -60,14 +60,12 @@ public class DetailBookPanel extends LinearLayout implements View.OnClickListene
         switch (type){
             case 0: {//粉丝动态
                 tv_specialArea.setText("粉丝动态");
-
                 FansDynamicLayout layout=new FansDynamicLayout(getContext());
                 layout.setGiftsLayout(bean.getData().getFansRewards());
                 addView(layout);
             }break;
             case 1: {//书评
                 tv_specialArea.setText("书评");
-
                 BookReviewLayout layout=new BookReviewLayout(getContext());
                 layout.setCommentLayout(bean.getData().getComment());
                 addView(layout);
@@ -84,7 +82,6 @@ public class DetailBookPanel extends LinearLayout implements View.OnClickListene
                 }
                 addView(layout1);
                 tv_anotherBook.setVisibility(VISIBLE);
-
             }break;
         }
     }

@@ -98,6 +98,27 @@ public class BookShelfAdapter extends BaseQuickAdapter<BookShelfBean.DataBean.Bo
             }
         });
 
+
+        iv_book.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                listener.iteamClickCallback(2,item.getNovelId(),"");
+            }
+        });
+
+        tv_bookTitle.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                listener.iteamClickCallback(2,item.getNovelId(),"");
+            }
+        });
+
+        tv_reUpda.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                listener.iteamClickCallback(2,item.getNovelId(),"");
+            }
+        });
     }
 
 

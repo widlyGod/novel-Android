@@ -18,7 +18,7 @@ public interface CataloglContract extends BaseComtract {
 
     interface View extends BaseView {
         void getVolumesSuccess(VolumesBean bean);
-        void getChaptersSuccess(ChapterBean bean,boolean isLoadMore);
+        void getChaptersSuccess(ChapterBean bean, int pageNum,boolean isLoadMore);
         void fail(String message);
         void noConnectInternet();
     }
@@ -26,7 +26,7 @@ public interface CataloglContract extends BaseComtract {
 
     interface Presenter extends BasePresenter<View> {
         void getVolumes(String novelId);
-        void getChapters(String novelId, String pageNum, String pageSize, String sort, String volume,boolean isLoadMore);
+        void getChapters(String novelId, int pageNum, String pageSize, String sort, String volume,boolean isLoadMore);
     }
 
 }

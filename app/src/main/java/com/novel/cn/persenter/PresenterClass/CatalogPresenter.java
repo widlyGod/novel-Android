@@ -66,10 +66,10 @@ public class CatalogPresenter implements CataloglContract.Presenter {
     }
 
     @Override
-    public void getChapters(String novelId, String pageNum, String pageSize, String sort, String volume, final boolean isLoadMore) {
+    public void getChapters(String novelId, final int pageNum, String pageSize, String sort, String volume, final boolean isLoadMore) {
         JsonUtils jsonUtils = new JsonUtils();
         jsonUtils.addField("novelId", novelId);
-        jsonUtils.addField("pageNum", pageNum);
+        jsonUtils.addField("pageNum", pageNum+"");
         jsonUtils.addField("pageSize", pageSize);
         jsonUtils.addField("sort", sort);
         jsonUtils.addField("volume", volume);
@@ -99,7 +99,7 @@ public class CatalogPresenter implements CataloglContract.Presenter {
 
                     @Override
                     public void onNext(ChapterBean bean) {
-                        view.getChaptersSuccess(bean,isLoadMore);
+                        view.getChaptersSuccess(bean,pageNum,isLoadMore);
                     }
                 });
     }

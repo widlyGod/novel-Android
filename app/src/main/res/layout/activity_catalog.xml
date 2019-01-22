@@ -41,6 +41,7 @@
             <!--android:layout_height="wrap_content" />-->
         <TextView
             android:id="@+id/tv_mulutext"
+            android:clickable="true"
             android:drawablePadding="5dp"
             android:drawableLeft="@drawable/mulu_down"
             android:layout_centerVertical="true"
@@ -93,11 +94,13 @@
             app:pressedBackgroundColor="@color/colorOrange"
             app:radius="6px" />
 
-        <TextView
+        <com.novel.cn.view.wight.CustomTextView
             android:id="@+id/tv_mulu"
+            android:clickable="true"
             android:textColor="#999999"
+            android:paddingLeft="0dp"
             android:drawablePadding="30px"
-            android:paddingLeft="26px"
+            android:text=""
             android:drawableLeft="@drawable/mulu_down2"
             android:background="@drawable/mulu_tv"
             android:textSize="15sp"

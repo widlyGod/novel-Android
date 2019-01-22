@@ -83,7 +83,6 @@ public class FreeBookItem extends RelativeLayout {
                     Intent intent=new Intent(contextall, BookDetailsActivity.class);
                     intent.putExtra("id",bean.getNovelId());
                     contextall.startActivity(intent);
-                    ToastUtils.showShortToast("跳转书籍详情");
                 }
             });
 
@@ -118,7 +117,6 @@ public class FreeBookItem extends RelativeLayout {
                     Intent intent=new Intent(contextall, BookDetailsActivity.class);
                     intent.putExtra("id",bean.getNovelId());
                     contextall.startActivity(intent);
-                    ToastUtils.showShortToast("跳转书籍详情");
                 }
             });
 
