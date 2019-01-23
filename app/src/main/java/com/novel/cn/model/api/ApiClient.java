@@ -14,10 +14,9 @@ import retrofit2.adapter.rxjava.RxJavaCallAdapterFactory;
 public final class ApiClient {
 
 
+    public static final String API_BASE_URL = "http://59.110.124.41/novelapi/";
 
-//    public static final String API_BASE_URL = "http://59.110.124.41/novelapi/";
-
-    public static final String API_BASE_URL = "http://192.168.5.56:8080/novelapi/";
+//    public static final String API_BASE_URL = "http://192.168.5.56:8080/novelapi/";
 
     private ApiClient() {
 

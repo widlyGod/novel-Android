@@ -10,6 +10,7 @@ import android.support.annotation.Nullable;
 import android.text.SpannableString;
 import android.text.Spanned;
 import android.text.style.ForegroundColorSpan;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.CheckBox;
@@ -35,6 +36,7 @@ import com.novel.cn.util.LogUtil;
 import com.novel.cn.util.NumberUtils;
 import com.novel.cn.util.ToastUtils;
 import com.novel.cn.view.wight.DetailBookPanel;
+import com.novel.cn.view.wight.PopWindowReward;
 import com.novel.cn.view.wight.StateButton;
 import com.zhy.autolayout.AutoLayoutActivity;
 
@@ -138,6 +140,8 @@ public class BookDetailsActivity extends AutoLayoutActivity implements BookDeati
     private String novelId;
     PopupWindow popupWindow;
     private TextView popTextView;
+    private PopWindowReward popWindowReward;
+
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -218,6 +222,8 @@ public class BookDetailsActivity extends AutoLayoutActivity implements BookDeati
                 }
             }
         });
+
+        popWindowReward=new PopWindowReward(BookDetailsActivity.this);
     }
 
     //0推荐票  1砖石 2月票 3打赏
@@ -273,11 +279,11 @@ public class BookDetailsActivity extends AutoLayoutActivity implements BookDeati
             case R.id.iv_left:{
                 finish();
             }break;
-            case R.id.btn_share:
+            case R.id.btn_share://分享
                 break;
-            case R.id.sbtn_jxyd:
+            case R.id.sbtn_jxyd://立即阅读
                 break;
-            case R.id.sbtn_jrsj:
+            case R.id.sbtn_jrsj://加入书架
                 break;
             case R.id.iv_zk:{
                 //展开
@@ -309,10 +315,14 @@ public class BookDetailsActivity extends AutoLayoutActivity implements BookDeati
                 popupWindow.showAsDropDown(ivQueLeft, 0, 0);
             }break;
             case R.id.btn_sendLeft:
+                popWindowReward.showAtLocation(BookDetailsActivity.this.getWindow().getDecorView(), Gravity.CENTER, 0, 0);
+                popWindowReward.tablayout.setScrollPosition(rbTjp.isChecked()?0:1,0,true);
                 break;
             case R.id.iv_queRight:
                 break;
             case R.id.btn_sendRight:
+                popWindowReward.showAtLocation(BookDetailsActivity.this.getWindow().getDecorView(), Gravity.CENTER, 0, 0);
+                popWindowReward.tablayout.setScrollPosition(rbYp.isChecked()?2:3,0,true);
                 break;
             case R.id.iv_zj:{
 
