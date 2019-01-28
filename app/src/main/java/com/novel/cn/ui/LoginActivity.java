@@ -509,7 +509,6 @@ public class LoginActivity extends AutoLayoutActivity implements LoginContract.V
             SharePrefUtil.saveString(this,"sessionId",data.getData().getSessionId());
             SharePrefUtil.saveString(getApplicationContext(),"user",new Gson().toJson(data.getData()));
             finish();
-
         }else{
             tv_messagelogin.setText(data.getMessage());
         }

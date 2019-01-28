@@ -1,5 +1,8 @@
 package com.novel.cn.app;
 
+import com.novel.cn.view.readView.AppUtils;
+import com.novel.cn.view.readView.FileUtils;
+
 /**
  * Created by jackieli on 2018/12/19.
  */
@@ -25,7 +28,14 @@ public class Constants {
             "\n" +
             "通过订阅消费或者打赏消费获取，每满500阅读币，赠送1颗钻石，上不封顶";
 
-
-
+    public static final String ISNIGHT = "isNight";
+//    public static String PATH_DATA = FileUtils.createRootPath(AppUtils.getAppContext()) + "/cache";
+//    public static String PATH_TXT = PATH_DATA + "/book/";
+//    public static final String SUFFIX_ZIP = ".zip";
+//    public static String PATH_EPUB = PATH_DATA + "/epub";
+    public static String PATH_DATA ="";
+    public static String PATH_TXT ="";
+    public static final String SUFFIX_ZIP  ="";
+    public static String PATH_EPUB ="";
 
 }

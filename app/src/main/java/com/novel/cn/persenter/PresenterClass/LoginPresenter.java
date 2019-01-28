@@ -119,6 +119,8 @@ public class LoginPresenter implements LoginContract.Presenter {
         jsonUtils.addField("keyword", keyword);
         jsonUtils.addField("userPassword", userPwd);
         String bodyString = jsonUtils.build().toString();
+        LogUtil.e("login="+bodyString);
+
         RequestBody body= RequestBody.create(okhttp3.MediaType.parse("application/json; charset=utf-8"),bodyString);
         ApiClient.service.login(body)
                 .subscribeOn(Schedulers.io())

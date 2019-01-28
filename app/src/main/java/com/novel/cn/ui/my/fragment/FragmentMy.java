@@ -22,6 +22,7 @@ import com.novel.cn.model.entity.UserBean;
 import com.novel.cn.persenter.Contract.FragmentMyContract;
 import com.novel.cn.persenter.PresenterClass.FragmentMyPresenter;
 import com.novel.cn.ui.LoginActivity;
+import com.novel.cn.ui.book.activity.TestInfoActivity;
 import com.novel.cn.util.LogUtil;
 import com.novel.cn.util.SharePrefUtil;
 import com.novel.cn.util.ToastUtils;
@@ -190,8 +191,8 @@ public class FragmentMy extends BaseFragment implements FragmentMyContract.View 
     public void onViewClicked(View view) {
         switch (view.getId()) {
             case R.id.rl_tx: {
-
-
+                Intent intent=new Intent(getActivity(), TestInfoActivity.class);
+                startActivity(intent);
             }
             break;
             case R.id.tv_cz: {

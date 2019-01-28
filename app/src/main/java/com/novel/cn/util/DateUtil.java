@@ -765,7 +765,7 @@ public class DateUtil {
 	 * 
 	 * @param date
 	 *            日期字符串
-	 * @return 时间
+	 * @return read_time
 	 */
 	public static String getTime(String date) {
 		return StringToString(date, DateStyle.HH_MM_SS);
@@ -776,7 +776,7 @@ public class DateUtil {
 	 * 
 	 * @param date
 	 *            日期
-	 * @return 时间
+	 * @return read_time
 	 */
 	public static String getTime(Date date) {
 		return DateToString(date, DateStyle.HH_MM_SS);
@@ -787,7 +787,7 @@ public class DateUtil {
 	 * 
 	 * @param date
 	 *            日期字符串
-	 * @return 时间
+	 * @return read_time
 	 */
 	public static String getDateTime(String date) {
 		return StringToString(date, DateStyle.YYYY_MM_DD_HH_MM_SS);
@@ -798,7 +798,7 @@ public class DateUtil {
 	 * 
 	 * @param date
 	 *            日期
-	 * @return 时间
+	 * @return read_time
 	 */
 	public static String getDateTime(Date date) {
 		return DateToString(date, DateStyle.YYYY_MM_DD_HH_MM_SS);

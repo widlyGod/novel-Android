@@ -16,7 +16,16 @@
             android:id="@+id/iv_left"
             style="@style/iv_back" />
 
+        <!--
+        typeface
+        noraml （普通字体,系统默认使用的字体）
+        sans（非衬线字体）
+        serif （衬线字体）
+        monospace（等宽字体）
+        -->
+
         <TextView
+            android:id="@+id/tv_title"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerInParent="true"
@@ -25,294 +34,313 @@
             android:textSize="17sp" />
     </RelativeLayout>
 
-
-    <ScrollView
+    <com.fingdo.statelayout.StateLayout
+        android:id="@+id/state_layout"
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        app:emptyImg="@drawable/ic_state_empty"
+        app:emptyText="暂无数据"
+        app:errorImg="@drawable/ic_state_error"
+        app:errorText="Error"
+        app:loadingText="Loading..."
+        app:loginImg="@drawable/ic_state_login"
+        app:loginText="Sign in"
+        app:noNetworkImg="@drawable/ic_state_no_network"
+        app:noNetworkText="网络出现问题"
+        app:timeOutImg="@drawable/ic_state_time_out"
+        app:timeOutText="Timeout">
 
-        <LinearLayout
-            android:id="@+id/ll_bookdetail"
+        <ScrollView
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:background="@color/white"
-            android:orientation="vertical">
-
-            <RelativeLayout
-                android:id="@+id/rl_free"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="60px">
-
-                <ImageView
-                    android:id="@+id/iv_book"
-                    android:layout_width="171px"
-                    android:layout_height="228px"
-                    android:layout_marginLeft="30px" />
-
-                <TextView
-                    android:id="@+id/tv_num"
-                    android:layout_width="48px"
-                    android:layout_height="30px"
-                    android:layout_alignParentTop="true"
-                    android:layout_alignStart="@+id/iv_book"
-                    android:gravity="center"
-                    android:textColor="@android:color/white"
-                    android:textSize="9sp" />
-
-                <TextView
-                    android:id="@+id/tv_novelTitle"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginLeft="20px"
-                    android:layout_toRightOf="@+id/iv_book"
-                    android:text="测试标题"
-                    android:textColor="#333333"
-                    android:textSize="13sp" />
-
-
-                <ImageView
-                    android:id="@+id/btn_share"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_alignParentRight="true"
-                    android:layout_marginRight="60px"
-                    android:layout_marginTop="50px"
-                    android:src="@drawable/detail_share" />
-
-                <RelativeLayout
-                    android:id="@+id/rl_zuozhe"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_below="@+id/tv_novelTitle"
-                    android:layout_marginTop="16px"
-                    android:layout_toRightOf="@+id/iv_book">
-
-                    <TextView
-                        android:id="@+id/tv_novelAuthor"
-                        android:layout_width="150dp"
-                        android:layout_height="wrap_content"
-                        android:layout_centerVertical="true"
-                        android:layout_marginLeft="20px"
-                        android:text="作者  著"
-                        android:textColor="#fc9924"
-                        android:textSize="12sp" />
-
-                </RelativeLayout>
-
-                <TextView
-                    android:id="@+id/tv_type"
-                    android:layout_width="70px"
-                    android:layout_height="35px"
-                    android:layout_below="@+id/rl_zuozhe"
-                    android:layout_marginLeft="20px"
-                    android:layout_marginTop="15px"
-                    android:layout_toRightOf="@+id/iv_book"
-                    android:background="@drawable/shape_typebook"
-                    android:gravity="center"
-                    android:text="玄幻"
-                    android:textColor="#fd6369"
-                    android:textSize="10sp" />
-
-                <com.novel.cn.view.wight.StateButton
-                    android:id="@+id/tv_lianzai"
-                    android:layout_width="75px"
-                    android:layout_height="35px"
-                    android:layout_below="@+id/rl_zuozhe"
-                    android:layout_marginLeft="20px"
-                    android:layout_marginTop="15px"
-                    android:layout_toRightOf="@+id/tv_type"
-                    android:background="@null"
-                    android:minHeight="0dp"
-                    android:text="连载中"
-                    android:textColor="#01C78A"
-                    android:textSize="10sp"
-                    app:normalStrokeColor="#01C78A"
-                    app:normalStrokeWidth="1px"
-                    app:normalTextColor="#01C78A"
-                    app:radius="10px" />
-
-                <TextView
-                    android:id="@+id/tv_zishu"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_below="@+id/tv_type"
-                    android:layout_marginLeft="20px"
-                    android:layout_marginRight="30px"
-                    android:layout_marginTop="26px"
-                    android:layout_toRightOf="@+id/iv_book"
-                    android:ellipsize="end"
-                    android:maxLines="2"
-                    android:text="小说字数"
-                    android:textColor="#999999"
-                    android:textSize="12sp" />
-            </RelativeLayout>
-
+            android:layout_height="match_parent">
 
             <LinearLayout
+                android:id="@+id/ll_bookdetail"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="40px"
-                android:orientation="horizontal">
-
-                <com.novel.cn.view.wight.StateButton
-                    android:id="@+id/sbtn_jxyd"
-                    android:layout_width="186px"
-                    android:layout_height="66px"
-                    android:layout_marginLeft="30px"
-                    android:background="@null"
-                    android:minHeight="0dp"
-                    android:gravity="center"
-                    android:text="立即阅读"
-                    android:textSize="13sp"
-                    app:normalBackgroundColor="@color/colorOrange"
-                    app:normalTextColor="#ffffff"
-                    app:pressedBackgroundColor="@color/colorOrange"
-                    app:radius="4px" />
-
-                <com.novel.cn.view.wight.StateButton
-                    android:id="@+id/sbtn_jrsj"
-                    android:layout_width="186px"
-                    android:layout_height="66px"
-                    android:layout_marginLeft="30px"
-                    android:background="@null"
-                    android:gravity="center"
-                    android:minHeight="0dp"
-                    android:text="加入书架"
-                    android:textSize="13sp"
-                    app:normalStrokeColor="#cccccc"
-                    app:normalStrokeWidth="2px"
-                    app:normalTextColor="#666666"
-                    app:radius="4px" />
-
-                <CheckBox
-                    android:id="@+id/cb_zd"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center"
-                    android:layout_marginLeft="70px"
-                    android:button="@null"
-                    android:drawableLeft="@drawable/cb_bookdetailzd"
-                    android:text="自动订阅"
-                    android:textSize="11sp" />
-
-                <ImageView
-                    android:id="@+id/iv_zddy"
-                    android:clickable="true"
-                    android:padding="7dp"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center"
-                    android:layout_marginLeft="12px"
-                    android:src="@drawable/detail_que" />
-            </LinearLayout>
-
-
-            <TextView
-                android:id="@+id/tv_detail"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="36px"
-                android:layout_marginRight="60px"
-                android:layout_marginTop="56px"
-                android:ellipsize="end"
-                android:maxLines="2"
-                android:textColor="#999999"
-                android:textSize="12sp" />
-
-
-            <TextView
-                android:id="@+id/iv_zk"
-                android:clickable="true"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="right"
-                android:layout_marginBottom="50px"
-                android:layout_marginRight="36px"
-                android:layout_marginTop="10px"
-                android:drawablePadding="5dp"
-                android:drawableRight="@drawable/down"
-                android:text="展开" />
-
-
-            <View
-                android:layout_width="match_parent"
-                android:layout_height="20px"
-                android:background="#f3f3f3" />
-
-
-            <RelativeLayout
-                android:id="@+id/rl_ml"
-                android:layout_width="match_parent"
-                android:layout_height="158px"
-                android:clickable="true">
+                android:layout_height="match_parent"
+                android:background="@color/white"
+                android:orientation="vertical">
 
                 <RelativeLayout
+                    android:id="@+id/rl_free"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_centerVertical="true">
+                    android:layout_marginTop="60px">
 
                     <ImageView
-                        android:layout_width="10px"
-                        android:layout_height="45px"
-                        android:background="#4DD8AD" />
+                        android:id="@+id/iv_book"
+                        android:layout_width="171px"
+                        android:layout_height="228px"
+                        android:layout_marginLeft="30px" />
 
                     <TextView
-                        android:id="@+id/tv_ml"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginLeft="36px"
-                        android:text="目录 最新章节：第一章"
-                        android:textColor="@color/colorGrary"
-                        android:textSize="14sp" />
+                        android:id="@+id/tv_num"
+                        android:layout_width="48px"
+                        android:layout_height="30px"
+                        android:layout_alignParentTop="true"
+                        android:layout_alignStart="@+id/iv_book"
+                        android:gravity="center"
+                        android:textColor="@android:color/white"
+                        android:textSize="9sp" />
 
+                    <!--测试标题-->
                     <TextView
-                        android:id="@+id/tv_time"
+                        android:id="@+id/tv_novelTitle"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_below="@+id/tv_ml"
-                        android:layout_marginLeft="50dp"
-                        android:layout_marginTop="14px"
-                        android:text="时间"
-                        android:textSize="12sp" />
+                        android:layout_marginLeft="20px"
+                        android:layout_toRightOf="@+id/iv_book"
+                        android:text=""
+                        android:textColor="#333333"
+                        android:textSize="13sp" />
+
 
                     <ImageView
-                        android:id="@+id/iv_zj"
-                        android:clickable="true"
-                        android:padding="5dp"
+                        android:id="@+id/btn_share"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_alignParentRight="true"
-                        android:layout_marginRight="36px"
-                        android:src="@drawable/right" />
+                        android:layout_marginRight="60px"
+                        android:layout_marginTop="50px"
+                        android:src="@drawable/detail_share" />
+
+                    <RelativeLayout
+                        android:id="@+id/rl_zuozhe"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_below="@+id/tv_novelTitle"
+                        android:layout_marginTop="16px"
+                        android:layout_toRightOf="@+id/iv_book">
+                        <!--作者  著-->
+                        <TextView
+                            android:id="@+id/tv_novelAuthor"
+                            android:layout_width="150dp"
+                            android:layout_height="wrap_content"
+                            android:layout_centerVertical="true"
+                            android:layout_marginLeft="20px"
+                            android:text=""
+                            android:textColor="#fc9924"
+                            android:textSize="12sp" />
+
+                    </RelativeLayout>
+
+                    <!--玄幻 连载中  小说字数-->
+                    <TextView
+                        android:id="@+id/tv_type"
+                        android:layout_width="70px"
+                        android:layout_height="35px"
+                        android:layout_below="@+id/rl_zuozhe"
+                        android:layout_marginLeft="20px"
+                        android:layout_marginTop="15px"
+                        android:layout_toRightOf="@+id/iv_book"
+                        android:background="@drawable/shape_typebook"
+                        android:gravity="center"
+                        android:text=""
+                        android:textColor="#fd6369"
+                        android:textSize="10sp" />
+
+                    <com.novel.cn.view.wight.StateButton
+                        android:id="@+id/tv_lianzai"
+                        android:layout_width="75px"
+                        android:layout_height="35px"
+                        android:layout_below="@+id/rl_zuozhe"
+                        android:layout_marginLeft="20px"
+                        android:layout_marginTop="15px"
+                        android:layout_toRightOf="@+id/tv_type"
+                        android:background="@null"
+                        android:minHeight="0dp"
+                        android:text=""
+                        android:textColor="#01C78A"
+                        android:textSize="10sp"
+                        app:normalStrokeColor="#01C78A"
+                        app:normalStrokeWidth="1px"
+                        app:normalTextColor="#01C78A"
+                        app:radius="10px" />
+
+                    <TextView
+                        android:id="@+id/tv_zishu"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_below="@+id/tv_type"
+                        android:layout_marginLeft="20px"
+                        android:layout_marginRight="30px"
+                        android:layout_marginTop="26px"
+                        android:layout_toRightOf="@+id/iv_book"
+                        android:ellipsize="end"
+                        android:maxLines="2"
+                        android:text=""
+                        android:textColor="#999999"
+                        android:textSize="12sp" />
                 </RelativeLayout>
-            </RelativeLayout>
 
 
-            <View
-                android:layout_width="match_parent"
-                android:layout_height="20px"
-                android:background="#f3f3f3" />
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="40px"
+                    android:orientation="horizontal">
+
+                    <com.novel.cn.view.wight.StateButton
+                        android:id="@+id/sbtn_jxyd"
+                        android:layout_width="186px"
+                        android:layout_height="66px"
+                        android:layout_marginLeft="30px"
+                        android:background="@null"
+                        android:gravity="center"
+                        android:minHeight="0dp"
+                        android:text="立即阅读"
+                        android:textSize="13sp"
+                        app:normalBackgroundColor="@color/colorOrange"
+                        app:normalTextColor="#ffffff"
+                        app:pressedBackgroundColor="@color/colorOrange"
+                        app:radius="4px" />
+
+                    <com.novel.cn.view.wight.StateButton
+                        android:id="@+id/sbtn_jrsj"
+                        android:layout_width="186px"
+                        android:layout_height="66px"
+                        android:layout_marginLeft="30px"
+                        android:background="@null"
+                        android:gravity="center"
+                        android:minHeight="0dp"
+                        android:text="加入书架"
+                        android:textSize="13sp"
+                        app:normalStrokeColor="#cccccc"
+                        app:normalStrokeWidth="2px"
+                        app:normalTextColor="#666666"
+                        app:radius="4px" />
+
+                    <CheckBox
+                        android:id="@+id/cb_zd"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:layout_marginLeft="70px"
+                        android:button="@null"
+                        android:drawableLeft="@drawable/cb_bookdetailzd"
+                        android:text="自动订阅"
+                        android:textSize="11sp" />
+
+                    <ImageView
+                        android:id="@+id/iv_zddy"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:layout_marginLeft="12px"
+                        android:clickable="true"
+                        android:padding="7dp"
+                        android:src="@drawable/detail_que" />
+                </LinearLayout>
 
 
-            <!--打赏-->
-            <include
-                layout="@layout/layout_dashang"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content" />
-
-            <View
-                android:layout_width="match_parent"
-                android:layout_height="20px"
-                android:background="#f3f3f3" />
-            <!--粉丝动态-->
-
-
-            <!--书评-->
+                <TextView
+                    android:id="@+id/tv_detail"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="36px"
+                    android:layout_marginRight="60px"
+                    android:layout_marginTop="56px"
+                    android:ellipsize="end"
+                    android:maxLines="2"
+                    android:textColor="#999999"
+                    android:textSize="12sp" />
 
 
-            <!--主编推荐-->
+                <TextView
+                    android:id="@+id/iv_zk"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="right"
+                    android:layout_marginBottom="50px"
+                    android:layout_marginRight="36px"
+                    android:layout_marginTop="10px"
+                    android:clickable="true"
+                    android:drawablePadding="5dp"
+                    android:drawableRight="@drawable/down"
+                    android:text="展开" />
 
 
-        </LinearLayout>
-    </ScrollView>
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="20px"
+                    android:background="#f3f3f3" />
+
+
+                <RelativeLayout
+                    android:id="@+id/rl_ml"
+                    android:layout_width="match_parent"
+                    android:layout_height="158px"
+                    android:clickable="true">
+
+                    <RelativeLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_centerVertical="true">
+
+                        <ImageView
+                            android:layout_width="10px"
+                            android:layout_height="45px"
+                            android:background="#4DD8AD" />
+
+                        <!--  目录 最新章节：第一章  -->
+                        <TextView
+                            android:id="@+id/tv_ml"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginLeft="36px"
+                            android:text=""
+                            android:textColor="@color/colorGrary"
+                            android:textSize="14sp" />
+                        <!--  时间  -->
+                        <TextView
+                            android:id="@+id/tv_time"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_below="@+id/tv_ml"
+                            android:layout_marginLeft="50dp"
+                            android:layout_marginTop="14px"
+                            android:text=""
+                            android:textSize="12sp" />
+
+                        <ImageView
+                            android:id="@+id/iv_zj"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_alignParentRight="true"
+                            android:layout_marginRight="36px"
+                            android:clickable="true"
+                            android:padding="5dp"
+                            android:src="@drawable/right" />
+                    </RelativeLayout>
+                </RelativeLayout>
+
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="20px"
+                    android:background="#f3f3f3" />
+
+
+                <include
+                    layout="@layout/layout_dashang"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content" />
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="20px"
+                    android:background="#f3f3f3" />
+                <!--粉丝动态-->
+
+
+                <!--书评-->
+
+
+                <!--主编推荐-->
+
+
+            </LinearLayout>
+        </ScrollView>
+    </com.fingdo.statelayout.StateLayout>
+
 </LinearLayout>

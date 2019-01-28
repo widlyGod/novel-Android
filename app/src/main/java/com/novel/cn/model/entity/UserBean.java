@@ -58,6 +58,7 @@ public class UserBean {
     private String newPwd;
     private String openId;
     private String qqOpenId;
+    //角色编码（100普通用户，101管理，102编辑）
     private int recodeCode;
     private String sessionId;
     private String sinawebOpenId;

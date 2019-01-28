@@ -17,7 +17,7 @@ public class BookDetailBean {
     /**
      * basePage : null
      * code : 1
-     * data : {"novelInfo":{"novelPhoto":"/novel_a/novel/7e01e72401d9443d8416f3bb8020070c/ab47b30a7ee74a5db261f78e647502c0.jpg","isCollection":"true","novelWords":"7208","novelType":"科幻","novelTitle":"作者创建独家首发无卷小说001","authorId":"235","novelIntro":"作者创建独家首发无卷小说001","novelId":"7e01e72401d9443d8416f3bb8020070c","isSubscibe":"false","novelAuthor":"tianx","isOver":"0","haveVolumes":"0","clickNum":"8"},"newChapter":{"chapter":"2","publishTime":"2018-11-08 16:04","isFree":"0","money":"12","id":"cbc4d4b7eaf1404ab9b176c8162acbf1","title":"test001"},"gifts":[{"novelId":"7e01e72401d9443d8416f3bb8020070c","rewardCount":"0","rank":"5","difference":"0","type":0},{"novelId":"7e01e72401d9443d8416f3bb8020070c","rewardCount":"0","rank":"4","difference":"0","type":1},{"novelId":"7e01e72401d9443d8416f3bb8020070c","rewardCount":"1","rank":"8","difference":"1","type":2},{"novelId":"7e01e72401d9443d8416f3bb8020070c","rewardCount":"0","difference":"0","rank":null,"type":3}],"fansRewards":[{"novelId":"7e01e72401d9443d8416f3bb8020070c","rewardCount":"10","rewardType":"阅读币","fansName":"普通账号2"},{"novelId":"7e01e72401d9443d8416f3bb8020070c","rewardCount":"10","rewardType":"阅读币","fansName":"普通账号2"},{"novelId":"7e01e72401d9443d8416f3bb8020070c","rewardCount":"1","rewardType":"推荐票","fansName":"读者123"},{"novelId":"7e01e72401d9443d8416f3bb8020070c","rewardCount":"1","rewardType":"钻石","fansName":"1"},{"novelId":"7e01e72401d9443d8416f3bb8020070c","rewardCount":"1","rewardType":"月票","fansName":"1"}],"comment":{"comments":[],"totalCount":0},"editorRecommend":[{"novelId":"fd1dc45252b6493bb9be18133be42164","novelPhoto":"http://59.110.124.41:80/novel_a/novel/fd1dc45252b6493bb9be18133be42164/novel_img_1543892370367_0.jpg","novelTitle":"有卷小说002"},{"novelId":"7e01e72401d9443d8416f3bb8020070c","novelPhoto":"http://59.110.124.41:80/novel_a/novel/7e01e72401d9443d8416f3bb8020070c/ab47b30a7ee74a5db261f78e647502c0.jpg","novelTitle":"作者创建独家首发无卷小说001"},{"novelId":"80bd05450ceb4233b90450fb351a8e7e","novelPhoto":"http://59.110.124.41:80/novel_b/novel/80bd05450ceb4233b90450fb351a8e7e/d6ebeee535084179af3eb07a3f1d1ba8.png","novelTitle":"管理员创建驻站作品小说001"},{"novelId":"2c62f4d9fca546428daabdd2d954a406","novelPhoto":"http://59.110.124.41:80/novel_a/novel/2c62f4d9fca546428daabdd2d954a406/c8a389bb8f854d088b33007f14703dab.jpg","novelTitle":"有卷驻站"},{"novelId":"4b82610b3aa14b699005f6559a0c8081","novelPhoto":"http://59.110.124.41:80/novel_a/novel/4b82610b3aa14b699005f6559a0c8081/1328648741ac49cf9951fc9f02e54a26.png","novelTitle":"管理员创建独家首发免费小说001"}]}
+     * data : {"novelInfo":{"readingVolumeInfo":{"volume":1,"volumeTitle":"我是第一卷","readingChapterInfo":{"chapter":1,"isFree":0,"money":36,"chapterId":"6d3ddaebd959496cb624e37d4bba841b","isLocked":"false","chapterTitle":"第一章"},"volumeId":"882570f2901c4daf8d1b575ae74395e3"},"novelPhoto":"http://59.110.124.41:80/novel_a/novel/784ea9dcd71148dd9e177715a0eac565/novel_img_1542013957535_0.jpg","isCollection":"false","isRead":false,"novelWords":"12572","novelType":"武侠","novelTitle":"有卷连号","authorId":"234","novelIntro":"555555","novelId":"784ea9dcd71148dd9e177715a0eac565","isSubscibe":"false","novelAuthor":"我是大作家","isOver":"0","haveVolumes":"1","clickNum":"0"},"newChapter":{"chapter":"2","publishTime":"2018-12-18 15:20","isFree":"0","money":"36","id":"f26fd328649a4ece8969a0790ad47ba3","title":"李乐传"},"gifts":[{"novelId":"784ea9dcd71148dd9e177715a0eac565","rewardCount":"1","rank":"2","difference":"1","type":0},{"novelId":"784ea9dcd71148dd9e177715a0eac565","rewardCount":"0","rank":"65","difference":"0","type":1},{"novelId":"784ea9dcd71148dd9e177715a0eac565","rewardCount":"0","rank":"70","difference":"0","type":2},{"novelId":"784ea9dcd71148dd9e177715a0eac565","rewardCount":"2","difference":"2","rank":null,"type":3}],"fansRewards":[{"novelId":"784ea9dcd71148dd9e177715a0eac565","rewardCount":"10","rewardType":"阅读币","fansName":"admin"},{"novelId":"784ea9dcd71148dd9e177715a0eac565","rewardCount":"500","rewardType":"阅读币","fansName":"编辑123"},{"novelId":"784ea9dcd71148dd9e177715a0eac565","rewardCount":"10","rewardType":"阅读币","fansName":"编辑123"},{"novelId":"784ea9dcd71148dd9e177715a0eac565","rewardCount":"10","rewardType":"阅读币","fansName":"编辑123"},{"novelId":"784ea9dcd71148dd9e177715a0eac565","rewardCount":"1","rewardType":"推荐票","fansName":"编辑123"}],"comment":{"comments":[],"totalCount":0},"editorRecommend":[{"novelId":"784ea9dcd71148dd9e177715a0eac565","novelPhoto":"http://59.110.124.41:80/novel_a/novel/784ea9dcd71148dd9e177715a0eac565/novel_img_1542013957535_0.jpg","novelTitle":"有卷连号"},{"novelId":"7e01e72401d9443d8416f3bb8020070c","novelPhoto":"http://59.110.124.41:80/novel_a/novel/7e01e72401d9443d8416f3bb8020070c/ab47b30a7ee74a5db261f78e647502c0.jpg","novelTitle":"作者创建独家首发无卷小说001"},{"novelId":"80bd05450ceb4233b90450fb351a8e7e","novelPhoto":"http://59.110.124.41:80/novel_b/novel/80bd05450ceb4233b90450fb351a8e7e/d6ebeee535084179af3eb07a3f1d1ba8.png","novelTitle":"管理员创建驻站作品小说001"},{"novelId":"2c62f4d9fca546428daabdd2d954a406","novelPhoto":"http://59.110.124.41:80/novel_a/novel/2c62f4d9fca546428daabdd2d954a406/c8a389bb8f854d088b33007f14703dab.jpg","novelTitle":"有卷驻站"},{"novelId":"4b82610b3aa14b699005f6559a0c8081","novelPhoto":"http://59.110.124.41:80/novel_a/novel/4b82610b3aa14b699005f6559a0c8081/1328648741ac49cf9951fc9f02e54a26.png","novelTitle":"管理员创建独家首发免费小说001"}]}
      * message : 查询成功
      * success : true
      */
@@ -83,12 +83,12 @@ public class BookDetailBean {
 
     public static class DataBean {
         /**
-         * novelInfo : {"novelPhoto":"/novel_a/novel/7e01e72401d9443d8416f3bb8020070c/ab47b30a7ee74a5db261f78e647502c0.jpg","isCollection":"true","novelWords":"7208","novelType":"科幻","novelTitle":"作者创建独家首发无卷小说001","authorId":"235","novelIntro":"作者创建独家首发无卷小说001","novelId":"7e01e72401d9443d8416f3bb8020070c","isSubscibe":"false","novelAuthor":"tianx","isOver":"0","haveVolumes":"0","clickNum":"8"}
-         * newChapter : {"chapter":"2","publishTime":"2018-11-08 16:04","isFree":"0","money":"12","id":"cbc4d4b7eaf1404ab9b176c8162acbf1","title":"test001"}
-         * gifts : [{"novelId":"7e01e72401d9443d8416f3bb8020070c","rewardCount":"0","rank":"5","difference":"0","type":0},{"novelId":"7e01e72401d9443d8416f3bb8020070c","rewardCount":"0","rank":"4","difference":"0","type":1},{"novelId":"7e01e72401d9443d8416f3bb8020070c","rewardCount":"1","rank":"8","difference":"1","type":2},{"novelId":"7e01e72401d9443d8416f3bb8020070c","rewardCount":"0","difference":"0","rank":null,"type":3}]
-         * fansRewards : [{"novelId":"7e01e72401d9443d8416f3bb8020070c","rewardCount":"10","rewardType":"阅读币","fansName":"普通账号2"},{"novelId":"7e01e72401d9443d8416f3bb8020070c","rewardCount":"10","rewardType":"阅读币","fansName":"普通账号2"},{"novelId":"7e01e72401d9443d8416f3bb8020070c","rewardCount":"1","rewardType":"推荐票","fansName":"读者123"},{"novelId":"7e01e72401d9443d8416f3bb8020070c","rewardCount":"1","rewardType":"钻石","fansName":"1"},{"novelId":"7e01e72401d9443d8416f3bb8020070c","rewardCount":"1","rewardType":"月票","fansName":"1"}]
+         * novelInfo : {"readingVolumeInfo":{"volume":1,"volumeTitle":"我是第一卷","readingChapterInfo":{"chapter":1,"isFree":0,"money":36,"chapterId":"6d3ddaebd959496cb624e37d4bba841b","isLocked":"false","chapterTitle":"第一章"},"volumeId":"882570f2901c4daf8d1b575ae74395e3"},"novelPhoto":"http://59.110.124.41:80/novel_a/novel/784ea9dcd71148dd9e177715a0eac565/novel_img_1542013957535_0.jpg","isCollection":"false","isRead":false,"novelWords":"12572","novelType":"武侠","novelTitle":"有卷连号","authorId":"234","novelIntro":"555555","novelId":"784ea9dcd71148dd9e177715a0eac565","isSubscibe":"false","novelAuthor":"我是大作家","isOver":"0","haveVolumes":"1","clickNum":"0"}
+         * newChapter : {"chapter":"2","publishTime":"2018-12-18 15:20","isFree":"0","money":"36","id":"f26fd328649a4ece8969a0790ad47ba3","title":"李乐传"}
+         * gifts : [{"novelId":"784ea9dcd71148dd9e177715a0eac565","rewardCount":"1","rank":"2","difference":"1","type":0},{"novelId":"784ea9dcd71148dd9e177715a0eac565","rewardCount":"0","rank":"65","difference":"0","type":1},{"novelId":"784ea9dcd71148dd9e177715a0eac565","rewardCount":"0","rank":"70","difference":"0","type":2},{"novelId":"784ea9dcd71148dd9e177715a0eac565","rewardCount":"2","difference":"2","rank":null,"type":3}]
+         * fansRewards : [{"novelId":"784ea9dcd71148dd9e177715a0eac565","rewardCount":"10","rewardType":"阅读币","fansName":"admin"},{"novelId":"784ea9dcd71148dd9e177715a0eac565","rewardCount":"500","rewardType":"阅读币","fansName":"编辑123"},{"novelId":"784ea9dcd71148dd9e177715a0eac565","rewardCount":"10","rewardType":"阅读币","fansName":"编辑123"},{"novelId":"784ea9dcd71148dd9e177715a0eac565","rewardCount":"10","rewardType":"阅读币","fansName":"编辑123"},{"novelId":"784ea9dcd71148dd9e177715a0eac565","rewardCount":"1","rewardType":"推荐票","fansName":"编辑123"}]
          * comment : {"comments":[],"totalCount":0}
-         * editorRecommend : [{"novelId":"fd1dc45252b6493bb9be18133be42164","novelPhoto":"http://59.110.124.41:80/novel_a/novel/fd1dc45252b6493bb9be18133be42164/novel_img_1543892370367_0.jpg","novelTitle":"有卷小说002"},{"novelId":"7e01e72401d9443d8416f3bb8020070c","novelPhoto":"http://59.110.124.41:80/novel_a/novel/7e01e72401d9443d8416f3bb8020070c/ab47b30a7ee74a5db261f78e647502c0.jpg","novelTitle":"作者创建独家首发无卷小说001"},{"novelId":"80bd05450ceb4233b90450fb351a8e7e","novelPhoto":"http://59.110.124.41:80/novel_b/novel/80bd05450ceb4233b90450fb351a8e7e/d6ebeee535084179af3eb07a3f1d1ba8.png","novelTitle":"管理员创建驻站作品小说001"},{"novelId":"2c62f4d9fca546428daabdd2d954a406","novelPhoto":"http://59.110.124.41:80/novel_a/novel/2c62f4d9fca546428daabdd2d954a406/c8a389bb8f854d088b33007f14703dab.jpg","novelTitle":"有卷驻站"},{"novelId":"4b82610b3aa14b699005f6559a0c8081","novelPhoto":"http://59.110.124.41:80/novel_a/novel/4b82610b3aa14b699005f6559a0c8081/1328648741ac49cf9951fc9f02e54a26.png","novelTitle":"管理员创建独家首发免费小说001"}]
+         * editorRecommend : [{"novelId":"784ea9dcd71148dd9e177715a0eac565","novelPhoto":"http://59.110.124.41:80/novel_a/novel/784ea9dcd71148dd9e177715a0eac565/novel_img_1542013957535_0.jpg","novelTitle":"有卷连号"},{"novelId":"7e01e72401d9443d8416f3bb8020070c","novelPhoto":"http://59.110.124.41:80/novel_a/novel/7e01e72401d9443d8416f3bb8020070c/ab47b30a7ee74a5db261f78e647502c0.jpg","novelTitle":"作者创建独家首发无卷小说001"},{"novelId":"80bd05450ceb4233b90450fb351a8e7e","novelPhoto":"http://59.110.124.41:80/novel_b/novel/80bd05450ceb4233b90450fb351a8e7e/d6ebeee535084179af3eb07a3f1d1ba8.png","novelTitle":"管理员创建驻站作品小说001"},{"novelId":"2c62f4d9fca546428daabdd2d954a406","novelPhoto":"http://59.110.124.41:80/novel_a/novel/2c62f4d9fca546428daabdd2d954a406/c8a389bb8f854d088b33007f14703dab.jpg","novelTitle":"有卷驻站"},{"novelId":"4b82610b3aa14b699005f6559a0c8081","novelPhoto":"http://59.110.124.41:80/novel_a/novel/4b82610b3aa14b699005f6559a0c8081/1328648741ac49cf9951fc9f02e54a26.png","novelTitle":"管理员创建独家首发免费小说001"}]
          */
 
         private NovelInfoBean novelInfo;
@@ -161,23 +161,27 @@ public class BookDetailBean {
 
         public static class NovelInfoBean {
             /**
-             * novelPhoto : /novel_a/novel/7e01e72401d9443d8416f3bb8020070c/ab47b30a7ee74a5db261f78e647502c0.jpg
-             * isCollection : true
-             * novelWords : 7208
-             * novelType : 科幻
-             * novelTitle : 作者创建独家首发无卷小说001
-             * authorId : 235
-             * novelIntro : 作者创建独家首发无卷小说001
-             * novelId : 7e01e72401d9443d8416f3bb8020070c
+             * readingVolumeInfo : {"volume":1,"volumeTitle":"我是第一卷","readingChapterInfo":{"chapter":1,"isFree":0,"money":36,"chapterId":"6d3ddaebd959496cb624e37d4bba841b","isLocked":"false","chapterTitle":"第一章"},"volumeId":"882570f2901c4daf8d1b575ae74395e3"}
+             * novelPhoto : http://59.110.124.41:80/novel_a/novel/784ea9dcd71148dd9e177715a0eac565/novel_img_1542013957535_0.jpg
+             * isCollection : false
+             * isRead : false
+             * novelWords : 12572
+             * novelType : 武侠
+             * novelTitle : 有卷连号
+             * authorId : 234
+             * novelIntro : 555555
+             * novelId : 784ea9dcd71148dd9e177715a0eac565
              * isSubscibe : false
-             * novelAuthor : tianx
+             * novelAuthor : 我是大作家
              * isOver : 0
-             * haveVolumes : 0
-             * clickNum : 8
+             * haveVolumes : 1
+             * clickNum : 0
              */
 
+            private ReadingVolumeInfoBean readingVolumeInfo;
             private String novelPhoto;
             private String isCollection;
+            private boolean isRead;
             private String novelWords;
             private String novelType;
             private String novelTitle;
@@ -203,6 +207,14 @@ public class BookDetailBean {
                 return new Gson().fromJson(str, listType);
             }
 
+            public ReadingVolumeInfoBean getReadingVolumeInfo() {
+                return readingVolumeInfo;
+            }
+
+            public void setReadingVolumeInfo(ReadingVolumeInfoBean readingVolumeInfo) {
+                this.readingVolumeInfo = readingVolumeInfo;
+            }
+
             public String getNovelPhoto() {
                 return novelPhoto;
             }
@@ -217,6 +229,14 @@ public class BookDetailBean {
 
             public void setIsCollection(String isCollection) {
                 this.isCollection = isCollection;
+            }
+
+            public boolean isIsRead() {
+                return isRead;
+            }
+
+            public void setIsRead(boolean isRead) {
+                this.isRead = isRead;
             }
 
             public String getNovelWords() {
@@ -306,16 +326,154 @@ public class BookDetailBean {
             public void setClickNum(String clickNum) {
                 this.clickNum = clickNum;
             }
+
+            public static class ReadingVolumeInfoBean {
+                /**
+                 * volume : 1
+                 * volumeTitle : 我是第一卷
+                 * readingChapterInfo : {"chapter":1,"isFree":0,"money":36,"chapterId":"6d3ddaebd959496cb624e37d4bba841b","isLocked":"false","chapterTitle":"第一章"}
+                 * volumeId : 882570f2901c4daf8d1b575ae74395e3
+                 */
+
+                private int volume;
+                private String volumeTitle;
+                private ReadingChapterInfoBean readingChapterInfo;
+                private String volumeId;
+
+                public static ReadingVolumeInfoBean objectFromData(String str) {
+
+                    return new Gson().fromJson(str, ReadingVolumeInfoBean.class);
+                }
+
+                public static List<ReadingVolumeInfoBean> arrayReadingVolumeInfoBeanFromData(String str) {
+
+                    Type listType = new TypeToken<ArrayList<ReadingVolumeInfoBean>>() {
+                    }.getType();
+
+                    return new Gson().fromJson(str, listType);
+                }
+
+                public int getVolume() {
+                    return volume;
+                }
+
+                public void setVolume(int volume) {
+                    this.volume = volume;
+                }
+
+                public String getVolumeTitle() {
+                    return volumeTitle;
+                }
+
+                public void setVolumeTitle(String volumeTitle) {
+                    this.volumeTitle = volumeTitle;
+                }
+
+                public ReadingChapterInfoBean getReadingChapterInfo() {
+                    return readingChapterInfo;
+                }
+
+                public void setReadingChapterInfo(ReadingChapterInfoBean readingChapterInfo) {
+                    this.readingChapterInfo = readingChapterInfo;
+                }
+
+                public String getVolumeId() {
+                    return volumeId;
+                }
+
+                public void setVolumeId(String volumeId) {
+                    this.volumeId = volumeId;
+                }
+
+                public static class ReadingChapterInfoBean {
+                    /**
+                     * chapter : 1
+                     * isFree : 0
+                     * money : 36
+                     * chapterId : 6d3ddaebd959496cb624e37d4bba841b
+                     * isLocked : false
+                     * chapterTitle : 第一章
+                     */
+
+                    private int chapter;
+                    private int isFree;
+                    private int money;
+                    private String chapterId;
+                    private String isLocked;
+                    private String chapterTitle;
+
+                    public static ReadingChapterInfoBean objectFromData(String str) {
+
+                        return new Gson().fromJson(str, ReadingChapterInfoBean.class);
+                    }
+
+                    public static List<ReadingChapterInfoBean> arrayReadingChapterInfoBeanFromData(String str) {
+
+                        Type listType = new TypeToken<ArrayList<ReadingChapterInfoBean>>() {
+                        }.getType();
+
+                        return new Gson().fromJson(str, listType);
+                    }
+
+                    public int getChapter() {
+                        return chapter;
+                    }
+
+                    public void setChapter(int chapter) {
+                        this.chapter = chapter;
+                    }
+
+                    public int getIsFree() {
+                        return isFree;
+                    }
+
+                    public void setIsFree(int isFree) {
+                        this.isFree = isFree;
+                    }
+
+                    public int getMoney() {
+                        return money;
+                    }
+
+                    public void setMoney(int money) {
+                        this.money = money;
+                    }
+
+                    public String getChapterId() {
+                        return chapterId;
+                    }
+
+                    public void setChapterId(String chapterId) {
+                        this.chapterId = chapterId;
+                    }
+
+                    public String getIsLocked() {
+                        return isLocked;
+                    }
+
+                    public void setIsLocked(String isLocked) {
+                        this.isLocked = isLocked;
+                    }
+
+                    public String getChapterTitle() {
+                        return chapterTitle;
+                    }
+
+                    public void setChapterTitle(String chapterTitle) {
+                        this.chapterTitle = chapterTitle;
+                    }
+                }
+            }
         }
 
         public static class NewChapterBean {
             /**
              * chapter : 2
-             * publishTime : 2018-11-08 16:04
+             * publishTime : 2018-12-18 15:20
              * isFree : 0
-             * money : 12
-             * id : cbc4d4b7eaf1404ab9b176c8162acbf1
-             * title : test001
+             * money : 36
+             * id : f26fd328649a4ece8969a0790ad47ba3
+             * title : 李乐传
              */
 
             private String chapter;
@@ -428,10 +586,10 @@ public class BookDetailBean {
 
         public static class GiftsBean {
             /**
-             * novelId : 7e01e72401d9443d8416f3bb8020070c
-             * rewardCount : 0
-             * rank : 5
-             * difference : 0
+             * novelId : 784ea9dcd71148dd9e177715a0eac565
+             * rewardCount : 1
+             * rank : 2
+             * difference : 1
              * type : 0
              */
 
@@ -497,10 +655,10 @@ public class BookDetailBean {
 
         public static class FansRewardsBean {
             /**
-             * novelId : 7e01e72401d9443d8416f3bb8020070c
+             * novelId : 784ea9dcd71148dd9e177715a0eac565
              * rewardCount : 10
              * rewardType : 阅读币
-             * fansName : 普通账号2
+             * fansName : admin
              */
 
             private String novelId;
@@ -553,7 +711,6 @@ public class BookDetailBean {
                 this.fansName = fansName;
             }
         }
-
 
     }
 }

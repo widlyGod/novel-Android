@@ -10,5 +10,18 @@
     <color name="fgx">#c7c7c7</color>
     <color name="c7">#c7c7c7</color>
     <color name="c6">#666666</color>
+    <color name="readbg">#2a2a2a</color>
+    <color name="read_theme_white">#ffffff</color>
+    <color name="read_theme_night">#000000</color>
+    <!--章节内容夜间颜色-->
+    <color name="chapter_content_day">#3B3220</color>
+    <!--章节标题日间颜色-->
+    <color name="chapter_title_day">#837B63</color>
+
+    <color name="dayColor">#FEDFC3</color>
+    <color name="dayTextColor">#333333</color>
+
+    <color name="nightColor">#323838</color>
+    <color name="nightTextColor">#a1adad</color>
 
 </resources>

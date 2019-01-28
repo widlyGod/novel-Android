@@ -51,9 +51,11 @@ public class BookDetailPresenter implements BookDeatilContract.Presenter {
                     protected void noConnectInternet() {
                         view.noConnectInternet();
                     }
+
                     @Override
                     public void onCompleted() {
                     }
+
                     @Override
                     public void onError(Throwable e) {
                         LogUtil.e("tag","getOpenNovel错误="+e.getMessage());
@@ -62,7 +64,7 @@ public class BookDetailPresenter implements BookDeatilContract.Presenter {
 
                     @Override
                     public void onNext(BookDetailBean bean) {
-                        LogUtil.e("tag","getOpenNovel数据="+bean);
+//                        LogUtil.e("tag","getOpenNovel数据="+bean);
                         view.getOpenSuccess(bean);
                     }
                 });

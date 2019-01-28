@@ -20,6 +20,7 @@ import com.novel.cn.model.entity.PersonDataBean;
 import com.novel.cn.persenter.Contract.FragmentBookContract;
 import com.novel.cn.persenter.PresenterClass.FragmentBookPresenter;
 import com.novel.cn.ui.home.activity.BookDetailsActivity;
+import com.novel.cn.ui.home.activity.ReadActivity;
 import com.novel.cn.util.LogUtil;
 import com.novel.cn.util.ToastUtils;
 import com.novel.cn.view.adapter.BookShelfAdapter;
@@ -100,8 +101,9 @@ public class FragmentBook extends BaseFragment implements FragmentBookContract.V
     public void iteamClickCallback(int type, Object parameter1, Object parameter2) {
         switch (type){
             case 0://继续阅读
-                Intent intent=new Intent(getActivity(), BookDetailsActivity.class);
+                Intent intent=new Intent(getActivity(), ReadActivity.class);
                 intent.putExtra("id", (String) parameter1);
+                intent.putExtra("novelId", (String) parameter1);
                 startActivity(intent);
                 break;
             case 1://取消操作

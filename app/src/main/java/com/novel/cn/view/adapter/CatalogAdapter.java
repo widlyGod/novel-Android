@@ -25,7 +25,7 @@ import com.novel.cn.view.wight.StateButton;
 import java.util.List;
 
 /**
- * 目录
+ * read_mulu
  */
 
 public class CatalogAdapter extends BaseQuickAdapter<ChapterBean.DataBean.ListBean, BaseViewHolder> {

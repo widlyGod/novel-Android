@@ -117,4 +117,6 @@ dependencies {
     compile(name: 'alipaySdk-15.5.9-20181123210601', ext: 'aar')
     //微信支付
     compile 'com.tencent.mm.opensdk:wechat-sdk-android-with-mta:+'
+    compile 'com.github.fingdo:stateLayout:1.0.4'
+
 }

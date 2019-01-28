@@ -13,6 +13,7 @@ import com.novel.cn.model.entity.HomeReturnBean;
 import com.novel.cn.model.entity.PersonDataBean;
 import com.novel.cn.model.entity.QueryUpayBean;
 import com.novel.cn.model.entity.RankingBean;
+import com.novel.cn.model.entity.ReadResponBean;
 import com.novel.cn.model.entity.UserBean;
 import com.novel.cn.model.entity.VolumesBean;
 
@@ -118,7 +119,7 @@ public interface ApiService {
     @GET("novelOAService/novelType/getAllTypesMo")
     Observable<BookShelfAllBean> getAllTypesMo();
 
-
+    //BookDetailBean
     @Headers({"Content-Type: application/json", "Accept: application/json"})
     @GET("novelOAService/mobile/openNovel")
     Observable<BookDetailBean> getOpenNovel(@Query("novelId") String novelId);
@@ -132,6 +133,11 @@ public interface ApiService {
     @POST("novelOAService/mobile/getChapters")
     Observable<ChapterBean> getChapters(@Body RequestBody info);
 
+
+
+    @Headers({"Content-Type: application/json", "Accept: application/json"})
+    @POST("novelOAService/novel/readNovel")
+    Observable<ReadResponBean> readNovel(@Body RequestBody info);
 
 
 //                  /*          ctrl+shift+/    BookShowBean   */

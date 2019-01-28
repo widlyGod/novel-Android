@@ -45,6 +45,7 @@
 
             <RelativeLayout
                 android:id="@+id/rl_tx"
+                android:clickable="true"
                 android:layout_width="160px"
                 android:layout_height="160px"
                 android:layout_centerHorizontal="true"

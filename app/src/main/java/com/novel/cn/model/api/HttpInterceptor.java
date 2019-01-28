@@ -30,21 +30,31 @@ public class HttpInterceptor implements Interceptor {
     public Response intercept(Chain chain) throws IOException {
         Request original = chain.request();
         Request.Builder requestBuilder;
+
+        if("GET".equals(original.method())){
+            LogUtil.e("请求:是get请求");
+        }else{
+            LogUtil.e("请求:是post请求");
+        }
+
         if (isAddHead) {
             String seesionId = SharePrefUtil.getString(NovelApplication.getInstance(), "sessionId", "");
 
-            LogUtil.e("seesionId=" + seesionId);
+            LogUtil.e("请求:seesionId=" + seesionId);
 //            LogUtil.e("User-Agent=" + getUserAgent());
             //shareprefence取值
             // Request customization: add request headers
             //test    bodyString={"pageNo":1,"pageSize":100,"rebackStatus":2}----sessionId=438c603a04bb48858a65343ac61ecb5e
             requestBuilder = original.newBuilder()
                     .header("sessionId", seesionId) // <-- this is the important line
-                    .header("User-Agent", getUserAgent()); // <-- this is the important line
+                    .header("User-Agent", getUserAgent()) // <-- this is the important line
+                    .header("Origin","http://59.110.124.41"); // <-- this is the important line
+
         } else {
             // Request customization: add request headers
             requestBuilder = original.newBuilder()
-                    .header("User-Agent", getUserAgent()); // <-- this is the important line
+                    .header("User-Agent", getUserAgent()) // <-- this is the important line
+                    .header("Origin","http://59.110.124.41");
         }
 
         isAddHead = true;
