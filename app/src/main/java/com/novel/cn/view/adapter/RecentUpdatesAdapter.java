@@ -40,7 +40,7 @@ public class RecentUpdatesAdapter extends BaseQuickAdapter<HomeReturnBean.DataBe
             @Override
             public void onClick(View v) {
 
-                listener.iteamClickCallback(0,item.getNovelId(),"");
+                listener.iteamClickCallback(0,item.getNovelId(),"","");
             }
         });
     }

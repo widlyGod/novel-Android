@@ -98,12 +98,14 @@ public class FragmentBook extends BaseFragment implements FragmentBookContract.V
 
 
     @Override
-    public void iteamClickCallback(int type, Object parameter1, Object parameter2) {
+    public void iteamClickCallback(int type, Object parameter1, Object parameter2, Object parameter3) {
         switch (type){
             case 0://继续阅读
                 Intent intent=new Intent(getActivity(), ReadActivity.class);
                 intent.putExtra("id", (String) parameter1);
-                intent.putExtra("novelId", (String) parameter1);
+                intent.putExtra("novelId", (String) parameter2);
+                //接口需加个字段章节chapter
+                intent.putExtra("isCharge", 0);
                 startActivity(intent);
                 break;
             case 1://取消操作

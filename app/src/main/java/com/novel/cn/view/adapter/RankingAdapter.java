@@ -65,7 +65,7 @@ public class RankingAdapter  extends BaseQuickAdapter<RankingBean.DataBean, Base
                             data.get(i).setClck(false);
                         }
                     }
-                    listener.iteamClickCallback(0,item.getCode(),"");
+                    listener.iteamClickCallback(0,item.getCode(),"","");
                 }
 
             }

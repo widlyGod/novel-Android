@@ -11,8 +11,10 @@ import android.telephony.TelephonyManager;
 import android.util.Log;
 import android.widget.Button;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.novel.cn.R;
+import com.novel.cn.util.SetIpManager;
 import com.zhy.autolayout.AutoLayoutActivity;
 
 import org.json.JSONObject;
@@ -41,6 +43,9 @@ public class TestInfoActivity extends AutoLayoutActivity {
 
 
     private WifiInfo wifiInfo;
+    private SetIpManager IpConfig;
+
+
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -50,6 +55,15 @@ public class TestInfoActivity extends AutoLayoutActivity {
 
         WifiManager wifiManager = (WifiManager) this.getApplicationContext().getSystemService(Context.WIFI_SERVICE);
         wifiInfo = wifiManager.getConnectionInfo();
+
+        IpConfig = new SetIpManager(TestInfoActivity.this);//封装，获取ip设置对象
+        String ipText="113.91.150.150";
+        String gateWayText="113.91.150.150";
+        //IP 网络前缀长度24 DNS1域名1 网关
+        Boolean isSetSuccess = IpConfig.setIpWithTfiStaticIp(false, ipText, 24, "255.255.255.0", gateWayText);
+//        Toast.makeText(TestInfoActivity.this, "ip设置:" + isSetSuccess, Toast.LENGTH_SHORT).show();
+
+
     }
 
 
@@ -150,6 +164,15 @@ public class TestInfoActivity extends AutoLayoutActivity {
                 urlConnection.setConnectTimeout(5000);//连接超时
                 urlConnection.setDoInput(true);
                 urlConnection.setUseCaches(false);
+                urlConnection.setRequestProperty("X-Forwarded-For", "113.91.150.150");
+                urlConnection.setRequestProperty("x-remote-IP", "113.91.150.150");
+                urlConnection.setRequestProperty("x-remote-ip", "113.91.150.150");
+                urlConnection.setRequestProperty("x-client-ip", "113.91.150.150");
+                urlConnection.setRequestProperty("x-client-IP", "113.91.150.150");
+                urlConnection.setRequestProperty("X-Real-IP", "113.91.150.150");
+                urlConnection.setRequestProperty("Proxy-Client-IP", "113.91.150.150");
+                urlConnection.setRequestProperty("WL-Proxy-Client-IP", "113.91.150.150");
+                urlConnection.setRequestProperty("HTTP_CLIENT_IP", "113.91.150.150");
 
                 int responseCode = urlConnection.getResponseCode();
                 if (responseCode == HttpURLConnection.HTTP_OK) {//找到服务器的情况下,可能还会找到别的网站返回html格式的数据

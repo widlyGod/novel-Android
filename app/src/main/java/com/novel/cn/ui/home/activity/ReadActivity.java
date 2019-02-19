@@ -1,5 +1,7 @@
 package com.novel.cn.ui.home.activity;
 
+import android.annotation.SuppressLint;
+import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.Typeface;
 import android.os.Bundle;
@@ -18,14 +20,22 @@ import android.widget.TextView;
 import com.fingdo.statelayout.StateLayout;
 import com.novel.cn.R;
 import com.novel.cn.model.entity.BaseBean;
+import com.novel.cn.model.entity.ChargeChapterBean;
+import com.novel.cn.model.entity.ReadChapterBean;
 import com.novel.cn.model.entity.ReadResponBean;
+import com.novel.cn.model.entity.UserBean;
 import com.novel.cn.persenter.Contract.ReadContract;
 import com.novel.cn.persenter.PresenterClass.ReadPresenter;
+import com.novel.cn.ui.LoginActivity;
 import com.novel.cn.util.LogUtil;
+import com.novel.cn.util.SharePrefUtil;
 import com.novel.cn.util.ToastUtils;
 import com.novel.cn.view.wight.ReadTextView;
 import com.novel.cn.view.wight.StateButton;
 import com.zhy.autolayout.AutoLayoutActivity;
+
+import java.util.ArrayList;
+import java.util.List;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
@@ -36,7 +46,7 @@ import butterknife.OnClick;
  * Created by jackieli on 2019/1/24.
  */
 
-public class ReadActivity extends AutoLayoutActivity implements ReadContract.View{
+public class ReadActivity extends AutoLayoutActivity implements ReadContract.View {
 
     @Bind(R.id.tv_bookName)
     TextView tvBookName;
@@ -90,7 +100,6 @@ public class ReadActivity extends AutoLayoutActivity implements ReadContract.Vie
     RelativeLayout rlBottom;
     @Bind(R.id.rl_title)
     RelativeLayout rl_title;
-
     @Bind(R.id.rb_rbone)
     RadioButton rbRbone;
     @Bind(R.id.rb_rbtwo)
@@ -120,14 +129,31 @@ public class ReadActivity extends AutoLayoutActivity implements ReadContract.Vie
     @Bind(R.id.ll_readset)
     LinearLayout llReadset;
     String chapterId = "";
-    String novelId="";
+    String novelId = "";
     ReadPresenter presenter;
-    private boolean isDay=true;
-    //登录与阅读接口403错误，字体设置与背景设置，上下一章与目录
-    private int novelTextSize=17;
+    @Bind(R.id.sb_cz)
+    StateButton sbCz;
+    @Bind(R.id.rb_zddy)
+    RadioButton rbZddy;
+    @Bind(R.id.ll_czjm)
+    LinearLayout llCzjm;
+    @Bind(R.id.tv_czYdb)
+    TextView tv_czYdb;
+    @Bind(R.id.tv_czYe)
+    TextView tv_czYe;
+    private boolean isDay = true;
+    private int novelTextSize = 17;
+    private int chapter = 1;
     private ReadResponBean bean;
     @Bind(R.id.state_layout)
     StateLayout state_layout;
+    //我的书架上面接口加个哪一章节
+    //付费，点击事件弹窗，两个接口阅读的有什么不一样
+    //评论，分享功能,打赏
+    private boolean isIntentMulu = false;
+    private boolean isLogin = false;
+    public UserBean userBean;
+    private int isCharge=0;
 
 
     @Override
@@ -137,18 +163,30 @@ public class ReadActivity extends AutoLayoutActivity implements ReadContract.Vie
         ButterKnife.bind(this);
         chapterId = getIntent().getStringExtra("id");
         novelId = getIntent().getStringExtra("novelId");
+        chapter = getIntent().getIntExtra("chapterIndex", 1);
+        isIntentMulu = getIntent().getBooleanExtra("isIntentMulu", false);
+        isLogin = SharePrefUtil.getBoolean(ReadActivity.this, "isLogin", false);
 
-        LogUtil.e("readNovel chapterId="+chapterId+",novelId="+novelId);
-        presenter=new ReadPresenter();
-        presenter.setMvpView(this,"");
-        presenter.readNovel(chapterId);
+        isCharge=getIntent().getIntExtra("isCharge",0);
+
+        String userBeanx = SharePrefUtil.getString(ReadActivity.this, "user", "");
+        if (!userBeanx.equals("")) {
+            userBean = UserBean.objectFromData(userBeanx);
+        }
+
+
+        LogUtil.e("readNovel chapterId=" + chapterId + ",novelId=" + novelId);
+        presenter = new ReadPresenter();
+        presenter.setMvpView(this, "");
+
+        presenter.readNovel(chapterId,isCharge==1?true:false);
+        presenter.getChapters(novelId, "1", 0);
         state_layout.showLoadingView();
-
 
         rgPf.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(RadioGroup radioGroup, int i) {
-                switch (i){
+                switch (i) {
                     case R.id.rb_rbone:
                         scrollView.setBackgroundColor(Color.parseColor("#f7f7f7"));
                         tvZw.setTextColor(Color.parseColor("#333333"));
@@ -176,7 +214,7 @@ public class ReadActivity extends AutoLayoutActivity implements ReadContract.Vie
         rgZtgs.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(RadioGroup radioGroup, int i) {
-                switch (i){
+                switch (i) {
                     case R.id.rb_yh:
                         setTyperface("fonts/Yahei.ttf");
                         break;
@@ -190,10 +228,33 @@ public class ReadActivity extends AutoLayoutActivity implements ReadContract.Vie
             }
         });
 
+        seekbarZj.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
+            @Override
+            public void onProgressChanged(SeekBar seekBar, int i, boolean b) {
+                if (b == true) {
+                    chapter = i + 1;
+                    LogUtil.e("进度章节chapter=" + chapter);
+
+                    isCharge=chapterBeans.get(i).getIsFree();
+                    presenter.readNovel(chapterBeans.get(i).getId(),
+                            chapterBeans.get(i).getIsFree()==1?true:false);
+                }
+            }
+
+            @Override
+            public void onStartTrackingTouch(SeekBar seekBar) {
+            }
+
+            @Override
+            public void onStopTrackingTouch(SeekBar seekBar) {
+            }
+        });
+
+
     }
 
 
-    public void setTyperface(String path){
+    public void setTyperface(String path) {
         Typeface typeface = Typeface.createFromAsset(getAssets(), path);
         tvZw.setTypeface(typeface);
         tvBookName.setTypeface(typeface);
@@ -203,7 +264,7 @@ public class ReadActivity extends AutoLayoutActivity implements ReadContract.Vie
         tvTime.setTypeface(typeface);
     }
 
-    public void setDayNightTextColor(String bgColor,String textColor){
+    public void setDayNightTextColor(String bgColor, String textColor) {
         scrollView.setBackgroundColor(Color.parseColor(bgColor));
         tvZw.setTextColor(Color.parseColor(textColor));
         tvBookName.setTextColor(Color.parseColor(textColor));
@@ -214,25 +275,32 @@ public class ReadActivity extends AutoLayoutActivity implements ReadContract.Vie
         tvTime.setTextColor(Color.parseColor(textColor));
     }
 
-    @OnClick({R.id.sbtn_syz, R.id.sbtn_ml, R.id.sbtn_yzj, R.id.iv_dayNight,R.id.iv_dasan, R.id.ivBack, R.id.tv_syz,R.id.tv_xyz,
-            R.id.tv_mulu, R.id.tv_set, R.id.tv_pl, R.id.tv_sc, R.id.tv_share,R.id.rl_title,R.id.tv_zw,R.id.btn_ztj,R.id.btn_zen})
+    @SuppressLint("NewApi")
+    @OnClick({R.id.sbtn_syz, R.id.sbtn_ml, R.id.sbtn_yzj, R.id.iv_dayNight, R.id.iv_dasan, R.id.ivBack, R.id.tv_syz, R.id.tv_xyz,
+            R.id.tv_mulu, R.id.tv_set, R.id.tv_pl, R.id.tv_sc, R.id.tv_share, R.id.rl_title, R.id.tv_zw, R.id.btn_ztj, R.id.btn_zen,R.id.sb_cz})
     public void onViewClicked(View view) {
         switch (view.getId()) {
-            case R.id.sbtn_syz://上一章
-                break;
-            case R.id.sbtn_ml://目录
-                break;
-            case R.id.sbtn_yzj://下一章
-                break;
-            case R.id.iv_dayNight:{//日夜间转换
-                if(isDay){//转为黑夜
-                    isDay=false;
+            case R.id.sbtn_syz: {//上一章
+                setUpDownChapter(false);
+            }break;
+            case R.id.sbtn_ml: {//目录
+                Intent intent = new Intent(ReadActivity.this, CatalogActivity.class);
+                intent.putExtra("id", novelId);
+                intent.putExtra("type", 0);
+                startActivityForResult(intent, 0);
+            }break;
+            case R.id.sbtn_yzj: {//下一章
+                setUpDownChapter(true);
+            }break;
+            case R.id.iv_dayNight: {//日夜间转换
+                if (isDay) {//转为黑夜
+                    isDay = false;
                     ivDayNight.setImageResource(R.drawable.read_month);
-                    setDayNightTextColor("#323838","#a1adad");
-                }else {//转为白天
-                    isDay=true;
+                    setDayNightTextColor("#323838", "#a1adad");
+                } else {//转为白天
+                    isDay = true;
                     ivDayNight.setImageResource(R.drawable.read_day);
-                    setDayNightTextColor("#FEDFC3","#333333");
+                    setDayNightTextColor("#FEDFC3", "#333333");
                 }
             }break;
             case R.id.iv_dasan://打赏
@@ -240,56 +308,97 @@ public class ReadActivity extends AutoLayoutActivity implements ReadContract.Vie
             case R.id.ivBack://返回键
                 finish();
                 break;
-            case R.id.tv_syz://弹出框的上一章
-                break;
-            case R.id.tv_xyz://弹出框的下一章
-                break;
-            case R.id.tv_mulu:{//弹出框的目录
-
-            }break;
+            case R.id.tv_syz: {//弹出框的上一章
+                setUpDownChapter(false);
+            }
+            break;
+            case R.id.tv_xyz: {//弹出框的下一章
+                setUpDownChapter(true);
+            }
+            break;
+            case R.id.tv_mulu: {//弹出框的目录
+                Intent intent = new Intent(ReadActivity.this, CatalogActivity.class);
+                intent.putExtra("id", novelId);
+                intent.putExtra("type", 0);
+                startActivityForResult(intent, 0);
+            }
+            break;
             case R.id.tv_set://点击设置字体大小与背景
                 llReadset.setVisibility(View.VISIBLE);
                 break;
             case R.id.tv_pl://评论
                 break;
             case R.id.tv_sc: {//收藏该书本
-                if(bean!=null){
-                    if(bean.getData().getNovelInfo().getIsCollection().equals("true")){
+                if (bean != null) {
+                    if (bean.getData().getNovelInfo().getIsCollection().equals("true")) {
                         presenter.cancelCollection(novelId);
-                    }else{
+                    } else {
                         presenter.saveCollection(novelId);
                     }
                 }
-            }break;
+            }
+            break;
             case R.id.tv_share://分享该章节
                 break;
-            case R.id.rl_title:{//小说正文头部
+            case R.id.rl_title: {//小说正文头部
                 setTopOrBottomVis();
-            }break;
-            case R.id.tv_zw:{//小说正文
+            }
+            break;
+            case R.id.tv_zw: {//小说正文
                 setTopOrBottomVis();
-            }break;
+            }
+            break;
             case R.id.btn_ztj:
-                novelTextSize=novelTextSize-1;
-                tvZw.setTextSize(TypedValue.COMPLEX_UNIT_SP,novelTextSize); //22SP
-                btnZh.setText(novelTextSize+"");
+                novelTextSize = novelTextSize - 1;
+                tvZw.setTextSize(TypedValue.COMPLEX_UNIT_SP, novelTextSize); //22SP
+                btnZh.setText(novelTextSize + "");
                 break;
             case R.id.btn_zen:
-                novelTextSize=novelTextSize+1;
-                tvZw.setTextSize(TypedValue.COMPLEX_UNIT_SP,novelTextSize); //22SP
-                btnZh.setText(novelTextSize+"");
+                novelTextSize = novelTextSize + 1;
+                tvZw.setTextSize(TypedValue.COMPLEX_UNIT_SP, novelTextSize); //22SP
+                btnZh.setText(novelTextSize + "");
                 break;
+            case R.id.sb_cz:{//充值按钮
+
+
+            }break;
         }
     }
 
 
-    public void setTopOrBottomVis(){
-        if(llTop.getVisibility()==View.GONE){
+    public void setUpDownChapter(boolean isNext) {
+        if (isNext) {//下一章
+            if (chapter < chapterBeans.size()) {
+                chapter = chapter + 1;
+                LogUtil.e("进度章节chapter=" + chapter);
+                seekbarZj.setProgress(chapter - 1);
+                isCharge=chapterBeans.get(chapter - 1).getIsFree();
+                presenter.readNovel(chapterBeans.get(chapter - 1).getId(),
+                        chapterBeans.get(chapter - 1).getIsFree()==1?true:false);
+            } else {
+                ToastUtils.showShortToast("当前为最后一章");
+            }
+        } else {//上一章
+            if (chapter != 1) {
+                chapter = chapter - 1;
+                seekbarZj.setProgress(chapter - 1);
+                isCharge=chapterBeans.get(chapter - 1).getIsFree();
+                presenter.readNovel(chapterBeans.get(chapter - 1).getId(),
+                        chapterBeans.get(chapter - 1).getIsFree()==1?true:false);
+            } else {
+                ToastUtils.showShortToast("当前为第一章");
+            }
+        }
+        LogUtil.e("进度章节chapter=" + chapter);
+    }
+
+    public void setTopOrBottomVis() {
+        if (llTop.getVisibility() == View.GONE) {
             llTop.setVisibility(View.VISIBLE);
             rlBottom.setVisibility(View.VISIBLE);
             ivDayNight.setVisibility(View.VISIBLE);
             llReadset.setVisibility(View.GONE);
-        }else{
+        } else {
             llTop.setVisibility(View.GONE);
             rlBottom.setVisibility(View.GONE);
             ivDayNight.setVisibility(View.GONE);
@@ -301,24 +410,41 @@ public class ReadActivity extends AutoLayoutActivity implements ReadContract.Vie
 
     //获取阅读数据成功
     @Override
-    public void readNovelSuccess(ReadResponBean data) {
-        if(data.isSuccess()){
-            bean=data;
-            ReadResponBean.DataBean.NovelInfoBean novelBean=data.getData().getNovelInfo();
-            ReadResponBean.DataBean.ChapterInfoBean chapterBean=data.getData().getChapterInfo();
+    public void readNovelSuccess(ReadResponBean data,boolean isGetCharge) {
+        tvZw.setVisibility(View.VISIBLE);
+        if (data.isSuccess()) {
+            llCzjm.setVisibility(View.GONE);
+            bean = data;
+            ReadResponBean.DataBean.NovelInfoBean novelBean = data.getData().getNovelInfo();
+            ReadResponBean.DataBean.ChapterInfoBean chapterBean = data.getData().getChapterInfo();
+
+            //免费小说,展示数据
             //正文
             tvZw.setText(chapterBean.getContent());
             //弹窗顶部
-            tvBt.setText("第"+chapterBean.getChapter()+"章 "+chapterBean.getTitle());
+            tvBt.setText("第" + chapterBean.getChapter() + "章 " + chapterBean.getTitle());
             //正文顶部
             tvBookName.setText(novelBean.getTitle());
-            tvTitleName.setText("第"+chapterBean.getChapter()+"章 "+chapterBean.getTitle());
+            tvTitleName.setText("第" + chapterBean.getChapter() + "章 " + chapterBean.getTitle());
             tvAutor.setText(novelBean.getAuthorInfo().getPenName());
-            tvWord.setText(chapterBean.getWords()+"");
+            tvWord.setText(chapterBean.getWords() + "");
             tvTime.setText(chapterBean.getCreateTime());
 
-            setCollection(novelBean.getIsCollection().endsWith("true")?true:false);
-        }else{
+            if(isGetCharge==false){//当前请求的是收费接口，不用再请求
+                //书本是否付费
+                if (chapterBean.getIsFree() == 1 && isLogin == false) {//付费未登录进登录界面。
+                    //进登录界面
+                    Intent intent=new Intent(ReadActivity.this, LoginActivity.class);
+//                    intent.putExtra("isIntentRead",true);
+                    startActivityForResult(intent,0);
+                } else if (chapterBean.getIsFree() == 1 && userBean != null && userBean.getRecodeCode() == 100) {//付费如果当前用户是普通用户判断该章节是否已付过费
+                    //userBean角色100普通用户，0管理，101编辑）
+                    //付费小说，调是否付费过的接口判断（免费章节,限时限免,本书的作者以及管理员->过滤掉），未付费展示付费界面，付费了展示数据
+                    presenter.isChargeChapter(novelBean.getId(), chapterBean.getVolumeId(), chapterBean.getId());
+                }
+            }
+            setCollection(novelBean.getIsCollection().endsWith("true") ? true : false);
+        } else {
             ToastUtils.showShortToast(data.getMessage());
         }
         state_layout.showContentView();
@@ -326,7 +452,7 @@ public class ReadActivity extends AutoLayoutActivity implements ReadContract.Vie
 
     @Override
     public void saveCollectionSuccess(BaseBean data) {
-        if(data.isSuccess()){
+        if (data.isSuccess()) {
             setCollection(true);
         }
         ToastUtils.showShortToast(data.getMessage());
@@ -334,33 +460,110 @@ public class ReadActivity extends AutoLayoutActivity implements ReadContract.Vie
 
     @Override
     public void cancelCollectionSuccess(BaseBean data) {
-        if(data.isSuccess()){
+        if (data.isSuccess()) {
             setCollection(false);
         }
         ToastUtils.showShortToast(data.getMessage());
     }
 
-    public void setCollection(boolean isCollect){
-        if(isCollect){
-            bean.getData().getNovelInfo().setIsCollection("true");
-            tvSc.setCompoundDrawablesWithIntrinsicBounds(null,  getResources().getDrawable(R.drawable.read_scs),null, null);
-        }else{
-            bean.getData().getNovelInfo().setIsCollection("false");
-            tvSc.setCompoundDrawablesWithIntrinsicBounds(null,  getResources().getDrawable(R.drawable.read_sc),null, null);
+
+    List<ReadChapterBean.DataBean.NovelInfoBean.VolumeInfosBean.ChapterInfosBean> chapterBeans = new ArrayList<>();
+
+    //获取章节成功
+    @Override
+    public void getChaptersSuccess(ReadChapterBean bean) {
+        if (bean.isSuccess()) {
+            chapterBeans.clear();
+            List<ReadChapterBean.DataBean.NovelInfoBean.VolumeInfosBean> list = bean.getData().getNovelInfo().getVolumeInfos();
+            for (int i = 0; i < list.size(); i++) {
+                List<ReadChapterBean.DataBean.NovelInfoBean.VolumeInfosBean.ChapterInfosBean> chapterList = list.get(i).getChapterInfos();
+                for (int j = 0; j < chapterList.size(); j++) {
+                    int chapter = chapterList.get(j).getChapter();
+                    LogUtil.e("循环获得章节第:" + chapter + "章");
+                    chapterBeans.add(chapterList.get(j));
+                }
+            }
+            seekbarZj.setMax(chapterBeans.size() > 1 ? chapterBeans.size() - 1 : 0);
+            //会请求接口
+            if (isIntentMulu) {//从目录页进来的阅读界面
+                seekbarZj.setProgress(chapter - 1);
+            }
         }
     }
+
+    //判断收费章节是否收费
+    @Override
+    public void isChargeChapterSuccess(ChargeChapterBean bean) {
+        if (bean.getMessage()!=null && bean.getMessage().equals("该章节还未收费！")) {//判断展示付款界面还是阅读界面
+            tvZw.setVisibility(View.GONE);
+            int jiage= chapterBeans.get(chapter - 1).getMoney();
+            double yue= bean.getData().getGoldNumber();
+            tv_czYdb.setText("价格:" + jiage + "阅读币");
+            tv_czYe.setText("余额:" + bean.getData().getGoldNumber() + "阅读币 | " + bean.getData().getDiamondNumber() + "砖石");
+            llCzjm.setVisibility(View.VISIBLE);
+            if(yue>jiage){
+                sbCz.setText("订阅本章节");
+            }else{
+                sbCz.setText("余额不足，请充值");
+            }
+        } else {
+            LogUtil.e("isChargeChapter="+bean.getMessage());
+        }
+    }
+
+    public void setCollection(boolean isCollect) {
+        if (isCollect) {
+            bean.getData().getNovelInfo().setIsCollection("true");
+            tvSc.setCompoundDrawablesWithIntrinsicBounds(null, getResources().getDrawable(R.drawable.read_scs), null, null);
+        } else {
+            bean.getData().getNovelInfo().setIsCollection("false");
+            tvSc.setCompoundDrawablesWithIntrinsicBounds(null, getResources().getDrawable(R.drawable.read_sc), null, null);
+        }
+    }
+
 
     //失败
     @Override
     public void fail(String message) {
         state_layout.showContentView();
-        LogUtil.e("fail="+message);
+        LogUtil.e("fail=" + message);
     }
+
 
     //无网络
     @Override
     public void noConnectInternet() {
         ToastUtils.showShortToast("网络错误，请检查网络");
     }
+
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (requestCode == 0 ) {
+            switch (resultCode){
+                case 0:{//从目录界面回来
+                    if (data != null) {
+                        chapterId = data.getStringExtra("id");
+                        chapter = data.getIntExtra("chapterIndex", 1);
+                        isCharge=data.getIntExtra("chapterIndex", 1);
+                        presenter.readNovel(chapterId, isCharge==1?true:false);
+                        seekbarZj.setProgress(chapter - 1);
+                    }
+                }break;
+                case 1:{//从登录界面回来，更新用户信息
+                    isLogin = SharePrefUtil.getBoolean(ReadActivity.this, "isLogin", false);
+                    String userBeanx = SharePrefUtil.getString(ReadActivity.this, "user", "");
+                    if (!userBeanx.equals("")) {
+                        userBean = UserBean.objectFromData(userBeanx);
+                    }
+                    presenter.readNovel(chapterId,isCharge==1?true:false);
+                }break;
+                case 2:
+                    break;
+            }
+        }
+    }
+
 
 }

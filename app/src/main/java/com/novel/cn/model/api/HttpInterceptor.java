@@ -49,12 +49,15 @@ public class HttpInterceptor implements Interceptor {
                     .header("sessionId", seesionId) // <-- this is the important line
                     .header("User-Agent", getUserAgent()) // <-- this is the important line
                     .header("Origin","http://59.110.124.41"); // <-- this is the important line
+//                    .header("X-Forwarded-For","113.91.150.165");
 
         } else {
             // Request customization: add request headers
             requestBuilder = original.newBuilder()
                     .header("User-Agent", getUserAgent()) // <-- this is the important line
                     .header("Origin","http://59.110.124.41");
+//                    .header("X-Forwarded-For","113.91.150.155");
+
         }
 
         isAddHead = true;

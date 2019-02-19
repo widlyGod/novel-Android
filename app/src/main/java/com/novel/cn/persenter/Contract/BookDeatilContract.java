@@ -8,6 +8,7 @@ import com.novel.cn.model.entity.BaseBean;
 import com.novel.cn.model.entity.BookDetailBean;
 import com.novel.cn.model.entity.BookShelfAllBean;
 import com.novel.cn.model.entity.BookShowBean;
+import com.novel.cn.model.entity.ChargeChapterBean;
 import com.novel.cn.model.entity.RankingBean;
 
 /**
@@ -22,7 +23,6 @@ public interface BookDeatilContract extends BaseComtract {
         void saveCollectionSuccess(BaseBean bean);
         void queryAccountSuccess(BaseBean bean);
         void giveOperationSuccess(String message);
-
         void fail(String message);
         void noConnectInternet();
     }
@@ -31,8 +31,6 @@ public interface BookDeatilContract extends BaseComtract {
     interface Presenter extends BasePresenter<View> {
         void getOpenNovel(String novelId);
         void saveCollection(String novel_id,String volumeId,String chapterId);
-
-
         void queryPersonAccount();
         void giveOperation(String novelId,String number,int type);
         //{boardsEnumCode: "ALL", listType: 1, pageNum: 1, pageSize: 10, fromMobile: 1}

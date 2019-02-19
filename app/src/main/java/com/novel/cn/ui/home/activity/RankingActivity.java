@@ -179,7 +179,7 @@ public class RankingActivity extends AutoLayoutActivity implements RankingorOthe
     }
 
     @Override
-    public void iteamClickCallback(int type, Object parameter1, Object parameter2) {
+    public void iteamClickCallback(int type, Object parameter1, Object parameter2, Object parameter3) {
 
         FragmentTransaction transaction1 = getSupportFragmentManager().beginTransaction();
         if(type==0){

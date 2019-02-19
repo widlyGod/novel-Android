@@ -143,13 +143,11 @@ public class BookDetailsActivity extends AutoLayoutActivity implements BookDeati
     @Bind(R.id.state_layout)
     StateLayout state_layout;
 
-
     private BookDetailPresenter presenter;
     private String novelId;
     PopupWindow popupWindow;
     private TextView popTextView;
     private PopWindowReward popWindowReward;
-
 
     //sessionId  session-c559a4a278f44ee2b23c3f0434f437b6
 
@@ -160,10 +158,10 @@ public class BookDetailsActivity extends AutoLayoutActivity implements BookDeati
         ButterKnife.bind(this);
 
         novelId = getIntent().getStringExtra("id");
+//        novelId="21e408b649b8415fad24f116a57b331d";
         presenter = new BookDetailPresenter();
         presenter.setMvpView(this, "");
         presenter.getOpenNovel(novelId);
-
 
         state_layout.showLoadingView();
         sbtnJrsj.setOnClickListener(new View.OnClickListener() {
@@ -307,8 +305,11 @@ public class BookDetailsActivity extends AutoLayoutActivity implements BookDeati
 //              intent.putExtra("id", detailBean.getData().getNovelInfo().getNovelId());
                 if(detailBean.getData().getNovelInfo().getReadingVolumeInfo() != null){
                     intent.putExtra("id", detailBean.getData().getNovelInfo().getReadingVolumeInfo().getReadingChapterInfo().getChapterId());
-                    intent.putExtra("novelId", detailBean.getData().getNovelInfo().getNovelId());
+                    intent.putExtra("chapterIndex", detailBean.getData().getNovelInfo().getReadingVolumeInfo().getReadingChapterInfo().getChapter());
+                    intent.putExtra("isCharge", detailBean.getData().getNovelInfo().getReadingVolumeInfo().getReadingChapterInfo().getIsFree());
                 }
+                intent.putExtra("novelId", detailBean.getData().getNovelInfo().getNovelId());
+
                 startActivity(intent);
             }
             break;
@@ -332,6 +333,7 @@ public class BookDetailsActivity extends AutoLayoutActivity implements BookDeati
             case R.id.rl_ml: {
                 if (detailBean.getData().getNovelInfo().getNovelId() != null) {
                     Intent intent = new Intent(BookDetailsActivity.this, CatalogActivity.class);
+                    intent.putExtra("type",1);
                     intent.putExtra("id", detailBean.getData().getNovelInfo().getNovelId());
                     startActivity(intent);
                 }
@@ -387,8 +389,11 @@ public class BookDetailsActivity extends AutoLayoutActivity implements BookDeati
             } else {
                 tvLianzai.setText("已完结");
             }
+
             tv_zishu.setText(NumberUtils.formatNum(novelInfoBean.getNovelWords(), false) + "read_word  "
                     + NumberUtils.formatNum(novelInfoBean.getClickNum(), false) + "次点击");
+
+
 
             if (novelInfoBean.getIsCollection() != null && novelInfoBean.getIsCollection().equals("true")) {
                 sbtnJrsj.setClickable(true);

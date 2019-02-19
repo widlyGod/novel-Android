@@ -6,6 +6,6 @@ package com.novel.cn.interfaceFolder;
 
 public interface ItemClickListener {
 
-    void iteamClickCallback(int type, Object parameter1, Object parameter2);
+    void iteamClickCallback(int type, Object parameter1, Object parameter2, Object parameter3);
 
 }

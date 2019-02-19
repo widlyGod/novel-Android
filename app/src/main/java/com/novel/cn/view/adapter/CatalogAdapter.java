@@ -70,11 +70,12 @@ public class CatalogAdapter extends BaseQuickAdapter<ChapterBean.DataBean.ListBe
 
         RelativeLayout rl_all = helper.getView(R.id.rl_all);
 
-        //点击进入下一级界面
+        //点击进入阅读界面
         rl_all.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                listener.iteamClickCallback(0, item.getId(), "");
+                listener.iteamClickCallback(0, item.getId(), Integer.parseInt(item.getChapter()),
+                        item.getIsFree()==null?0: Integer.parseInt(item.getIsFree()));
             }
         });
 

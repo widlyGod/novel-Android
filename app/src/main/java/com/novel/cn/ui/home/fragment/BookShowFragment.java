@@ -133,7 +133,7 @@ public class BookShowFragment extends BaseFragment implements RankingorOtherCont
 
     //部分点击
     @Override
-    public void iteamClickCallback(int type, Object parameter1, Object parameter2) {
+    public void iteamClickCallback(int type, Object parameter1, Object parameter2, Object parameter3) {
         switch (type){
             case 0:
                 presenter.addBookShelf((String) parameter1);

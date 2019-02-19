@@ -1,5 +1,6 @@
 package com.novel.cn.ui.home.activity;
 
+import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.ColorDrawable;
@@ -68,6 +69,8 @@ public class CatalogActivity extends AutoLayoutActivity implements CataloglContr
     private PopupWindow popupWindow;
     private PopWindowAdapter popAdapter;
     private CatalogPopwindow catalogPop;
+    private int intentType=0;
+
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -77,6 +80,8 @@ public class CatalogActivity extends AutoLayoutActivity implements CataloglContr
 
         novelId=getIntent().getStringExtra("id");
 //        novelId="fd1dc45252b6493bb9be18133be42164";
+        intentType=getIntent().getIntExtra("type",0);
+
 
         rv.setLayoutManager(new LinearLayoutManager(this));
         adapter = new CatalogAdapter(R.layout.adapter_catalog, null, this,this);
@@ -135,6 +140,9 @@ public class CatalogActivity extends AutoLayoutActivity implements CataloglContr
             }
         });
     }
+
+
+
 
 
     @OnClick({R.id.iv_left, R.id.iv_paixu, R.id.sbtn_sy, R.id.sbtn_xy,R.id.tv_mulutext,R.id.tv_mulu})
@@ -256,7 +264,24 @@ public class CatalogActivity extends AutoLayoutActivity implements CataloglContr
     }
 
     @Override
-    public void iteamClickCallback(int type, Object parameter1, Object parameter2) {
+    public void iteamClickCallback(int type, Object parameter1, Object parameter2, Object parameter3) {
         //跳转阅读界面
+        Intent intent = new Intent(CatalogActivity.this, ReadActivity.class);
+        if(intentType==0){//从阅读界面进来
+            intent.putExtra("id", (String) parameter1);
+            intent.putExtra("chapterIndex", (int) parameter2);
+            intent.putExtra("isCharge", (int) parameter3);
+            setResult(0,intent);
+            finish();
+        }else if(intentType==1){//从书籍详情界面进来
+            intent.putExtra("id", (String) parameter1);
+            intent.putExtra("novelId", novelId);
+            intent.putExtra("chapterIndex", (int) parameter2);
+            intent.putExtra("isIntentMulu",true);
+            intent.putExtra("isCharge", (int) parameter3);
+            startActivity(intent);
+            finish();
+        }
     }
+
 }

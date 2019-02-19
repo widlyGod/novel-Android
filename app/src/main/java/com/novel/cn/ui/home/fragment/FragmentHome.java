@@ -225,7 +225,7 @@ public class FragmentHome extends BaseFragment implements OnBannerClickListener,
 
     //单个最近更新点击
     @Override
-    public void iteamClickCallback(int type, Object parameter1, Object parameter2) {
+    public void iteamClickCallback(int type, Object parameter1, Object parameter2, Object parameter3) {
         //跳转逻辑
         Intent intent=new Intent(getActivity(), BookDetailsActivity.class);
         intent.putExtra("id", (String) parameter1);

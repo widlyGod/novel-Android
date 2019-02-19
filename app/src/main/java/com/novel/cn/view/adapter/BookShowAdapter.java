@@ -107,7 +107,7 @@ public class BookShowAdapter extends BaseQuickAdapter<BookShowBean.DataBean.WEEK
         btn_add.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                listener.iteamClickCallback(0,item.getNovelId(),"");
+                listener.iteamClickCallback(0,item.getNovelId(),"","");
             }
         });
 

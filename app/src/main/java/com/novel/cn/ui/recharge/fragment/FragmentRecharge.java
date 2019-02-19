@@ -1,26 +1,18 @@
 package com.novel.cn.ui.recharge.fragment;
 
-import android.app.Activity;
-import android.content.Context;
-import android.os.Bundle;
+
 import android.support.v4.content.ContextCompat;
 import android.text.Editable;
 import android.text.TextWatcher;
-import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
-import android.view.ViewGroup;
-import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.RadioGroup;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
-
 import com.alipay.sdk.app.EnvUtils;
-import com.jakewharton.rxbinding.widget.RxRadioGroup;
-import com.jakewharton.rxbinding.widget.RxTextView;
 import com.novel.cn.R;
 import com.novel.cn.alipay.PaymentHelper;
 import com.novel.cn.base.BaseFragment;
@@ -30,7 +22,6 @@ import com.novel.cn.model.entity.UserBean;
 import com.novel.cn.model.entity.WxOrderBean;
 import com.novel.cn.persenter.Contract.FragmentRechargeContract;
 import com.novel.cn.persenter.PresenterClass.FragmentRechargePresenter;
-import com.novel.cn.ui.LoginActivity;
 import com.novel.cn.ui.MainActivity;
 import com.novel.cn.util.CalculationUtil;
 import com.novel.cn.util.LogUtil;
@@ -40,14 +31,10 @@ import com.novel.cn.util.Utils;
 import com.novel.cn.view.wight.CustomRadioButton;
 import com.novel.cn.view.wight.MRadioButton;
 import com.novel.cn.view.wight.MRadioGroup;
-
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
-
 import butterknife.Bind;
-import butterknife.ButterKnife;
 import butterknife.OnClick;
-import rx.Observable;
 
 /**
  * Created by jackieli on 2018/12/26.
@@ -91,8 +78,6 @@ public class FragmentRecharge extends BaseFragment implements FragmentRechargeCo
     @Bind(R.id.tv_je)
     TextView tvJe;
     //充值金额最多输入两位小数，微信支付测试
-
-
     @Override
     public int getLayoutId() {
         return R.layout.fragment_recharge;
@@ -231,8 +216,8 @@ public class FragmentRecharge extends BaseFragment implements FragmentRechargeCo
         presenter = new FragmentRechargePresenter();
         presenter.setMvpView(this, "");
 
-
         presenter.quePayInfo();
+
     }
 
     @OnClick(R.id.btn_cz)
@@ -318,7 +303,13 @@ public class FragmentRecharge extends BaseFragment implements FragmentRechargeCo
         }
     }
 
-
-
+    @Override
+    public void onResume() {
+        super.onResume();
+        boolean isLogin = SharePrefUtil.getBoolean(getActivity(), "isLogin", false);
+        if (isLogin){
+            presenter.quePayInfo();
+        }
+    }
 
 }

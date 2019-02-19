@@ -63,7 +63,7 @@ import rx.functions.Func2;
 import rx.functions.Func5;
 
 /**
- *  缺个登录界面回调显示头像数据
+ *
  * Created by jackieli on 2018/12/20.
  */
 
@@ -145,6 +145,8 @@ public class LoginActivity extends AutoLayoutActivity implements LoginContract.V
     private LoginPresenter presenter;
     public Dialog_Loading dialog_loading;
     int count = 180;
+//    boolean isIntentRead=false;
+
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -157,6 +159,9 @@ public class LoginActivity extends AutoLayoutActivity implements LoginContract.V
         presenter.setMvpView(this, "");
         dialog_loading = new Dialog_Loading(this, R.style.Dialog);
         dialog_loading.setCancelable(false);
+
+
+//        isIntentRead=getIntent().getBooleanExtra("isIntentRead",false);
         String userBean= SharePrefUtil.getString(getApplicationContext(),"user","");
         if(!userBean.equals("")){
             UserBean userBean1=UserBean.objectFromData(userBean);
@@ -164,7 +169,6 @@ public class LoginActivity extends AutoLayoutActivity implements LoginContract.V
                 etUsername.setText(userBean1.getUserEmail());
             }
         }
-
 
         tablayout.addTab(tablayout.newTab().setText("账号登录"));
         tablayout.addTab(tablayout.newTab().setText("邮箱注册"));
@@ -508,6 +512,7 @@ public class LoginActivity extends AutoLayoutActivity implements LoginContract.V
             LogUtil.e("登录保存sessionId="+data.getData().getSessionId());
             SharePrefUtil.saveString(this,"sessionId",data.getData().getSessionId());
             SharePrefUtil.saveString(getApplicationContext(),"user",new Gson().toJson(data.getData()));
+            setResult(1);
             finish();
         }else{
             tv_messagelogin.setText(data.getMessage());
@@ -531,6 +536,7 @@ public class LoginActivity extends AutoLayoutActivity implements LoginContract.V
             SharePrefUtil.saveBoolean(LoginActivity.this, "isLogin", true);
             SharePrefUtil.saveString(this,"sessionId",data.getData().getSessionId());
             SharePrefUtil.saveString(getApplicationContext(),"user",new Gson().toJson(data.getData()));
+            setResult(1);
             finish();
 
         }else{
@@ -557,6 +563,7 @@ public class LoginActivity extends AutoLayoutActivity implements LoginContract.V
             SharePrefUtil.saveBoolean(LoginActivity.this, "isLogin", true);
             SharePrefUtil.saveString(this,"sessionId",data.getData().getSessionId());
             SharePrefUtil.saveString(getApplicationContext(),"user",new Gson().toJson(data.getData()));
+            setResult(1);
             finish();
 //            Intent intent=new Intent(this, MainActivity.class);
 //            startActivity(intent);

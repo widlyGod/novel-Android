@@ -86,7 +86,7 @@ public class BookShelfAdapter extends BaseQuickAdapter<BookShelfBean.DataBean.Bo
         btn_jx.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                listener.iteamClickCallback(0,item.getNewChapterId(),item.getReadChapterId());
+                listener.iteamClickCallback(0,item.getReadChapterId(),item.getNovelId(),item.getReadIsFree());
 
             }
         });
@@ -95,7 +95,7 @@ public class BookShelfAdapter extends BaseQuickAdapter<BookShelfBean.DataBean.Bo
         btn_qx.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                listener.iteamClickCallback(1,item.getNovelId(),"");
+                listener.iteamClickCallback(1,item.getNovelId(),"","");
             }
         });
 
@@ -103,21 +103,21 @@ public class BookShelfAdapter extends BaseQuickAdapter<BookShelfBean.DataBean.Bo
         iv_book.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                listener.iteamClickCallback(2,item.getNovelId(),"");
+                listener.iteamClickCallback(2,item.getNovelId(),"","");
             }
         });
 
         tv_bookTitle.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                listener.iteamClickCallback(2,item.getNovelId(),"");
+                listener.iteamClickCallback(2,item.getNovelId(),"","");
             }
         });
 
         tv_reUpda.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                listener.iteamClickCallback(2,item.getNovelId(),"");
+                listener.iteamClickCallback(2,item.getNovelId(),"","");
             }
         });
     }

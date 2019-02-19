@@ -57,14 +57,18 @@
                         android:textColor="@color/dayTextColor"
                         android:textSize="17sp" />
 
-                    <!--<include-->
-                    <!--android:layout_width="match_parent"-->
-                    <!--android:layout_height="wrap_content"/>-->
+                    <include
+                        android:id="@+id/include_readfufei"
+                        layout="@layout/layout_readfufei"
+                        android:layout_below="@+id/tv_zw"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content" />
+
                     <LinearLayout
                         android:id="@+id/ll_syzmlxyz"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_below="@+id/tv_zw"
+                        android:layout_below="@+id/include_readfufei"
                         android:layout_marginLeft="36px"
                         android:layout_marginRight="36px"
                         android:layout_marginTop="60px"

@@ -9,10 +9,12 @@ import com.novel.cn.model.entity.BookShelfAllBean;
 import com.novel.cn.model.entity.BookShelfBean;
 import com.novel.cn.model.entity.BookShowBean;
 import com.novel.cn.model.entity.ChapterBean;
+import com.novel.cn.model.entity.ChargeChapterBean;
 import com.novel.cn.model.entity.HomeReturnBean;
 import com.novel.cn.model.entity.PersonDataBean;
 import com.novel.cn.model.entity.QueryUpayBean;
 import com.novel.cn.model.entity.RankingBean;
+import com.novel.cn.model.entity.ReadChapterBean;
 import com.novel.cn.model.entity.ReadResponBean;
 import com.novel.cn.model.entity.UserBean;
 import com.novel.cn.model.entity.VolumesBean;
@@ -135,9 +137,25 @@ public interface ApiService {
 
 
 
+
+    @Headers({"Content-Type: application/json", "Accept: application/json"})
+    @POST("novelOAService/catalogue/getCatalogue")
+    Observable<ReadChapterBean> getReadChapters(@Body RequestBody info);
+
     @Headers({"Content-Type: application/json", "Accept: application/json"})
     @POST("novelOAService/novel/readNovel")
     Observable<ReadResponBean> readNovel(@Body RequestBody info);
+    //addConsumeRecord  订阅本章节
+    @Headers({"Content-Type: application/json", "Accept: application/json"})
+    @GET("novelOAService/mobile/getChapter")
+    Observable<ReadResponBean> readChargeNovel(@Query("chapterId") String chapterId);
+
+
+    @Headers({"Content-Type: application/json", "Accept: application/json"})
+    @POST("novelOAService/novelDetail/isChargeChapter")
+    Observable<ChargeChapterBean> isChargeChapter(@Body RequestBody info);
+
+    //novelapi/novelOAService/novelDetail/addConsumeRecord  自动订阅下一章
 
 
 //                  /*          ctrl+shift+/    BookShowBean   */

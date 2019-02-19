@@ -63,7 +63,7 @@ public class RankingAllAdapter extends BaseQuickAdapter<BookShelfAllBean.DataBea
                             data.get(i).setClck(false);
                         }
                     }
-                    listener.iteamClickCallback(type,helper.getAdapterPosition(),"");
+                    listener.iteamClickCallback(type,helper.getAdapterPosition(),"","");
                 }
 
             }

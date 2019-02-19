@@ -6,6 +6,7 @@ import com.novel.cn.model.api.BaseSubscriber;
 import com.novel.cn.model.entity.BaseBean;
 import com.novel.cn.model.entity.BookDetailBean;
 import com.novel.cn.model.entity.BookShelfBean;
+import com.novel.cn.model.entity.ChargeChapterBean;
 import com.novel.cn.persenter.Contract.BookDeatilContract;
 import com.novel.cn.persenter.Contract.FragmentBookContract;
 import com.novel.cn.util.JsonUtils;
@@ -116,6 +117,8 @@ public class BookDetailPresenter implements BookDeatilContract.Presenter {
     public void giveOperation(String novelId, String number, int type) {
 
     }
+
+
 
 
 }

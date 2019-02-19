@@ -66,7 +66,7 @@ public class BookAllShowFragment extends BaseFragment implements ItemClickListen
     }
     //单条点击
     @Override
-    public void iteamClickCallback(int type, Object parameter1, Object parameter2) {
+    public void iteamClickCallback(int type, Object parameter1, Object parameter2, Object parameter3) {
 
     }
 
