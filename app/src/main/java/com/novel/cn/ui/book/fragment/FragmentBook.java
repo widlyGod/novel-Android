@@ -87,8 +87,6 @@ public class FragmentBook extends BaseFragment implements FragmentBookContract.V
             public void onTabReselected(TabLayout.Tab tab) {
             }
         });
-
-
     }
 
     @Override
@@ -119,6 +117,7 @@ public class FragmentBook extends BaseFragment implements FragmentBookContract.V
         }
     }
 
+
     @Override
     public void onLoadMoreRequested() {
         pageNum++;
@@ -126,14 +125,10 @@ public class FragmentBook extends BaseFragment implements FragmentBookContract.V
     }
 
 
-
-
     //获取书籍列表成功
     @Override
     public void getBookDataSuccess(BookShelfBean baseBean,boolean isLoadMore) {
-
         List<BookShelfBean.DataBean.BookBean> dataBeans = baseBean.getData().getBook();
-
         if (dataBeans != null) {
             if (isLoadMore) {
                 adapter.addData(adapter.getData().size() == 0 ? 0 : adapter.getData().size(), dataBeans);
@@ -151,7 +146,6 @@ public class FragmentBook extends BaseFragment implements FragmentBookContract.V
 //            adapter.loadMoreEnd(false);
             adapter.loadMoreEnd(isLoadMore == true ? false : true);
         }
-
     }
 
     //取消操作

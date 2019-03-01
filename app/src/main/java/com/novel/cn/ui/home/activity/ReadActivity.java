@@ -240,11 +240,9 @@ public class ReadActivity extends AutoLayoutActivity implements ReadContract.Vie
                             chapterBeans.get(i).getIsFree()==1?true:false);
                 }
             }
-
             @Override
             public void onStartTrackingTouch(SeekBar seekBar) {
             }
-
             @Override
             public void onStopTrackingTouch(SeekBar seekBar) {
             }

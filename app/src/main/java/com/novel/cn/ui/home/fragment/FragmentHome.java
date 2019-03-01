@@ -182,7 +182,8 @@ public class FragmentHome extends BaseFragment implements OnBannerClickListener,
     }
 
 
-    @OnClick({R.id.iv_fragment_personal_face, R.id.home_ranking, R.id.home_book, R.id.home_boy, R.id.home_girl,R.id.tv_hotsearch1, R.id.tv_hotsearch2, R.id.tv_hotsearch3})
+    @OnClick({R.id.iv_fragment_personal_face, R.id.home_ranking, R.id.home_book, R.id.home_boy, R.id.home_girl,
+            R.id.tv_hotsearch1, R.id.tv_hotsearch2, R.id.tv_hotsearch3})
     public void onViewClicked(View view) {
         switch (view.getId()) {
             case R.id.iv_fragment_personal_face: {
@@ -221,6 +222,7 @@ public class FragmentHome extends BaseFragment implements OnBannerClickListener,
     //广告图的点击事件
     @Override
     public void OnBannerClick(int position) {
+
     }
 
     //单个最近更新点击
