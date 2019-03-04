@@ -40,7 +40,8 @@ import butterknife.OnClick;
  * Created by jackieli on 2018/12/26.
  */
 
-public class FragmentRecharge extends BaseFragment implements FragmentRechargeContract.View, View.OnTouchListener, View.OnFocusChangeListener {
+public class FragmentRecharge extends BaseFragment implements
+        FragmentRechargeContract.View, View.OnTouchListener, View.OnFocusChangeListener {
 
 
     @Bind(R.id.appbar)

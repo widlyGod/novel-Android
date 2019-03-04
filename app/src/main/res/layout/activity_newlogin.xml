@@ -10,13 +10,10 @@
     <RelativeLayout
         android:id="@+id/appbar"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:background="#fb811e">
-
+        android:layout_height="wrap_content">
         <ImageView
             android:id="@+id/iv_left"
             style="@style/iv_back" />
-
         <TextView
             android:id="@+id/toolbar"
             android:layout_width="wrap_content"
@@ -25,37 +22,19 @@
             android:layout_weight="1"
             android:gravity="center"
             android:text="登录"
-            android:textColor="@android:color/white"
-            android:textSize="18sp"></TextView>
+            android:textColor="@android:color/black"
+            android:textSize="18sp"/>
     </RelativeLayout>
-
-    <ImageView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="74px"
-        android:src="@drawable/loginlogo" />
 
     <ScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
         <LinearLayout
+            android:layout_marginTop="20dp"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:orientation="vertical">
-
-            <android.support.design.widget.TabLayout
-                android:id="@+id/tablayout"
-                android:layout_width="match_parent"
-                android:layout_height="?attr/actionBarSize"
-                android:layout_marginTop="30px"
-                android:fillViewport="false"
-                app:layout_scrollFlags="scroll"
-                app:tabIndicatorColor="#ff7f00"
-                app:tabIndicatorHeight="2.0dp"
-                app:tabSelectedTextColor="#ff7f00"
-                app:tabTextColor="#999999" />
-
 
             <RelativeLayout
                 android:layout_width="match_parent"
@@ -78,7 +57,7 @@
                         android:textColorHint="#c7c7c7"
                         app:hintAnimationEnabled="false"
                         app:hintEnabled="false"
-                       >
+                        >
                         <!-- android:drawableBottom="@drawable/login_below" -->
                         <android.support.design.widget.TextInputEditText
                             android:id="@+id/et_username"
@@ -88,7 +67,7 @@
                             android:layout_centerHorizontal="true"
                             android:background="@null"
                             android:hint="用户邮箱"
-                             />
+                            />
 
                         <View
                             android:layout_width="match_parent"
@@ -139,12 +118,6 @@
 
                 </LinearLayout>
 
-                <include
-                    android:id="@+id/ic_yxzc"
-                    layout="@layout/include_loginzc"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                     />
             </RelativeLayout>
 
             <TextView
@@ -174,35 +147,14 @@
                 android:layout_marginLeft="37px"
                 android:layout_marginTop="60px"
                 >
-
-                <LinearLayout
-                    android:id="@+id/ll_zhucexy"
-                    android:visibility="gone"
+                <TextView
+                    android:id="@+id/tv_ljzc"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:orientation="horizontal">
-                    <CheckBox
-                        android:id="@+id/cb_zhuce"
-                        android:text="我已阅读并同意《"
-                        android:textColor="#999999"
-                        android:textSize="13sp"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:checked="true" />
-                    <TextView
-                        android:id="@+id/tv_yhzcxy"
-                        android:textColor="#328b86"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="用户注册协议"
-                        android:textSize="13sp" />
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="》"
-                        android:textSize="13sp" />
-                </LinearLayout>
-
+                    android:layout_centerVertical="true"
+                    android:text="立即注册"
+                    android:textColor="#666666"
+                    android:textSize="15sp" />
                 <TextView
                     android:id="@+id/tv_forpw"
                     android:layout_width="wrap_content"
@@ -211,7 +163,7 @@
                     android:layout_alignParentRight="true"
                     android:layout_marginRight="36px"
                     android:text="忘记密码"
-                    android:textColor="#ff7f00"
+                    android:textColor="#666666"
                     android:textSize="15sp" />
             </RelativeLayout>
 
@@ -219,7 +171,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_gravity="bottom"
-                android:layout_marginTop="22px">
+                android:layout_marginTop="60dp">
 
                 <LinearLayout
                     android:id="@+id/ll_dsf"

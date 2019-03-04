@@ -109,7 +109,6 @@ public class FragmentHome extends BaseFragment implements OnBannerClickListener,
         banner.setImageLoader(new GlideImageLoader());
         inintHomeView();
 
-
         handler = new Handler();
         runnable = new Runnable() {
             @Override

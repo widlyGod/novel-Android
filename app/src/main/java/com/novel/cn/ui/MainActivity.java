@@ -47,7 +47,6 @@ public class MainActivity extends AutoLayoutActivity implements FragmentListener
     @Bind(R.id.home_rg)
     RadioGroup homeRg;
 
-
     private ArrayList<Fragment> framgnets;
     private int lastIndex = 0;
     private FragmentHome fragmentHome;
