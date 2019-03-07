@@ -10,8 +10,6 @@ import android.text.TextUtils;
 import android.util.Log;
 
 import com.alipay.sdk.app.PayTask;
-import com.novel.cn.app.Constants;
-import com.novel.cn.model.entity.PayReponse;
 import com.novel.cn.model.entity.WxOrderBean;
 import com.novel.cn.util.LogUtil;
 import com.novel.cn.util.ToastUtils;

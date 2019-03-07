@@ -5,7 +5,7 @@ import android.support.multidex.MultiDexApplication;
 
 import com.facebook.drawee.backends.pipeline.Fresco;
 import com.mob.MobSDK;
-import com.novel.cn.ui.MainActivity;
+import com.novel.cn.newui.MainActivity;
 import com.novel.cn.util.Utils;
 
 import java.util.LinkedList;

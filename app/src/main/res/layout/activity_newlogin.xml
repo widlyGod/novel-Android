@@ -68,7 +68,6 @@
                             android:background="@null"
                             android:hint="用户邮箱"
                             />
-
                         <View
                             android:layout_width="match_parent"
                             android:layout_height="2px"
@@ -76,9 +75,7 @@
                             android:layout_marginRight="37px"
                             android:background="#c7c7c7" />
 
-
                     </android.support.design.widget.TextInputLayout>
-
 
                     <!--
                                     app:passwordToggleDrawable="@drawable/login_openeys"
@@ -93,7 +90,6 @@
                         app:hintAnimationEnabled="false"
                         app:passwordToggleDrawable="@drawable/st_eteyes"
                         app:passwordToggleEnabled="true">
-
                         <!--
                             android:drawableLeft="@drawable/login_delete"
                         -->
@@ -136,7 +132,7 @@
                 android:layout_width="678px"
                 android:layout_height="78px"
                 android:layout_gravity="center_horizontal"
-                android:layout_marginTop="74px"
+                android:layout_marginTop="54px"
                 android:text="登 录"
                 android:textColor="@android:color/white"
                 android:textSize="18sp" />
@@ -153,7 +149,7 @@
                     android:layout_height="wrap_content"
                     android:layout_centerVertical="true"
                     android:text="立即注册"
-                    android:textColor="#666666"
+                    android:textColor="#7BA9DF"
                     android:textSize="15sp" />
                 <TextView
                     android:id="@+id/tv_forpw"
@@ -171,20 +167,17 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_gravity="bottom"
-                android:layout_marginTop="60dp">
-
+                android:layout_marginTop="50dp">
                 <LinearLayout
                     android:id="@+id/ll_dsf"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_centerHorizontal="true">
-
                     <TextView
                         android:layout_width="170px"
                         android:layout_height="2px"
                         android:layout_gravity="center_vertical"
                         android:background="#999999" />
-
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
@@ -193,7 +186,6 @@
                         android:text="第三方账号登录"
                         android:textColor="#666666"
                         android:textSize="15sp" />
-
                     <TextView
                         android:layout_width="170px"
                         android:layout_height="2px"
@@ -201,7 +193,6 @@
                         android:background="#999999" />
                 </LinearLayout>
             </RelativeLayout>
-
 
             <LinearLayout
                 android:id="@+id/login_ll"
@@ -212,7 +203,6 @@
                 android:layout_marginRight="60dp"
                 android:layout_marginTop="40px"
                 android:orientation="horizontal">
-
                 <ImageButton
                     android:id="@+id/iv_qq"
                     android:layout_gravity="center_vertical"
@@ -223,7 +213,6 @@
                     android:background="@null"
                     android:clickable="true"
                     android:src="@drawable/login_qq" />
-
                 <ImageButton
                     android:id="@+id/iv_wx"
                     android:layout_gravity="center_vertical"
@@ -233,7 +222,6 @@
                     android:background="@null"
                     android:clickable="true"
                     android:src="@drawable/login_wx" />
-
                 <ImageButton
                     android:id="@+id/iv_wb"
                     android:layout_gravity="center_vertical"
@@ -244,6 +232,8 @@
                     android:clickable="true"
                     android:src="@drawable/login_weibo" />
             </LinearLayout>
+
         </LinearLayout>
     </ScrollView>
+
 </LinearLayout>

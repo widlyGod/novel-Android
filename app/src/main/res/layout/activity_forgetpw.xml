@@ -9,7 +9,7 @@
         android:id="@+id/appbar"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="#fb811e">
+        >
 
         <ImageView
             android:id="@+id/iv_left"
@@ -22,9 +22,9 @@
             android:layout_centerInParent="true"
             android:layout_weight="1"
             android:gravity="center"
-            android:text="登录"
-            android:textColor="@android:color/white"
-            android:textSize="18sp"></TextView>
+            android:text="重置密码"
+            android:textColor="@android:color/black"
+            android:textSize="18sp"/>
     </RelativeLayout>
 
 

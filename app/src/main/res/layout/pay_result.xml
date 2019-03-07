@@ -11,7 +11,7 @@
         android:layout_centerInParent="true"
         android:textColor="#ff000000"
         android:textSize="20dp"
-        android:text="微信支付结果结果测试"/>
+        android:text="微信支付结果结果测试 不可删文件"/>
 
 
 </RelativeLayout>

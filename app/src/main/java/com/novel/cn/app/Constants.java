@@ -1,8 +1,5 @@
 package com.novel.cn.app;
 
-import com.novel.cn.view.readView.AppUtils;
-import com.novel.cn.view.readView.FileUtils;
-
 /**
  * Created by jackieli on 2018/12/19.
  */

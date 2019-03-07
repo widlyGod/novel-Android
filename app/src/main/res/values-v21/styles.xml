@@ -1,14 +1,19 @@
-<resources>
-    <style name="TranslucentTheme" parent="Theme.AppCompat.Light.DarkActionBar">
+<resources xmlns:tools="http://schemas.android.com/tools">
+    <style name="TranslucentTheme" parent="Base.Theme.AppCompat.Light">
         <item name="windowActionBar">false</item>
         <item name="windowNoTitle">true</item>
         <item name="android:windowTranslucentStatus">false</item>
         <!--Android 5.x开始需要把颜色设置透明，否则导航栏会呈现系统默认的浅灰色-->
-        <item name="android:statusBarColor">#fb811e</item>
-
+        <item name="android:statusBarColor">#ffffff</item>
+        <item name="android:windowLightStatusBar" tools:ignore="NewApi">true</item>
     </style>
 
+
 <!--
-        <item name="android:windowTranslucentNavigation">true</item>
+
+    parent="Theme.AppCompat.Light.DarkActionBar"
+
+    <item name="android:windowTranslucentNavigation">true</item>
 -->
+
 </resources>

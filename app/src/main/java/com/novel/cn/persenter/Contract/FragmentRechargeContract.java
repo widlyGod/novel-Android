@@ -4,9 +4,6 @@ import com.novel.cn.base.BaseComtract;
 import com.novel.cn.base.BasePresenter;
 import com.novel.cn.base.BaseView;
 import com.novel.cn.model.entity.AplipayOrderBean;
-import com.novel.cn.model.entity.BaseBean;
-import com.novel.cn.model.entity.BaseListObjectBean;
-import com.novel.cn.model.entity.HomeReturnBean;
 import com.novel.cn.model.entity.QueryUpayBean;
 import com.novel.cn.model.entity.WxOrderBean;
 

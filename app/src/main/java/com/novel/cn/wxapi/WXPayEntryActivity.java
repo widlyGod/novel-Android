@@ -65,7 +65,7 @@ public class WXPayEntryActivity extends Activity implements IWXAPIEventHandler {
 			switch (code) {
 				case 0:
 					//更新阅读币
-					NovelApplication.getMainActivity().setRechargeUpdate();
+//					NovelApplication.getMainActivity().setRechargeUpdate();
 					ToastUtils.showShortToast("支付成功");
 					finish();
 					break;
