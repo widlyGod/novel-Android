@@ -35,7 +35,7 @@ import org.greenrobot.eventbus.Subscribe;
 import butterknife.Bind;
 import butterknife.OnClick;
 
-/**支付的代码，可用
+/**老版本小说支付的代码
  * Created by jackieli on 2018/12/26.
  */
 
@@ -88,7 +88,6 @@ public class FragmentRecharge extends BaseFragment implements
 
     @Override
     public void initViews() {
-        //支付宝沙盒环境
         EnvUtils.setEnv(EnvUtils.EnvEnum.SANDBOX);
         EventBus.getDefault().register(this);//在当前界面注册一个订阅者
 

@@ -7,7 +7,7 @@ package com.novel.cn.app;
 public class Constants {
 
 
-    public static String popzd="自动订阅:付费章节，不再显示订阅提醒，自动扣阅读币，阅读更流畅";
+    public static String popzd="bs_autosub:付费章节，不再显示订阅提醒，自动扣阅读币，阅读更流畅";
 
     public static String poptjp="什么是推荐票？\n" +
             "\n" +

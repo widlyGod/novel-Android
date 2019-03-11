@@ -244,7 +244,6 @@ public class LoginActivity extends AutoLayoutActivity implements LoginContract.V
                 });
             }
 
-
             @Override
             public void onCancel(Platform platform, int i) {
                 LogUtil.e("第三方登陆回调onCancel:");
@@ -256,9 +255,6 @@ public class LoginActivity extends AutoLayoutActivity implements LoginContract.V
         }
         other.showUser(null);//验证加获取用户信息
     }
-
-
-
 
 
     private String errorText="";

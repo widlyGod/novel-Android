@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:background="@drawable/bs_frame"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content">
+
+    <LinearLayout
+        android:orientation="vertical"
+        android:layout_marginTop="23dp"
+        android:layout_marginLeft="10dp"
+        android:layout_width="130dp"
+        android:layout_height="215dp">
+        <TextView
+            android:id="@+id/pop_localimo"
+            android:drawableLeft="@drawable/bs_localimo"
+            android:paddingLeft="10dp"
+            android:textColor="#000000"
+            android:gravity="center"
+            android:textSize="14sp"
+            android:text="本地导入"
+            android:layout_weight="1"
+            android:layout_width="match_parent"
+            android:layout_height="0dp" />
+        <TextView
+            android:id="@+id/pop_readrec"
+            android:drawableLeft="@drawable/bs_readrec"
+            android:paddingLeft="10dp"
+            android:textColor="#000000"
+            android:gravity="center"
+            android:textSize="14sp"
+            android:text="阅读记录"
+            android:layout_weight="1"
+            android:layout_width="match_parent"
+            android:layout_height="0dp" />
+        <TextView
+            android:id="@+id/pop_batchman"
+            android:drawableLeft="@drawable/bs_batchman"
+            android:paddingLeft="10dp"
+            android:textColor="#000000"
+            android:gravity="center"
+            android:textSize="14sp"
+            android:text="批量管理"
+            android:layout_weight="1"
+            android:layout_width="match_parent"
+            android:layout_height="0dp" />
+        <TextView
+            android:id="@+id/pop_downman"
+            android:drawableLeft="@drawable/bs_downman"
+            android:paddingLeft="10dp"
+            android:textColor="#000000"
+            android:gravity="center"
+            android:textSize="14sp"
+            android:text="下载管理"
+            android:layout_weight="1"
+            android:layout_width="match_parent"
+            android:layout_height="0dp" />
+        <TextView
+            android:id="@+id/pop_autosub"
+            android:drawableLeft="@drawable/bs_autosub"
+            android:paddingLeft="10dp"
+            android:textColor="#000000"
+            android:gravity="center"
+            android:textSize="14sp"
+            android:text="自动订阅"
+            android:layout_weight="1"
+            android:layout_width="match_parent"
+            android:layout_height="0dp" />
+
+    </LinearLayout>
+
+
+</LinearLayout>

@@ -45,7 +45,6 @@ public class MainActivity extends AutoLayoutActivity implements FragmentListener
     public Dialog_Loading dialog_loading;
 
 
-
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -107,16 +106,12 @@ public class MainActivity extends AutoLayoutActivity implements FragmentListener
                 lastIndex = index;
             }
         });
-
     }
 
     //检查权限
     private void checkRequiredPermission() {
 
-
     }
-
-
 
     @Override
     public void onBackFragment() {
