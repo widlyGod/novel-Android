@@ -3,6 +3,7 @@ package com.novel.cn.model.api;
 
 import com.novel.cn.model.entity.BaseBean;
 import com.novel.cn.model.entity.BaseObjectBean;
+import com.novel.cn.model.entity.BookShelfBean;
 import com.novel.cn.model.entity.QueryUpayBean;
 import com.novel.cn.model.entity.UserBean;
 
@@ -41,6 +42,20 @@ public interface ApiService {
     @POST
     Observable<BaseObjectBean<UserBean>> otherLoginRegister(@Url String url,@Body RequestBody info);
 
+    @Headers({"Content-Type: application/json", "Accept: application/json"})
+    @POST("novelOAService/mobile/getAllCollection")
+    Observable<BookShelfBean> getAllCollection(@Body RequestBody info);
+
+    @Headers({"Content-Type: application/json", "Accept: application/json"})
+    @GET("novelUserService/user/logout")
+    Observable<BaseBean> logout();
+
+
+
+
+
+
+
 
 
 
@@ -52,12 +67,5 @@ public interface ApiService {
     @Headers({"Content-Type: application/json", "Accept: application/json"})
     @POST("novelOAService/accountCenter/queryPersonAccount")
     Observable<QueryUpayBean> queryUpayCenter();
-
-
-    @Headers({"Content-Type: application/json", "Accept: application/json"})
-    @GET("novelUserService/user/logout")
-    Observable<BaseBean> logout();
-
-
 
 }
