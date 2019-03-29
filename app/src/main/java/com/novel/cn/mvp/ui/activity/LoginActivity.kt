@@ -23,6 +23,7 @@ import com.novel.cn.di.module.LoginModule
 import com.novel.cn.mvp.contract.LoginContract
 import com.novel.cn.mvp.model.entity.UserInfo
 import com.novel.cn.mvp.presenter.LoginPresenter
+import com.novel.cn.mvp.ui.dialog.SignInDialog
 import com.novel.cn.utils.PartsUtil
 import com.novel.cn.utils.StatusBarUtils
 import io.reactivex.Observable
@@ -33,7 +34,6 @@ import org.jetbrains.anko.startActivity
 
 
 class LoginActivity : BaseActivity<LoginPresenter>(), LoginContract.View {
-
 
     override fun setupActivityComponent(appComponent: AppComponent) {
         DaggerLoginComponent
@@ -105,6 +105,7 @@ class LoginActivity : BaseActivity<LoginPresenter>(), LoginContract.View {
                 RxTextView.textChanges(et_password),
                 BiFunction<CharSequence, CharSequence, Boolean> { userName, password ->
                     iv_clean.visible(password.trim().isNotEmpty())
+                    //都不为空返回true
                     return@BiFunction userName.trim().isNotEmpty() && password.trim().isNotEmpty()
                 }
         ).subscribe {
@@ -124,8 +125,8 @@ class LoginActivity : BaseActivity<LoginPresenter>(), LoginContract.View {
      */
     override fun loginSuccess(data: UserInfo) {
         //保存数据
-        Preference.put(Constant.USER_INFO,data)
-        Preference.put(Constant.SESSION_ID,data.sessionId)
+        Preference.put(Constant.USER_INFO, data)
+        Preference.put(Constant.SESSION_ID, data.sessionId)
         finish()
     }
 

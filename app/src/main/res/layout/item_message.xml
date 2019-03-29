@@ -15,7 +15,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="[连载更新]"
-        android:textColor="#f93ad7" />
+     />
 
     <TextView
         android:id="@+id/tv_content"

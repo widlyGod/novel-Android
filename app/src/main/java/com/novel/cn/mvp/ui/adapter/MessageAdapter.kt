@@ -31,8 +31,12 @@ class MessageAdapter : BaseQuickAdapter<Message, BaseViewHolder>(R.layout.item_m
 
     override fun convert(helper: BaseViewHolder, item: Message) {
 
-        helper.itemView.tv_title.setTextColor(map[item.typeNumber]?.toInt()!! )
-
+        with(helper.itemView) {
+            tv_title.setTextColor(map[item.typeNumber]?.toInt()!!)
+            tv_title.text = item.typeName
+            tv_content.text = item.headContent
+            tv_date.text = item.sortTime
+        }
     }
 
 }

@@ -19,8 +19,10 @@ import com.novel.cn.mvp.contract.MyContract
 import com.novel.cn.mvp.presenter.MyPresenter
 
 import com.novel.cn.R
+import com.novel.cn.app.click
 import com.novel.cn.mvp.ui.activity.LoginActivity
 import com.novel.cn.mvp.ui.activity.MessageActivity
+import com.novel.cn.mvp.ui.activity.SettingActivity
 import com.novel.cn.utils.StatusBarUtils
 import kotlinx.android.synthetic.main.fragment_my.*
 import org.jetbrains.anko.startActivity
@@ -52,13 +54,14 @@ class MyFragment : BaseFragment<MyPresenter>(), MyContract.View {
         //给布局加一个状态栏高度
         StatusBarUtils.setPadding(activity, top)
 
-        tv_login.setOnClickListener {
-            activity?.startActivity<LoginActivity>()
+
+        click(iv_setting, fl_messsage) {
+            when (it) {
+                iv_setting ->  activity?.startActivity<SettingActivity>()
+                fl_messsage -> activity?.startActivity<MessageActivity>()
+            }
         }
 
-        fl_messsage.setOnClickListener {
-            activity?.startActivity<MessageActivity>()
-        }
     }
 
 

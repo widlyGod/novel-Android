@@ -5,17 +5,15 @@ import com.jess.arms.di.scope.ActivityScope
 import dagger.Module
 import dagger.Provides
 
-import com.novel.cn.mvp.contract.MessageContract
-import com.novel.cn.mvp.model.MessageModel
-import com.novel.cn.mvp.ui.adapter.MessageAdapter
-import com.novel.cn.mvp.ui.adapter.MessageFilterAdapter
+import com.novel.cn.mvp.contract.SettingContract
+import com.novel.cn.mvp.model.SettingModel
 
 
 /**
  * ================================================
  * Description:
  * <p>
- * Created by MVPArmsTemplate on 03/28/2019 16:56
+ * Created by MVPArmsTemplate on 03/29/2019 17:03
  * <a href="mailto:jess.yan.effort@gmail.com">Contact me</a>
  * <a href="https://github.com/JessYanCoding">Follow me</a>
  * <a href="https://github.com/JessYanCoding/MVPArms">Star me</a>
@@ -24,27 +22,17 @@ import com.novel.cn.mvp.ui.adapter.MessageFilterAdapter
  * ================================================
  */
 @Module
-//构建MessageModule时,将View的实现类传进来,这样就可以提供View的实现类给presenter
-class MessageModule(private val view: MessageContract.View) {
+//构建SettingModule时,将View的实现类传进来,这样就可以提供View的实现类给presenter
+class SettingModule(private val view: SettingContract.View) {
     @ActivityScope
     @Provides
-    fun provideMessageView(): MessageContract.View {
+    fun provideSettingView(): SettingContract.View {
         return this.view
     }
 
     @ActivityScope
     @Provides
-    fun provideMessageModel(model: MessageModel): MessageContract.Model {
+    fun provideSettingModel(model: SettingModel): SettingContract.Model {
         return model
     }
-
-    @ActivityScope
-    @Provides
-    fun provideMessageAdapater() = MessageAdapter()
-
-
-    @ActivityScope
-    @Provides
-    fun provideMessageFilterAdapter() = MessageFilterAdapter()
-
 }

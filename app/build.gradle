@@ -4,6 +4,14 @@ apply plugin: 'kotlin-android-extensions'
 apply plugin: 'kotlin-kapt'
 apply from: '../mobsdk.gradle'
 
+
+def addFieldsAndPlaceholders = { flavor, items ->
+    for (def item : items) {
+        flavor.buildConfigField "String", item.key, '"' + item.value + '"'
+    }
+    flavor.addManifestPlaceholders(items)
+}
+
 android {
     compileSdkVersion rootProject.ext.android["compileSdkVersion"]
     buildToolsVersion rootProject.ext.android["buildToolsVersion"]
@@ -21,10 +29,19 @@ android {
         versionCode rootProject.ext.android["versionCode"]
         versionName rootProject.ext.android["versionName"]
         testInstrumentationRunner rootProject.ext.dependencies["androidJUnitRunner"]
-
+        resValue 'string', 'app_name', '云纵文学'
         multiDexEnabled true
     }
 
+    signingConfigs {
+
+        release {
+            keyAlias 'app_key'
+            keyPassword '123456'
+            storeFile file('yunzong.jks')
+            storePassword '123456'
+        }
+    }
     buildTypes {
         debug {
             buildConfigField "boolean", "LOG_DEBUG", "true"
@@ -34,6 +51,7 @@ android {
         }
 
         release {
+            signingConfig signingConfigs.release
             buildConfigField "boolean", "LOG_DEBUG", "false"
             buildConfigField "boolean", "USE_CANARY", "false"
             minifyEnabled false
@@ -42,11 +60,51 @@ android {
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
     }
+    flavorDimensions "novel"
 
     lintOptions {
         disable 'InvalidPackage'
         disable "ResourceType"
         abortOnError false
+    }
+
+    productFlavors {
+        dev {
+            applicationId "dev.novel.cn"
+            addFieldsAndPlaceholders(it, [
+                    PACKAGE_NAME: applicationId,
+            ])
+            resValue("string", "app_name", "云纵文学-dev")
+        }
+
+        beta {
+            applicationId "beta.novel.cn"
+            addFieldsAndPlaceholders(it, [
+                    PACKAGE_NAME: applicationId,
+            ])
+            resValue("string", "app_name", "云纵文学-beta")
+        }
+        me {
+
+        }
+    }
+
+    variantFilter { variant ->
+        if (variant.buildType.name == "debug") {
+            if (!['devDebug', 'betaDebug'].contains(variant.name)) {
+                variant.setIgnore(true);
+            }
+        } else if (['devRelease', 'devRelease', 'betaRelease'].contains(variant.name)) {
+            variant.setIgnore(true);
+        }
+    }
+    android.applicationVariants.all { variant ->
+        variant.outputs.all {
+            //定义apk名字
+            def formatedDate = new Date().format("yyyy_MM_dd_HHmmss")
+            def apkFileName = "${variant.flavorName}_${android.defaultConfig.versionName}_${formatedDate}.apk";
+            outputFileName = apkFileName
+        }
     }
 }
 
@@ -56,7 +114,6 @@ dependencies {
     //support
     implementation rootProject.ext.dependencies["cardview-v7"]
     implementation rootProject.ext.dependencies["design"]
-
 
     //tools
     //注意 Arms 核心库现在并不会依赖某个 EventBus, 要想使用 EventBus, 还请在项目中自行依赖对应的 EventBus
@@ -104,5 +161,6 @@ dependencies {
     implementation rootProject.ext.dependencies["refreshLayout"]
     implementation rootProject.ext.dependencies["multiStateView"]
     implementation rootProject.ext.dependencies["banner"]
-    implementation rootProject.ext.dependencies["circleimageview"]
+
+    implementation rootProject.ext.dependencies["switchbutton"]
 }

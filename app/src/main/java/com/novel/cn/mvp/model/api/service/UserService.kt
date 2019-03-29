@@ -16,6 +16,7 @@
 package com.novel.cn.mvp.model.api.service
 
 import com.novel.cn.mvp.model.entity.BaseResponse
+import com.novel.cn.mvp.model.entity.MessageBean
 import com.novel.cn.mvp.model.entity.SignIn
 import com.novel.cn.mvp.model.entity.UserInfo
 import io.reactivex.Observable
@@ -63,7 +64,17 @@ interface UserService {
     @POST("novelapi/novelUserService/sign/in")
     fun signIn(@Body params: HashMap<String, String>): Observable<BaseResponse<Any>>
 
+    /**
+     * 是否签到
+     */
     @GET("novelUserService/sign/validSignIn")
     fun validateSignIn(): Observable<BaseResponse<SignIn>>
+
+    /**
+     * 我的消息
+     */
+
+    @POST("novelOAService/novelMessage/getNovelMessageList")
+    fun getMessasgeList(@Body params: HashMap<String, String>): Observable<BaseResponse<MessageBean>>
 
 }

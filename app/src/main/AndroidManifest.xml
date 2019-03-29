@@ -64,6 +64,9 @@
         <activity
             android:name=".mvp.ui.activity.MessageActivity"
             android:label="我的消息" />
+        <activity
+            android:name=".mvp.ui.activity.SettingActivity"
+            android:label="设置" />
     </application>
 
 </manifest>

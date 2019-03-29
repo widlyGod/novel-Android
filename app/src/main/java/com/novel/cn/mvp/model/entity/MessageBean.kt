@@ -1,6 +1,8 @@
 package com.novel.cn.mvp.model.entity
 
-data class MessageBean(val novelMessageCount: Int,val  novelMessageList: List<Message>)
+import com.google.gson.annotations.SerializedName
+
+data class MessageBean(@SerializedName("novelMessageCount")val total: Int, @SerializedName("novelMessageList")val  list: List<Message>)
 
 
 data class Message(val commentId: String, val headContent: String, val id: String, val messageStatus: String, val messageType: Int,

@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginTop="15dp"
+    android:orientation="vertical">
+
+
+    <TextView
+        android:id="@+id/tv_title"
+        android:layout_width="95dp"
+        android:layout_height="55dp"
+        android:layout_gravity="center"
+        android:background="@drawable/selector_check_filter"
+        android:gravity="center"
+        android:text="全部"
+        android:textColor="#555555"
+        android:textSize="12sp" />
+
+</FrameLayout>

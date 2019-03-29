@@ -8,18 +8,14 @@ import com.jess.arms.mvp.BaseModel
 import com.jess.arms.di.scope.ActivityScope
 import javax.inject.Inject
 
-import com.novel.cn.mvp.contract.MessageContract
-import com.novel.cn.mvp.model.api.service.UserService
-import com.novel.cn.mvp.model.entity.BaseResponse
-import com.novel.cn.mvp.model.entity.MessageBean
-import io.reactivex.Observable
+import com.novel.cn.mvp.contract.SettingContract
 
 
 /**
  * ================================================
  * Description:
  * <p>
- * Created by MVPArmsTemplate on 03/28/2019 16:56
+ * Created by MVPArmsTemplate on 03/29/2019 17:03
  * <a href="mailto:jess.yan.effort@gmail.com">Contact me</a>
  * <a href="https://github.com/JessYanCoding">Follow me</a>
  * <a href="https://github.com/JessYanCoding/MVPArms">Star me</a>
@@ -28,17 +24,15 @@ import io.reactivex.Observable
  * ================================================
  */
 @ActivityScope
-class MessageModel
+class SettingModel
 @Inject
-constructor(repositoryManager: IRepositoryManager) : BaseModel(repositoryManager), MessageContract.Model {
-
-
+constructor(repositoryManager: IRepositoryManager) : BaseModel(repositoryManager), SettingContract.Model {
     @Inject
     lateinit var mGson: Gson;
     @Inject
     lateinit var mApplication: Application;
 
-    override fun getMessageList(params: HashMap<String, String>): Observable<BaseResponse<MessageBean>> {
-        return mRepositoryManager.obtainRetrofitService(UserService::class.java).getMessasgeList(params)
+    override fun onDestroy() {
+        super.onDestroy();
     }
 }
