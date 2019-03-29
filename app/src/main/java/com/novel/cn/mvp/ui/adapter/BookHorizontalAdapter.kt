@@ -1,0 +1,21 @@
+package com.novel.cn.mvp.ui.adapter
+
+import com.chad.library.adapter.base.BaseQuickAdapter
+import com.chad.library.adapter.base.BaseViewHolder
+import com.novel.cn.R
+import com.novel.cn.app.loadImage
+import com.novel.cn.mvp.model.entity.BookInfo
+import kotlinx.android.synthetic.main.item_banner_child.view.*
+
+class BookHorizontalAdapter : BaseQuickAdapter<BookInfo, BaseViewHolder>(R.layout.item_banner_child) {
+    override fun convert(helper: BaseViewHolder, item: BookInfo) {
+
+        with(helper.itemView) {
+            iv_book_image2.loadImage(item.photoContent)
+            tv_title.text = item.novelTitle
+            tv_author.text = item.penName
+            tv_desc.text = item.novelDescribe
+        }
+
+    }
+}

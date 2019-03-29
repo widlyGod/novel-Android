@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    >
+
+    <View
+        android:background="#f3f3f3"
+        android:layout_width="match_parent"
+        android:layout_height="2dp"/>
+    <TextView
+        android:padding="25dp"
+        android:id="@+id/tv_title_indicator"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="精选必读"
+        android:textColor="@color/color_333333"
+        android:textSize="17sp" />
+
+</LinearLayout>

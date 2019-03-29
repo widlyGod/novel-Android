@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@color/white"
+    android:orientation="vertical"
+    android:paddingLeft="18dp"
+    android:paddingTop="12dp"
+    android:paddingRight="18dp"
+    android:paddingBottom="12dp">
+
+    <TextView
+        android:id="@+id/tv_bookName"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="斗破苍穹"
+        android:textColor="@color/color_333333"
+        android:textSize="14sp" />
+
+    <TextView
+        android:id="@+id/tv_time"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:text="2019-12-18  15:55"
+        android:textColor="#acb3bc"
+        android:textSize="11sp" />
+
+
+</LinearLayout>

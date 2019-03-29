@@ -1,0 +1,135 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:background="@color/white"
+    android:orientation="vertical">
+
+    <include layout="@layout/include_title" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:padding="17dp">
+
+        <EditText
+            android:id="@+id/et_email"
+            android:layout_width="match_parent"
+            android:layout_height="40dp"
+            android:layout_marginTop="20dp"
+            android:background="@null"
+            android:gravity="center_vertical"
+            android:hint="请输入邮箱"
+            android:paddingLeft="12dp"
+            android:paddingRight="12dp"
+            android:textColorHint="#999999"
+            android:textSize="15sp" />
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="@color/line" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20dp"
+            android:orientation="horizontal">
+
+            <EditText
+                android:id="@+id/et_email_code"
+                android:layout_width="0dp"
+                android:layout_height="40dp"
+                android:layout_weight="1"
+                android:background="@null"
+                android:gravity="center_vertical"
+                android:hint="验证码"
+                android:inputType="text"
+                android:maxLength="12"
+                android:paddingLeft="12dp"
+                android:paddingRight="12dp"
+                android:textColorHint="#999999"
+                android:textSize="15sp" />
+
+
+            <TextView
+                android:id="@+id/tv_get_email_code"
+                android:layout_width="90dp"
+                android:layout_height="28dp"
+                android:layout_marginRight="10dp"
+                android:background="@drawable/selector_code"
+                android:clickable="false"
+                android:enabled="false"
+                android:gravity="center"
+                android:text="获取验证码"
+                android:textColor="@color/selector_code"
+                android:textSize="12sp" />
+        </LinearLayout>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="@color/line" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20dp"
+            android:orientation="horizontal">
+
+            <EditText
+                android:id="@+id/et_password"
+                android:layout_width="0dp"
+                android:layout_height="40dp"
+                android:layout_weight="1"
+                android:background="@null"
+                android:gravity="center_vertical"
+                android:hint="新密码"
+                android:inputType="textPassword"
+                android:maxLength="12"
+                android:paddingLeft="12dp"
+                android:paddingRight="12dp"
+                android:textColorHint="#999999"
+                android:textSize="15sp" />
+
+
+            <ImageView
+                android:id="@+id/iv_eyes"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_gravity="center_vertical"
+                android:paddingLeft="10dp"
+                android:paddingRight="10dp"
+                android:src="@drawable/st_eteyes" />
+        </LinearLayout>
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="@color/line" />
+        <TextView
+            android:id="@+id/tv_tip"
+            android:layout_width="wrap_content"
+            android:layout_height="37dp"
+            android:layout_marginLeft="15dp"
+            android:gravity="center"
+            android:text="密码过短，请输入6-12位密码"
+            android:textColor="#f53d4e"
+            android:textSize="11sp" />
+
+        <com.flyco.roundview.RoundTextView
+            android:id="@+id/tv_confirm"
+            android:layout_width="match_parent"
+            android:layout_height="40dp"
+            android:gravity="center"
+            android:enabled="false"
+            android:text="确定"
+            android:textColor="@color/white"
+            app:rv_backgroundColor="#C7C7C7"
+            app:rv_isRadiusHalfHeight="true" />
+
+    </LinearLayout>
+
+</LinearLayout>

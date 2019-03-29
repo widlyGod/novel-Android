@@ -1,142 +1,97 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/white"
     android:orientation="vertical">
 
-    <RelativeLayout
-        android:id="@+id/bs_top"
+    <FrameLayout
         android:layout_width="match_parent"
-        android:layout_height="190dp">
+        android:layout_height="180dp">
 
         <ImageView
             android:layout_width="match_parent"
-            android:scaleType="fitXY"
-            android:layout_height="190dp"
+            android:layout_height="180dp"
+            android:scaleType="centerCrop"
             android:src="@drawable/banner" />
 
-        <ImageView
-            android:id="@+id/iv_more"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentRight="true"
-            android:layout_marginRight="30px"
-            android:layout_marginTop="66px"
-            android:clickable="true"
-            android:padding="10dp"
-            android:src="@drawable/bs_more" />
-
         <RelativeLayout
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="44px"
-            android:layout_marginLeft="36px">
-
-            <TextView
-                android:id="@+id/tv_ydsc"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_alignParentBottom="true"
-                android:text="本周阅读时长/分钟"
-                android:textColor="#6f7a82"
-                android:textSize="11sp" />
-
-            <TextView
-                android:id="@+id/tv_time"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_above="@+id/tv_ydsc"
-                android:layout_centerHorizontal="true"
-                android:layout_marginBottom="5px"
-                android:text="0"
-                android:textColor="#000000"
-                android:textSize="40sp" />
-        </RelativeLayout>
-
-        <!--
-        解决自定义按钮之间的空隙
-          android:minHeight="0dp"
-            android:background="@null"
-        -->
-        <com.novel.cn.view.wight.StateButton
-            android:id="@+id/sb_ljqd"
-            android:layout_width="160px"
-            android:layout_height="50px"
-            android:layout_alignParentBottom="true"
-            android:layout_alignParentRight="true"
-            android:layout_marginBottom="60px"
-            android:layout_marginRight="36px"
-            android:background="@null"
-            android:drawableLeft="@drawable/bs_ljqd"
-            android:gravity="center"
-            android:minHeight="0dp"
-            android:paddingLeft="8dp"
-            android:text="立即签到"
-            android:textColor="@android:color/white"
-            android:textSize="11sp"
-            app:normalBackgroundColor="#3399fe"
-            app:normalTextColor="@android:color/white"
-            app:pressedBackgroundColor="#3399fe"
-            app:pressedTextColor="@android:color/white"
-            app:radius="23px" />
-    </RelativeLayout>
-
-
-    <com.fingdo.statelayout.StateLayout
-        android:id="@+id/state_layout"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        app:emptyImg="@drawable/ic_state_empty"
-        app:emptyText="暂无笔记"
-        app:errorImg="@drawable/ic_state_error"
-        app:errorText="Error"
-        app:loadingText="Loading..."
-        app:loginImg="@drawable/ic_state_login"
-        app:loginText="Sign in"
-        app:noNetworkImg="@drawable/ic_state_no_network"
-        app:noNetworkText="网络出现问题"
-        app:timeOutImg="@drawable/ic_state_time_out"
-        app:timeOutText="Timeout">
-
-        <RelativeLayout
-            android:background="@android:color/white"
+            android:id="@+id/rl_top"
             android:layout_width="match_parent"
             android:layout_height="match_parent">
 
-            <com.scwang.smartrefresh.layout.SmartRefreshLayout
-                android:id="@+id/refreshLayout"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                app:srlEnableLoadMoreWhenContentNotFull="false"
-                app:srlEnablePreviewInEditMode="false"
-                app:srlFooterTranslationViewId="@+id/scrollView"
-                app:srlPrimaryColor="#ffffff">
+            <ImageView
+                android:id="@+id/iv_more"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentRight="true"
+                android:layout_marginRight="16dp"
+                android:padding="15dp"
+                android:src="@drawable/bs_more" />
 
-                <com.scwang.smartrefresh.layout.header.ClassicsHeader
-                    app:srlAccentColor="#999999"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content" />
-                <!--<TextView-->
-                    <!--android:drawableTop="@drawable/refresh_icon"-->
-                    <!--android:layout_width="match_parent"-->
-                    <!--android:layout_height="match_parent"-->
-                    <!--android:background="#555"-->
-                    <!--android:gravity="center_horizontal"-->
-                    <!--android:padding="8dp"-->
-                    <!--android:text="下拉刷新..."-->
-                    <!--android:textColor="#999999"-->
-                    <!--android:textSize="13sp" />-->
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentBottom="true"
+                android:layout_marginLeft="25dp"
+                android:layout_marginBottom="20dp"
+                android:gravity="center"
+                android:orientation="vertical">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="11"
+                    android:textColor="#000000"
+                    android:textSize="50dp"
+                    android:textStyle="bold" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="本周阅读时长/分钟"
+                    android:textColor="#6f7a82" />
+            </LinearLayout>
 
 
-                <android.support.v7.widget.RecyclerView
-                    android:id="@+id/recyclerview"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent" />
-            </com.scwang.smartrefresh.layout.SmartRefreshLayout>
+            <com.flyco.roundview.RoundFrameLayout
+                android:layout_width="80dp"
+                android:layout_height="23dp"
+                android:layout_alignParentRight="true"
+                android:layout_alignParentBottom="true"
+                android:layout_marginRight="18dp"
+                android:layout_marginBottom="30dp"
+                app:rv_backgroundColor="#3399fe"
+                app:rv_isRadiusHalfHeight="true">
 
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/tv_signIn"
+                    android:layout_gravity="center"
+                    android:drawableLeft="@drawable/bs_ljqd"
+                    android:drawablePadding="5dp"
+                    android:text="立即签到"
+                    android:textColor="@color/white"
+                    android:textSize="11sp" />
+            </com.flyco.roundview.RoundFrameLayout>
         </RelativeLayout>
+    </FrameLayout>
 
-    </com.fingdo.statelayout.StateLayout>
+    <com.scwang.smartrefresh.layout.SmartRefreshLayout
+        android:id="@+id/refreshLayout"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        app:srlEnableLoadMore="false">
+
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/recyclerView"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            app:layoutManager="android.support.v7.widget.GridLayoutManager"
+            app:spanCount="3" />
+    </com.scwang.smartrefresh.layout.SmartRefreshLayout>
 
 </LinearLayout>
