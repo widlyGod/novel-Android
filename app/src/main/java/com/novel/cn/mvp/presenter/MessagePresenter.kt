@@ -36,12 +36,12 @@ constructor(model: MessageContract.Model, rootView: MessageContract.View) :
     private var mPageIndex = 1
 
 
-    fun getMessageList(pullToRefresh: Boolean, keyword: String = "") {
+    fun getMessageList(pullToRefresh: Boolean, keyword: String?) {
         if (pullToRefresh) mPageIndex = 1
         val params = HashMap<String, String>()
         params.put("pageNum", mPageIndex.toString())
         params.put("pageSize", Constant.PAGE_SIZE.toString())
-        params.put("keyWord", keyword)
+        params.put("keyWord", keyword ?: "")
 
         mModel.getMessageList(params)
                 .subscribeOn(Schedulers.io())

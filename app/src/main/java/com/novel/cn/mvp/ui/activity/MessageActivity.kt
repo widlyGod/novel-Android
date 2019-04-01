@@ -24,7 +24,7 @@ import com.novel.cn.utils.StatusBarUtils
 import com.novel.cn.view.CustomLoadMoreView
 import com.novel.cn.view.decoration.LinearItemDecoration
 import kotlinx.android.synthetic.main.activity_message.*
-import kotlinx.android.synthetic.main.dialog_message_filter.*
+import kotlinx.android.synthetic.main.layout_message_filter.*
 import kotlinx.android.synthetic.main.include_title.*
 import javax.inject.Inject
 
@@ -37,6 +37,9 @@ class MessageActivity : BaseActivity<MessagePresenter>(), MessageContract.View {
 
     @Inject
     lateinit var mFilterAdapter: MessageFilterAdapter
+
+
+    private var mMessage: String? = null
 
     override fun setupActivityComponent(appComponent: AppComponent) {
         DaggerMessageComponent //如找不到该类,请编译一下项目
@@ -66,21 +69,38 @@ class MessageActivity : BaseActivity<MessagePresenter>(), MessageContract.View {
         //分割线与左右两边的间距
         decoration.leftMargin = ArmsUtils.dip2px(this, 18f)
         decoration.rightMargin = ArmsUtils.dip2px(this, 18f)
+        recyclerView.addItemDecoration(decoration)
         mAdapter.apply {
             setLoadMoreView(CustomLoadMoreView())
             setEnableLoadMore(true)
             setOnLoadMoreListener({
-                mPresenter?.getMessageList(false)
+                mPresenter?.getMessageList(false,mMessage)
             }, recyclerView)
         }
-        recyclerView.addItemDecoration(decoration)
+        //筛选条件选择监听
+        mFilterAdapter.onCheckChange {
+            tv_confirm.isEnabled = it
+        }
+
+        tv_confirm.setOnClickListener {
+            //关闭筛选弹框
+            drawer_layout.closeDrawer(Gravity.END)
+            mMessage = mFilterAdapter.getCheckItem()
+            refresh()
+
+        }
 
         refreshLayout.setOnRefreshListener {
-            mPresenter?.getMessageList(true)
+            refresh()
         }
         mPresenter?.getFilterList()
-        mPresenter?.getMessageList(true)
+        refresh()
     }
+
+    private fun refresh() {
+        mPresenter?.getMessageList(true, mMessage)
+    }
+
 
     override fun showStateView(state: Int) {
         stateView.viewState = state
@@ -99,5 +119,17 @@ class MessageActivity : BaseActivity<MessagePresenter>(), MessageContract.View {
     override fun onOptionsItemSelected(item: MenuItem?): Boolean {
         drawer_layout.openDrawer(Gravity.END)
         return super.onOptionsItemSelected(item)
+    }
+
+    /**
+     * 按返回键只有关闭筛选 才能正常返回
+     */
+    override fun onBackPressed() {
+        if (drawer_layout.isDrawerOpen(Gravity.END)) {
+            drawer_layout.closeDrawer(Gravity.END)
+            return
+
+        }
+        super.onBackPressed()
     }
 }

@@ -47,6 +47,6 @@
     </LinearLayout>
 
 
-    <include layout="@layout/dialog_message_filter"/>
+    <include layout="@layout/layout_message_filter"/>
 
 </android.support.v4.widget.DrawerLayout>

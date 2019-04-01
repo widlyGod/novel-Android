@@ -24,8 +24,7 @@
                 android:id="@+id/top"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:background="@color/white"
-                android:backgroundTint="@color/colorAccent">
+                android:background="@color/colorAccent">
 
                 <ImageView
                     android:id="@+id/iv_setting"

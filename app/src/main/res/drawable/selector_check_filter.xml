@@ -6,7 +6,5 @@
 
     <item android:drawable="@drawable/shadow_17014" android:state_selected="true"/>
 
-
-
     <item android:drawable="@drawable/shadow_16596" />
 </selector>

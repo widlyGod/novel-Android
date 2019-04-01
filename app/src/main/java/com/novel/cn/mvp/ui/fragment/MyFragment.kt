@@ -55,10 +55,11 @@ class MyFragment : BaseFragment<MyPresenter>(), MyContract.View {
         StatusBarUtils.setPadding(activity, top)
 
 
-        click(iv_setting, fl_messsage) {
+        click(iv_setting, fl_messsage,iv_avatar) {
             when (it) {
-                iv_setting ->  activity?.startActivity<SettingActivity>()
+                iv_setting -> activity?.startActivity<SettingActivity>()
                 fl_messsage -> activity?.startActivity<MessageActivity>()
+                iv_avatar -> activity?.startActivity<LoginActivity>()
             }
         }
 

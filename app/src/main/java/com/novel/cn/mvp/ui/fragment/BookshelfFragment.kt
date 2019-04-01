@@ -16,6 +16,7 @@ import com.jess.arms.base.BaseLazyLoadFragment
 import com.jess.arms.di.component.AppComponent
 import com.novel.cn.R
 import com.novel.cn.app.Constant
+import com.novel.cn.app.JumpManager
 import com.novel.cn.app.Preference
 import com.novel.cn.di.component.DaggerBookshelfComponent
 import com.novel.cn.di.module.BookshelfModule
@@ -84,6 +85,9 @@ class BookshelfFragment : BaseLazyLoadFragment<BookshelfPresenter>(), BookshelfC
             setOnLoadMoreListener({
                 mPresenter?.getBookshelfList(false)
             }, recyclerView)
+            setOnItemClickListener { adapter, view, position ->
+                JumpManager.jumpBookDetail(activity, mAdapter.getItem(position)?.novelId)
+            }
         }
 
         refreshLayout.setOnRefreshListener {

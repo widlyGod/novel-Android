@@ -277,9 +277,9 @@ public class StatusBarUtils {
     /** 获取状态栏高度 */
     public static int getStatusBarHeight(Context context) {
         int result = 24;
-        int resId = context.getResources().getIdentifier("status_bar_height", "dimen", "android");
+        int resId = Resources.getSystem().getIdentifier("status_bar_height", "dimen", "android");
         if (resId > 0) {
-            result = context.getResources().getDimensionPixelSize(resId);
+            result = Resources.getSystem().getDimensionPixelSize(resId);
         } else {
             result = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP,
                     result, Resources.getSystem().getDisplayMetrics());

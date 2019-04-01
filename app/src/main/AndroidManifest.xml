@@ -67,6 +67,8 @@
         <activity
             android:name=".mvp.ui.activity.SettingActivity"
             android:label="设置" />
+        <activity android:name=".mvp.ui.activity.BookDetailActivity"
+            android:label=""/>
     </application>
 
 </manifest>

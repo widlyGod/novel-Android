@@ -52,7 +52,7 @@ android {
 
         release {
             signingConfig signingConfigs.release
-            buildConfigField "boolean", "LOG_DEBUG", "false"
+            buildConfigField "boolean", "LOG_DEBUG", "true"
             buildConfigField "boolean", "USE_CANARY", "false"
             minifyEnabled false
             shrinkResources false
@@ -106,6 +106,7 @@ android {
             outputFileName = apkFileName
         }
     }
+    sourceSets { main { assets.srcDirs = ['src/main/assets', 'src/main/assets/'] } }
 }
 
 dependencies {
