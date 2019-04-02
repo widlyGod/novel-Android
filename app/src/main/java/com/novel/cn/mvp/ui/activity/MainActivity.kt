@@ -1,6 +1,7 @@
 package com.novel.cn.mvp.ui.activity
 
 import android.content.Intent
+import android.graphics.Typeface
 import android.os.Bundle
 import android.support.v4.app.Fragment
 import android.util.Log
@@ -35,6 +36,8 @@ class MainActivity : BaseActivity<MainPresenter>(), MainContract.View {
     lateinit var mFragments: Array<Fragment>
 
     private var mCurrentFragment: Fragment? = null
+
+    val mTitleTypeface by lazy { Typeface.createFromAsset(assets, "fonts/FZQKBYSJW.TTF") }
 
     override fun setupActivityComponent(appComponent: AppComponent) {
         DaggerMainComponent //如找不到该类,请编译一下项目
@@ -78,7 +81,7 @@ class MainActivity : BaseActivity<MainPresenter>(), MainContract.View {
             //我的页面状态栏字体为白色
             StatusBarUtils.darkMode(this, false)
             StatusBarUtils.immersive(this)
-        }else{
+        } else {
             StatusBarUtils.darkMode(this)
         }
     }

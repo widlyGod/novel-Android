@@ -1,5 +1,6 @@
 package com.novel.cn.mvp.ui.fragment
 
+import android.graphics.Typeface
 import android.os.Bundle
 import android.support.v4.app.Fragment
 import android.support.v4.app.FragmentManager
@@ -15,6 +16,7 @@ import com.novel.cn.di.component.DaggerBookStoreComponent
 import com.novel.cn.di.module.BookStoreModule
 import com.novel.cn.mvp.contract.BookStoreContract
 import com.novel.cn.mvp.presenter.BookStorePresenter
+import com.novel.cn.mvp.ui.activity.MainActivity
 import com.novel.cn.utils.StatusBarUtils
 import kotlinx.android.synthetic.main.fragment_book_store.*
 import javax.inject.Inject
@@ -59,6 +61,7 @@ class BookStoreFragment : BaseFragment<BookStorePresenter>(), BookStoreContract.
     override fun initData(savedInstanceState: Bundle?) {
         //给布局加一个状态栏高度
         StatusBarUtils.setPaddingSmart(activity, tv_title)
+        tv_title.typeface = (activity as MainActivity).mTitleTypeface
 
         tabLayout.setTabData(mTabEntities)
         tabLayout.setOnTabSelectListener(object : OnTabSelectListener {

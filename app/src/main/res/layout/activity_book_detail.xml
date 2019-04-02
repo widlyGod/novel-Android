@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
@@ -20,6 +21,7 @@
             android:orientation="vertical">
 
             <ImageView
+                android:id="@+id/iv_book_image"
                 android:layout_width="116dp"
                 android:layout_height="150dp"
                 android:layout_gravity="center_horizontal"
@@ -29,12 +31,13 @@
                 android:src="@drawable/img_default_book_txt" />
 
             <TextView
+                android:id="@+id/tv_book_name"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="5dp"
-                android:text="兽语者"
                 android:textColor="@color/color_333333"
-                android:textSize="13sp" />
+                android:textSize="13sp"
+                tools:text="兽语者" />
 
             <LinearLayout
                 android:layout_width="wrap_content"
@@ -43,17 +46,18 @@
                 android:orientation="horizontal">
 
                 <TextView
+                    android:id="@+id/tv_author"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="麻瓜"
                     android:textColor="#fc9924"
-                    android:textSize="12sp" />
+                    android:textSize="12sp"
+                    tools:text="麻瓜" />
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="13dp"
-                    android:text="麻瓜"
+                    android:text="著"
                     android:textColor="@color/color_999999"
                     android:textSize="12sp" />
             </LinearLayout>
@@ -66,9 +70,10 @@
                 android:orientation="horizontal">
 
                 <TextView
+                    android:id="@+id/tv_words"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="17.1万字"
+                    android:text="0字"
                     android:textColor="@color/color_999999"
                     android:textSize="12sp" />
 
@@ -80,23 +85,26 @@
                     android:background="@color/color_999999" />
 
                 <TextView
+                    android:id="@+id/tv_click_num"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="1.2万次点击"
+                    android:text="0次点击"
                     android:textColor="@color/color_999999"
                     android:textSize="12sp" />
             </LinearLayout>
 
             <TextView
-                android:layout_width="wrap_content"
+                android:id="@+id/tv_novelIntro"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="13dp"
                 android:ellipsize="end"
+                android:gravity="left"
                 android:lineSpacingExtra="8dp"
                 android:maxLines="3"
                 android:paddingLeft="18dp"
                 android:paddingRight="18dp"
-                android:text="萧炎，主人公，萧家历史上空前绝后的斗气修炼天才。4岁就开始修炼斗之气，10岁拥有了九段斗之气，11岁突破十段斗之气，一跃成为家族百年来最年轻的斗者。然而在12岁那年，他却“丧失”了修炼能力，只拥有三段斗之气。整整三年时间，家族冷落，旁人轻视，被未婚妻退婚……种种打击接踵而至"
+                tools:text="萧炎，主人公，萧家历史上空前绝后的斗气修炼天才。4岁就开始修炼斗之气，10岁拥有了九段斗之气，11岁突破十段斗之气，一跃成为家族百年来最年轻的斗者。然而在12岁那年，他却“丧失”了修炼能力，只拥有三段斗之气。整整三年时间，家族冷落，旁人轻视，被未婚妻退婚……种种打击接踵而至"
                 android:textColor="@color/color_999999"
                 android:textSize="12sp" />
 
@@ -125,20 +133,21 @@
                     android:layout_marginLeft="18dp"
                     android:drawableLeft="@drawable/ic_catalog"
                     android:drawablePadding="2dp"
-                    android:text="目录"
                     android:gravity="center"
+                    android:text="目录"
                     android:textColor="@color/color_333333"
                     android:textSize="13sp" />
 
 
                 <TextView
+                    android:id="@+id/tv_chapter"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center_vertical|right"
                     android:layout_marginRight="18dp"
                     android:drawableRight="@drawable/ic_arrow_right"
                     android:drawablePadding="8dp"
-                    android:text="更新至529章"
+                    android:text="更新至0章"
                     android:textColor="@color/color_999999"
                     android:textSize="11sp" />
             </FrameLayout>
@@ -165,10 +174,11 @@
                     android:textSize="16sp" />
 
                 <TextView
+                    android:id="@+id/tv_review_count"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="8dp"
-                    android:text="147"
+                    android:text="0"
                     android:textColor="@color/color_333333"
                     android:textSize="14sp" />
             </LinearLayout>
@@ -176,7 +186,8 @@
             <android.support.v7.widget.RecyclerView
                 android:id="@+id/recyclerView"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent" />
+                android:layout_height="match_parent"
+                app:layoutManager="android.support.v7.widget.LinearLayoutManager" />
 
         </LinearLayout>
     </android.support.v4.widget.NestedScrollView>

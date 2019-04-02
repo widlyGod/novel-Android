@@ -17,6 +17,7 @@ package com.novel.cn.app
 
 import android.app.Activity
 import android.app.Application
+import android.graphics.Typeface
 import android.os.Build
 import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
@@ -64,7 +65,9 @@ class ActivityLifecycleCallbacksImpl : Application.ActivityLifecycleCallbacks {
                     }
                 }
                 if (activity.findViewById<View>(R.id.toolbar_title) != null) {
-                    (activity.findViewById<View>(R.id.toolbar_title) as TextView).text = activity.title
+                    val titleView = (activity.findViewById<View>(R.id.toolbar_title) as TextView)
+                    titleView.text = activity.title
+                    titleView.typeface = Typeface.createFromAsset(activity.assets,"fonts/FZQKBYSJW.TTF")
                 }
                 if (activity.findViewById<View>(R.id.toolbar_back) != null) {
                     activity.findViewById<View>(R.id.toolbar_back).setOnClickListener({ v -> activity.onBackPressed() })

@@ -164,4 +164,7 @@ dependencies {
     implementation rootProject.ext.dependencies["banner"]
 
     implementation rootProject.ext.dependencies["switchbutton"]
+
+    implementation rootProject.ext.dependencies["calligraphy"]
+
 }

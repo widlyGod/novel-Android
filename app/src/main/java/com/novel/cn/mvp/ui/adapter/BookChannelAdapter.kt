@@ -17,6 +17,7 @@ import kotlinx.android.synthetic.main.item_search.view.*
 import org.jetbrains.anko.startActivity
 import android.support.v7.widget.PagerSnapHelper
 import android.view.ViewGroup
+import com.novel.cn.app.JumpManager
 import com.novel.cn.mvp.model.entity.*
 import kotlinx.android.synthetic.main.item_indicator.view.*
 import kotlinx.android.synthetic.main.item_lately_update.view.*
@@ -104,6 +105,10 @@ class BookChannelAdapter : BaseMultiItemQuickAdapter<MultiItemEntity, BaseViewHo
                 itemView.iv_book_image.loadImage(item.photoContent)
                 itemView.tv_book_name.text = item.novelTitle
                 itemView.tv_author1.text = item.penName
+
+                itemView.setOnClickListener {
+                    JumpManager.jumpBookDetail(mContext,item.novelId)
+                }
             }
             TYPE_HORIZONTAL -> {
                 item as BookHorizontal
@@ -141,6 +146,7 @@ class BookChannelAdapter : BaseMultiItemQuickAdapter<MultiItemEntity, BaseViewHo
                 item as BookInfo
                 itemView.tv_type.text = "【${item.novelType}】"
                 itemView.tv_content.text = "${item.novelTitle}：${item.chapterTitle}"
+
             }
         }
     }

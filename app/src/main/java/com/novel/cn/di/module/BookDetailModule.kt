@@ -7,6 +7,7 @@ import dagger.Provides
 
 import com.novel.cn.mvp.contract.BookDetailContract
 import com.novel.cn.mvp.model.BookDetailModel
+import com.novel.cn.mvp.ui.adapter.BookCommentAdapter
 
 
 /**
@@ -34,5 +35,11 @@ class BookDetailModule(private val view: BookDetailContract.View) {
     @Provides
     fun provideBookDetailModel(model: BookDetailModel): BookDetailContract.Model {
         return model
+    }
+
+    @ActivityScope
+    @Provides
+    fun provideBookCommentAdapter(): BookCommentAdapter {
+        return BookCommentAdapter()
     }
 }

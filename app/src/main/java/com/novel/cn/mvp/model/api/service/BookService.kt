@@ -44,4 +44,7 @@ interface BookService {
      */
     @POST("novelUserService/channelLabelNovelManage/findChannelsLabelNovelShow")
     fun getChannelData(@Body params: HashMap<String, Int>): Observable<BaseResponse<Map<String, Any>>>
+
+    @GET("novelOAService/mobile/openNovel")
+    fun getBookDetail(@Query("novelId") bookId: String?): Observable<BaseResponse<NovelInfoBean>>
 }

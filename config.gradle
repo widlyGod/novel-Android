@@ -104,6 +104,7 @@ ext {
             "retrofit-url-manager"     : "me.jessyan:retrofit-url-manager:1.4.0",
             "lifecyclemodel"           : "me.jessyan:lifecyclemodel:1.0.1",
             "anko"                     : "org.jetbrains.anko:anko-commons:0.10.8",
+            "calligraphy"                      :"uk.co.chrisjenx:calligraphy:2.3.0",
 
             //test
             "junit"                    : "junit:junit:4.12",
