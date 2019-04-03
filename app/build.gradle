@@ -162,9 +162,9 @@ dependencies {
     implementation rootProject.ext.dependencies["refreshLayout"]
     implementation rootProject.ext.dependencies["multiStateView"]
     implementation rootProject.ext.dependencies["banner"]
-
+    implementation 'com.lijiankun24:shadowlayout:1.1.0'
     implementation rootProject.ext.dependencies["switchbutton"]
 
     implementation rootProject.ext.dependencies["calligraphy"]
-
+    implementation rootProject.ext.dependencies["flexbox"]
 }

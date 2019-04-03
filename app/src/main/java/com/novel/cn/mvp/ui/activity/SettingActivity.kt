@@ -14,6 +14,8 @@ import com.novel.cn.mvp.contract.SettingContract
 import com.novel.cn.mvp.presenter.SettingPresenter
 
 import com.novel.cn.R
+import com.novel.cn.app.click
+import com.novel.cn.utils.CacheDataManager
 import com.novel.cn.utils.StatusBarUtils
 import kotlinx.android.synthetic.main.activity_setting.*
 import kotlinx.android.synthetic.main.include_title.*
@@ -43,6 +45,17 @@ class SettingActivity : BaseActivity<SettingPresenter>(), SettingContract.View {
         StatusBarUtils.setPaddingSmart(this, toolbar)
 
         tv_version.text = "V${BuildConfig.VERSION_NAME}"
+        tv_cache.text = CacheDataManager.getTotalCacheSize(this)
+
+
+        click(fl_cache) {
+            when (it) {
+                fl_cache -> {
+                    CacheDataManager.clearAllCache(this)
+                    tv_cache.text = CacheDataManager.getTotalCacheSize(this)
+                }
+            }
+        }
     }
 
 

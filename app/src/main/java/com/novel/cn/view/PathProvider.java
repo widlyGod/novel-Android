@@ -4,6 +4,7 @@ import android.graphics.Path;
 
 class PathProvider {
 
+
     static Path getClipPath(int width, int height, int orignalHeight) {
 
         Path path = new Path();

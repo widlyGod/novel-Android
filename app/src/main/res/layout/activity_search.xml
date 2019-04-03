@@ -12,7 +12,6 @@
         android:id="@+id/ll_search"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-
         android:gravity="center"
         android:orientation="horizontal">
 
@@ -70,15 +69,19 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="vertical"
-        android:padding="15dp">
+        android:paddingLeft="15dp"
+        android:paddingRight="15dp">
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="热门搜搜" />
 
+
+
         <android.support.v7.widget.RecyclerView
             android:layout_width="match_parent"
+            android:id="@+id/recyclerView"
             android:layout_height="wrap_content"
             android:layout_marginTop="12dp" />
 

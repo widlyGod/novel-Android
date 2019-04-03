@@ -1,8 +1,32 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical">
 
-</LinearLayout>
+    <com.lijiankun24.shadowlayout.ShadowLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginTop="30dp"
+        app:shadowColor="#3b000000"
+        app:shadowDx="0dp"
+        app:shadowDy="0dp"
+        app:shadowRadius="2dp"
+        app:shadowShape="rectangle"
+        app:shadowSide="all">
+
+        <ImageView
+            android:id="@+id/iv_book_image"
+            android:layout_width="100dp"
+            android:layout_height="130dp"
+            android:layout_gravity="center"
+            android:scaleType="centerCrop"
+            android:background="@drawable/teste"
+           />
+    </com.lijiankun24.shadowlayout.ShadowLayout>
+
+
+</FrameLayout>

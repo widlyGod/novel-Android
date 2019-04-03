@@ -28,7 +28,9 @@ fun List<*>?.isNullOrEmpty(): Boolean {
 }
 
 
-
+fun View.isVisible(): Boolean {
+    return this.visibility == View.VISIBLE
+}
 
 fun View.visible(isVisible: Boolean) {
     this.visibility = if (isVisible) VISIBLE else GONE

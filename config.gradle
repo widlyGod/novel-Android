@@ -63,6 +63,7 @@ ext {
             "multiStateView"           : "com.github.Kennyc1012:MultiStateView:1.3.2",
             "banner"                   : "com.youth.banner:banner:1.4.10",
             "switchbutton"          :"com.kyleduo.switchbutton:library:2.0.0",
+            "flexbox"                      :"com.google.android:flexbox:1.0.0",
 
             //rx1
             "rxandroid"                : "io.reactivex:rxandroid:1.2.1",

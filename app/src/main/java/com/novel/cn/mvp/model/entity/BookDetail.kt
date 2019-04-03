@@ -14,4 +14,5 @@ data class Comment(val commentId: String, val commentTime: Long, val content: St
                    val uid: String, val replyNumber: Int, val isAuthor: Int,
                    val deviceType: String, val commentUser: CommentUser)
 
-data class CommentUser(val userPhoto: String, val userNickName: String, val userId: String, val recodeCode: String, val penName: String, val levelName: String, val fansValue: String)
+data class CommentUser(val userPhoto: String, val userNickName: String, val userId: String,
+                       val recodeCode: String, val penName: String, val levelName: String, val fansValue: Int)

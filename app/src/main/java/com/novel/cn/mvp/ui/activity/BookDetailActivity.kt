@@ -13,6 +13,8 @@ import com.novel.cn.mvp.contract.BookDetailContract
 import com.novel.cn.mvp.presenter.BookDetailPresenter
 
 import com.novel.cn.R
+import com.novel.cn.app.JumpManager
+import com.novel.cn.app.click
 import com.novel.cn.app.loadImage
 import com.novel.cn.mvp.model.entity.NovelInfoBean
 import com.novel.cn.mvp.ui.adapter.BookCommentAdapter
@@ -57,6 +59,13 @@ class BookDetailActivity : BaseActivity<BookDetailPresenter>(), BookDetailContra
         recyclerView.addItemDecoration(decoration)
 
         mPresenter?.getBookDetail(bookId)
+
+
+        click(tv_read) {
+            when (it) {
+                tv_read -> JumpManager.jumpRead(this, bookId)
+            }
+        }
     }
 
     override fun showBookDetail(data: NovelInfoBean) {

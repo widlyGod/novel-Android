@@ -186,6 +186,7 @@
             <android.support.v7.widget.RecyclerView
                 android:id="@+id/recyclerView"
                 android:layout_width="match_parent"
+                android:nestedScrollingEnabled="false"
                 android:layout_height="match_parent"
                 app:layoutManager="android.support.v7.widget.LinearLayoutManager" />
 
@@ -228,6 +229,7 @@
             android:drawablePadding="4dp"
             android:gravity="center_vertical"
             android:text="立即阅读"
+            android:id="@+id/tv_read"
             android:textColor="#609edb"
             android:textSize="12sp" />
 

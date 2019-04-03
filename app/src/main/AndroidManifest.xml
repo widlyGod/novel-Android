@@ -67,8 +67,12 @@
         <activity
             android:name=".mvp.ui.activity.SettingActivity"
             android:label="设置" />
-        <activity android:name=".mvp.ui.activity.BookDetailActivity"
-            android:label=""/>
+        <activity
+            android:name=".mvp.ui.activity.BookDetailActivity"
+            android:label="" />
+        <activity
+            android:name=".mvp.ui.activity.ReadActivity"
+            android:theme="@style/AppTheme.NoActionBar.FullScreen" />
     </application>
 
 </manifest>
