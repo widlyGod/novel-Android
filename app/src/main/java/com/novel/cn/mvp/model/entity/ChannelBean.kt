@@ -1,7 +1,9 @@
 package com.novel.cn.mvp.model.entity
 
+import android.os.Parcelable
 import com.chad.library.adapter.base.entity.MultiItemEntity
 import com.novel.cn.mvp.ui.adapter.BookChannelAdapter
+import kotlinx.android.parcel.Parcelize
 import javax.annotation.Resource
 
 
@@ -13,16 +15,19 @@ class ChannelData(val recommendResultList: List<BookInfo>,
                   val freeRecommend: List<BookInfo>,
                   val recentUpdate: List<BookInfo>)
 
-open class BookInfo() : MultiItemEntity {
+@Parcelize
+open class BookInfo(
 
-    var novelId: String? = null
-    var novelTitle: String? = null
-    var photoContent: String? = null
-    var novelType: String? = null
-    var penName: String? = null
-    var novelDescribe: String? = null
-    var chapterTitle: String? = null
-    var itemType2 = BookChannelAdapter.TYPE_BOOKS
+        var novelId: String? = null,
+        var novelTitle: String? = null,
+        var photoContent: String? = null,
+        var novelType: String? = null,
+        var penName: String? = null,
+        var novelDescribe: String? = null,
+        var chapterTitle: String? = null,
+        var itemType2: Int = BookChannelAdapter.TYPE_BOOKS
+) : MultiItemEntity, Parcelable {
+
 
     override fun getItemType(): Int {
         return itemType2

@@ -1,10 +1,20 @@
 package com.novel.cn.app
 
+import android.annotation.SuppressLint
 import android.content.Context
+import android.content.Intent
+import android.os.Bundle
+import com.google.gson.Gson
 import com.jess.arms.utils.ArmsUtils
+import com.jess.arms.utils.LogUtils
+import com.novel.cn.mvp.model.entity.Book
+import com.novel.cn.mvp.model.entity.BookInfo
+import com.novel.cn.mvp.model.entity.HotNovel
 import com.novel.cn.mvp.ui.activity.BookDetailActivity
 import com.novel.cn.mvp.ui.activity.ReadActivity
+import com.novel.cn.mvp.ui.activity.SearchActivity
 import org.jetbrains.anko.startActivity
+import java.util.ArrayList
 
 /**
  * 跳转管理类
@@ -19,8 +29,13 @@ object JumpManager {
     }
 
 
-    fun jumpRead(context: Context?,bookId: String?){
+    fun jumpRead(context: Context?, bookId: String?) {
         context?.startActivity<ReadActivity>("bookId" to bookId)
+    }
+
+    fun jumpSearch(context: Context?, hotNovels: List<BookInfo>) {
+        context?.startActivity<SearchActivity>("hotNovels" to hotNovels)
+
     }
 
 }

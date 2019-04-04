@@ -9,6 +9,10 @@ import com.jess.arms.di.scope.FragmentScope
 import javax.inject.Inject
 
 import com.novel.cn.mvp.contract.RankingContract
+import com.novel.cn.mvp.model.api.service.BookService
+import com.novel.cn.mvp.model.entity.BaseResponse
+import com.novel.cn.mvp.model.entity.RankResult
+import io.reactivex.Observable
 
 
 /**
@@ -27,12 +31,12 @@ import com.novel.cn.mvp.contract.RankingContract
 class RankingModel
 @Inject
 constructor(repositoryManager: IRepositoryManager) : BaseModel(repositoryManager), RankingContract.Model {
-    @Inject
-    lateinit var mGson: Gson;
-    @Inject
-    lateinit var mApplication: Application;
-
-    override fun onDestroy() {
-        super.onDestroy();
+    override fun getRank(): Observable<BaseResponse<MutableList<RankResult>>> {
+        val params = HashMap<String, String>()
+        params.put("pageNum", "1")
+        params.put("pageSize", "10")
+        return mRepositoryManager.obtainRetrofitService(BookService::class.java).getRank(params)
     }
+
+
 }

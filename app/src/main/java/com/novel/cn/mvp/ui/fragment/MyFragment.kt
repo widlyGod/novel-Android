@@ -53,8 +53,6 @@ class MyFragment : BaseFragment<MyPresenter>(), MyContract.View {
     override fun initData(savedInstanceState: Bundle?) {
         //给布局加一个状态栏高度
         StatusBarUtils.setPadding(activity, top)
-
-
         click(iv_setting, fl_messsage,iv_avatar) {
             when (it) {
                 iv_setting -> activity?.startActivity<SettingActivity>()
@@ -62,7 +60,6 @@ class MyFragment : BaseFragment<MyPresenter>(), MyContract.View {
                 iv_avatar -> activity?.startActivity<LoginActivity>()
             }
         }
-
     }
 
 

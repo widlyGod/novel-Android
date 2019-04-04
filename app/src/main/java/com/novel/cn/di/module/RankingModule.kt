@@ -7,6 +7,7 @@ import dagger.Provides
 
 import com.novel.cn.mvp.contract.RankingContract
 import com.novel.cn.mvp.model.RankingModel
+import com.novel.cn.mvp.ui.adapter.RankAdapter
 
 
 /**
@@ -35,4 +36,9 @@ class RankingModule(private val view: RankingContract.View) {
     fun provideRankingModel(model: RankingModel): RankingContract.Model {
         return model
     }
+
+
+    @FragmentScope
+    @Provides
+    fun provideRankAdapter() = RankAdapter()
 }

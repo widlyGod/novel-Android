@@ -4,6 +4,7 @@ import android.content.Intent
 import android.os.Bundle
 import android.os.Message
 import android.support.v4.app.Fragment
+import android.support.v7.widget.DividerItemDecoration
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -18,8 +19,15 @@ import com.novel.cn.mvp.contract.RankingContract
 import com.novel.cn.mvp.presenter.RankingPresenter
 
 import com.novel.cn.R
+import com.novel.cn.mvp.ui.adapter.RankAdapter
+import com.novel.cn.view.decoration.LinearItemDecoration
+import kotlinx.android.synthetic.main.fragment_ranking.*
+import javax.inject.Inject
 
- class RankingFragment : BaseFragment<RankingPresenter>(), RankingContract.View {
+class RankingFragment : BaseFragment<RankingPresenter>(), RankingContract.View {
+    @Inject
+    lateinit var mAdapter: RankAdapter
+
     companion object {
         fun newInstance(): RankingFragment {
             val fragment = RankingFragment()
@@ -42,7 +50,9 @@ import com.novel.cn.R
     }
 
     override fun initData(savedInstanceState: Bundle?) {
-
+        recyclerView.adapter = mAdapter
+        recyclerView.addItemDecoration(LinearItemDecoration(ArmsUtils.dip2px(activity!!,8f)))
+        mPresenter?.getRankList()
     }
 
 

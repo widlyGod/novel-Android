@@ -96,7 +96,7 @@ class BookChannelAdapter : BaseMultiItemQuickAdapter<MultiItemEntity, BaseViewHo
                 itemView.tv_keyword.text = builder
 
                 itemView.setOnClickListener {
-                    mContext?.startActivity<SearchActivity>()
+                    JumpManager.jumpSearch(mContext, item.books)
                 }
             }
             TYPE_BOOKS -> {
@@ -107,7 +107,7 @@ class BookChannelAdapter : BaseMultiItemQuickAdapter<MultiItemEntity, BaseViewHo
                 itemView.tv_author1.text = item.penName
 
                 itemView.setOnClickListener {
-                    JumpManager.jumpBookDetail(mContext,item.novelId)
+                    JumpManager.jumpBookDetail(mContext, item.novelId)
                 }
             }
             TYPE_HORIZONTAL -> {

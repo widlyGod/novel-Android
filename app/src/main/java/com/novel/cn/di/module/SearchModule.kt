@@ -7,6 +7,7 @@ import dagger.Provides
 
 import com.novel.cn.mvp.contract.SearchContract
 import com.novel.cn.mvp.model.SearchModel
+import com.novel.cn.mvp.ui.adapter.HotWordAdapter
 
 
 /**
@@ -34,5 +35,11 @@ class SearchModule(private val view: SearchContract.View) {
     @Provides
     fun provideSearchModel(model: SearchModel): SearchContract.Model {
         return model
+    }
+
+    @ActivityScope
+    @Provides
+    fun provideHotWordAdapter(): HotWordAdapter {
+        return HotWordAdapter()
     }
 }

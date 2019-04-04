@@ -9,6 +9,10 @@ import com.jess.arms.di.scope.ActivityScope
 import javax.inject.Inject
 
 import com.novel.cn.mvp.contract.SearchContract
+import com.novel.cn.mvp.model.api.service.BookService
+import com.novel.cn.mvp.model.entity.BaseResponse
+import com.novel.cn.mvp.model.entity.HotNovelBean
+import io.reactivex.Observable
 
 
 /**
@@ -27,12 +31,9 @@ import com.novel.cn.mvp.contract.SearchContract
 class SearchModel
 @Inject
 constructor(repositoryManager: IRepositoryManager) : BaseModel(repositoryManager), SearchContract.Model {
-    @Inject
-    lateinit var mGson: Gson;
-    @Inject
-    lateinit var mApplication: Application;
-
-    override fun onDestroy() {
-        super.onDestroy();
+    override fun getHotWords(): Observable<BaseResponse<HotNovelBean>> {
+        return  mRepositoryManager.obtainRetrofitService(BookService::class.java).getHotWords()
     }
+
+
 }

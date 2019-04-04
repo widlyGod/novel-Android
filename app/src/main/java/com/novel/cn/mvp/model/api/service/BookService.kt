@@ -45,6 +45,21 @@ interface BookService {
     @POST("novelUserService/channelLabelNovelManage/findChannelsLabelNovelShow")
     fun getChannelData(@Body params: HashMap<String, Int>): Observable<BaseResponse<Map<String, Any>>>
 
+    /**
+     * 小说详情
+     */
     @GET("novelOAService/mobile/openNovel")
     fun getBookDetail(@Query("novelId") bookId: String?): Observable<BaseResponse<NovelInfoBean>>
+
+    /**
+     * 热门搜索
+     */
+    @POST("novelOAService/homepage/hotNovels")
+    fun getHotWords(): Observable<BaseResponse<HotNovelBean>>
+
+    /**
+     * 排行版
+     */
+    @POST("novelOAService/novelList/getAppAllList")
+    fun getRank(@Body params: HashMap<String, String>): Observable<BaseResponse<MutableList<RankResult>>>
 }

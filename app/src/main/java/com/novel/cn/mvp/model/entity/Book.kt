@@ -1,8 +1,12 @@
 package com.novel.cn.mvp.model.entity
 
+import android.os.Parcelable
 import com.chad.library.adapter.base.entity.MultiItemEntity
 import com.novel.cn.mvp.ui.adapter.BookChannelAdapter
+import kotlinx.android.parcel.Parcelize
+import java.io.Serializable
 
+@Parcelize
 data class Book(
         val auto: Boolean = false,
         val isRecord: Boolean = false,
@@ -18,7 +22,7 @@ data class Book(
         val readMoney: String = "",
         val noReadNum: Int = 0,
         val readTime: Long = 0
-) : MultiItemEntity {
+) : MultiItemEntity, Parcelable {
     override fun getItemType(): Int {
         return BookChannelAdapter.TYPE_BOOKS
     }
