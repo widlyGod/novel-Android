@@ -75,6 +75,10 @@
         <activity
             android:name=".mvp.ui.activity.ReadActivity"
             android:theme="@style/AppTheme.NoActionBar.FullScreen" />
+
+        <activity
+            android:name=".mvp.ui.activity.RankListActivity"
+            android:label="排行榜" />
     </application>
 
 </manifest>

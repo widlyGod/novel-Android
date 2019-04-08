@@ -171,4 +171,5 @@ dependencies {
 
     implementation rootProject.ext.dependencies["calligraphy"]
     implementation rootProject.ext.dependencies["flexbox"]
+    implementation rootProject.ext.dependencies["shadow-layout"]
 }

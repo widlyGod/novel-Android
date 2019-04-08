@@ -113,31 +113,37 @@ class BookChannelAdapter : BaseMultiItemQuickAdapter<MultiItemEntity, BaseViewHo
             TYPE_HORIZONTAL -> {
                 item as BookHorizontal
 
-                //重置为null，不然会报错
-                itemView.recyclerView.onFlingListener = null
+                val adapter = BookHorizontalAdapter()
                 //设置左右滑动跟viewpager效果
                 val snapHelper = PagerSnapHelper()
-                snapHelper.attachToRecyclerView(itemView.recyclerView)
 
-                val adapter = BookHorizontalAdapter()
-                itemView.recyclerView.adapter = adapter
-                adapter.setNewData(item.books)
-
-                val layoutManager = itemView.recyclerView.layoutManager
-
-                itemView.recyclerView.addOnScrollListener(object : RecyclerView.OnScrollListener() {
-                    override fun onScrollStateChanged(recyclerView: RecyclerView, newState: Int) {
-                        //滑动停止
-                        if (newState == RecyclerView.SCROLL_STATE_IDLE) {
-                            val view = snapHelper.findSnapView(layoutManager)
-                            view?.let {
-                                val currentPosition = layoutManager?.getPosition(it)
-                                helper.setTag(R.id.recyclerView, currentPosition)
-                                itemView.tv_page.text = (currentPosition?.plus(1)).toString()
+                itemView.recyclerView.apply {
+                    //重置为null，不然会报错
+                    onFlingListener = null
+                    //取消焦点
+                    isFocusableInTouchMode = false
+                    requestFocus()
+                    this.adapter = adapter
+                    //添加滑动监听
+                    addOnScrollListener(object : RecyclerView.OnScrollListener() {
+                        override fun onScrollStateChanged(recyclerView: RecyclerView, newState: Int) {
+                            //滑动停止
+                            if (newState == RecyclerView.SCROLL_STATE_IDLE) {
+                                //获取当前view
+                                val view = snapHelper.findSnapView(layoutManager)
+                                view?.let {
+                                    //获取当前滑动的position
+                                    val currentPosition = layoutManager?.getPosition(it)
+                                    helper.setTag(R.id.recyclerView, currentPosition)
+                                    itemView.tv_page.text = (currentPosition?.plus(1)).toString()
+                                }
                             }
                         }
-                    }
-                })
+                    })
+                }
+                snapHelper.attachToRecyclerView(itemView.recyclerView)
+                adapter.setNewData(item.books)
+
                 itemView.tv_page.text = "1"
                 itemView.tv_pagesize.text = "/${item.books.size}"
             }

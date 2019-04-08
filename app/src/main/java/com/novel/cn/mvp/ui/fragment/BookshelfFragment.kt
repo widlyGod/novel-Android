@@ -73,7 +73,6 @@ class BookshelfFragment : BaseLazyLoadFragment<BookshelfPresenter>(), BookshelfC
         return inflater.inflate(R.layout.fragment_bookshelf, container, false);
     }
 
-    @RequiresApi(Build.VERSION_CODES.LOLLIPOP)
     override fun initData(savedInstanceState: Bundle?) {
         //给布局加一个状态栏高度
         StatusBarUtils.setPaddingSmart(activity, rl_top)
@@ -91,11 +90,10 @@ class BookshelfFragment : BaseLazyLoadFragment<BookshelfPresenter>(), BookshelfC
         }
 
         refreshLayout.setOnRefreshListener {
-            mPresenter?.validateSignIn()
-            mPresenter?.getBookshelfList(true)
+            onRefresh()
         }
 
-        refreshLayout.autoRefresh()
+        onRefresh()
         iv_more.setOnClickListener {
             mMorePopup.showAsDropDown(it, 0, 0)
         }
@@ -105,6 +103,11 @@ class BookshelfFragment : BaseLazyLoadFragment<BookshelfPresenter>(), BookshelfC
                 mPresenter?.signIn(it.userId)
             }
         }
+    }
+
+    private fun onRefresh(){
+        mPresenter?.validateSignIn()
+        mPresenter?.getBookshelfList(true)
     }
 
     override fun changeSignInInfo(data: SignIn) {

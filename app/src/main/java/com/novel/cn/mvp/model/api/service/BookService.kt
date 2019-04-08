@@ -61,5 +61,5 @@ interface BookService {
      * 排行版
      */
     @POST("novelOAService/novelList/getAppAllList")
-    fun getRank(@Body params: HashMap<String, String>): Observable<BaseResponse<MutableList<RankResult>>>
+    fun getRank(@Body params: HashMap<String, String>): Observable<BaseResponse<MutableList<RankBean>>>
 }

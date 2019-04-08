@@ -1,29 +1,25 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/item"
     android:layout_width="match_parent"
     android:layout_height="200dp"
-    android:id="@+id/item"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:background="@color/colorAccent">
 
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true"
-        android:layout_marginLeft="54dp"
-        android:layout_marginBottom="25dp"
-        android:text="查看更多 >"
-        android:textColor="@color/white"
-        android:textSize="12sp" />
+
 
     <android.support.v7.widget.RecyclerView
-        android:layout_width="match_parent"
         android:id="@+id/recyclerView"
+        android:layout_width="match_parent"
 
-        app:layoutManager="android.support.v7.widget.LinearLayoutManager"
-        android:orientation="horizontal"
         android:layout_height="match_parent"
-        android:clipToPadding="false"
-        />
+        android:overScrollMode="never"
+        android:focusable="false"
+        android:focusableInTouchMode="false"
+        android:nestedScrollingEnabled="false"
+        android:orientation="horizontal"
+        app:layoutManager="android.support.v7.widget.LinearLayoutManager" />
+
+
 
 </RelativeLayout>

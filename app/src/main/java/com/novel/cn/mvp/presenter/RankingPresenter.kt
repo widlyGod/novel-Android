@@ -12,6 +12,7 @@ import javax.inject.Inject
 
 import com.novel.cn.mvp.contract.RankingContract
 import com.novel.cn.mvp.model.entity.BaseResponse
+import com.novel.cn.mvp.model.entity.RankBean
 import com.novel.cn.mvp.model.entity.RankResult
 import com.novel.cn.mvp.ui.adapter.RankAdapter
 import io.reactivex.Observable
@@ -28,7 +29,7 @@ constructor(model: RankingContract.Model, rootView: RankingContract.View) :
     @Inject
     lateinit var mErrorHandler: RxErrorHandler
     @Inject
-    lateinit var mAdapter:RankAdapter
+    lateinit var mAdapter: RankAdapter
 
 
     fun getRankList() {
@@ -36,9 +37,8 @@ constructor(model: RankingContract.Model, rootView: RankingContract.View) :
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .compose(RxLifecycleUtils.bindToLifecycle(mRootView))
-                .subscribe(object : ErrorHandleSubscriber<BaseResponse<MutableList<RankResult>>>(mErrorHandler){
-                    override fun onNext(t: BaseResponse<MutableList<RankResult>>) {
-
+                .subscribe(object : ErrorHandleSubscriber<BaseResponse<MutableList<RankBean>>>(mErrorHandler) {
+                    override fun onNext(t: BaseResponse<MutableList<RankBean>>) {
                         mAdapter.setNewData(t.data)
                     }
                 })

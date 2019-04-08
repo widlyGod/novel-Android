@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@color/white"
+    android:orientation="horizontal"
+    android:paddingLeft="15dp"
+    android:paddingTop="10dp"
+    android:paddingRight="15dp"
+    android:paddingBottom="10dp">
+
+
+    <ImageView
+        android:id="@+id/iv_book_image"
+        android:layout_width="92dp"
+        android:layout_height="120dp"
+        android:background="@drawable/shadow_10288"
+        android:scaleType="centerCrop"
+        android:src="@drawable/img_default_book" />
+
+    <LinearLayout
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="7dp"
+        android:layout_marginTop="5dp"
+        android:layout_weight="1"
+        android:orientation="vertical">
+
+        <TextView
+            android:id="@+id/tv_book_name"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="勋喵"
+            android:textColor="@color/color_333333" />
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="15dp"
+            android:orientation="horizontal">
+
+            <TextView
+                android:id="@+id/tv_author"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="上官明"
+                android:textColor="@color/color_333333"
+                android:textSize="12sp" />
+
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="20dp"
+                android:text="著"
+                android:textColor="@color/color_999999"
+                android:textSize="12sp" />
+
+        </LinearLayout>
+
+        <TextView
+            android:id="@+id/tv_desc"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:ellipsize="end"
+            android:lineSpacingExtra="3dp"
+            android:maxLines="3"
+            android:text="收到货付款交首付款交首付款精神可嘉发货速度快浩丰科技水电费框即可路径下"
+            android:textColor="@color/color_999999"
+            android:textSize="12sp" />
+
+    </LinearLayout>
+
+
+    <ImageView
+        android:id="@+id/iv_collect"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:layout_marginLeft="30dp"
+        android:layout_marginRight="38dp"
+        android:src="@drawable/ic_add_bookself_" />
+
+</LinearLayout>

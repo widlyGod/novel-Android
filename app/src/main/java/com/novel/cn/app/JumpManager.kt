@@ -11,6 +11,7 @@ import com.novel.cn.mvp.model.entity.Book
 import com.novel.cn.mvp.model.entity.BookInfo
 import com.novel.cn.mvp.model.entity.HotNovel
 import com.novel.cn.mvp.ui.activity.BookDetailActivity
+import com.novel.cn.mvp.ui.activity.RankListActivity
 import com.novel.cn.mvp.ui.activity.ReadActivity
 import com.novel.cn.mvp.ui.activity.SearchActivity
 import org.jetbrains.anko.startActivity
@@ -36,6 +37,10 @@ object JumpManager {
     fun jumpSearch(context: Context?, hotNovels: List<BookInfo>) {
         context?.startActivity<SearchActivity>("hotNovels" to hotNovels)
 
+    }
+
+    fun toRankList(context: Context?, code: String?, title: String?) {
+        context?.startActivity<RankListActivity>("code" to code, "title" to title)
     }
 
 }
