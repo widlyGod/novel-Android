@@ -9,11 +9,9 @@ import com.jess.arms.utils.ArmsUtils
 import com.jess.arms.utils.LogUtils
 import com.novel.cn.mvp.model.entity.Book
 import com.novel.cn.mvp.model.entity.BookInfo
+import com.novel.cn.mvp.model.entity.Comment
 import com.novel.cn.mvp.model.entity.HotNovel
-import com.novel.cn.mvp.ui.activity.BookDetailActivity
-import com.novel.cn.mvp.ui.activity.RankListActivity
-import com.novel.cn.mvp.ui.activity.ReadActivity
-import com.novel.cn.mvp.ui.activity.SearchActivity
+import com.novel.cn.mvp.ui.activity.*
 import org.jetbrains.anko.startActivity
 import java.util.ArrayList
 
@@ -43,4 +41,11 @@ object JumpManager {
         context?.startActivity<RankListActivity>("code" to code, "title" to title)
     }
 
+    fun toCommentList(context: Context?, bookId: String?) {
+        context?.startActivity<CommentActivity>("bookId" to bookId)
+    }
+
+    fun toCommentDetail(context: Context?,comment: Comment?){
+        context?.startActivity<CommentDetailActivity>("comment" to comment)
+    }
 }

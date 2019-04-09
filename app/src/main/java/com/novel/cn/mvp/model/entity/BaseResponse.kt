@@ -16,7 +16,8 @@
 package com.novel.cn.mvp.model.entity
 
 
+data class BaseResponse<T>(val code: Int, val success: Boolean, val message: String, val data: T,val basePage:BasePage)
 
 
-data class BaseResponse<T>(val code: Int, val success: Boolean, val message: String, val data: T)
+data class BasePage(val counts: Int, val pageSize: Int, val pageNo: Int,val pages:Int)
 

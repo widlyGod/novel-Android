@@ -16,6 +16,7 @@ import com.novel.cn.R
 import com.novel.cn.app.JumpManager
 import com.novel.cn.app.click
 import com.novel.cn.app.loadImage
+import com.novel.cn.mvp.model.entity.Comment
 import com.novel.cn.mvp.model.entity.NovelInfoBean
 import com.novel.cn.mvp.ui.adapter.BookCommentAdapter
 import com.novel.cn.utils.StatusBarUtils
@@ -52,6 +53,10 @@ class BookDetailActivity : BaseActivity<BookDetailPresenter>(), BookDetailContra
         StatusBarUtils.darkMode(this)
         StatusBarUtils.setPaddingSmart(this, toolbar)
         recyclerView.adapter = mAdapter
+
+        mAdapter.setOnItemClickListener { adapter, view, position ->
+            JumpManager.toCommentList(this, bookId)
+        }
         val decoration = LinearItemDecoration()
         //分割线与左右两边的间距
         decoration.leftMargin = ArmsUtils.dip2px(this, 18f)

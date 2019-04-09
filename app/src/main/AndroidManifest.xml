@@ -75,10 +75,15 @@
         <activity
             android:name=".mvp.ui.activity.ReadActivity"
             android:theme="@style/AppTheme.NoActionBar.FullScreen" />
-
         <activity
             android:name=".mvp.ui.activity.RankListActivity"
             android:label="排行榜" />
+        <activity
+            android:name=".mvp.ui.activity.CommentActivity"
+            android:label="书评区" />
+        <activity
+            android:name=".mvp.ui.activity.CommentDetailActivity"
+            android:label="评论详情" />
     </application>
 
 </manifest>

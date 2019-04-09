@@ -5,15 +5,13 @@ import com.chad.library.adapter.base.BaseViewHolder
 import com.novel.cn.R
 import com.novel.cn.app.Constant
 import com.novel.cn.app.loadImage
-import com.novel.cn.mvp.model.entity.Comment
+import com.novel.cn.mvp.model.entity.Reply
 import com.novel.cn.utils.TimeUtils
-import kotlinx.android.synthetic.main.item_comment.view.*
+import kotlinx.android.synthetic.main.item_reply.view.*
 import java.text.SimpleDateFormat
 
-class BookCommentAdapter : BaseQuickAdapter<Comment, BaseViewHolder>(R.layout.item_comment) {
+class BookReplyAdapter : BaseQuickAdapter<Reply, BaseViewHolder>(R.layout.item_reply) {
     val levelList = ArrayList<LEVEL>()
-
-    private var onReplyClickListener: ((Int) -> Unit)? = null
 
     init {
         levelList.add(LEVEL.LEVEL_1)
@@ -37,37 +35,26 @@ class BookCommentAdapter : BaseQuickAdapter<Comment, BaseViewHolder>(R.layout.it
 
     }
 
-    fun setOnReplyClickListener(listener: ((Int) -> Unit)?) {
-        this.onReplyClickListener = listener
-    }
 
-    override fun convert(helper: BaseViewHolder, item: Comment) {
+    override fun convert(helper: BaseViewHolder, item: Reply) {
 
         with(helper.itemView) {
-            iv_avatar.loadImage(item.commentUser.userPhoto)
+            iv_avatar.loadImage(item.replyUser.userPhoto)
 
-            tv_nickname.text = item.commentUser.userNickName
-            tv_time.text = TimeUtils.millis2String(item.commentTime, SimpleDateFormat("yyyy-MM-dd HH:mm"))
+            tv_nickname.text = item.replyUser.userNickName
+            tv_time.text = TimeUtils.millis2String(item.replyTime, SimpleDateFormat("yyyy-MM-dd HH:mm"))
             tv_content.text = item.content
             tv_from.text = Constant.DEVICE_TYPE[item.deviceType]
-            tv_num.text = item.thumbUpNumber.toString()
-            tv_reply_num.text = "回复(${item.replyNumber})"
 
 
             levelList.forEach {
-                if (item.commentUser.fansValue in (it.startValue..it.endValue)) {
+                if (item.replyUser.fansValue in (it.startValue..it.endValue)) {
                     tv_level.apply {
                         delegate.backgroundColor = it.color.toInt()
                         text = it.text
                     }
                 }
             }
-
-            tv_reply_num.setOnClickListener {
-                onReplyClickListener?.invoke(helper.adapterPosition)
-            }
-
-
         }
     }
 

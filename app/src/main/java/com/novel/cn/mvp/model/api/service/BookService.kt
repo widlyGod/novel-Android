@@ -62,4 +62,16 @@ interface BookService {
      */
     @POST("novelOAService/novelList/getAppAllList")
     fun getRank(@Body params: HashMap<String, String>): Observable<BaseResponse<MutableList<RankBean>>>
+
+    /*
+    *小说评论
+     */
+    @POST("novelOAService/comment/findNovelComment")
+    fun getCommentList(@Body params: HashMap<String, String>): Observable<BaseResponse<MutableList<Comment>>>
+
+    /**
+     * 回复列表
+     */
+    @POST("novelOAService/comment/findReplyPage")
+    fun getReplyList(@Body params: HashMap<String, Any>): Observable<BaseResponse<MutableList<Reply>>>
 }

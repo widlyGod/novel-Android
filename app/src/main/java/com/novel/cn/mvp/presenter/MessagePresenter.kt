@@ -3,7 +3,7 @@ package com.novel.cn.mvp.presenter
 import com.jess.arms.di.scope.ActivityScope
 import com.jess.arms.mvp.BasePresenter
 import com.jess.arms.utils.RxLifecycleUtils
-import com.kennyc.view.MultiStateView
+
 import com.novel.cn.app.Constant
 import me.jessyan.rxerrorhandler.core.RxErrorHandler
 import javax.inject.Inject
@@ -14,6 +14,7 @@ import com.novel.cn.mvp.model.entity.Message
 import com.novel.cn.mvp.model.entity.MessageBean
 import com.novel.cn.mvp.ui.adapter.MessageAdapter
 import com.novel.cn.mvp.ui.adapter.MessageFilterAdapter
+import com.novel.cn.view.MultiStateView
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.schedulers.Schedulers
 import me.jessyan.rxerrorhandler.handler.ErrorHandleSubscriber
