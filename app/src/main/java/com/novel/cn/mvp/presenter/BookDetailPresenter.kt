@@ -50,4 +50,19 @@ constructor(model: BookDetailContract.Model, rootView: BookDetailContract.View) 
                     }
                 })
     }
+
+    fun addCollection(novelId: String) {
+        val params = HashMap<String,Any>()
+        params["novel_id"] = novelId
+
+        mModel.addConllection(params)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .compose(RxLifecycleUtils.bindToLifecycle(mRootView))
+                .subscribe(object : ErrorHandleSubscriber<BaseResponse<Any>>(mErrorHandler) {
+                    override fun onNext(t: BaseResponse<Any>) {
+                        mRootView.conllectionSuccess()
+                    }
+                })
+    }
 }

@@ -44,6 +44,8 @@ public class ArcView extends View {
         mPaint.setColor(Color.WHITE);
         mPaint.setStrokeCap(Paint.Cap.ROUND);
         mArcHeight = ArmsUtils.dip2px(context, 15);
+
+
     }
 
 
@@ -53,25 +55,6 @@ public class ArcView extends View {
         mHeight = getMeasuredHeight();
         mWidth = getMeasuredWidth();
     }
-
-/*    @Override
-    protected void dispatchDraw(Canvas canvas) {
-
-        int saveCount = canvas.saveLayer(0, 0, getMeasuredWidth(), getMeasuredHeight(), null, Canvas.ALL_SAVE_FLAG);
-        super.dispatchDraw(canvas);
-        mPaint.setXfermode(new PorterDuffXfermode(PorterDuff.Mode.CLEAR));
-        Path path = new Path();
-
-        path.moveTo(0, mHeight - mArcHeight);
-        path.cubicTo(0, mHeight - mArcHeight, mWidth / 2, mHeight + mArcHeight, mWidth, mHeight - mArcHeight);
-        path.lineTo(mWidth, mHeight);
-        path.lineTo(0, mHeight);
-        path.close();
-
-        canvas.drawPath(path, mPaint);
-        mPaint.setXfermode(null);
-        canvas.restoreToCount(saveCount);
-    }*/
 
     @Override
     protected void onDraw(Canvas canvas) {

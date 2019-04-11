@@ -29,4 +29,6 @@ package com.novel.cn.app;
  */
 public interface EventBusTags {
 
+
+
 }

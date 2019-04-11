@@ -35,7 +35,7 @@
             android:textSize="14sp" />
     </LinearLayout>
 
-    <include layout="@layout/item_reply"/>
+    <include layout="@layout/item_reply" />
 
     <View
         android:layout_width="match_parent"
@@ -47,7 +47,8 @@
     <com.novel.cn.view.MultiStateView
         android:id="@+id/multiStateView"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
         app:msv_empty_text="暂无回复，赶快抢沙发吧"
         app:msv_viewState="loading">
 
@@ -60,4 +61,19 @@
             app:layoutManager="android.support.v7.widget.LinearLayoutManager" />
 
     </com.novel.cn.view.MultiStateView>
+
+    <com.flyco.roundview.RoundTextView
+        android:id="@+id/tv_comment"
+        android:layout_width="match_parent"
+        android:layout_height="28dp"
+        android:layout_marginLeft="18dp"
+        android:layout_marginTop="10dp"
+        android:layout_marginRight="18dp"
+        android:layout_marginBottom="10dp"
+        android:gravity="center_vertical"
+        android:paddingLeft="15dp"
+        android:text="写下你对本条评论的感想吧！"
+        android:textColor="@color/color_999999"
+        app:rv_backgroundColor="#ebebeb"
+        app:rv_cornerRadius="3dp" />
 </LinearLayout>

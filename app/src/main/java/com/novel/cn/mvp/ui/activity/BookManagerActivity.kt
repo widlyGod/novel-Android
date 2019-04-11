@@ -1,12 +1,15 @@
 package com.novel.cn.mvp.ui.activity
 
 import android.os.Bundle
+import android.support.v7.widget.SimpleItemAnimator
 import com.jess.arms.base.BaseActivity
 import com.jess.arms.di.component.AppComponent
+import com.jess.arms.integration.EventBusManager
 import com.novel.cn.R
 import com.novel.cn.app.click
 import com.novel.cn.di.component.DaggerBookManagerComponent
 import com.novel.cn.di.module.BookManagerModule
+import com.novel.cn.eventbus.BookshelfEvent
 import com.novel.cn.mvp.contract.BookManagerContract
 import com.novel.cn.mvp.presenter.BookManagerPresenter
 import com.novel.cn.mvp.ui.adapter.BookManagerAdapter
@@ -45,7 +48,7 @@ class BookManagerActivity : BaseActivity<BookManagerPresenter>(), BookManagerCon
 
 
         mAdapter.apply {
-            recyclerView.adapter = this
+            //加载更多设置
             setEnableLoadMore(true)
             setLoadMoreView(CustomLoadMoreView())
             setOnLoadMoreListener({
@@ -56,11 +59,16 @@ class BookManagerActivity : BaseActivity<BookManagerPresenter>(), BookManagerCon
                 tv_delete.text = "删除（${it}）"
             }
         }
+        recyclerView.adapter = mAdapter
+        //取消默认动画,避免notify闪烁
+        (recyclerView.itemAnimator as SimpleItemAnimator).supportsChangeAnimations = false
+
+        //点击事件
         click(tv_done, tv_move, tv_checkAll, tv_delete) {
             when (it) {
                 tv_done -> finish()
                 tv_checkAll -> mAdapter.checkAll()
-                tv_delete->mPresenter?.deleteBook(mAdapter.getCheckList())
+                tv_delete -> mPresenter?.deleteBook(mAdapter.getCheckList())
             }
         }
         mPresenter?.getBookList(true)
@@ -71,6 +79,7 @@ class BookManagerActivity : BaseActivity<BookManagerPresenter>(), BookManagerCon
      */
     override fun deleteSuccess() {
         mAdapter.cleanCheck()
+        EventBusManager.getInstance().post(BookshelfEvent())
     }
 
 }

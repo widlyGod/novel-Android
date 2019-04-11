@@ -5,6 +5,7 @@ import com.chad.library.adapter.base.BaseViewHolder
 import com.novel.cn.R
 import com.novel.cn.app.Constant
 import com.novel.cn.app.loadImage
+import com.novel.cn.app.visible
 import com.novel.cn.mvp.model.entity.Comment
 import com.novel.cn.utils.TimeUtils
 import kotlinx.android.synthetic.main.item_comment.view.*
@@ -14,6 +15,8 @@ class BookCommentAdapter : BaseQuickAdapter<Comment, BaseViewHolder>(R.layout.it
     val levelList = ArrayList<LEVEL>()
 
     private var onReplyClickListener: ((Int) -> Unit)? = null
+
+    private var onLikeClickListener: ((Int) -> Unit)? = null
 
     init {
         levelList.add(LEVEL.LEVEL_1)
@@ -37,6 +40,10 @@ class BookCommentAdapter : BaseQuickAdapter<Comment, BaseViewHolder>(R.layout.it
 
     }
 
+    fun setOnLikeClickListener(listener: ((Int) -> Unit)?) {
+        this.onLikeClickListener = listener
+    }
+
     fun setOnReplyClickListener(listener: ((Int) -> Unit)?) {
         this.onReplyClickListener = listener
     }
@@ -52,7 +59,7 @@ class BookCommentAdapter : BaseQuickAdapter<Comment, BaseViewHolder>(R.layout.it
             tv_from.text = Constant.DEVICE_TYPE[item.deviceType]
             tv_num.text = item.thumbUpNumber.toString()
             tv_reply_num.text = "回复(${item.replyNumber})"
-
+            tv_isAuthor.visible(item.isAuthor)
 
             levelList.forEach {
                 if (item.commentUser.fansValue in (it.startValue..it.endValue)) {
@@ -67,10 +74,10 @@ class BookCommentAdapter : BaseQuickAdapter<Comment, BaseViewHolder>(R.layout.it
                 onReplyClickListener?.invoke(helper.adapterPosition)
             }
 
+            ll_like.setOnClickListener { onLikeClickListener?.invoke(helper.adapterPosition) }
 
         }
     }
-
 
 
     enum class LEVEL private constructor(val startValue: Int, val endValue: Int, val color: Long, val text: String) {

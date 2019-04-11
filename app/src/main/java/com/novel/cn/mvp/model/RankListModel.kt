@@ -29,6 +29,10 @@ import io.reactivex.Observable
 class RankListModel
 @Inject
 constructor(repositoryManager: IRepositoryManager) : BaseModel(repositoryManager), RankListContract.Model {
+    override fun addConllection(params: HashMap<String, Any>): Observable<BaseResponse<Any>> {
+        return mRepositoryManager.obtainRetrofitService(BookService::class.java).addConllcetion(params)
+    }
+
     override fun getRank(params: HashMap<String, String>): Observable<BaseResponse<MutableList<RankBean>>> {
 
         return  mRepositoryManager.obtainRetrofitService(BookService::class.java).getRank(params)

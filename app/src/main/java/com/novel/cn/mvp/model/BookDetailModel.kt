@@ -31,6 +31,10 @@ import io.reactivex.Observable
 class BookDetailModel
 @Inject
 constructor(repositoryManager: IRepositoryManager) : BaseModel(repositoryManager), BookDetailContract.Model {
+    override fun addConllection(params: HashMap<String, Any>): Observable<BaseResponse<Any>> {
+        return mRepositoryManager.obtainRetrofitService(BookService::class.java).addConllcetion(params)
+    }
+
     override fun getBookDetail(bookId: String?): Observable<BaseResponse<NovelInfoBean>> {
         return mRepositoryManager.obtainRetrofitService(BookService::class.java).getBookDetail(bookId)
     }

@@ -8,5 +8,5 @@ data class RankBean(val result: RankResult, val code: String, val name: String)
 data class RankResult(@SerializedName("WEEK") val week: List<RankWeek>)
 
 
-data class RankWeek(val novelPhoto: String, val novelTitle: String, val novelDescribe: String, val writer: String,val isCollection:String,
+data class RankWeek(val novelPhoto: String, val novelTitle: String, val novelDescribe: String, val writer: String,var isCollection:Boolean,
                    val novelId:String )

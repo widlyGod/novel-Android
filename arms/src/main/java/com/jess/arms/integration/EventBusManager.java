@@ -15,6 +15,8 @@
  */
 package com.jess.arms.integration;
 
+import com.jess.arms.utils.LogUtils;
+
 import java.lang.reflect.Method;
 
 import static com.jess.arms.base.Platform.DEPENDENCY_ANDROID_EVENTBUS;
@@ -22,7 +24,8 @@ import static com.jess.arms.base.Platform.DEPENDENCY_EVENTBUS;
 
 /**
  * ================================================
- * EventBus 的管理类, Arms 核心库并不会依赖某个 EventBus, 如果您想使用 EventBus, 则请在项目中自行依赖对应的 EventBus, 如果不想使用则不依赖
+ * EventBus 的管理类, Arms 核心库并不会依赖某个 EventBus, 如果您想使用 EventBus,
+ * 则请在项目中自行依赖对应的 EventBus, 如果不想使用则不依赖
  * 支持 greenrobot 的 EventBus 和畅销书 《Android源码设计模式解析与实战》的作者 何红辉 所作的 AndroidEventBus
  * 这个类并不能完全做到 EventBus 对外界的零耦合, 只能降低耦合, 因为两个 EventBus 的部分功能使用方法差别太大, 做到完全解耦代价太大
  * 允许同时使用两个 EventBus 但不建议这样做, 建议使用 AndroidEventBus, 特别是组件化项目, 原因请看 https://github.com/hehonghui/AndroidEventBus/issues/49
@@ -55,10 +58,12 @@ public final class EventBusManager {
      */
     public void register(Object subscriber) {
         if (DEPENDENCY_ANDROID_EVENTBUS) {
+            LogUtils.warnInfo("=============>>>>d");
             org.simple.eventbus.EventBus.getDefault().register(subscriber);
         }
         if (DEPENDENCY_EVENTBUS) {
             if (haveAnnotation(subscriber)) {
+                LogUtils.warnInfo("=============>>>>aaaa");
                 org.greenrobot.eventbus.EventBus.getDefault().register(subscriber);
             }
         }

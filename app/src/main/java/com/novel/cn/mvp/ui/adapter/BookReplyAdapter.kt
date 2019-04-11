@@ -5,13 +5,14 @@ import com.chad.library.adapter.base.BaseViewHolder
 import com.novel.cn.R
 import com.novel.cn.app.Constant
 import com.novel.cn.app.loadImage
+import com.novel.cn.app.visible
 import com.novel.cn.mvp.model.entity.Reply
 import com.novel.cn.utils.TimeUtils
 import kotlinx.android.synthetic.main.item_reply.view.*
 import java.text.SimpleDateFormat
 
 class BookReplyAdapter : BaseQuickAdapter<Reply, BaseViewHolder>(R.layout.item_reply) {
-    val levelList = ArrayList<LEVEL>()
+    private val levelList = ArrayList<LEVEL>()
 
     init {
         levelList.add(LEVEL.LEVEL_1)
@@ -45,7 +46,7 @@ class BookReplyAdapter : BaseQuickAdapter<Reply, BaseViewHolder>(R.layout.item_r
             tv_time.text = TimeUtils.millis2String(item.replyTime, SimpleDateFormat("yyyy-MM-dd HH:mm"))
             tv_content.text = item.content
             tv_from.text = Constant.DEVICE_TYPE[item.deviceType]
-
+            tv_isAuthor.visible(item.isAuthor)
 
             levelList.forEach {
                 if (item.replyUser.fansValue in (it.startValue..it.endValue)) {

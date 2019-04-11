@@ -107,6 +107,7 @@ ext {
             "lifecyclemodel"           : "me.jessyan:lifecyclemodel:1.0.1",
             "anko"                     : "org.jetbrains.anko:anko-commons:0.10.8",
             "calligraphy"              : "uk.co.chrisjenx:calligraphy:2.3.0",
+            "arclayout"                 :"com.github.florent37:arclayout:1.0.3",
 
             //test
             "junit"                    : "junit:junit:4.12",

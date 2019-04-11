@@ -213,6 +213,7 @@
             android:drawablePadding="4dp"
             android:gravity="center_vertical"
             android:text="加入书架"
+            android:id="@+id/tv_add_bookself"
             android:textColor="#609edb"
             android:textSize="12sp" />
 

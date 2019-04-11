@@ -1,25 +1,20 @@
 package com.novel.cn.mvp.ui.fragment
 
-import android.app.AlertDialog
-import android.app.Dialog
 import android.content.Context
-import android.content.ContextWrapper
-import android.os.Build
 import android.os.Bundle
-import android.support.annotation.RequiresApi
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import com.chad.library.adapter.base.BaseQuickAdapter
-import com.jess.arms.base.BaseFragment
 import com.jess.arms.base.BaseLazyLoadFragment
 import com.jess.arms.di.component.AppComponent
+import com.jess.arms.utils.LogUtils
 import com.novel.cn.R
 import com.novel.cn.app.Constant
 import com.novel.cn.app.JumpManager
 import com.novel.cn.app.Preference
 import com.novel.cn.di.component.DaggerBookshelfComponent
 import com.novel.cn.di.module.BookshelfModule
+import com.novel.cn.eventbus.BookshelfEvent
 import com.novel.cn.mvp.contract.BookshelfContract
 import com.novel.cn.mvp.model.entity.Book
 import com.novel.cn.mvp.model.entity.SignIn
@@ -30,9 +25,9 @@ import com.novel.cn.mvp.ui.dialog.MorePopup
 import com.novel.cn.mvp.ui.dialog.SignInDialog
 import com.novel.cn.utils.StatusBarUtils
 import com.novel.cn.view.CustomLoadMoreView
-import com.scwang.smartrefresh.layout.api.RefreshLayout
-import com.scwang.smartrefresh.layout.listener.OnRefreshListener
 import kotlinx.android.synthetic.main.fragment_bookshelf.*
+import org.greenrobot.eventbus.Subscribe
+import org.greenrobot.eventbus.ThreadMode
 import javax.inject.Inject
 
 
@@ -89,9 +84,7 @@ class BookshelfFragment : BaseLazyLoadFragment<BookshelfPresenter>(), BookshelfC
             }
         }
 
-        refreshLayout.setOnRefreshListener {
-            onRefresh()
-        }
+        refreshLayout.setOnRefreshListener { onRefresh() }
 
         onRefresh()
         iv_more.setOnClickListener {
@@ -105,10 +98,17 @@ class BookshelfFragment : BaseLazyLoadFragment<BookshelfPresenter>(), BookshelfC
         }
     }
 
-    private fun onRefresh(){
+    private fun onRefresh() {
         mPresenter?.validateSignIn()
         mPresenter?.getBookshelfList(true)
     }
+
+    @Subscribe
+    fun onBookshelfChange(event: BookshelfEvent) {
+        LogUtils.warnInfo("=============>>>>")
+        mPresenter?.getBookshelfList(true)
+    }
+
 
     override fun changeSignInInfo(data: SignIn) {
         val signed = data.signed

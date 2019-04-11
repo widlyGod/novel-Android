@@ -2,9 +2,11 @@ package com.novel.cn.mvp.ui.activity
 
 import android.content.Intent
 import android.os.Bundle
+import android.support.v7.widget.SimpleItemAnimator
 
 import com.jess.arms.base.BaseActivity
 import com.jess.arms.di.component.AppComponent
+import com.jess.arms.integration.EventBusManager
 import com.jess.arms.utils.ArmsUtils
 
 import com.novel.cn.di.component.DaggerRankListComponent
@@ -14,6 +16,7 @@ import com.novel.cn.mvp.presenter.RankListPresenter
 
 import com.novel.cn.R
 import com.novel.cn.app.JumpManager
+import com.novel.cn.eventbus.BookshelfEvent
 import com.novel.cn.mvp.model.entity.RankWeek
 import com.novel.cn.mvp.ui.adapter.RankListAdapter
 import com.novel.cn.utils.StatusBarUtils
@@ -67,16 +70,36 @@ class RankListActivity : BaseActivity<RankListPresenter>(), RankListContract.Vie
                 JumpManager.jumpBookDetail(this@RankListActivity, data.novelId)
             }
 
+            //收藏按钮点击
+            setOnConllectClickListener {
+                val item = mAdapter.getItem(it) as RankWeek
+                mPresenter?.addConllection(item.novelId, it)
+            }
+
         }
         recyclerView.adapter = mAdapter
-        refreshLayout.setOnRefreshListener {
-            mPresenter?.getRank(code, true)
-        }
+        (recyclerView.itemAnimator as SimpleItemAnimator).supportsChangeAnimations = false
+
+        refreshLayout.setOnRefreshListener { onRefresh() }
+        onRefresh()
+    }
+
+    private fun onRefresh() {
         mPresenter?.getRank(code, true)
     }
 
     override fun refreshComplete() {
         refreshLayout.finishRefresh()
+    }
+
+    override fun conllectionSuccess(position: Int) {
+        //收藏成功后，更新页面，并通知书架
+        val item = mAdapter.getItem(position)
+        item?.let {
+            it.isCollection = true
+            mAdapter.notifyItemChanged(position)
+            EventBusManager.getInstance().post(BookshelfEvent())
+        }
     }
 
 

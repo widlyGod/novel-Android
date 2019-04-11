@@ -24,7 +24,8 @@ import com.jess.arms.http.imageloader.glide.GlideImageLoaderStrategy
 import com.jess.arms.http.log.RequestInterceptor
 import com.jess.arms.integration.ConfigModule
 import com.novel.cn.BuildConfig
-import com.novel.cn.app.gson.CustomTypeAdapterFactory
+import com.novel.cn.app.gson.BooleanAdapter
+import com.novel.cn.app.gson.StringAdapter
 import com.novel.cn.mvp.model.api.Api
 import java.util.concurrent.TimeUnit
 import me.jessyan.progressmanager.ProgressManager
@@ -111,7 +112,8 @@ class GlobalConfiguration : ConfigModule {
                     gsonBuilder
                             .serializeNulls()//支持序列化值为 null 的参数
                             .enableComplexMapKeySerialization()//支持将序列化 key 为 Object 的 Map, 默认只能序列化 key 为 String 的 Map
-                            .registerTypeAdapterFactory(CustomTypeAdapterFactory<Any>()) //String 为null 转成 空字符串
+                            .registerTypeAdapter(String::class.java, StringAdapter()) //String 类型null 改成 空字符串
+                            .registerTypeAdapter(Boolean::class.java, BooleanAdapter()) //Boolean类型判断
                 }
                 .retrofitConfiguration {//这里可以自己自定义配置 Retrofit 的参数, 甚至您可以替换框架配置好的 OkHttpClient 对象 (但是不建议这样做, 这样做您将损失框架提供的很多功能)
                     context1, retrofitBuilder ->
@@ -120,9 +122,9 @@ class GlobalConfiguration : ConfigModule {
                 .okhttpConfiguration {//这里可以自己自定义配置 Okhttp 的参数
                     context1, okhttpBuilder ->
                     //                    okhttpBuilder.sslSocketFactory(); //支持 Https, 详情请百度
-                    okhttpBuilder.readTimeout(30,TimeUnit.SECONDS)
+                    okhttpBuilder.readTimeout(30, TimeUnit.SECONDS)
                     okhttpBuilder.writeTimeout(30, TimeUnit.SECONDS)
-                    okhttpBuilder.connectTimeout(30,TimeUnit.SECONDS)
+                    okhttpBuilder.connectTimeout(30, TimeUnit.SECONDS)
                     //使用一行代码监听 Retrofit／Okhttp 上传下载进度监听,以及 Glide 加载进度监听, 详细使用方法请查看 https://github.com/JessYanCoding/ProgressManager
                     ProgressManager.getInstance().with(okhttpBuilder)
                     //让 Retrofit 同时支持多个 BaseUrl 以及动态改变 BaseUrl, 详细使用方法请查看 https://github.com/JessYanCoding/RetrofitUrlManager

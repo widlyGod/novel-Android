@@ -27,24 +27,37 @@ object JumpManager {
         context?.startActivity<BookDetailActivity>("bookId" to bookId)
     }
 
-
+    /**
+     * 跳转到阅读页面
+     */
     fun jumpRead(context: Context?, bookId: String?) {
         context?.startActivity<ReadActivity>("bookId" to bookId)
     }
 
+    /**
+     * 跳转到搜索页面
+     */
     fun jumpSearch(context: Context?, hotNovels: List<BookInfo>) {
         context?.startActivity<SearchActivity>("hotNovels" to hotNovels)
-
     }
 
+    /**
+     * 跳转到排行榜列表
+     */
     fun toRankList(context: Context?, code: String?, title: String?) {
         context?.startActivity<RankListActivity>("code" to code, "title" to title)
     }
 
+    /**
+     * 跳转到评论列表
+     */
     fun toCommentList(context: Context?, bookId: String?) {
         context?.startActivity<CommentActivity>("bookId" to bookId)
     }
 
+    /**
+     * 跳转到评论详情
+     */
     fun toCommentDetail(context: Context?,comment: Comment?){
         context?.startActivity<CommentDetailActivity>("comment" to comment)
     }

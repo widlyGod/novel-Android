@@ -125,8 +125,8 @@ dependencies {
     //依赖后 Arms 会自动检测您依赖的 EventBus 并自动注册
     //建议使用 AndroidEventBus, 特别是组件化项目, 原因请看 https://github.com/hehonghui/AndroidEventBus/issues/49
     //这种做法可以让使用者有自行选择三方库的权利, 并且还可以减轻 Arms 的体积
-    implementation rootProject.ext.dependencies["androideventbus"]
-    //    implementation rootProject.ext.dependencies["eventbus"]
+//    implementation rootProject.ext.dependencies["androideventbus"]
+    implementation rootProject.ext.dependencies["eventbus"]
     kapt rootProject.ext.dependencies["dagger2-compiler"]
     implementation rootProject.ext.dependencies["progressmanager"]
     implementation rootProject.ext.dependencies["retrofit-url-manager"]
@@ -163,5 +163,6 @@ dependencies {
     implementation rootProject.ext.dependencies["calligraphy"]
     implementation rootProject.ext.dependencies["flexbox"]
     implementation rootProject.ext.dependencies["shadow-layout"]
-    implementation  rootProject.ext.dependencies["constraint-layout"]
+    implementation rootProject.ext.dependencies["constraint-layout"]
+    implementation rootProject.ext.dependencies["arclayout"]
 }

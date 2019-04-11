@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="60dp"
+    android:background="@drawable/shape_recharge_option_bg">
+
+
+    <android.support.constraint.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_vertical"
+        android:layout_marginLeft="5dp"
+        android:layout_marginRight="5dp"
+        android:duplicateParentState="true">
+
+        <TextView
+            android:id="@+id/tv_money"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:duplicateParentState="true"
+            android:text="29.9"
+            android:textColor="@color/selector_black_white"
+            android:textSize="22sp"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="元"
+            android:textColor="@color/selector_black_white"
+            android:textSize="11sp"
+            app:layout_constraintBaseline_toBaselineOf="@+id/tv_money"
+            app:layout_constraintLeft_toRightOf="@+id/tv_money" />
+
+        <TextView
+            android:id="@+id/tv_bi"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="3000阅读币"
+            android:textColor="@color/selector_black_white"
+            android:textSize="11sp"
+            app:layout_constraintLeft_toLeftOf="@+id/tv_money"
+            app:layout_constraintTop_toBottomOf="@+id/tv_money" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="(+66阅读券)"
+            android:textColor="#10c180"
+            android:textSize="11sp"
+            app:layout_constraintBaseline_toBaselineOf="@+id/tv_bi"
+            app:layout_constraintLeft_toRightOf="@+id/tv_bi" />
+
+
+    </android.support.constraint.ConstraintLayout>
+
+
+</FrameLayout>

@@ -84,6 +84,10 @@
         <activity
             android:name=".mvp.ui.activity.CommentDetailActivity"
             android:label="评论详情" />
+        <activity android:name=".mvp.ui.activity.RechargeActivity" />
+        <activity
+            android:name=".mvp.ui.activity.UserInfoActivity"
+            android:label="用户信息" />
     </application>
 
 </manifest>

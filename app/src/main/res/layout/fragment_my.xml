@@ -386,6 +386,7 @@
                                 android:layout_marginRight="12dp"
                                 android:gravity="center"
                                 android:text="充值"
+                                android:id="@+id/tv_recharge"
                                 android:textColor="#38a1d8"
                                 android:textSize="10sp"
                                 app:rv_isRadiusHalfHeight="true"

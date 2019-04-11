@@ -8,67 +8,67 @@ import android.graphics.Paint;
 import android.graphics.Path;
 import android.graphics.PorterDuff;
 import android.graphics.PorterDuffXfermode;
+import android.graphics.Rect;
+import android.graphics.RectF;
+import android.support.annotation.Nullable;
 import android.util.AttributeSet;
 import android.widget.RelativeLayout;
 
+import com.jess.arms.utils.ArmsUtils;
+
 public class ArcContainer extends RelativeLayout {
 
-    Context mContext;
+    private Paint mPaint;
 
-    Path mClipPath;
+    private int mWidth;
 
-    int width = 0;
-    int height = 0;
+    private int mHeight;
 
-    Paint mPaint;
-    private PorterDuffXfermode porterDuffXfermode;
-
-    private int orignalHeight;
-    private boolean firstGetHeight = true;
+    private int mArcHeight;
 
     public ArcContainer(Context context) {
-        super(context);
-        init(context, null);
+        this(context, null);
     }
 
-    public ArcContainer(Context context, AttributeSet attrs) {
-        super(context, attrs);
-        init(context, attrs);
+    public ArcContainer(Context context, @Nullable AttributeSet attrs) {
+        this(context, attrs, 0);
     }
 
-    private void init(Context context, AttributeSet attrs) {
-        mContext = context;
+    public ArcContainer(Context context, @Nullable AttributeSet attrs, int defStyleAttr) {
+        super(context, attrs, defStyleAttr);
 
-        porterDuffXfermode = new PorterDuffXfermode(PorterDuff.Mode.CLEAR);
+        mPaint = new Paint();
+        mPaint.setAntiAlias(true);
+        mPaint.setStyle(Paint.Style.FILL);
+        mPaint.setColor(Color.WHITE);
+        mPaint.setStrokeCap(Paint.Cap.ROUND);
+        mArcHeight = ArmsUtils.dip2px(context, 15);
 
-        mPaint = new Paint(Paint.ANTI_ALIAS_FLAG);
-        mPaint.setColor(Color.BLUE);
-        mClipPath = new Path();
+
     }
+
 
     @Override
     protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {
         super.onMeasure(widthMeasureSpec, heightMeasureSpec);
-
-        width = getMeasuredWidth();
-        height = getMeasuredHeight();
-
-
-        if (firstGetHeight) {
-            orignalHeight = height;
-            firstGetHeight = false;
-        }
-        mClipPath = PathProvider.getClipPath(width, height, orignalHeight);
+        mHeight = getMeasuredHeight();
+        mWidth = getMeasuredWidth();
     }
 
     @Override
-    protected void dispatchDraw(Canvas canvas) {
+    protected void onDraw(Canvas canvas) {
 
-        int saveCount = canvas.saveLayer(0, 0, getMeasuredWidth(), getMeasuredHeight(), null, Canvas.ALL_SAVE_FLAG);
-        super.dispatchDraw(canvas);
-        mPaint.setXfermode(porterDuffXfermode);
-        canvas.drawPath(mClipPath, mPaint);
+        // 使用离屏缓存，新建一个srcRectF区域大小的图层
+//        canvas.saveLayer(new RectF(0, 0, mWidth, mHeight), null, Canvas.ALL_SAVE_FLAG);
+
+        Path path = new Path();
+        path.moveTo(0, mHeight - mArcHeight);
+        path.quadTo(mWidth / 2, mHeight, mWidth, mHeight - mArcHeight);
+        mPaint.setXfermode(new PorterDuffXfermode(PorterDuff.Mode.DST_IN));
+        canvas.drawPath(path, mPaint);
+        // 清除Xfermode
         mPaint.setXfermode(null);
-        canvas.restoreToCount(saveCount);
+        // 恢复画布状态
+//        canvas.restore();
     }
 }

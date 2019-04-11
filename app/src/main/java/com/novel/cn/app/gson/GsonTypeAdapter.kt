@@ -9,19 +9,6 @@ import com.google.gson.stream.JsonToken
 import com.google.gson.stream.JsonWriter
 import com.jess.arms.utils.LogUtils
 
-class CustomTypeAdapterFactory<T> : TypeAdapterFactory {
-    override fun <T> create(gson: Gson, type: TypeToken<T>): TypeAdapter<T>? {
-        val rawType = type.rawType as Class<T>
-        LogUtils.warnInfo("==========================$rawType")
-        return when (rawType) {
-            String::class -> StringAdapter() as TypeAdapter<T>
-            Boolean::class -> BooleanAdapter() as TypeAdapter<T>
-            else -> null
-        }
-
-    }
-}
-
 
 class StringAdapter : TypeAdapter<String>() {
     override fun write(writer: JsonWriter?, value: String?) {
@@ -52,12 +39,17 @@ class BooleanAdapter : TypeAdapter<Boolean>() {
     }
 
     override fun read(reader: JsonReader): Boolean {
-        LogUtils.warnInfo("============${reader.nextName()},=============")
-        if (reader.peek() == JsonToken.NULL) {
+        val peek = reader.peek()
+        if (peek == JsonToken.NULL) {
+            //服务器返回null 按false处理
             reader.nextNull()
             return false
-        }else if (reader.peek() == JsonToken.NUMBER){
+        } else if (peek == JsonToken.NUMBER) {
+            //服务器返回number类型1 按true处理
             return reader.nextInt() == 1
+        } else if (peek == JsonToken.STRING) {
+            //服务器返回string类型 "1" 或者 "true" 按true处理
+            return reader.nextString() in setOf("1", "true")
         }
         return reader.nextBoolean()
     }

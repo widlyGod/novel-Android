@@ -74,4 +74,10 @@ interface BookService {
      */
     @POST("novelOAService/comment/findReplyPage")
     fun getReplyList(@Body params: HashMap<String, Any>): Observable<BaseResponse<MutableList<Reply>>>
+
+    /**
+     * 加入书架
+     */
+    @POST("novelOAService/novelCollection/saveCollection")
+    fun addConllcetion(@Body params: HashMap<String, Any>): Observable<BaseResponse<Any>>
 }

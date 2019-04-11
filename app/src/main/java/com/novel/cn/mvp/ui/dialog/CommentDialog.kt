@@ -10,8 +10,7 @@ import kotlinx.android.synthetic.main.dialog_comment.*
 
 class CommentDialog(context: Context) : BottomBaseDialog<CommentDialog>(context) {
 
-    init {
-    }
+    private var onReleaseClickListener: (() -> Unit)? = null
 
     override fun onCreateView(): View {
         return layoutInflater.inflate(R.layout.dialog_comment, mLlControlHeight, false)
@@ -20,12 +19,17 @@ class CommentDialog(context: Context) : BottomBaseDialog<CommentDialog>(context)
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        tv_back.setOnClickListener {
-            dismiss()
-        }
+        tv_back.setOnClickListener { dismiss() }
+
+        tv_release.setOnClickListener { onReleaseClickListener?.invoke() }
+    }
+
+    fun setOnReleaseClickListener(listener: () -> Unit) {
+        this.onReleaseClickListener = listener
     }
 
     override fun showWithAnim() {
+        //取消动画
         mInnerShowAnim = null
         super.showWithAnim()
     }
@@ -36,6 +40,7 @@ class CommentDialog(context: Context) : BottomBaseDialog<CommentDialog>(context)
 
 
     override fun show() {
+        //显示dialog时，自动打开软键盘
         DeviceUtils.showSoftKeyboard(this)
         super.show()
     }

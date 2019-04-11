@@ -1,28 +1,26 @@
 package com.novel.cn.mvp.ui.activity
 
-import android.content.Intent
 import android.os.Bundle
-
 import com.jess.arms.base.BaseActivity
 import com.jess.arms.di.component.AppComponent
+import com.jess.arms.integration.EventBusManager
 import com.jess.arms.utils.ArmsUtils
-
-import com.novel.cn.di.component.DaggerBookDetailComponent
-import com.novel.cn.di.module.BookDetailModule
-import com.novel.cn.mvp.contract.BookDetailContract
-import com.novel.cn.mvp.presenter.BookDetailPresenter
-
 import com.novel.cn.R
 import com.novel.cn.app.JumpManager
 import com.novel.cn.app.click
 import com.novel.cn.app.loadImage
-import com.novel.cn.mvp.model.entity.Comment
+import com.novel.cn.di.component.DaggerBookDetailComponent
+import com.novel.cn.di.module.BookDetailModule
+import com.novel.cn.eventbus.BookshelfEvent
+import com.novel.cn.mvp.contract.BookDetailContract
 import com.novel.cn.mvp.model.entity.NovelInfoBean
+import com.novel.cn.mvp.presenter.BookDetailPresenter
 import com.novel.cn.mvp.ui.adapter.BookCommentAdapter
 import com.novel.cn.utils.StatusBarUtils
 import com.novel.cn.view.decoration.LinearItemDecoration
 import kotlinx.android.synthetic.main.activity_book_detail.*
 import kotlinx.android.synthetic.main.include_title.*
+import org.jetbrains.anko.toast
 import javax.inject.Inject
 
 
@@ -64,13 +62,6 @@ class BookDetailActivity : BaseActivity<BookDetailPresenter>(), BookDetailContra
         recyclerView.addItemDecoration(decoration)
 
         mPresenter?.getBookDetail(bookId)
-
-
-        click(tv_read) {
-            when (it) {
-                tv_read -> JumpManager.jumpRead(this, bookId)
-            }
-        }
     }
 
     override fun showBookDetail(data: NovelInfoBean) {
@@ -82,7 +73,30 @@ class BookDetailActivity : BaseActivity<BookDetailPresenter>(), BookDetailContra
         tv_novelIntro.text = data.novelInfo.novelIntro
         tv_chapter.text = "更新至${data.novelInfo.chapterCount}章"
         tv_review_count.text = data.comment.totalCount.toString()
+        tv_add_bookself.text = if (data.novelInfo.isCollection) "已在书架" else "加入书架"
+
         mAdapter.setNewData(data.comment.comments)
+
+        click(tv_read, tv_add_bookself) {
+            when (it) {
+                tv_read -> JumpManager.jumpRead(this, bookId)
+                tv_add_bookself -> {
+                    if (data.novelInfo.isCollection) {
+                        toast("该本小说已被主人收藏啦~")
+                    } else {
+                        mPresenter?.addCollection(data.novelInfo.novelId)
+                    }
+                }
+            }
+        }
     }
+
+    override fun conllectionSuccess() {
+        tv_add_bookself.text = "已在书架"
+        //通知书架页面
+        EventBusManager.getInstance().post(BookshelfEvent())
+
+    }
+
 
 }

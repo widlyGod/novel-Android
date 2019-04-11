@@ -37,7 +37,7 @@ class MainActivity : BaseActivity<MainPresenter>(), MainContract.View {
 
     private var mCurrentFragment: Fragment? = null
 
-    val mTitleTypeface by lazy { Typeface.createFromAsset(assets, "fonts/FZQKBYSJW.TTF") }
+     val mTitleTypeface: Typeface by lazy { Typeface.createFromAsset(assets, "fonts/FZQKBYSJW.TTF") }
 
     override fun setupActivityComponent(appComponent: AppComponent) {
         DaggerMainComponent //如找不到该类,请编译一下项目
