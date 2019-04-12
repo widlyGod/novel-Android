@@ -23,6 +23,7 @@ import com.jess.arms.integration.cache.IntelligentCache
 import com.jess.arms.utils.ArmsUtils
 import com.mob.MobSDK
 import com.novel.cn.BuildConfig
+import com.novel.cn.db.DbManager
 import com.scwang.smartrefresh.layout.SmartRefreshLayout
 import com.scwang.smartrefresh.layout.header.ClassicsHeader
 import com.squareup.leakcanary.LeakCanary
@@ -68,6 +69,7 @@ class AppLifecyclesImpl : AppLifecycles {
         }
         Preference.init(application, "config")
         MobSDK.init(application)
+        DbManager.init(application)
         SmartRefreshLayout.setDefaultRefreshHeaderCreator { context, layout -> ClassicsHeader(application) }
         //LeakCanary 内存泄露检查
         //使用 IntelligentCache.KEY_KEEP 作为 key 的前缀, 可以使储存的数据永久存储在内存中

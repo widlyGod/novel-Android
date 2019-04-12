@@ -7,12 +7,15 @@ import com.jess.arms.di.scope.ActivityScope
 import com.jess.arms.mvp.BasePresenter
 import com.jess.arms.http.imageloader.ImageLoader
 import com.jess.arms.utils.RxLifecycleUtils
+import com.novel.cn.db.DbManager
+import com.novel.cn.db.SearchHistory
 import me.jessyan.rxerrorhandler.core.RxErrorHandler
 import javax.inject.Inject
 
 import com.novel.cn.mvp.contract.SearchContract
 import com.novel.cn.mvp.model.entity.BaseResponse
 import com.novel.cn.mvp.model.entity.HotNovelBean
+import com.novel.cn.mvp.ui.adapter.SearchRecordAdapter
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.schedulers.Schedulers
 import me.jessyan.rxerrorhandler.handler.ErrorHandleSubscriber
@@ -26,6 +29,10 @@ constructor(model: SearchContract.Model, rootView: SearchContract.View) :
     @Inject
     lateinit var mErrorHandler: RxErrorHandler
 
+
+    @Inject
+    lateinit var mSearchRecordAdapter: SearchRecordAdapter
+
     fun getHotWords() {
         mModel.getHotWords()
                 .subscribeOn(Schedulers.io())
@@ -36,5 +43,20 @@ constructor(model: SearchContract.Model, rootView: SearchContract.View) :
 
                     }
                 })
+    }
+
+    fun getSearchRecordList() {
+        val list = DbManager.getSearchRecordList()
+        mSearchRecordAdapter.setNewData(list)
+    }
+
+    fun cleanRecord() {
+        DbManager.clearSearchRecord()
+        getSearchRecordList()
+    }
+
+    fun saveKeyword(keyword: String) {
+        DbManager.saveSearch(keyword)
+        getSearchRecordList()
     }
 }

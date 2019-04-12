@@ -1,8 +1,12 @@
 apply plugin: 'com.android.application'
+apply plugin: 'org.greenrobot.greendao' // apply plugin
 apply plugin: 'kotlin-android'
 apply plugin: 'kotlin-android-extensions'
 apply plugin: 'kotlin-kapt'
 apply from: '../mobsdk.gradle'
+
+
+
 
 
 def addFieldsAndPlaceholders = { flavor, items ->
@@ -111,6 +115,20 @@ android {
     androidExtensions {
         experimental = true
     }
+
+
+
+
+}
+
+//greendao
+greendao {
+    //数据库schema版本，也可以理解为数据库版本号
+    schemaVersion 1
+    //设置DaoMaster 、DaoSession、Dao包名
+    daoPackage "com.novel.cn.db"
+    //设置DaoMaster 、DaoSession、Dao目录
+    targetGenDir 'src/main/java'
 }
 
 dependencies {
@@ -165,4 +183,6 @@ dependencies {
     implementation rootProject.ext.dependencies["shadow-layout"]
     implementation rootProject.ext.dependencies["constraint-layout"]
     implementation rootProject.ext.dependencies["arclayout"]
+
+    implementation rootProject.ext.dependencies["greendao"]
 }

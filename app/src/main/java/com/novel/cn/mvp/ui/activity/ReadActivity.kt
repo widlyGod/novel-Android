@@ -17,12 +17,17 @@ import com.novel.cn.R
 import com.novel.cn.app.click
 import com.novel.cn.app.isVisible
 import com.novel.cn.app.visible
+import com.novel.cn.mvp.ui.dialog.ReadSettingDialog
 import com.novel.cn.utils.StatusBarUtils
 import com.novel.cn.utils.SystemBarUtils
 import kotlinx.android.synthetic.main.activity_read.*
 
 
 class ReadActivity : BaseActivity<ReadPresenter>(), ReadContract.View {
+
+
+    private val mDialog by lazy { ReadSettingDialog(this) }
+
 
     override fun setupActivityComponent(appComponent: AppComponent) {
         DaggerReadComponent //如找不到该类,请编译一下项目
@@ -44,9 +49,13 @@ class ReadActivity : BaseActivity<ReadPresenter>(), ReadContract.View {
         StatusBarUtils.setPaddingSmart(this, toolbar)
 
 
-        click(tv_content) {
+        click(tv_content, tv_setting) {
             when (it) {
                 tv_content -> toggleMenu()
+                tv_setting -> {
+                    ll_bottom_menu.visible(false)
+                    mDialog.show()
+                }
             }
         }
     }

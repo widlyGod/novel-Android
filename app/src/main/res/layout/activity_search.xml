@@ -2,12 +2,11 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/rootView"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/white"
     android:orientation="vertical">
-
-
     <LinearLayout
         android:id="@+id/ll_search"
         android:layout_width="match_parent"
@@ -22,39 +21,42 @@
             android:layout_marginTop="25dp"
             android:layout_marginBottom="25dp"
             android:layout_weight="1"
+            android:focusable="true"
+            android:focusableInTouchMode="true"
             app:rv_backgroundColor="#dfdfdf"
             app:rv_isRadiusHalfHeight="true">
 
 
-            <LinearLayout
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+            <FrameLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
                 android:layout_centerInParent="true"
                 android:gravity="center"
                 android:orientation="horizontal">
 
 
-                <ImageView
-                    android:id="@+id/iv"
+                <EditText
+                    android:id="@+id/et_keyword"
                     android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
+                    android:layout_height="match_parent"
                     android:layout_centerInParent="true"
-                    android:src="@drawable/ic_search2" />
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_centerInParent="true"
-                    android:layout_marginLeft="8dp"
+                    android:layout_gravity="center"
                     android:layout_toRightOf="@+id/iv"
-                    android:text="找书/找作者 关键字"
+                    android:background="@null"
+                    android:drawableLeft="@drawable/ic_search2"
+                    android:drawablePadding="5dp"
+                    android:gravity="center_vertical"
+                    android:hint="找书/找作者 关键字"
+                    android:imeOptions="actionSearch"
+                    android:singleLine="true"
                     android:textColor="#b1b1b1"
                     android:textSize="12sp" />
 
-            </LinearLayout>
+            </FrameLayout>
         </com.flyco.roundview.RoundRelativeLayout>
 
         <TextView
+            android:id="@+id/tv_cancel"
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
             android:gravity="center"
@@ -94,11 +96,20 @@
 
 
         <ImageView
+            android:id="@+id/iv_clean"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="right|center_vertical"
+            android:padding="10dp"
             android:src="@drawable/ic_delete" />
 
     </FrameLayout>
+
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/search_record_recyclerview"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginTop="10dp"
+        app:layoutManager="android.support.v7.widget.LinearLayoutManager" />
 
 </LinearLayout>

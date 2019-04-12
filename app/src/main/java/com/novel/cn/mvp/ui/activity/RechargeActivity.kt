@@ -1,43 +1,25 @@
 package com.novel.cn.mvp.ui.activity
 
-import android.content.Intent
 import android.graphics.Rect
 import android.os.Bundle
-import android.support.v4.widget.NestedScrollView
 import android.support.v7.widget.GridLayoutManager
 import android.support.v7.widget.RecyclerView
 import android.view.View
-
 import com.jess.arms.base.BaseActivity
 import com.jess.arms.di.component.AppComponent
 import com.jess.arms.utils.ArmsUtils
-
+import com.novel.cn.R
+import com.novel.cn.app.click
 import com.novel.cn.di.component.DaggerRechargeComponent
 import com.novel.cn.di.module.RechargeModule
 import com.novel.cn.mvp.contract.RechargeContract
 import com.novel.cn.mvp.presenter.RechargePresenter
-
-import com.novel.cn.R
-import com.novel.cn.app.click
 import com.novel.cn.mvp.ui.adapter.RechargeOptionAdapter
 import com.novel.cn.utils.StatusBarUtils
-import com.novel.cn.view.decoration.GridItemDecoration
 import kotlinx.android.synthetic.main.activity_recharge.*
+import kotlinx.android.synthetic.main.include_title.*
 import kotlinx.android.synthetic.main.layout_my_header.*
 import javax.inject.Inject
-import android.support.v4.content.ContextCompat
-import com.jess.arms.utils.LogUtils
-import kotlinx.android.synthetic.main.include_title.*
-import android.support.v4.view.ViewCompat.setTranslationY
-import com.novel.cn.R.id.toolbar
-import android.R.attr.scrollY
-import android.support.v4.view.ViewCompat.setTranslationY
-import com.novel.cn.R.id.toolbar
-import android.R.attr.scrollY
-
-
-
-
 
 
 class RechargeActivity : BaseActivity<RechargePresenter>(), RechargeContract.View {
@@ -68,6 +50,7 @@ class RechargeActivity : BaseActivity<RechargePresenter>(), RechargeContract.Vie
         recyclerView.adapter = mAdapter
         recyclerView.isFocusableInTouchMode = false
         recyclerView.requestFocus()
+        //设置间隔
         recyclerView.addItemDecoration(object : RecyclerView.ItemDecoration() {
             //水平线
             val horizontalSpec = ArmsUtils.dip2px(this@RechargeActivity, 17f)
