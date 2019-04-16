@@ -4,6 +4,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="#000000"
+    android:orientation="vertical"
     android:paddingLeft="30dp"
     android:paddingTop="44dp"
     android:paddingRight="33dp"
@@ -17,5 +18,92 @@
         android:overScrollMode="never"
         app:layoutManager="android.support.v7.widget.LinearLayoutManager" />
 
+    <com.flyco.roundview.RoundLinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="32dp"
+        android:layout_marginTop="35dp"
+        android:orientation="horizontal"
+        app:rv_cornerRadius="3dp"
+        app:rv_strokeColor="@color/white"
+        app:rv_strokeWidth="1px">
+
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:text="A-"
+            android:textColor="@color/white"
+            android:textSize="18sp" />
+
+        <View
+            android:layout_width="1px"
+            android:layout_height="match_parent"
+            android:background="@color/white" />
+
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:text="18"
+            android:textColor="@color/white"
+            android:textSize="18sp" />
+
+        <View
+            android:layout_width="1px"
+            android:layout_height="match_parent"
+            android:background="@color/white" />
+
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:text="A+"
+            android:textColor="@color/white"
+            android:textSize="18sp" />
+    </com.flyco.roundview.RoundLinearLayout>
+
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="32dp"
+        android:layout_marginTop="35dp"
+        android:orientation="horizontal">
+
+
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:background="@drawable/selector_fonts"
+            android:gravity="center"
+            android:text="雅黑"
+            android:textColor="@color/selector_read_setting_fonts"
+            android:textSize="18sp" />
+
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_marginLeft="22dp"
+            android:layout_weight="1"
+            android:background="@drawable/selector_fonts"
+            android:gravity="center"
+            android:text="宋体"
+            android:textColor="@color/selector_read_setting_fonts"
+            android:textSize="18sp" />
+
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_marginLeft="22dp"
+            android:layout_weight="1"
+            android:background="@drawable/selector_fonts"
+            android:gravity="center"
+            android:text="楷书"
+            android:textColor="@color/selector_read_setting_fonts"
+            android:textSize="18sp" />
+    </LinearLayout>
 
 </LinearLayout>

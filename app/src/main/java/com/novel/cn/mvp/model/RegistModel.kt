@@ -9,7 +9,7 @@ import javax.inject.Inject
 import com.novel.cn.mvp.contract.RegistContract
 import com.novel.cn.mvp.model.api.service.UserService
 import com.novel.cn.mvp.model.entity.BaseResponse
-import com.novel.cn.mvp.model.entity.UserInfo
+import com.novel.cn.mvp.model.entity.LoginInfo
 import io.reactivex.Observable
 
 
@@ -34,7 +34,7 @@ constructor(repositoryManager: IRepositoryManager) : BaseModel(repositoryManager
     }
 
 
-    override fun regist(params: HashMap<String, String>): Observable<BaseResponse<UserInfo>> {
+    override fun regist(params: HashMap<String, String>): Observable<BaseResponse<LoginInfo>> {
         return mRepositoryManager.obtainRetrofitService(UserService::class.java).regist(params)
     }
 }

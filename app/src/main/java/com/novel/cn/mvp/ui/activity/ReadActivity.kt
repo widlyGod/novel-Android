@@ -1,12 +1,10 @@
 package com.novel.cn.mvp.ui.activity
 
-import android.content.Intent
 import android.os.Bundle
 import android.view.WindowManager
 
 import com.jess.arms.base.BaseActivity
 import com.jess.arms.di.component.AppComponent
-import com.jess.arms.utils.ArmsUtils
 
 import com.novel.cn.di.component.DaggerReadComponent
 import com.novel.cn.di.module.ReadModule
@@ -19,14 +17,20 @@ import com.novel.cn.app.isVisible
 import com.novel.cn.app.visible
 import com.novel.cn.mvp.ui.dialog.ReadSettingDialog
 import com.novel.cn.utils.StatusBarUtils
-import com.novel.cn.utils.SystemBarUtils
+import com.novel.cn.view.read.PageView
 import kotlinx.android.synthetic.main.activity_read.*
 
 
 class ReadActivity : BaseActivity<ReadPresenter>(), ReadContract.View {
 
 
-    private val mDialog by lazy { ReadSettingDialog(this) }
+    private val mSettingDialog by lazy {
+        ReadSettingDialog(this).apply {
+            setOnDismissListener {
+                hideSystemBar()
+            }
+        }
+    }
 
 
     override fun setupActivityComponent(appComponent: AppComponent) {
@@ -48,13 +52,25 @@ class ReadActivity : BaseActivity<ReadPresenter>(), ReadContract.View {
         StatusBarUtils.immersive(this)
         StatusBarUtils.setPaddingSmart(this, toolbar)
 
+        pageView.setOnTouchListener(object : PageView.OnTouchListener {
+            override fun onMenuClick() {
+                toggleMenu()
+            }
+
+            override fun onClick() {
+                if (toolbar.isVisible()) {
+                    hideSystemBar()
+                }
+            }
+
+        })
 
         click(tv_content, tv_setting) {
             when (it) {
                 tv_content -> toggleMenu()
                 tv_setting -> {
                     ll_bottom_menu.visible(false)
-                    mDialog.show()
+                    mSettingDialog.show()
                 }
             }
         }

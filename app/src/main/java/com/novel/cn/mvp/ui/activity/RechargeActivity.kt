@@ -8,11 +8,15 @@ import android.view.View
 import com.jess.arms.base.BaseActivity
 import com.jess.arms.di.component.AppComponent
 import com.jess.arms.utils.ArmsUtils
+import com.jess.arms.utils.LogUtils
 import com.novel.cn.R
 import com.novel.cn.app.click
+import com.novel.cn.app.loadImage
 import com.novel.cn.di.component.DaggerRechargeComponent
 import com.novel.cn.di.module.RechargeModule
 import com.novel.cn.mvp.contract.RechargeContract
+import com.novel.cn.mvp.model.entity.Demo
+import com.novel.cn.mvp.model.entity.User
 import com.novel.cn.mvp.presenter.RechargePresenter
 import com.novel.cn.mvp.ui.adapter.RechargeOptionAdapter
 import com.novel.cn.utils.StatusBarUtils
@@ -26,6 +30,9 @@ class RechargeActivity : BaseActivity<RechargePresenter>(), RechargeContract.Vie
 
     @Inject
     lateinit var mAdapter: RechargeOptionAdapter
+
+
+    private val mUser by lazy { intent.getParcelableExtra<User?>("user") }
 
     override fun setupActivityComponent(appComponent: AppComponent) {
         DaggerRechargeComponent //如找不到该类,请编译一下项目
@@ -46,6 +53,14 @@ class RechargeActivity : BaseActivity<RechargePresenter>(), RechargeContract.Vie
         StatusBarUtils.darkMode(this)
         StatusBarUtils.setPaddingSmart(this, cl_top)
         StatusBarUtils.setPaddingSmart(this, toolbar)
+
+        mUser?.let { data ->
+            iv_avatar.loadImage(data.userPhoto)
+            iv_gender.setImageResource(if (data.userGender == 0) R.drawable.ic_male else R.drawable.ic_famale)
+            tv_read_count.text = "读过${data.readCount}本"
+            tv_account.text = data.userName
+            tv_blance.text = "${data.moneys}阅币"
+        }
 
         recyclerView.adapter = mAdapter
         recyclerView.isFocusableInTouchMode = false
@@ -97,7 +112,6 @@ class RechargeActivity : BaseActivity<RechargePresenter>(), RechargeContract.Vie
             }
             lastScrollY = scrollY
         }*/
-
 
 
         val list = ArrayList<Any>()

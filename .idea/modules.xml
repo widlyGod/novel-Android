@@ -4,7 +4,6 @@
     <modules>
       <module fileurl="file://$PROJECT_DIR$/app/app.iml" filepath="$PROJECT_DIR$/app/app.iml" />
       <module fileurl="file://$PROJECT_DIR$/arms/arms.iml" filepath="$PROJECT_DIR$/arms/arms.iml" />
-      <module fileurl="file://$PROJECT_DIR$/arms-autolayout/arms-autolayout.iml" filepath="$PROJECT_DIR$/arms-autolayout/arms-autolayout.iml" />
       <module fileurl="file://$PROJECT_DIR$/arms-imageloader-glide/arms-imageloader-glide.iml" filepath="$PROJECT_DIR$/arms-imageloader-glide/arms-imageloader-glide.iml" />
       <module fileurl="file://$PROJECT_DIR$/novel-Android.iml" filepath="$PROJECT_DIR$/novel-Android.iml" />
     </modules>

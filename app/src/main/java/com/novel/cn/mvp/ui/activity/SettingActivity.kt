@@ -19,6 +19,7 @@ import com.novel.cn.utils.CacheDataManager
 import com.novel.cn.utils.StatusBarUtils
 import kotlinx.android.synthetic.main.activity_setting.*
 import kotlinx.android.synthetic.main.include_title.*
+import org.jetbrains.anko.startActivity
 
 
 class SettingActivity : BaseActivity<SettingPresenter>(), SettingContract.View {
@@ -48,8 +49,9 @@ class SettingActivity : BaseActivity<SettingPresenter>(), SettingContract.View {
         tv_cache.text = CacheDataManager.getTotalCacheSize(this)
 
 
-        click(fl_cache) {
+        click(fl_cache, tv_about) {
             when (it) {
+                tv_about -> startActivity<LoginActivity>()
                 fl_cache -> {
                     CacheDataManager.clearAllCache(this)
                     tv_cache.text = CacheDataManager.getTotalCacheSize(this)

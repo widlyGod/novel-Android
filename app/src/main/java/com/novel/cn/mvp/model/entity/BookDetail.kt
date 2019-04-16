@@ -3,7 +3,7 @@ package com.novel.cn.mvp.model.entity
 import android.os.Parcelable
 import kotlinx.android.parcel.Parcelize
 
-data class BookDetail(val novelId: String, val novelAuthor: String, val novelPhoto: String, val isCollection: Boolean, val isRead: Boolean,
+data class BookDetail(val novelId: String , val novelAuthor: String, val novelPhoto: String, val isCollection: Boolean, val isRead: Boolean,
                       val novelWords: Int, val clickNum: Int, val novelTitle: String, val novelIntro: String, val chapterCount: String)
 
 

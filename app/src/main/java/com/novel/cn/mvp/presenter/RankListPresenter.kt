@@ -4,6 +4,7 @@ import com.jess.arms.di.scope.ActivityScope
 import com.jess.arms.mvp.BasePresenter
 import com.jess.arms.utils.RxLifecycleUtils
 import com.novel.cn.app.Constant
+import com.novel.cn.app.isNullOrEmpty
 import me.jessyan.rxerrorhandler.core.RxErrorHandler
 import javax.inject.Inject
 

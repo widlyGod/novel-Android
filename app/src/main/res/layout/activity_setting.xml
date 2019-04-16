@@ -106,6 +106,7 @@
         android:layout_height="55dp"
         android:gravity="center_vertical"
         android:paddingLeft="18dp"
+        android:id="@+id/tv_about"
         android:paddingRight="40dp"
         android:text="关于云纵文学"
         android:textColor="@color/color_333333" />

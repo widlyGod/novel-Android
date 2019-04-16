@@ -40,9 +40,7 @@
             android:value="375" />
         <meta-data
             android:name="design_height_in_dp"
-            android:value="667" />
-
-        <!-- Arms 配置 -->
+            android:value="667" /> <!-- Arms 配置 -->
         <meta-data
             android:name="com.novel.cn.app.GlobalConfiguration"
             android:value="ConfigModule" />
@@ -86,7 +84,7 @@
             android:label="评论详情" />
         <activity
             android:name=".mvp.ui.activity.RechargeActivity"
-            android:windowSoftInputMode="adjustPan"  />
+            android:windowSoftInputMode="adjustPan" />
         <activity
             android:name=".mvp.ui.activity.UserInfoActivity"
             android:label="用户信息" />

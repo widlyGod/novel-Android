@@ -19,14 +19,22 @@ import com.novel.cn.mvp.contract.MyContract
 import com.novel.cn.mvp.presenter.MyPresenter
 
 import com.novel.cn.R
+import com.novel.cn.app.JumpManager
 import com.novel.cn.app.click
+import com.novel.cn.app.loadImage
+import com.novel.cn.app.visible
+import com.novel.cn.mvp.model.entity.Demo
+import com.novel.cn.mvp.model.entity.User
 import com.novel.cn.mvp.ui.activity.*
 import com.novel.cn.utils.StatusBarUtils
 import kotlinx.android.synthetic.main.fragment_my.*
+import kotlinx.android.synthetic.main.layout_my_header.*
 import org.jetbrains.anko.startActivity
 
 
 class MyFragment : BaseFragment<MyPresenter>(), MyContract.View {
+
+
     companion object {
         fun newInstance(): MyFragment {
             val fragment = MyFragment()
@@ -34,6 +42,7 @@ class MyFragment : BaseFragment<MyPresenter>(), MyContract.View {
         }
     }
 
+    private var mUser: User? = null
 
     override fun setupFragmentComponent(appComponent: AppComponent) {
         DaggerMyComponent //如找不到该类,请编译一下项目
@@ -50,20 +59,35 @@ class MyFragment : BaseFragment<MyPresenter>(), MyContract.View {
 
     override fun initData(savedInstanceState: Bundle?) {
         //给布局加一个状态栏高度
-        StatusBarUtils.setPadding(activity, top)
-        click(iv_setting, fl_messsage,iv_avatar,tv_recharge) {
-            when (it) {
+        StatusBarUtils.setPadding(activity, cl_top)
+        iv_setting.visible(true)
+
+        mPresenter?.getUserInfo()
+
+        click(iv_setting, fl_messsage, iv_avatar, tv_recharge) { view ->
+            when (view) {
                 iv_setting -> activity?.startActivity<SettingActivity>()
                 fl_messsage -> activity?.startActivity<MessageActivity>()
-                iv_avatar -> activity?.startActivity<UserInfoActivity>()
-                tv_recharge->activity?.startActivity<RechargeActivity>()
+                iv_avatar -> mUser?.let { JumpManager.jumpUserInfo(activity, it) }
+                tv_recharge -> mUser?.let { JumpManager.jumpRecharge(activity, it) }
             }
         }
-    }
-
-
-    override fun setData(data: Any?) {
 
     }
+        override fun showUserInfo(data: User) {
+            mUser = data
+            iv_avatar.loadImage(data.userPhoto)
+            iv_gender.setImageResource(if (data.userGender == 0) R.drawable.ic_male else R.drawable.ic_famale)
+            tv_read_count.text = "读过${data.readCount}本"
 
-}
+            tv_meet_day.text = "${data.meetDays}天"
+            tv_sign_day.text = "${data.signDays}天"
+
+            tv_month_ticket.text = data.monthTickets
+            tv_recommend_ticket.text = data.recommendTickets
+
+            tv_msg.text = data.msgCount
+
+
+        }
+    }

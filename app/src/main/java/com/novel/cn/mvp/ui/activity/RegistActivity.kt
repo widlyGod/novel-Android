@@ -29,7 +29,7 @@ import com.novel.cn.app.click
 import com.novel.cn.app.utils.RxUtils
 import com.novel.cn.di.module.LoginModule
 import com.novel.cn.mvp.contract.LoginContract
-import com.novel.cn.mvp.model.entity.UserInfo
+import com.novel.cn.mvp.model.entity.LoginInfo
 import com.novel.cn.mvp.presenter.LoginPresenter
 import com.novel.cn.utils.PartsUtil
 import com.novel.cn.utils.StatusBarUtils
@@ -197,14 +197,14 @@ class RegistActivity : BaseActivity<RegistPresenter>(), RegistContract.View, Log
         }
     }
 
-    override fun loginSuccess(data: UserInfo) {
+    override fun loginSuccess(data: LoginInfo) {
         //保存数据
-        Preference.put(Constant.USER_INFO,data)
+        Preference.put(Constant.LOGIN_INFO,data)
         Preference.put(Constant.SESSION_ID,data.sessionId)
         finish()
     }
 
-    override fun registSuccess(data: UserInfo) {
+    override fun registSuccess(data: LoginInfo) {
         loginSuccess(data)
     }
 

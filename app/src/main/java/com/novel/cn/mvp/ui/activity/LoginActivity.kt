@@ -21,9 +21,8 @@ import com.novel.cn.app.visible
 import com.novel.cn.di.component.DaggerLoginComponent
 import com.novel.cn.di.module.LoginModule
 import com.novel.cn.mvp.contract.LoginContract
-import com.novel.cn.mvp.model.entity.UserInfo
+import com.novel.cn.mvp.model.entity.LoginInfo
 import com.novel.cn.mvp.presenter.LoginPresenter
-import com.novel.cn.mvp.ui.dialog.SignInDialog
 import com.novel.cn.utils.PartsUtil
 import com.novel.cn.utils.StatusBarUtils
 import io.reactivex.Observable
@@ -123,9 +122,9 @@ class LoginActivity : BaseActivity<LoginPresenter>(), LoginContract.View {
     /**
      * 登录成功回调
      */
-    override fun loginSuccess(data: UserInfo) {
+    override fun loginSuccess(data: LoginInfo) {
         //保存数据
-        Preference.put(Constant.USER_INFO, data)
+        Preference.put(Constant.LOGIN_INFO, data)
         Preference.put(Constant.SESSION_ID, data.sessionId)
         finish()
     }

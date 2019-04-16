@@ -18,7 +18,7 @@ import com.novel.cn.eventbus.BookshelfEvent
 import com.novel.cn.mvp.contract.BookshelfContract
 import com.novel.cn.mvp.model.entity.Book
 import com.novel.cn.mvp.model.entity.SignIn
-import com.novel.cn.mvp.model.entity.UserInfo
+import com.novel.cn.mvp.model.entity.LoginInfo
 import com.novel.cn.mvp.presenter.BookshelfPresenter
 import com.novel.cn.mvp.ui.adapter.BookshelfAdapter
 import com.novel.cn.mvp.ui.dialog.MorePopup
@@ -27,7 +27,6 @@ import com.novel.cn.utils.StatusBarUtils
 import com.novel.cn.view.CustomLoadMoreView
 import kotlinx.android.synthetic.main.fragment_bookshelf.*
 import org.greenrobot.eventbus.Subscribe
-import org.greenrobot.eventbus.ThreadMode
 import javax.inject.Inject
 
 
@@ -91,7 +90,7 @@ class BookshelfFragment : BaseLazyLoadFragment<BookshelfPresenter>(), BookshelfC
             mMorePopup.showAsDropDown(it, 0, 0)
         }
         tv_signIn.setOnClickListener {
-            val user = Preference.getDeviceData<UserInfo>(Constant.USER_INFO)
+            val user = Preference.getDeviceData<LoginInfo>(Constant.LOGIN_INFO)
             user?.let {
                 mPresenter?.signIn(it.userId)
             }

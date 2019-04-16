@@ -10,14 +10,13 @@
 
     <ImageView
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:scaleType="fitXY"
+        android:layout_height="275dp"
+        android:scaleType="centerCrop"
         android:src="@drawable/bg_my" />
 
     <android.support.v4.widget.NestedScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-
         android:overScrollMode="never">
 
         <LinearLayout
@@ -25,180 +24,7 @@
             android:layout_height="match_parent"
             android:orientation="vertical">
 
-            <RelativeLayout
-                android:id="@+id/top"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content">
-
-
-                <ImageView
-                    android:id="@+id/iv_setting"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_alignParentRight="true"
-                    android:layout_marginRight="15dp"
-                    android:padding="15dp"
-                    android:src="@drawable/ic_setting" />
-
-                <de.hdodenhof.circleimageview.CircleImageView
-                    android:id="@+id/iv_avatar"
-                    android:layout_width="45dp"
-                    android:layout_height="45dp"
-                    android:layout_marginLeft="18dp"
-                    android:layout_marginTop="30dp"
-                    android:scaleType="centerCrop"
-                    android:src="@drawable/img_default_book_txt" />
-
-                <LinearLayout
-                    android:id="@+id/ll_avatar"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_alignBottom="@+id/iv_avatar"
-                    android:layout_marginLeft="9dp"
-                    android:layout_toRightOf="@+id/iv_avatar"
-                    android:gravity="bottom"
-                    android:orientation="horizontal">
-
-                    <ImageView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:src="@drawable/ic_famale" />
-
-                    <ImageView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginLeft="10dp"
-                        android:src="@drawable/ic_lv" />
-
-                    <com.flyco.roundview.RoundTextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="15dp"
-                        android:layout_marginLeft="10dp"
-                        android:gravity="center"
-                        android:paddingLeft="3dp"
-                        android:paddingRight="3dp"
-                        android:text="VIP1"
-                        android:textColor="@color/white"
-                        android:textSize="10sp"
-                        app:rv_backgroundColor="#f96572"
-                        app:rv_isRadiusHalfHeight="true" />
-                </LinearLayout>
-
-                <TextView
-                    android:id="@+id/tv_edit"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_below="@+id/iv_avatar"
-                    android:layout_alignLeft="@+id/iv_avatar"
-                    android:layout_marginTop="15dp"
-                    android:text="编辑个人资料"
-                    android:textColor="@color/white"
-                    android:textSize="10sp" />
-
-                <LinearLayout
-                    android:id="@+id/ll_info"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_below="@+id/tv_edit"
-                    android:layout_alignLeft="@+id/tv_edit"
-                    android:layout_marginTop="10dp"
-                    android:orientation="horizontal">
-
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="阅读1时22分"
-                        android:textColor="@color/white"
-                        android:textSize="10sp" />
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginLeft="10dp"
-                        android:text="读过0本"
-                        android:textColor="@color/white"
-                        android:textSize="10sp" />
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginLeft="10dp"
-                        android:text="被赞0次"
-                        android:textColor="@color/white"
-                        android:textSize="10sp" />
-                </LinearLayout>
-
-                <com.flyco.roundview.RoundRelativeLayout
-                    android:id="@+id/rrl_vip"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_below="@+id/ll_info"
-                    android:layout_marginLeft="18dp"
-                    android:layout_marginTop="15dp"
-                    android:layout_marginRight="18dp"
-                    android:paddingLeft="12dp"
-                    app:rv_backgroundColor="#C9CCD6"
-                    app:rv_cornerRadius_TL="10dp"
-                    app:rv_cornerRadius_TR="10dp">
-
-                    <LinearLayout
-                        android:id="@+id/ll_tequan"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="12dp"
-                        android:gravity="center_vertical"
-                        android:orientation="horizontal">
-
-                        <ImageView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-
-                            android:src="@drawable/ic_hg" />
-
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="包月VIP"
-                            android:textColor="@color/white"
-                            android:textSize="17sp"
-                            android:textStyle="bold" />
-                    </LinearLayout>
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_below="@+id/ll_tequan"
-                        android:layout_marginTop="13dp"
-                        android:layout_marginBottom="20dp"
-                        android:text="享受QQ阅读十大特权"
-                        android:textColor="#f7f7f7"
-                        android:textSize="10sp" />
-
-
-                    <com.flyco.roundview.RoundTextView
-                        android:id="@+id/tv_vip"
-                        android:layout_width="45dp"
-                        android:layout_height="22dp"
-                        android:layout_alignParentRight="true"
-                        android:layout_marginTop="14dp"
-                        android:layout_marginRight="12dp"
-                        android:gravity="center"
-                        android:text="开通"
-                        android:textColor="@color/white"
-                        android:textSize="10sp"
-                        app:rv_isRadiusHalfHeight="true"
-                        app:rv_strokeColor="@color/white"
-                        app:rv_strokeWidth="1dp" />
-
-                </com.flyco.roundview.RoundRelativeLayout>
-
-                <com.novel.cn.view.ArcView
-                    android:layout_width="match_parent"
-                    android:layout_height="20dp"
-                    android:layout_alignBottom="@+id/rrl_vip" />
-
-            </RelativeLayout>
+            <include layout="@layout/layout_my_header" />
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -230,6 +56,7 @@
                             android:layout_height="wrap_content"
                             android:layout_marginTop="10dp"
                             android:text="0天"
+                            android:id="@+id/tv_meet_day"
                             android:textColor="#000000"
                             android:textSize="13sp" />
 
@@ -255,6 +82,7 @@
                             android:src="@drawable/ic_sign_day" />
 
                         <TextView
+                            android:id="@+id/tv_sign_day"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_marginTop="10dp"
@@ -379,6 +207,7 @@
                                 android:textSize="13sp" />
 
                             <com.flyco.roundview.RoundTextView
+                                android:id="@+id/tv_recharge"
                                 android:layout_width="45dp"
                                 android:layout_height="22dp"
                                 android:layout_alignParentRight="true"
@@ -386,7 +215,6 @@
                                 android:layout_marginRight="12dp"
                                 android:gravity="center"
                                 android:text="充值"
-                                android:id="@+id/tv_recharge"
                                 android:textColor="#38a1d8"
                                 android:textSize="10sp"
                                 app:rv_isRadiusHalfHeight="true"
@@ -435,6 +263,7 @@
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
                                     android:text="0"
+                                    android:id="@+id/tv_month_ticket"
                                     android:textColor="#000000"
                                     android:textSize="13sp" />
 
@@ -455,6 +284,7 @@
                                 android:orientation="vertical">
 
                                 <TextView
+                                    android:id="@+id/tv_recommend_ticket"
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
                                     android:text="0"
@@ -524,6 +354,7 @@
                         android:layout_gravity="right|center_vertical"
                         android:layout_marginRight="12dp"
                         android:gravity="center"
+                        android:id="@+id/tv_msg"
                         android:paddingLeft="4dp"
                         android:paddingRight="4dp"
                         android:text="0"

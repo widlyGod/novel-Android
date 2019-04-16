@@ -11,7 +11,7 @@ import javax.inject.Inject
 import com.novel.cn.mvp.contract.LoginContract
 import com.novel.cn.mvp.model.api.service.UserService
 import com.novel.cn.mvp.model.entity.BaseResponse
-import com.novel.cn.mvp.model.entity.UserInfo
+import com.novel.cn.mvp.model.entity.LoginInfo
 import io.reactivex.Observable
 
 
@@ -38,7 +38,7 @@ constructor(repositoryManager: IRepositoryManager) : BaseModel(repositoryManager
     @Inject
     lateinit var mApplication: Application;
 
-    override fun login(userName: String, password: String): Observable<BaseResponse<UserInfo>> {
+    override fun login(userName: String, password: String): Observable<BaseResponse<LoginInfo>> {
 
         val map = HashMap<String,String>()
         map.put("keyword",userName)
@@ -46,7 +46,7 @@ constructor(repositoryManager: IRepositoryManager) : BaseModel(repositoryManager
         return mRepositoryManager.obtainRetrofitService(UserService::class.java).login(map)
     }
 
-    override fun loginThrid(url: String, params: HashMap<String, String>): Observable<BaseResponse<UserInfo>> {
+    override fun loginThrid(url: String, params: HashMap<String, String>): Observable<BaseResponse<LoginInfo>> {
         return mRepositoryManager.obtainRetrofitService(UserService::class.java).loginThrid(url,params)
     }
 

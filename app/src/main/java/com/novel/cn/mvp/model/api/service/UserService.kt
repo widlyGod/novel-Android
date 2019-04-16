@@ -15,10 +15,7 @@
  */
 package com.novel.cn.mvp.model.api.service
 
-import com.novel.cn.mvp.model.entity.BaseResponse
-import com.novel.cn.mvp.model.entity.MessageBean
-import com.novel.cn.mvp.model.entity.SignIn
-import com.novel.cn.mvp.model.entity.UserInfo
+import com.novel.cn.mvp.model.entity.*
 import io.reactivex.Observable
 import retrofit2.http.*
 
@@ -29,19 +26,19 @@ interface UserService {
      * 登录
      */
     @POST("novelUserService/user/login")
-    fun login(@Body map: HashMap<String, String>): Observable<BaseResponse<UserInfo>>
+    fun login(@Body map: HashMap<String, String>): Observable<BaseResponse<LoginInfo>>
 
     /**
      * 第三方登录
      */
     @POST
-    fun loginThrid(@Url url: String, @Body params: HashMap<String, String>): Observable<BaseResponse<UserInfo>>
+    fun loginThrid(@Url url: String, @Body params: HashMap<String, String>): Observable<BaseResponse<LoginInfo>>
 
     /**
      * 注册
      */
     @POST("novelUserService/user/registerFromApp")
-    fun regist(@Body params: HashMap<String, String>): Observable<BaseResponse<UserInfo>>
+    fun regist(@Body params: HashMap<String, String>): Observable<BaseResponse<LoginInfo>>
 
     /**
      * 发送验证码
@@ -76,5 +73,11 @@ interface UserService {
 
     @POST("novelOAService/novelMessage/getNovelMessageList")
     fun getMessasgeList(@Body params: HashMap<String, String>): Observable<BaseResponse<MessageBean>>
+
+    /**
+     * 获取用户信息
+     */
+    @GET("novelOAService/mobile/personCenter")
+    fun getUserInfo(): Observable<BaseResponse<User>>
 
 }

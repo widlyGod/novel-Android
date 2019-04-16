@@ -7,10 +7,7 @@ import android.os.Bundle
 import com.google.gson.Gson
 import com.jess.arms.utils.ArmsUtils
 import com.jess.arms.utils.LogUtils
-import com.novel.cn.mvp.model.entity.Book
-import com.novel.cn.mvp.model.entity.BookInfo
-import com.novel.cn.mvp.model.entity.Comment
-import com.novel.cn.mvp.model.entity.HotNovel
+import com.novel.cn.mvp.model.entity.*
 import com.novel.cn.mvp.ui.activity.*
 import org.jetbrains.anko.startActivity
 import java.util.ArrayList
@@ -60,5 +57,19 @@ object JumpManager {
      */
     fun toCommentDetail(context: Context?,comment: Comment?){
         context?.startActivity<CommentDetailActivity>("comment" to comment)
+    }
+
+    /**
+     * 跳转到用户信息
+     */
+    fun jumpUserInfo(context: Context?,user: User){
+        context?.startActivity<UserInfoActivity>("user" to user)
+    }
+
+    /**
+     * 跳转到充值页面
+     */
+    fun jumpRecharge(context: Context?,user: User){
+        context?.startActivity<RechargeActivity>("user" to user)
     }
 }

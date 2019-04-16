@@ -19,7 +19,7 @@ import javax.inject.Inject
 
 import com.novel.cn.mvp.contract.LoginContract
 import com.novel.cn.mvp.model.entity.BaseResponse
-import com.novel.cn.mvp.model.entity.UserInfo
+import com.novel.cn.mvp.model.entity.LoginInfo
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.schedulers.Schedulers
 import me.jessyan.rxerrorhandler.handler.ErrorHandleSubscriber
@@ -58,8 +58,8 @@ constructor(model: LoginContract.Model, rootView: LoginContract.View) :
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .compose(RxLifecycleUtils.bindToLifecycle(mRootView))
-                .subscribe(object : ErrorHandleSubscriber<BaseResponse<UserInfo>>(mErrorHandler) {
-                    override fun onNext(t: BaseResponse<UserInfo>) {
+                .subscribe(object : ErrorHandleSubscriber<BaseResponse<LoginInfo>>(mErrorHandler) {
+                    override fun onNext(t: BaseResponse<LoginInfo>) {
                         mRootView.loginSuccess(t.data)
                     }
 
@@ -118,8 +118,8 @@ constructor(model: LoginContract.Model, rootView: LoginContract.View) :
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .compose(RxLifecycleUtils.bindToLifecycle(mRootView))
-                .subscribe(object : ErrorHandleSubscriber<BaseResponse<UserInfo>>(mErrorHandler) {
-                    override fun onNext(t: BaseResponse<UserInfo>) {
+                .subscribe(object : ErrorHandleSubscriber<BaseResponse<LoginInfo>>(mErrorHandler) {
+                    override fun onNext(t: BaseResponse<LoginInfo>) {
                         mRootView.loginSuccess(t.data)
                     }
 

@@ -82,10 +82,12 @@ constructor(model: BookChannelContract.Model, rootView: BookChannelContract.View
                                 "4" -> {
                                     val json = mGson.toJson((next.value as Map<*, *>)["pageInfoList"])
                                     val lateyList = mGson.fromJson<List<BookInfo>>(json, object : TypeToken<List<BookInfo>>() {}.type)
-                                    list.add(TitleIndicator("最近更新"))
-                                    lateyList.forEach {
-                                        it.itemType2 = BookChannelAdapter.TYPE_LATEY_UPDATE
-                                        list.add(it)
+                                    if (lateyList.size > 0) {
+                                        list.add(TitleIndicator("最近更新"))
+                                        lateyList.forEach {
+                                            it.itemType2 = BookChannelAdapter.TYPE_LATEY_UPDATE
+                                            list.add(it)
+                                        }
                                     }
                                 }
                             }
@@ -93,33 +95,6 @@ constructor(model: BookChannelContract.Model, rootView: BookChannelContract.View
 
                         list.add(MultiItemEntity { 7 })
                         mAdapter.setNewData(list)
-//                        //banner
-//                        list.add(BannerBean(data.headRecommend))
-//                        //菜单
-//                        list.add(MenuBean())
-//                        //搜索
-//                        list.add(SearchBean(data.hotNovelInfoList))
-//                        //精选必读
-//                        list.add(TitleIndicator("精选必读"))
-//                        data.bestNovelRecommend.forEach { list.add(it) }
-//                        //主编推荐
-//                        list.add(TitleIndicator("主编推荐"))
-//                        data.editorRecommend.forEach { list.add(it) }
-//                        //大神专区
-//                        list.add(BookHorizontal(data.bestAuthorZone))
-//                        //免费推荐
-//                        list.add(TitleIndicator("免费推荐"))
-//                        data.freeRecommend.forEach { list.add(it) }
-//                        //最近更新
-//                        list.add(TitleIndicator("最近更新"))
-//                        data.recentUpdate.forEach {
-//                            it.itemType2 = BookChannelAdapter.TYPE_LATEY_UPDATE
-//                            list.add(it)
-//                        }
-//
-//                        //底部空白
-//                        list.add(MultiItemEntity { 7 })
-//                        mAdapter.setNewData(list)
                     }
                 })
     }

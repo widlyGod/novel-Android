@@ -31,4 +31,8 @@ constructor(model: UserInfoContract.Model, rootView: UserInfoContract.View) :
     override fun onDestroy() {
         super.onDestroy();
     }
+
+    fun updateGender(it: Int) {
+
+    }
 }

@@ -9,6 +9,10 @@ import com.jess.arms.di.scope.FragmentScope
 import javax.inject.Inject
 
 import com.novel.cn.mvp.contract.MyContract
+import com.novel.cn.mvp.model.api.service.UserService
+import com.novel.cn.mvp.model.entity.BaseResponse
+import com.novel.cn.mvp.model.entity.User
+import io.reactivex.Observable
 
 
 /**
@@ -27,12 +31,9 @@ import com.novel.cn.mvp.contract.MyContract
 class MyModel
 @Inject
 constructor(repositoryManager: IRepositoryManager) : BaseModel(repositoryManager), MyContract.Model {
-    @Inject
-    lateinit var mGson: Gson;
-    @Inject
-    lateinit var mApplication: Application;
-
-    override fun onDestroy() {
-        super.onDestroy();
+    override fun getUserInfo(): Observable<BaseResponse<User>> {
+        return mRepositoryManager.obtainRetrofitService(UserService::class.java).getUserInfo()
     }
+
+
 }
