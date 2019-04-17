@@ -64,6 +64,8 @@ class ReadActivity : BaseActivity<ReadPresenter>(), ReadContract.View {
             }
 
         })
+        pageView.init()
+        pageView.postDelayed({pageView.init()},100)
 
         click(tv_content, tv_setting) {
             when (it) {
