@@ -104,6 +104,8 @@ public class DeviceUtils {
         return f / (getDisplayMetrics(context).densityDpi / 160F);
     }
 
+
+
     public static int getDefaultLoadFactor(Context context) {
         if (_loadFactor == null) {
             Integer integer = Integer.valueOf(0xf & context

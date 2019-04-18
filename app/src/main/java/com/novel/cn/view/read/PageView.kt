@@ -8,6 +8,8 @@ import android.util.AttributeSet
 import android.view.MotionEvent
 import android.view.View
 import android.view.ViewConfiguration
+import com.jess.arms.utils.LogUtils
+import com.novel.cn.ext.dp2px
 import org.jetbrains.anko.displayMetrics
 import java.util.*
 
@@ -25,9 +27,8 @@ class PageView @JvmOverloads constructor(context: Context, attrs: AttributeSet? 
     private var mStartX = 0f
     private var mStartY = 0f
 
-    private var mWidth = 0 // 当前View的宽
-    private var mHeight = 0 // 当前View的高
-
+    var mViewWidth = 0 // 当前View的宽
+    var mViewHeight = 0 // 当前View的高
 
 
     //中间区域菜单点击
@@ -39,10 +40,11 @@ class PageView @JvmOverloads constructor(context: Context, attrs: AttributeSet? 
 
 
     init {
-        mWidth = context.displayMetrics.widthPixels
-        mHeight = context.displayMetrics.heightPixels
-        mAnimation = ScrollAnimation(this, mWidth, mHeight)
+        mViewWidth = context.displayMetrics.widthPixels
+        mViewHeight = context.displayMetrics.heightPixels
+        mAnimation = ScrollAnimation(this, mViewWidth, mViewHeight, dp2px(18), dp2px(20))
 
+        PageLoader(this).loadPage()
     }
 
 
@@ -111,37 +113,35 @@ class PageView @JvmOverloads constructor(context: Context, attrs: AttributeSet? 
     }
 
     fun init() {
-
-        if(iss) {
-            drawBackground(mAnimation.getBackroundBitmap())
-            drawPage(mAnimation.getBitmap())
-
-            invalidate()
-        }
+        drawBackground(mAnimation.getBackroundBitmap())
+        drawPage(mAnimation.getBitmap())
+        invalidate()
     }
-    var iss = false
-    override fun onFinishInflate() {
-        super.onFinishInflate()
-        iss = true
-    }
+
 
     private fun drawBackground(bitmap: Bitmap) {
         val canvas = Canvas(bitmap)
         canvas.drawColor(ContextCompat.getColor(context, PageStyle.BG_2.bgColor))
     }
 
+    var color = Color.parseColor("#ff00ff")
+
+    /**
+     * 绘制页面
+     */
     private fun drawPage(bitmap: Bitmap) {
         val canvas = Canvas(bitmap)
         if (mAnimation is ScrollAnimation) {
-            canvas.drawColor(ContextCompat.getColor(context, PageStyle.BG_2.bgColor))
+            if (color == Color.parseColor("#ff00ff")) color = Color.parseColor("#00ff00") else color = Color.parseColor("#ff00ff")
+            canvas.drawColor(color)
+//            canvas.drawColor(ContextCompat.getColor(context, PageStyle.BG_2.bgColor))
         }
         val mTextPaint = TextPaint()
         mTextPaint.isAntiAlias = true
         mTextPaint.textSize = 33f
         mTextPaint.color = Color.parseColor("#000000")
-        for (i in 0..100) {
-            canvas.drawText("数据的话房间卡电话费肯定撒大声地是即可将", 50f, (0 + i * 40).toFloat(), mTextPaint)
-        }
+        LogUtils.warnInfo("==========================>>>>")
+        canvas.drawText("数据的话房间卡电话费肯", 0f, 400f, mTextPaint)
 
     }
 
