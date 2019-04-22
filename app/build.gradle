@@ -167,6 +167,7 @@ dependencies {
     implementation rootProject.ext.dependencies["shadow-layout"]
     implementation rootProject.ext.dependencies["constraint-layout"]
     implementation rootProject.ext.dependencies["arclayout"]
+    implementation rootProject.ext.dependencies["opencc"]
 
     implementation rootProject.ext.dependencies["greendao"]
 }

@@ -9,9 +9,7 @@ import android.view.MotionEvent
 import android.view.View
 import android.view.ViewConfiguration
 import com.jess.arms.utils.LogUtils
-import com.novel.cn.ext.dp2px
 import org.jetbrains.anko.displayMetrics
-import java.util.*
 
 class PageView @JvmOverloads constructor(context: Context, attrs: AttributeSet? = null, defStyleAttr: Int = 0) : View(context, attrs, defStyleAttr) {
 
@@ -27,8 +25,16 @@ class PageView @JvmOverloads constructor(context: Context, attrs: AttributeSet? 
     private var mStartX = 0f
     private var mStartY = 0f
 
-    var mViewWidth = 0 // 当前View的宽
-    var mViewHeight = 0 // 当前View的高
+    private lateinit var mPageLoader: PageLoader2
+
+    var mDisplayWidth = 0 // 当前View的宽
+    var mDisplayHeight = 0 // 当前View的高
+
+    //屏幕的间距
+    var mMarginLeft: Int = 0
+    var mMarginRight: Int = 0
+    var mMarginTop: Int = 0
+    var mMarginBottom: Int = 0
 
 
     //中间区域菜单点击
@@ -40,11 +46,17 @@ class PageView @JvmOverloads constructor(context: Context, attrs: AttributeSet? 
 
 
     init {
-        mViewWidth = context.displayMetrics.widthPixels
-        mViewHeight = context.displayMetrics.heightPixels
-        mAnimation = ScrollAnimation(this, mViewWidth, mViewHeight, dp2px(18), dp2px(20))
+        mMarginLeft = 0
+        mMarginTop = 0
+        mMarginRight = 0
+        mMarginBottom = 0
 
-        PageLoader(this).loadPage()
+        mDisplayWidth = context.displayMetrics.widthPixels
+        mDisplayHeight = context.displayMetrics.heightPixels
+
+        mAnimation = ScrollAnimation(this, mDisplayWidth, mDisplayHeight, 0, mMarginTop, 0, mMarginBottom)
+        mPageLoader = PageLoader2(this,mDisplayWidth, mDisplayHeight)
+        mPageLoader.loadPage()
     }
 
 
@@ -113,8 +125,8 @@ class PageView @JvmOverloads constructor(context: Context, attrs: AttributeSet? 
     }
 
     fun init() {
-        drawBackground(mAnimation.getBackroundBitmap())
-        drawPage(mAnimation.getBitmap())
+        mPageLoader.drawBackground(mAnimation.getBackroundBitmap())
+        mPageLoader.drawPage(mAnimation.getBitmap())
         invalidate()
     }
 
@@ -124,7 +136,6 @@ class PageView @JvmOverloads constructor(context: Context, attrs: AttributeSet? 
         canvas.drawColor(ContextCompat.getColor(context, PageStyle.BG_2.bgColor))
     }
 
-    var color = Color.parseColor("#ff00ff")
 
     /**
      * 绘制页面
@@ -132,9 +143,7 @@ class PageView @JvmOverloads constructor(context: Context, attrs: AttributeSet? 
     private fun drawPage(bitmap: Bitmap) {
         val canvas = Canvas(bitmap)
         if (mAnimation is ScrollAnimation) {
-            if (color == Color.parseColor("#ff00ff")) color = Color.parseColor("#00ff00") else color = Color.parseColor("#ff00ff")
-            canvas.drawColor(color)
-//            canvas.drawColor(ContextCompat.getColor(context, PageStyle.BG_2.bgColor))
+            canvas.drawColor(ContextCompat.getColor(context, PageStyle.BG_2.bgColor))
         }
         val mTextPaint = TextPaint()
         mTextPaint.isAntiAlias = true

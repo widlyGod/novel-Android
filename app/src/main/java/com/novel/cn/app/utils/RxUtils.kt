@@ -22,6 +22,8 @@ import com.trello.rxlifecycle2.RxLifecycle
 
 import io.reactivex.Observable
 import io.reactivex.ObservableTransformer
+import io.reactivex.Single
+import io.reactivex.SingleSource
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.annotations.NonNull
 import io.reactivex.disposables.Disposable
@@ -54,6 +56,11 @@ object RxUtils {
                         view.hideLoading()//隐藏进度条
                     }.compose(RxLifecycleUtils.bindToLifecycle(view))
         }
+    }
+    @JvmStatic
+    fun <T> toSimpleSingle(upstream: Single<T>): SingleSource<T> {
+        return upstream.subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
     }
 
     fun countdown(time: Int): Observable<Long> {

@@ -80,4 +80,16 @@ interface BookService {
      */
     @POST("novelOAService/novelCollection/saveCollection")
     fun addConllcetion(@Body params: HashMap<String, Any>): Observable<BaseResponse<Any>>
+
+    /**
+     * 获取小说卷
+     */
+    @GET("novelOAService/mobile/getVolumes")
+    fun getVolumeList(@Query("novelId") bookId: String?): Observable<BaseResponse<MutableList<Volume>?>>
+
+    /**
+     * 小说目录
+     */
+    @POST("novelOAService/mobile/getChapters")
+    fun getChapterList(@Body params: HashMap<String, Any?>): Observable<BaseResponse<ChapterBean>>
 }

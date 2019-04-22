@@ -10,7 +10,8 @@ import java.util.*
 /**
  * 上下滚动翻页
  */
-class ScrollAnimation(view: PageView, w: Int, h: Int, marginWidth: Int = 0, marginHeight: Int = 80) : BaseAnimation(view, w, h, marginWidth, marginHeight) {
+class ScrollAnimation(view: PageView, w: Int, h: Int, marginLeft: Int = 0, marginTop: Int = 0, marginRight: Int = 0, marginBottom: Int = 0)
+    : BaseAnimation(view, w, h, marginLeft, marginTop, marginRight, marginBottom) {
 
 
     private var mBackgroundBitmap = Bitmap.createBitmap(mScreenWidth, mScreenHeight, Bitmap.Config.RGB_565)
@@ -199,7 +200,7 @@ class ScrollAnimation(view: PageView, w: Int, h: Int, marginWidth: Int = 0, marg
         //绘制内容
         canvas.save()
         //移动位置
-        canvas.translate(mMarginWidth.toFloat(), mMarginHeight.toFloat())
+        canvas.translate(0f, mMarginTop.toFloat())
         //裁剪显示区域
         canvas.clipRect(0, 0, mViewWidth, mViewHeight)
         //绘制bitmap，当前显示的页面，和接下来要显示的页面

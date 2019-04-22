@@ -9,6 +9,11 @@ import com.jess.arms.di.scope.ActivityScope
 import javax.inject.Inject
 
 import com.novel.cn.mvp.contract.ReadContract
+import com.novel.cn.mvp.model.api.service.BookService
+import com.novel.cn.mvp.model.entity.BaseResponse
+import com.novel.cn.mvp.model.entity.ChapterBean
+import com.novel.cn.mvp.model.entity.Volume
+import io.reactivex.Observable
 
 
 /**
@@ -27,6 +32,14 @@ import com.novel.cn.mvp.contract.ReadContract
 class ReadModel
 @Inject
 constructor(repositoryManager: IRepositoryManager) : BaseModel(repositoryManager), ReadContract.Model {
+    override fun getChapterList(params: HashMap<String, Any?>): Observable<BaseResponse<ChapterBean>> {
+         return mRepositoryManager.obtainRetrofitService(BookService::class.java).getChapterList(params)
+    }
+
+    override fun getVolumeList(bookId: String?): Observable<BaseResponse<MutableList<Volume>?>> {
+        return mRepositoryManager.obtainRetrofitService(BookService::class.java).getVolumeList(bookId)
+    }
+
     @Inject
     lateinit var mGson: Gson;
     @Inject

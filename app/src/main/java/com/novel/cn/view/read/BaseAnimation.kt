@@ -7,14 +7,17 @@ import android.view.View
 import android.view.animation.LinearInterpolator
 import android.widget.Scroller
 
-abstract class BaseAnimation constructor(view: PageView, w: Int, h: Int, marginWidth: Int = 0, marginHeihgt: Int = 0) {
+abstract class BaseAnimation
+constructor(view: PageView, w: Int, h: Int, marginLeft: Int = 0, marginTop: Int = 0, marginRight: Int = 0, marginBottom: Int = 0) {
 
     //屏幕的尺寸
     protected var mScreenWidth: Int = 0
     protected var mScreenHeight: Int = 0
     //屏幕的间距
-    protected var mMarginWidth: Int = 0
-    protected var mMarginHeight: Int = 0
+    protected var mMarginLeft: Int = 0
+    protected var mMarginRight: Int = 0
+    protected var mMarginTop: Int = 0
+    protected var mMarginBottom: Int = 0
     //视图的尺寸
     protected var mViewWidth: Int = 0
     protected var mViewHeight: Int = 0
@@ -34,6 +37,7 @@ abstract class BaseAnimation constructor(view: PageView, w: Int, h: Int, marginW
     protected var mLastX: Float = 0f
     protected var mLastY: Float = 0f
 
+    //是否在滑动（执行动画）
     protected var isRunning = false
 
     //监听器
@@ -43,11 +47,13 @@ abstract class BaseAnimation constructor(view: PageView, w: Int, h: Int, marginW
         mScreenWidth = w
         mScreenHeight = h
 
-        mMarginWidth = marginWidth
-        mMarginHeight = marginHeihgt
+        mMarginLeft = marginLeft
+        mMarginTop = marginTop
+        mMarginRight = marginRight
+        mMarginBottom = marginBottom
 
-        mViewWidth = mScreenWidth - marginWidth * 2
-        mViewHeight = mScreenHeight - marginHeihgt * 2
+        mViewWidth = mScreenWidth - mMarginLeft - mMarginRight
+        mViewHeight = mScreenHeight - mMarginTop - mMarginBottom
 
         mPageView = view
 
