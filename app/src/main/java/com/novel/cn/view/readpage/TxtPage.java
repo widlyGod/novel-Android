@@ -1,4 +1,4 @@
-package com.novel.cn.view.read;
+package com.novel.cn.view.readpage;
 
 import java.util.List;
 

@@ -1,10 +1,10 @@
-package com.novel.cn.view.read;
+package com.novel.cn.view.readpage;
 
 /**
  * Created by newbiechen on 17-7-1.
  */
 
-public class TxtChapter {
+public class TxtChapter{
 
     //章节所属的小说(网络)
     String bookId;

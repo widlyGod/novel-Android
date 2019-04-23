@@ -11,7 +11,7 @@
         android:layout_height="match_parent"
         android:orientation="vertical">
 
-        <com.novel.cn.view.read.ReadView
+        <com.novel.cn.view.readpage.PageView
             android:id="@+id/readView"
             android:layout_width="match_parent"
             android:layout_height="match_parent" />
@@ -97,22 +97,25 @@
             android:layout_height="wrap_content"
             android:layout_alignParentBottom="true"
             android:background="#000000"
-            android:orientation="vertical"
-            android:visibility="gone">
+            android:clickable="true"
+            android:visibility="gone"
+            android:orientation="vertical">
 
 
             <android.support.constraint.ConstraintLayout
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:paddingLeft="30dp"
-                android:paddingRight="30dp">
+                android:layout_height="wrap_content">
 
                 <ImageView
                     android:id="@+id/iv_pre"
                     android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
+                    android:layout_height="40dp"
+                    android:paddingLeft="30dp"
+
+                    android:paddingRight="30dp"
                     android:src="@drawable/back"
                     app:layout_constraintBottom_toBottomOf="@+id/tv_chapter_name"
+                    app:layout_constraintLeft_toLeftOf="parent"
                     app:layout_constraintTop_toTopOf="@+id/tv_chapter_name" />
 
 
@@ -129,7 +132,7 @@
                     app:layout_constraintTop_toTopOf="parent" />
 
                 <TextView
-                    android:id="@+id/textView"
+                    android:id="@+id/tv_chapter_info"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="1章节/831章节"
@@ -140,8 +143,11 @@
                     app:layout_constraintTop_toBottomOf="@+id/tv_chapter_name" />
 
                 <ImageView
+                    android:id="@+id/iv_next"
                     android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
+                    android:layout_height="40dp"
+                    android:paddingLeft="30dp"
+                    android:paddingRight="30dp"
                     android:src="@drawable/ic_arrow_right"
                     android:tint="@color/white"
                     app:layout_constraintBottom_toBottomOf="@id/tv_chapter_name"
@@ -227,5 +233,6 @@
 
 
     </RelativeLayout>
+
     <include layout="@layout/layout_menu_chapter" />
 </android.support.v4.widget.DrawerLayout>

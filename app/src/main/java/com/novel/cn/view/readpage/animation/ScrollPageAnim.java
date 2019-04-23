@@ -1,4 +1,4 @@
-package com.novel.cn.view.read.animation;
+package com.novel.cn.view.readpage.animation;
 
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
@@ -7,14 +7,22 @@ import android.view.MotionEvent;
 import android.view.VelocityTracker;
 import android.view.View;
 
-import com.jess.arms.utils.LogUtils;
-
 import java.util.ArrayDeque;
 import java.util.ArrayList;
 import java.util.Iterator;
 
-public class ScrollAnimation extends BaseAnimation {
-
+/**
+ * Created by newbiechen on 17-7-23.
+ * 原理:仿照ListView源码实现的上下滑动效果
+ * Alter by: zeroAngus
+ * <p>
+ * 问题:
+ * 1. 向上翻页，重复的问题 (完成)
+ * 2. 滑动卡顿的问题。原因:由于绘制的数据过多造成的卡顿问题。 (主要是文字绘制需要的时长比较多) 解决办法：做文字缓冲
+ * 3. 弱网环境下，显示的问题
+ */
+public class ScrollPageAnim extends PageAnimation {
+    private static final String TAG = "ScrollAnimation";
     // 滑动追踪的时间
     private static final int VELOCITY_DURATION = 1000;
     private VelocityTracker mVelocity;
@@ -33,29 +41,37 @@ public class ScrollAnimation extends BaseAnimation {
     // 是否处于刷新阶段
     private boolean isRefresh = true;
 
-    public ScrollAnimation(View view, int width, int height) {
-        super(view, width, height);
+    public ScrollPageAnim(int w, int h, int marginWidth, int marginHeight,
+                          View view, OnPageChangeListener listener) {
+        super(w, h, marginWidth, marginHeight, view, listener);
+        // 创建两个BitmapView
+        initWidget();
+    }
 
-        mBgBitmap = Bitmap.createBitmap(mWidth, mHeight, Bitmap.Config.RGB_565);
+    private void initWidget() {
+        mBgBitmap = Bitmap.createBitmap(mScreenWidth, mScreenHeight, Bitmap.Config.RGB_565);
+
         mScrapViews = new ArrayDeque<>(2);
         for (int i = 0; i < 2; ++i) {
-            BitmapView v = new BitmapView();
-            v.bitmap = Bitmap.createBitmap(mWidth, mHeight, Bitmap.Config.RGB_565);
-            v.srcRect = new Rect(0, 0, mWidth, mHeight);
-            v.destRect = new Rect(0, 0, mWidth, mHeight);
-            v.top = 0;
-            v.bottom = v.bitmap.getHeight();
+            BitmapView view = new BitmapView();
+            view.bitmap = Bitmap.createBitmap(mViewWidth, mViewHeight, Bitmap.Config.RGB_565);
+            view.srcRect = new Rect(0, 0, mViewWidth, mViewHeight);
+            view.destRect = new Rect(0, 0, mViewWidth, mViewHeight);
+            view.top = 0;
+            view.bottom = view.bitmap.getHeight();
 
-            mScrapViews.push(v);
+            mScrapViews.push(view);
         }
         onLayout();
         isRefresh = false;
     }
 
+    // 修改布局,填充内容
     private void onLayout() {
         // 如果还没有开始加载，则从上到下进行绘制
         if (mActiveViews.size() == 0) {
             fillDown(0, 0);
+            mDirection = Direction.NONE;
         } else {
             int offset = (int) (mTouchY - mLastY);
             // 判断是下滑还是上拉 (下滑)
@@ -72,6 +88,9 @@ public class ScrollAnimation extends BaseAnimation {
         }
     }
 
+    // 底部填充
+    private Iterator<BitmapView> downIt;
+
     /**
      * 创建View填充底部空白部分
      *
@@ -80,11 +99,12 @@ public class ScrollAnimation extends BaseAnimation {
      */
     private void fillDown(int bottomEdge, int offset) {
 
-        Iterator<BitmapView> iterator = mActiveViews.iterator();
+        downIt = mActiveViews.iterator();
         BitmapView view;
 
-        while (iterator.hasNext()) {
-            view = iterator.next();
+        // 进行删除
+        while (downIt.hasNext()) {
+            view = downIt.next();
             view.top = view.top + offset;
             view.bottom = view.bottom + offset;
             // 设置允许显示的范围
@@ -96,18 +116,20 @@ public class ScrollAnimation extends BaseAnimation {
                 // 添加到废弃的View中
                 mScrapViews.add(view);
                 // 从Active中移除
-                iterator.remove();
+                downIt.remove();
+                // 如果原先是从上加载，现在变成从下加载，则表示取消
+                if (mDirection == Direction.UP) {
+                    mListener.pageCancel();
+                    mDirection = Direction.NONE;
+                }
             }
         }
-
 
         // 滑动之后的最后一个 View 的距离屏幕顶部上的实际位置
         int realEdge = bottomEdge + offset;
 
-
         // 进行填充
-        while (realEdge < mVisibleHeight && mActiveViews.size() < 2) {
-            LogUtils.warnInfo("===========");
+        while (realEdge < mViewHeight && mActiveViews.size() < 2) {
             // 从废弃的Views中获取一个
             view = mScrapViews.getFirst();
 /*          //擦除其Bitmap(重新创建会不会更好一点)
@@ -117,10 +139,29 @@ public class ScrollAnimation extends BaseAnimation {
             Bitmap cancelBitmap = mNextBitmap;
             mNextBitmap = view.bitmap;
 
+            if (!isRefresh) {
+                boolean hasNext = mListener.hasNext(); //如果不成功则无法滑动
+
+                // 如果不存在next,则进行还原
+                if (!hasNext) {
+                    mNextBitmap = cancelBitmap;
+                    for (BitmapView activeView : mActiveViews) {
+                        activeView.top = 0;
+                        activeView.bottom = mViewHeight;
+                        // 设置允许显示的范围
+                        activeView.destRect.top = activeView.top;
+                        activeView.destRect.bottom = activeView.bottom;
+                    }
+                    abortAnim();
+                    return;
+                }
+            }
+
             // 如果加载成功，那么就将View从ScrapViews中移除
             mScrapViews.removeFirst();
             // 添加到存活的Bitmap中
             mActiveViews.add(view);
+            mDirection = Direction.DOWN;
 
             // 设置Bitmap的范围
             view.top = realEdge;
@@ -131,9 +172,9 @@ public class ScrollAnimation extends BaseAnimation {
 
             realEdge += view.bitmap.getHeight();
         }
-
     }
 
+    private Iterator<BitmapView> upIt;
 
     /**
      * 创建View填充顶部空白部分
@@ -142,10 +183,11 @@ public class ScrollAnimation extends BaseAnimation {
      * @param offset  : 滑动的偏移量
      */
     private void fillUp(int topEdge, int offset) {
-        Iterator<BitmapView> iterator = mActiveViews.iterator();
+        // 首先进行布局的调整
+        upIt = mActiveViews.iterator();
         BitmapView view;
-        while (iterator.hasNext()) {
-            view = iterator.next();
+        while (upIt.hasNext()) {
+            view = upIt.next();
             view.top = view.top + offset;
             view.bottom = view.bottom + offset;
             //设置允许显示的范围
@@ -153,11 +195,18 @@ public class ScrollAnimation extends BaseAnimation {
             view.destRect.bottom = view.bottom;
 
             // 判断是否越界了
-            if (view.top >= mVisibleHeight) {
+            if (view.top >= mViewHeight) {
                 // 添加到废弃的View中
                 mScrapViews.add(view);
                 // 从Active中移除
-                iterator.remove();
+                upIt.remove();
+
+                // 如果原先是下，现在变成从上加载了，则表示取消加载
+
+                if (mDirection == Direction.DOWN) {
+                    mListener.pageCancel();
+                    mDirection = Direction.NONE;
+                }
             }
         }
 
@@ -173,11 +222,27 @@ public class ScrollAnimation extends BaseAnimation {
             // 判断是否存在上一章节
             Bitmap cancelBitmap = mNextBitmap;
             mNextBitmap = view.bitmap;
-
+            if (!isRefresh) {
+                boolean hasPrev = mListener.hasPrev(); // 如果不成功则无法滑动
+                // 如果不存在next,则进行还原
+                if (!hasPrev) {
+                    mNextBitmap = cancelBitmap;
+                    for (BitmapView activeView : mActiveViews) {
+                        activeView.top = 0;
+                        activeView.bottom = mViewHeight;
+                        // 设置允许显示的范围
+                        activeView.destRect.top = activeView.top;
+                        activeView.destRect.bottom = activeView.bottom;
+                    }
+                    abortAnim();
+                    return;
+                }
+            }
             // 如果加载成功，那么就将View从ScrapViews中移除
             mScrapViews.removeFirst();
             // 加入到存活的对象中
             mActiveViews.add(0, view);
+            mDirection = Direction.UP;
             // 设置Bitmap的范围
             view.top = realEdge - view.bitmap.getHeight();
             view.bottom = realEdge;
@@ -186,32 +251,38 @@ public class ScrollAnimation extends BaseAnimation {
             view.destRect.top = view.top;
             view.destRect.bottom = view.bottom;
             realEdge -= view.bitmap.getHeight();
-
         }
-
     }
 
-    @Override
-    public void draw(Canvas canvas) {
-        //进行布局
-        onLayout();
+    /**
+     * 对Bitmap进行擦除
+     *
+     * @param b
+     * @param width
+     * @param height
+     * @param paddingLeft
+     * @param paddingTop
+     */
+    private void eraseBitmap(Bitmap b, int width, int height,
+                             int paddingLeft, int paddingTop) {
+     /*   if (mInitBitmapPix == null) return;
+        b.setPixels(mInitBitmapPix, 0, width, paddingLeft, paddingTop, width, height);*/
+    }
 
-        //绘制背景
-        canvas.drawBitmap(mBgBitmap, 0, 0, null);
-        //绘制内容
-        canvas.save();
-        //移动位置
-        canvas.translate(0, mMarginHeight);
-
-        canvas.clipRect(0, 0, mVisibleWidth, mVisibleHeight);
-
-        //绘制Bitmap
+    /**
+     * 重置位移
+     */
+    public void resetBitmap() {
+        isRefresh = true;
+        // 将所有的Active加入到Scrap中
         for (BitmapView view : mActiveViews) {
-            canvas.drawBitmap(view.bitmap, view.srcRect, view.destRect, null);
+            mScrapViews.add(view);
         }
-        
-        canvas.restore();
-
+        // 清除所有的Active
+        mActiveViews.clear();
+        // 重新进行布局
+        onLayout();
+        isRefresh = false;
     }
 
     @Override
@@ -234,7 +305,7 @@ public class ScrollAnimation extends BaseAnimation {
                 // 设置起始点
                 setStartPoint(x, y);
                 // 停止动画
-                abortAnimation();
+                abortAnim();
                 break;
             case MotionEvent.ACTION_MOVE:
                 mVelocity.computeCurrentVelocity(VELOCITY_DURATION);
@@ -245,7 +316,7 @@ public class ScrollAnimation extends BaseAnimation {
             case MotionEvent.ACTION_UP:
                 isRunning = false;
                 // 开启动画
-                startAnimation();
+                startAnim(true);
                 // 删除检测器
                 mVelocity.recycle();
                 mVelocity = null;
@@ -263,24 +334,41 @@ public class ScrollAnimation extends BaseAnimation {
         return true;
     }
 
-    @Override
-    public void abortAnimation() {
-        if (!mScroller.isFinished()) {
-            mScroller.abortAnimation();
-            isRunning = false;
-        }
 
+    BitmapView tmpView;
+
+    @Override
+    public void draw(Canvas canvas) {
+        //进行布局
+        onLayout();
+
+        //绘制背景
+        canvas.drawBitmap(mBgBitmap, 0, 0, null);
+        //绘制内容
+        canvas.save();
+        //移动位置
+        canvas.translate(0, mMarginHeight);
+        //裁剪显示区域
+        canvas.clipRect(0, 0, mViewWidth, mViewHeight);
+/*        //设置背景透明
+        canvas.drawColor(0x40);*/
+        //绘制Bitmap
+        for (int i = 0; i < mActiveViews.size(); ++i) {
+            tmpView = mActiveViews.get(i);
+            canvas.drawBitmap(tmpView.bitmap, tmpView.srcRect, tmpView.destRect, null);
+        }
+        canvas.restore();
     }
 
     @Override
-    public synchronized void startAnimation() {
+    public synchronized void startAnim(boolean isMove) {
         isRunning = true;
         mScroller.fling(0, (int) mTouchY, 0, (int) mVelocity.getYVelocity()
                 , 0, 0, Integer.MAX_VALUE * -1, Integer.MAX_VALUE);
     }
 
     @Override
-    public void scrollAnimation() {
+    public void scrollAnim() {
         if (mScroller.computeScrollOffset()) {
             int x = mScroller.getCurrX();
             int y = mScroller.getCurrY();
@@ -293,12 +381,20 @@ public class ScrollAnimation extends BaseAnimation {
     }
 
     @Override
+    public void abortAnim() {
+        if (!mScroller.isFinished()) {
+            mScroller.abortAnimation();
+            isRunning = false;
+        }
+    }
+
+    @Override
     public Bitmap getBgBitmap() {
         return mBgBitmap;
     }
 
     @Override
-    public Bitmap getBitmap() {
+    public Bitmap getNextBitmap() {
         return mNextBitmap;
     }
 

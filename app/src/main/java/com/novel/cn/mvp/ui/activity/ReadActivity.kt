@@ -4,12 +4,10 @@ import android.os.Bundle
 import android.support.v4.widget.DrawerLayout
 import android.view.Gravity
 import android.view.LayoutInflater
-import android.view.View
 import android.view.WindowManager
 
 import com.jess.arms.base.BaseActivity
 import com.jess.arms.di.component.AppComponent
-import com.jess.arms.utils.LogUtils
 
 import com.novel.cn.di.component.DaggerReadComponent
 import com.novel.cn.di.module.ReadModule
@@ -20,18 +18,18 @@ import com.novel.cn.R
 import com.novel.cn.app.click
 import com.novel.cn.app.isVisible
 import com.novel.cn.app.visible
+import com.novel.cn.ext.toast
 import com.novel.cn.mvp.model.entity.ChapterBean
+import com.novel.cn.mvp.model.entity.ChapterInfo
 import com.novel.cn.mvp.model.entity.Volume
 import com.novel.cn.mvp.ui.adapter.ChapterAdapter
 import com.novel.cn.mvp.ui.dialog.ReadSettingDialog
 import com.novel.cn.utils.StatusBarUtils
-import com.novel.cn.view.read.PageLoader
-import com.novel.cn.view.read.ReadView
-import com.novel.cn.view.read.TxtChapter
+import com.novel.cn.view.readpage.*
 import kotlinx.android.synthetic.main.layout_menu_chapter.*
 import kotlinx.android.synthetic.main.activity_read.*
 import kotlinx.android.synthetic.main.layout_header_volume.*
-import kotlinx.android.synthetic.main.layout_header_volume.view.*
+
 import java.util.ArrayList
 
 
@@ -45,12 +43,27 @@ class ReadActivity : BaseActivity<ReadPresenter>(), ReadContract.View {
             setOnDismissListener {
                 hideSystemBar()
             }
+            setOnSettingChanageListener(object : ReadSettingDialog.OnSettingChangeListener {
+                override fun onPageStyle(style: PageStyle) {
+                    mPageLoader.setPageStyle(style)
+                }
+
+                override fun onPageMode(mode: PageMode) {
+                }
+
+                override fun onTextSize(textSize: Int) {
+                    mPageLoader.setTextSize(textSize)
+                }
+
+            })
         }
     }
 
     private val mPageLoader by lazy { readView.pageLoader }
 
     private val mAdapter by lazy { ChapterAdapter() }
+
+    private var mVolume: Volume? = null
 
 
     override fun setupActivityComponent(appComponent: AppComponent) {
@@ -79,24 +92,45 @@ class ReadActivity : BaseActivity<ReadPresenter>(), ReadContract.View {
         mAdapter.addHeaderView(header)
 
 
-        readView.setOnTouchListener(object : ReadView.OnTouchListener {
-            override fun onMenuClick() {
+        readView.setTouchListener(object : PageView.TouchListener {
+            override fun onTouch(): Boolean {
+                if (toolbar.isVisible()) {
+                    hideSystemBar()
+                    return false
+                }
+                return true
+            }
+
+            override fun center() {
                 toggleMenu()
             }
 
-            override fun onClick() {
-                if (toolbar.isVisible()) {
-                    hideSystemBar()
+            override fun prePage(prev: Boolean) {
+                if (!prev) {
+                    toast("没有上一页了")
                 }
             }
+
+            override fun nextPage(next: Boolean) {
+                if (!next) {
+                    toast("没有下一页了")
+                }
+            }
+
+            override fun cancel() {
+            }
+
         })
+
         mPageLoader.setOnPageChangeListener(object : PageLoader.OnPageChangeListener {
             override fun onChapterChange(pos: Int) {
-
+                val item = mAdapter.getItem(pos) as ChapterInfo
+                tv_chapter_name.text = "${item.chapter}：${item.title}"
+                tv_chapter_info.text = "${item.chapter}章节/${mAdapter.itemCount}章节"
+                toolbar_title.text = "第${item.chapter}章 ${item.title}"
             }
 
             override fun requestChapters(requestChapters: MutableList<TxtChapter>?) {
-                LogUtils.warnInfo("===================request")
             }
 
             override fun onCategoryFinish(chapters: MutableList<TxtChapter>?) {
@@ -107,11 +141,9 @@ class ReadActivity : BaseActivity<ReadPresenter>(), ReadContract.View {
 
             override fun onPageChange(pos: Int) {
             }
-
         })
-        mPageLoader.openChapter()
         mPresenter?.getVolumeList(mBookId)
-        click(tv_content, tv_setting, tv_catalogue) {
+        click(tv_content, tv_setting, tv_catalogue, iv_pre, iv_next) {
             when (it) {
                 tv_catalogue -> {
                     toggleMenu()
@@ -122,16 +154,22 @@ class ReadActivity : BaseActivity<ReadPresenter>(), ReadContract.View {
                     ll_bottom_menu.visible(false)
                     mSettingDialog.show()
                 }
+                iv_next -> mPageLoader.skipNextChapter()
+                iv_pre -> mPageLoader.skipPreChapter()
             }
         }
     }
 
     override fun showVolume(data: MutableList<Volume>?) {
+        mVolume = data?.get(0)
         tv_volume_title.text = data?.get(0)?.title
         tv_count.text = "共${data?.get(0)?.chapterNum}章"
+
+
     }
 
-    override fun showChapterList(data: ChapterBean) {
+    override fun showChapterList(volume: String?, data: ChapterBean) {
+
         mAdapter.setNewData(data.list)
         val list = ArrayList<TxtChapter>(data.list.size)
         data.list.forEach {
@@ -169,5 +207,10 @@ class ReadActivity : BaseActivity<ReadPresenter>(), ReadContract.View {
         val attrs = window.attributes
         attrs.flags = attrs.flags and WindowManager.LayoutParams.FLAG_FULLSCREEN.inv()
         window.attributes = attrs
+    }
+
+    override fun onDestroy() {
+        mPageLoader.closeBook()
+        super.onDestroy()
     }
 }

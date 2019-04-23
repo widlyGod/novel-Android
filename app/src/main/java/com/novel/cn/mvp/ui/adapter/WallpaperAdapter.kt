@@ -5,10 +5,11 @@ import com.chad.library.adapter.base.BaseQuickAdapter
 import com.chad.library.adapter.base.BaseViewHolder
 import com.flyco.roundview.RoundFrameLayout
 import com.novel.cn.R
-import com.novel.cn.view.read.PageStyle
+import com.novel.cn.view.readpage.PageStyle
 
 class WallpaperAdapter : BaseQuickAdapter<PageStyle, BaseViewHolder>(R.layout.item_page_style) {
     override fun convert(helper: BaseViewHolder, item: PageStyle) {
-        (helper.itemView as RoundFrameLayout).delegate.backgroundColor = ContextCompat.getColor(mContext, item.bgColor)
+        val color = ContextCompat.getColor(mContext, item.bgColor)
+        (helper.itemView as RoundFrameLayout).delegate.backgroundColor = color
     }
 }

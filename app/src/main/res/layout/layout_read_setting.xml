@@ -33,6 +33,7 @@
             android:layout_weight="1"
             android:gravity="center"
             android:text="A-"
+            android:id="@+id/tv_minus"
             android:textColor="@color/white"
             android:textSize="18sp" />
 
@@ -46,6 +47,7 @@
             android:layout_height="match_parent"
             android:layout_weight="1"
             android:gravity="center"
+            android:id="@+id/tv_textsize"
             android:text="18"
             android:textColor="@color/white"
             android:textSize="18sp" />
@@ -60,6 +62,7 @@
             android:layout_height="match_parent"
             android:layout_weight="1"
             android:gravity="center"
+            android:id="@+id/tv_add"
             android:text="A+"
             android:textColor="@color/white"
             android:textSize="18sp" />

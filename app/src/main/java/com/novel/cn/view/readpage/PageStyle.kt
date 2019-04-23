@@ -1,4 +1,4 @@
-package com.novel.cn.view.read
+package com.novel.cn.view.readpage
 
 import android.support.annotation.ColorRes
 import com.novel.cn.R
@@ -9,6 +9,6 @@ enum class PageStyle private constructor(@param:ColorRes val fontColor: Int, @pa
     BG_1(R.color.read_font,R.color.page_color_1),
     BG_2(R.color.read_font,R.color.page_color_2),
     BG_3(R.color.read_font,R.color.page_color_3),
-    BG_NIGHT(R.color.read_font,R.color.page_color_4)
+    NIGHT(R.color.read_font,R.color.page_color_4)
 
 }

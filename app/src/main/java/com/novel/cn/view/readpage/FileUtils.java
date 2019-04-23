@@ -1,12 +1,9 @@
-package com.novel.cn.view.read;
+package com.novel.cn.view.readpage;
 
 import java.io.File;
 import java.io.IOException;
 
 public class FileUtils {
-
-
-
 
 
     //获取文件

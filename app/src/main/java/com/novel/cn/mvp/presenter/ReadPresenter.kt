@@ -1,11 +1,7 @@
 package com.novel.cn.mvp.presenter
 
-import android.app.Application
-
-import com.jess.arms.integration.AppManager
 import com.jess.arms.di.scope.ActivityScope
 import com.jess.arms.mvp.BasePresenter
-import com.jess.arms.http.imageloader.ImageLoader
 import com.jess.arms.utils.RxLifecycleUtils
 import me.jessyan.rxerrorhandler.core.RxErrorHandler
 import javax.inject.Inject
@@ -51,7 +47,7 @@ constructor(model: ReadContract.Model, rootView: ReadContract.View) :
                 .compose(RxLifecycleUtils.bindToLifecycle(mRootView))
                 .subscribe(object : ErrorHandleSubscriber<BaseResponse<ChapterBean>>(mErrorHandler) {
                     override fun onNext(t: BaseResponse<ChapterBean>) {
-                        mRootView.showChapterList(t.data)
+                        mRootView.showChapterList(volume,t.data)
                     }
                 })
     }
