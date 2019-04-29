@@ -2,16 +2,24 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:background="@color/white"
-    android:orientation="vertical"
+    android:orientation="horizontal"
     android:padding="15dp">
 
     <TextView
         android:id="@+id/tv_chapter"
-        android:layout_width="match_parent"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
+        android:layout_weight="1"
         android:text="第一章"
         android:textColor="@color/color_999999"
         android:textSize="12sp" />
+
+
+    <ImageView
+        android:id="@+id/iv_location"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:src="@drawable/ic_location"
+        android:visibility="gone" />
 
 </LinearLayout>

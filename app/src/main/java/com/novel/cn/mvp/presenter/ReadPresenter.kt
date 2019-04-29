@@ -8,6 +8,9 @@ import javax.inject.Inject
 
 import com.novel.cn.mvp.contract.ReadContract
 import com.novel.cn.mvp.model.entity.*
+import com.novel.cn.view.readpage.CacheManager
+import com.novel.cn.view.readpage.TxtChapter
+import io.reactivex.Observable
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.schedulers.Schedulers
 import me.jessyan.rxerrorhandler.handler.ErrorHandleSubscriber
@@ -47,8 +50,37 @@ constructor(model: ReadContract.Model, rootView: ReadContract.View) :
                 .compose(RxLifecycleUtils.bindToLifecycle(mRootView))
                 .subscribe(object : ErrorHandleSubscriber<BaseResponse<ChapterBean>>(mErrorHandler) {
                     override fun onNext(t: BaseResponse<ChapterBean>) {
-                        mRootView.showChapterList(volume,t.data)
+                        mRootView.showChapterList(volume, t.data)
                     }
                 })
+    }
+
+    fun readNovel(requestChapters: MutableList<TxtChapter>?, bookId: String?) {
+
+        requestChapters?.let {
+            val size = it.size
+
+            val chapterInfoBean = ArrayList<Observable<BaseResponse<ChapterInfoBean>>>(size)
+            for (i in 0 until size) {
+                val params = HashMap<String, Any?>()
+                val child = HashMap<String, Any?>()
+                child["id"] = it.getOrNull(0)?.link
+                child["uniqueId"] = "-1"
+                params["chapterInfo"] = child
+                chapterInfoBean.add(mModel.readNovel(params))
+            }
+
+            Observable.concat(chapterInfoBean)
+                    .subscribeOn(Schedulers.io())
+                    .observeOn(AndroidSchedulers.mainThread())
+                    .compose(RxLifecycleUtils.bindToLifecycle(mRootView))
+                    .subscribe(object : ErrorHandleSubscriber<BaseResponse<ChapterInfoBean>>(mErrorHandler) {
+                        override fun onNext(t: BaseResponse<ChapterInfoBean>) {
+                            val data = t.data
+                            CacheManager.getInstance().saveChapterInfo(bookId, data.chapterInfo.id, data.chapterInfo.content)
+                            mRootView.loadChapterSuccess(data.chapterInfo)
+                        }
+                    })
+        }
     }
 }

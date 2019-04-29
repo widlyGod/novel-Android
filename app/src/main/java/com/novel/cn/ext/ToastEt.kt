@@ -6,9 +6,9 @@ import android.widget.Toast
 import com.jess.arms.utils.ArmsUtils
 
 
-inline fun Context.toast(message: String? = "") {
+fun Context.toast(message: String? = "") {
     ArmsUtils.makeText(this.applicationContext, message)
 }
 
 
-inline fun Fragment.toast(message: String? = "") = activity?.toast(message)
+fun Fragment.toast(message: String? = "") = activity?.toast(message)

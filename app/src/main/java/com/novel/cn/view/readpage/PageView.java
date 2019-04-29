@@ -113,7 +113,7 @@ public class PageView extends View {
                 break;
             case SCROLL:
                 mPageAnim = new ScrollPageAnim(mViewWidth, mViewHeight, 0,
-                       0, this, mPageAnimListener);
+                        0, this, mPageAnimListener);
                 break;
             default:
                 mPageAnim = new SimulationPageAnim(mViewWidth, mViewHeight, this, mPageAnimListener);
@@ -254,7 +254,7 @@ public class PageView extends View {
 
         boolean prev = mPageLoader.prev();
 
-        LogUtils.warnInfo("gggggg==============>>>>>"+prev);
+        LogUtils.warnInfo("gggggg==============>>>>>" + prev);
 
         mTouchListener.prePage(prev);
         return prev;
@@ -268,7 +268,7 @@ public class PageView extends View {
     private boolean hasNextPage() {
         boolean next = mPageLoader.next();
         mTouchListener.nextPage(next);
-        LogUtils.warnInfo("gggggg==============>>>>>"+next);
+        LogUtils.warnInfo("gggggg==============>>>>>" + next);
         return next;
     }
 
@@ -345,14 +345,14 @@ public class PageView extends View {
      *
      * @return
      */
-    public PageLoader getPageLoader( ) {
+    public PageLoader getPageLoader(String bookId) {
         // 判是否已经存在
         if (mPageLoader != null) {
             return mPageLoader;
         }
         // 根据书籍类型，获取具体的加载器
 
-        mPageLoader = new NetPageLoader(this);
+        mPageLoader = new NetPageLoader(this,bookId);
 
         // 判断是否 PageView 已经初始化完成
         if (mViewWidth != 0 || mViewHeight != 0) {

@@ -2,8 +2,10 @@ package com.novel.cn.view.readpage;
 
 import android.content.Context;
 import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
 import android.graphics.Color;
+import android.graphics.DashPathEffect;
 import android.graphics.Paint;
 import android.graphics.Rect;
 import android.graphics.RectF;
@@ -11,6 +13,8 @@ import android.support.v4.content.ContextCompat;
 import android.text.TextPaint;
 
 
+import com.jess.arms.utils.LogUtils;
+import com.novel.cn.R;
 import com.novel.cn.app.utils.RxUtils;
 import com.novel.cn.utils.ScreenUtils;
 import com.novel.cn.utils.StringUtils;
@@ -51,13 +55,14 @@ public abstract class PageLoader {
     // 当前章节列表
     protected List<TxtChapter> mChapterList;
     // 书本对象
-//    protected Bookcase mCollBook;
+    //    protected Bookcase mCollBook;
     // 监听器
     protected OnPageChangeListener mPageChangeListener;
 
     private Context mContext;
     // 页面显示类
     private PageView mPageView;
+    protected String mBookId;
     // 当前显示的页
     private TxtPage mCurPage;
     // 上一章的页面列表缓存
@@ -66,7 +71,7 @@ public abstract class PageLoader {
     private List<TxtPage> mCurPageList;
     // 下一章的页面列表缓存
     private List<TxtPage> mNextPageList;
-
+    private Paint mDashLinePaint;
     // 绘制电池的画笔
     private Paint mBatteryPaint;
     // 绘制提示的画笔
@@ -82,7 +87,7 @@ public abstract class PageLoader {
     // 被遮盖的页，或者认为被取消显示的页
     private TxtPage mCancelPage;
     // 存储阅读记录类
-//    private BookRecord mBookRecord;
+    //    private BookRecord mBookRecord;
 
     private Disposable mPreLoadDisp;
 
@@ -135,12 +140,21 @@ public abstract class PageLoader {
     //上一章的记录
     private int mLastChapterPos = 0;
 
+    private Bitmap mLoveBitmap;
+
+    private Rect mDst;
+
+    private Rect mSrc;
+
     /*****************************init params*******************************/
-    public PageLoader(PageView pageView) {
+    public PageLoader(PageView pageView, String bookId) {
         mPageView = pageView;
+        mBookId = bookId;
         mContext = pageView.getContext();
         mChapterList = new ArrayList<>(1);
-
+        mLoveBitmap = BitmapFactory.decodeResource(mContext.getResources(), R.drawable.ic_loves);
+        mSrc = new Rect(0, 0, mLoveBitmap.getWidth(), mLoveBitmap.getHeight());
+        mDst = new Rect(0, 0, 0, 0);
         // 初始化数据
         initData();
         // 初始化画笔
@@ -201,7 +215,7 @@ public abstract class PageLoader {
         mTitlePaint.setColor(mTextColor);
         mTitlePaint.setTextSize(mTitleSize);
         mTitlePaint.setStyle(Paint.Style.FILL_AND_STROKE);
-//        mTitlePaint.setTypeface(Typeface.DEFAULT_BOLD);
+        //        mTitlePaint.setTypeface(Typeface.DEFAULT_BOLD);
         mTitlePaint.setAntiAlias(true);
 
         // 绘制背景的画笔
@@ -213,6 +227,11 @@ public abstract class PageLoader {
         mBatteryPaint.setAntiAlias(true);
         mBatteryPaint.setDither(true);
 
+        mDashLinePaint = new Paint();
+        mDashLinePaint.setAntiAlias(true);
+        mDashLinePaint.setColor(ContextCompat.getColor(mContext, R.color.color_999999));
+        mDashLinePaint.setStrokeWidth(ScreenUtils.dpToPx(1));
+        mDashLinePaint.setPathEffect(new DashPathEffect(new float[]{10, 10}, 0));
         // 初始化页面样式
         setNightMode(mSettingManager.isNightMode());
     }
@@ -496,9 +515,9 @@ public abstract class PageLoader {
      *
      * @return
      */
-//    public Bookcase getCollBook() {
-//        return mCollBook;
-//    }
+    //    public Bookcase getCollBook() {
+    //        return mCollBook;
+    //    }
 
     /**
      * 获取章节目录。
@@ -541,36 +560,36 @@ public abstract class PageLoader {
      */
     public void saveRecord() {
 
-       /* if (mChapterList.isEmpty()) {
-            return;
-        }
+           /* if (mChapterList.isEmpty()) {
+                return;
+            }
 
-        mBookRecord.setBookId(mCollBook.get_id());
-        mBookRecord.setChapter(mCurChapterPos);
+            mBookRecord.setBookId(mCollBook.get_id());
+            mBookRecord.setChapter(mCurChapterPos);
 
-        if (mCurPage != null) {
-            mBookRecord.setPagePos(mCurPage.position);
-        } else {
-            mBookRecord.setPagePos(0);
-        }
+            if (mCurPage != null) {
+                mBookRecord.setPagePos(mCurPage.position);
+            } else {
+                mBookRecord.setPagePos(0);
+            }
 
-        //存储到数据库
-        DBManager.INSTANCE.saveRecord(mBookRecord);*/
+            //存储到数据库
+            DBManager.INSTANCE.saveRecord(mBookRecord);*/
     }
 
     /**
      * 初始化书籍
      */
     private void prepareBook() {
-       /* mBookRecord = DBManager.INSTANCE.getBookRecord(mCollBook.get_id());
+           /* mBookRecord = DBManager.INSTANCE.getBookRecord(mCollBook.get_id());
 
 
-        if (mBookRecord == null) {
-            mBookRecord = new BookRecord();
-        }
+            if (mBookRecord == null) {
+                mBookRecord = new BookRecord();
+            }
 
-        mCurChapterPos = mBookRecord.getChapter();
-        mLastChapterPos = mCurChapterPos;*/
+            mCurChapterPos = mBookRecord.getChapter();
+            mLastChapterPos = mCurChapterPos;*/
     }
 
     /**
@@ -707,6 +726,8 @@ public abstract class PageLoader {
     /***********************************default method***********************************************/
 
     void drawPage(Bitmap bitmap, boolean isUpdate) {
+
+
         drawBackground(mPageView.getBgBitmap(), isUpdate);
         if (!isUpdate) {
             drawContent(bitmap);
@@ -888,6 +909,19 @@ public abstract class PageLoader {
                     top += interval;
                 }
             }
+            //当前章节最后一页
+            if (mCurPage.position + 1 == mCurPageList.size()) {
+                mDst.left = mDisplayWidth / 2 - mLoveBitmap.getWidth() / 2;
+                mDst.right = mDisplayWidth / 2 + mLoveBitmap.getWidth() / 2;
+                mDst.top = (int) top;
+                mDst.bottom = mDst.top + mLoveBitmap.getHeight();
+                canvas.drawBitmap(mLoveBitmap, mSrc, mDst, null);
+
+                canvas.drawLine(mMarginWidth, mDst.centerY(), mDst.left - ScreenUtils.dpToPx(20), mDst.centerY(), mDashLinePaint);
+
+                canvas.drawLine(mDst.right + ScreenUtils.dpToPx(20), mDst.centerY(), mVisibleWidth, mDst.centerY(), mDashLinePaint);
+            }
+
         }
     }
 
@@ -1318,7 +1352,18 @@ public abstract class PageLoader {
                 pages.add(page);
                 //重置Lines
                 lines.clear();
+                //当前章节的最后一页如果可以 draw一个100dp的
+                if (rHeight < ScreenUtils.dpToPx(40)) {
+                    TxtPage txtPage = new TxtPage();
+                    txtPage.position = pages.size();
+                    txtPage.title = StringUtils.convertCC(chapter.getTitle(), mContext);
+                    txtPage.lines = new ArrayList<>();
+                    txtPage.titleLines = titleLinesCount;
+                    //                    pages.add(txtPage);
+                }
             }
+
+            LogUtils.warnInfo("===========================>>>" + rHeight);
         } catch (FileNotFoundException e) {
             e.printStackTrace();
         } catch (IOException e) {

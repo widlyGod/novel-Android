@@ -5,8 +5,10 @@ import android.view.View
 import android.view.View.GONE
 import android.view.View.VISIBLE
 import android.widget.ImageView
+import com.bumptech.glide.Glide
 import com.bumptech.glide.load.engine.DiskCacheStrategy
 import com.jess.arms.http.imageloader.ImageConfig
+import com.jess.arms.http.imageloader.glide.GlideArms
 import com.jess.arms.http.imageloader.glide.ImageConfigImpl
 import com.jess.arms.utils.ArmsUtils
 import com.novel.cn.R

@@ -38,7 +38,6 @@ android {
     }
 
     signingConfigs {
-
         release {
             keyAlias 'app_key'
             keyPassword '123456'
@@ -170,4 +169,6 @@ dependencies {
     implementation rootProject.ext.dependencies["opencc"]
 
     implementation rootProject.ext.dependencies["greendao"]
+
+//    implementation files('libs/reader-2.3.0.jar')
 }

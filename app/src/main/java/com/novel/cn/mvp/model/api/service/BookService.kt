@@ -92,4 +92,7 @@ interface BookService {
      */
     @POST("novelOAService/mobile/getChapters")
     fun getChapterList(@Body params: HashMap<String, Any?>): Observable<BaseResponse<ChapterBean>>
+
+    @POST("novelOAService/novel/readNovel")
+    fun readNovel(@Body params: HashMap<String, Any?>): Observable<BaseResponse<ChapterInfoBean>>
 }

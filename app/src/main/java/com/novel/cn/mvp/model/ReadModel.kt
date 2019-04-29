@@ -12,6 +12,7 @@ import com.novel.cn.mvp.contract.ReadContract
 import com.novel.cn.mvp.model.api.service.BookService
 import com.novel.cn.mvp.model.entity.BaseResponse
 import com.novel.cn.mvp.model.entity.ChapterBean
+import com.novel.cn.mvp.model.entity.ChapterInfoBean
 import com.novel.cn.mvp.model.entity.Volume
 import io.reactivex.Observable
 
@@ -32,6 +33,10 @@ import io.reactivex.Observable
 class ReadModel
 @Inject
 constructor(repositoryManager: IRepositoryManager) : BaseModel(repositoryManager), ReadContract.Model {
+    override fun readNovel(params: HashMap<String, Any?>): Observable<BaseResponse<ChapterInfoBean>> {
+        return mRepositoryManager.obtainRetrofitService(BookService::class.java).readNovel(params)
+    }
+
     override fun getChapterList(params: HashMap<String, Any?>): Observable<BaseResponse<ChapterBean>> {
          return mRepositoryManager.obtainRetrofitService(BookService::class.java).getChapterList(params)
     }

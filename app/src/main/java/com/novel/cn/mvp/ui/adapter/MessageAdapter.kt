@@ -34,6 +34,7 @@ class MessageAdapter : BaseQuickAdapter<Message, BaseViewHolder>(R.layout.item_m
         with(helper.itemView) {
             tv_title.setTextColor(map[item.typeNumber]?.toInt()!!)
             tv_title.text = item.typeName
+
             tv_content.text = item.headContent
             tv_date.text = item.sortTime
         }

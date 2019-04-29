@@ -13,7 +13,7 @@ public class CacheManager {
     public static String BOOK_CACHE_PATH = BaseApplication.getInstance().getAppComponent().cacheFile() + File.separator
             + "read_cache" + File.separator;
 
-    public static final String SUFFIX_NB = ".nb";
+    public static final String SUFFIX_NB = "_.nb";
     public static final String SUFFIX_TXT = ".txt";
 
 

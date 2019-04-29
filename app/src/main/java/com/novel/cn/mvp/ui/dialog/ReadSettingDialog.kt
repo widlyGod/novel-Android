@@ -30,7 +30,7 @@ class ReadSettingDialog(val activity: Activity) : BottomBaseDialog<ReadSettingDi
         list.add(PageStyle.BG_1)
         list.add(PageStyle.BG_2)
         list.add(PageStyle.BG_3)
-        list.add(PageStyle.NIGHT)
+        list.add(PageStyle.NIGHT2)
 
         dimEnabled(false)
 
@@ -55,6 +55,11 @@ class ReadSettingDialog(val activity: Activity) : BottomBaseDialog<ReadSettingDi
             }
         })
         mAdapter.setNewData(list)
+        mAdapter.setOnItemClickListener { adapter, view, position ->
+            val item = mAdapter.getItem(position) as PageStyle
+            onSettingChangeListener?.onPageStyle(item)
+            mAdapter.notifyDataSetChanged()
+        }
         tv_textsize.text = ScreenUtils.pxToSp(ReadSettingManager.getInstance().textSize).toString()
 
         click(tv_add, tv_minus) {

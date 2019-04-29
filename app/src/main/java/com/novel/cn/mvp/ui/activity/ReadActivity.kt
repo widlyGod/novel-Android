@@ -18,12 +18,18 @@ import com.novel.cn.R
 import com.novel.cn.app.click
 import com.novel.cn.app.isVisible
 import com.novel.cn.app.visible
+import com.novel.cn.ext.ETextWatcher
+import com.novel.cn.ext.dp2px
+import com.novel.cn.ext.textWatcher
 import com.novel.cn.ext.toast
 import com.novel.cn.mvp.model.entity.ChapterBean
 import com.novel.cn.mvp.model.entity.ChapterInfo
+import com.novel.cn.mvp.model.entity.ChapterInfo2
 import com.novel.cn.mvp.model.entity.Volume
 import com.novel.cn.mvp.ui.adapter.ChapterAdapter
+import com.novel.cn.mvp.ui.dialog.MorePopup
 import com.novel.cn.mvp.ui.dialog.ReadSettingDialog
+import com.novel.cn.mvp.ui.dialog.VolumePopup
 import com.novel.cn.utils.StatusBarUtils
 import com.novel.cn.view.readpage.*
 import kotlinx.android.synthetic.main.layout_menu_chapter.*
@@ -34,6 +40,7 @@ import java.util.ArrayList
 
 
 class ReadActivity : BaseActivity<ReadPresenter>(), ReadContract.View {
+
 
 
     private val mBookId by lazy { intent.getStringExtra("bookId") }
@@ -59,11 +66,13 @@ class ReadActivity : BaseActivity<ReadPresenter>(), ReadContract.View {
         }
     }
 
-    private val mPageLoader by lazy { readView.pageLoader }
+    private val mPageLoader by lazy { readView.getPageLoader(mBookId) }
 
     private val mAdapter by lazy { ChapterAdapter() }
 
     private var mVolume: Volume? = null
+
+    private val mPopup by lazy { VolumePopup(this) }
 
 
     override fun setupActivityComponent(appComponent: AppComponent) {
@@ -87,10 +96,18 @@ class ReadActivity : BaseActivity<ReadPresenter>(), ReadContract.View {
 
         drawerLayout.setDrawerLockMode(DrawerLayout.LOCK_MODE_LOCKED_CLOSED)
         drawerLayout.isFocusableInTouchMode = false
-        recyclerView.adapter = mAdapter
+        mAdapter.bindToRecyclerView(recyclerView)
         val header = LayoutInflater.from(this).inflate(R.layout.layout_header_volume, recyclerView, false)
+        header.setOnClickListener {
+            mPopup.showAsDropDown(it, dp2px(20), 0)
+        }
+
         mAdapter.addHeaderView(header)
 
+        mAdapter.setOnItemClickListener { adapter, view, position ->
+            mPageLoader.skipToChapter(position)
+            drawerLayout.closeDrawer(Gravity.LEFT)
+        }
 
         readView.setTouchListener(object : PageView.TouchListener {
             override fun onTouch(): Boolean {
@@ -124,6 +141,7 @@ class ReadActivity : BaseActivity<ReadPresenter>(), ReadContract.View {
 
         mPageLoader.setOnPageChangeListener(object : PageLoader.OnPageChangeListener {
             override fun onChapterChange(pos: Int) {
+                mAdapter.setCurrentPosition(pos)
                 val item = mAdapter.getItem(pos) as ChapterInfo
                 tv_chapter_name.text = "${item.chapter}：${item.title}"
                 tv_chapter_info.text = "${item.chapter}章节/${mAdapter.itemCount}章节"
@@ -131,6 +149,7 @@ class ReadActivity : BaseActivity<ReadPresenter>(), ReadContract.View {
             }
 
             override fun requestChapters(requestChapters: MutableList<TxtChapter>?) {
+                  mPresenter?.readNovel(requestChapters, mBookId)
             }
 
             override fun onCategoryFinish(chapters: MutableList<TxtChapter>?) {
@@ -160,11 +179,17 @@ class ReadActivity : BaseActivity<ReadPresenter>(), ReadContract.View {
         }
     }
 
+    override fun loadChapterSuccess(chapterInfo: ChapterInfo2) {
+        if (mPageLoader.pageStatus == PageLoader.STATUS_LOADING) {
+            mPageLoader.openChapter()
+        }
+    }
+
     override fun showVolume(data: MutableList<Volume>?) {
         mVolume = data?.get(0)
         tv_volume_title.text = data?.get(0)?.title
         tv_count.text = "共${data?.get(0)?.chapterNum}章"
-
+        mPopup.setData(data)
 
     }
 
@@ -174,7 +199,8 @@ class ReadActivity : BaseActivity<ReadPresenter>(), ReadContract.View {
         val list = ArrayList<TxtChapter>(data.list.size)
         data.list.forEach {
             val txt = TxtChapter()
-            txt.bookId = it.id
+            txt.bookId = mBookId
+            txt.link = it.id
             txt.title = it.title
             list.add(txt)
         }
