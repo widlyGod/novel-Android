@@ -1,7 +1,9 @@
 package com.novel.cn.mvp.ui.activity
 
 import android.animation.Animator
+import android.animation.AnimatorListenerAdapter
 import android.animation.ObjectAnimator
+import android.animation.ValueAnimator.REVERSE
 import android.graphics.Rect
 import android.graphics.drawable.ColorDrawable
 import android.os.Build
@@ -17,6 +19,7 @@ import com.google.android.flexbox.*
 import com.jess.arms.base.BaseActivity
 import com.jess.arms.di.component.AppComponent
 import com.jess.arms.utils.ArmsUtils
+import com.jess.arms.utils.DeviceUtils
 import com.jess.arms.utils.LogUtils
 import com.novel.cn.R
 import com.novel.cn.db.DbManager
@@ -97,7 +100,6 @@ class SearchActivity : BaseActivity<SearchPresenter>(), SearchContract.View {
             false
         }
 
-
         et_keyword.viewTreeObserver.addOnGlobalLayoutListener(
                 object : ViewTreeObserver.OnGlobalLayoutListener {
                     override fun onGlobalLayout() {
@@ -120,6 +122,13 @@ class SearchActivity : BaseActivity<SearchPresenter>(), SearchContract.View {
         //取消点击
         tv_cancel.setOnClickListener { finish() }
 
+        fl_search.setOnClickListener {
+            et_keyword.isFocusable = true
+            et_keyword.isFocusableInTouchMode = true
+            et_keyword.requestFocus()
+            DeviceUtils.showSoftKeyboard(this, et_keyword)
+        }
+
     }
 
 
@@ -128,9 +137,9 @@ class SearchActivity : BaseActivity<SearchPresenter>(), SearchContract.View {
         if (hasFocus) {
             x = -oldX.toFloat() + ArmsUtils.dip2px(this, 10f)
         }
-        val toStart = ObjectAnimator.ofFloat(et_keyword, "translationX", 0f, x)
-        toStart.duration = 300
-        toStart.start()
+        val anim = ObjectAnimator.ofFloat(et_keyword, "translationX", 0f, x)
+        anim.duration = 300
+        anim.start()
     }
 
 

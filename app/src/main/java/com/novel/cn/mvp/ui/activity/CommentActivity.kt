@@ -8,18 +8,16 @@ import android.support.v7.widget.SimpleItemAnimator
 import android.text.SpannableString
 import android.text.Spanned
 import android.text.style.ForegroundColorSpan
-import com.google.gson.Gson
 import com.jess.arms.base.BaseActivity
 import com.jess.arms.di.component.AppComponent
 import com.jess.arms.utils.ArmsUtils
-import com.jess.arms.utils.LogUtils
 import com.novel.cn.R
 import com.novel.cn.app.JumpManager
 import com.novel.cn.app.visible
 import com.novel.cn.di.component.DaggerCommentComponent
 import com.novel.cn.di.module.CommentModule
 import com.novel.cn.mvp.contract.CommentContract
-import com.novel.cn.mvp.model.entity.Test
+import com.novel.cn.mvp.model.entity.Comment
 import com.novel.cn.mvp.presenter.CommentPresenter
 import com.novel.cn.mvp.ui.adapter.BookCommentAdapter
 import com.novel.cn.mvp.ui.dialog.CommentDialog
@@ -34,12 +32,13 @@ import javax.inject.Inject
 class CommentActivity : BaseActivity<CommentPresenter>(), CommentContract.View {
 
 
+
     private val bookId by lazy { intent.getStringExtra("bookId") }
 
     private val dialog by lazy {
         val dialog = CommentDialog(this)
         dialog.setOnReleaseClickListener {
-
+            mPresenter?.comment(bookId, it)
         }
         dialog
     }
@@ -88,6 +87,10 @@ class CommentActivity : BaseActivity<CommentPresenter>(), CommentContract.View {
             setOnReplyClickListener { position ->
                 JumpManager.toCommentDetail(this@CommentActivity, this.getItem(position))
             }
+            setOnLikeClickListener {
+                val item = mAdapter.getItem(it) as Comment
+                mPresenter?.agree(it)
+            }
         }
         //快速定位到顶部
         iv_back_top.setOnClickListener { recyclerView.scrollToPosition(0) }
@@ -110,6 +113,10 @@ class CommentActivity : BaseActivity<CommentPresenter>(), CommentContract.View {
         val ss = SpannableString("共${count}条")
         ss.setSpan(ForegroundColorSpan(Color.parseColor("#EE4B1A")), 1, (1 + count.toString().length), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE)
         tv_count.text = ss
+    }
+
+    override fun showState(state: Int) {
+        multiStateView.viewState = state
     }
 
 }

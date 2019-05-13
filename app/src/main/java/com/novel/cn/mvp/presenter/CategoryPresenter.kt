@@ -8,6 +8,7 @@ import com.novel.cn.mvp.contract.CategoryContract
 import com.novel.cn.mvp.model.entity.BaseResponse
 import com.novel.cn.mvp.model.entity.Category
 import com.novel.cn.mvp.ui.adapter.CategoryAdapter
+import com.novel.cn.view.MultiStateView
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.schedulers.Schedulers
 import me.jessyan.rxerrorhandler.core.RxErrorHandler
@@ -32,20 +33,28 @@ constructor(model: CategoryContract.Model, rootView: CategoryContract.View) :
                 .compose(RxLifecycleUtils.bindToLifecycle(mRootView))
                 .subscribe(object : ErrorHandleSubscriber<BaseResponse<MutableList<Category>>>(mErrorHandler) {
                     override fun onNext(t: BaseResponse<MutableList<Category>>) {
-                        val list = ArrayList<MultiItemEntity>()
                         val data = t.data
-                        //组装数据
-                        data.forEach {
-                            list.add(it)
-                            it.children.forEach { child ->
-                                list.add(child)
+                        if (data.isEmpty()) {
+                            mRootView.showState(MultiStateView.VIEW_STATE_EMPTY)
+                        } else {
+                            mRootView.showState(MultiStateView.VIEW_STATE_CONTENT)
+
+                            val list = ArrayList<MultiItemEntity>()
+
+                            //组装数据
+                            data.forEach {
+                                list.add(it)
+                                it.children.forEach { child ->
+                                    list.add(child)
+                                }
                             }
+                            mAdapter.setNewData(list)
                         }
-                        mAdapter.setNewData(list)
                     }
 
                     override fun onError(t: Throwable) {
                         super.onError(t)
+                        mRootView.showState(MultiStateView.VIEW_STATE_ERROR)
                     }
                 })
     }

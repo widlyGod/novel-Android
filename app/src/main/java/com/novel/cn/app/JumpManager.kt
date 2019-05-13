@@ -1,16 +1,9 @@
 package com.novel.cn.app
 
-import android.annotation.SuppressLint
 import android.content.Context
-import android.content.Intent
-import android.os.Bundle
-import com.google.gson.Gson
-import com.jess.arms.utils.ArmsUtils
-import com.jess.arms.utils.LogUtils
 import com.novel.cn.mvp.model.entity.*
 import com.novel.cn.mvp.ui.activity.*
 import org.jetbrains.anko.startActivity
-import java.util.ArrayList
 
 /**
  * 跳转管理类
@@ -27,8 +20,8 @@ object JumpManager {
     /**
      * 跳转到阅读页面
      */
-    fun jumpRead(context: Context?, bookId: String?) {
-        context?.startActivity<ReadActivity>("bookId" to bookId)
+    fun jumpRead(context: Context?, book: NovelInfoBean) {
+        context?.startActivity<ReadActivity>("book" to book)
     }
 
     /**
@@ -71,5 +64,9 @@ object JumpManager {
      */
     fun jumpRecharge(context: Context?,user: User){
         context?.startActivity<RechargeActivity>("user" to user)
+    }
+
+    fun jumpContents(context: Context?,book: NovelInfoBean) {
+        context?.startActivity<ContentsActivity>("book" to book)
     }
 }

@@ -1,11 +1,7 @@
 package com.novel.cn.mvp.presenter
 
-import android.app.Application
-
-import com.jess.arms.integration.AppManager
 import com.jess.arms.di.scope.ActivityScope
 import com.jess.arms.mvp.BasePresenter
-import com.jess.arms.http.imageloader.ImageLoader
 import com.jess.arms.utils.RxLifecycleUtils
 import com.novel.cn.app.Constant
 import me.jessyan.rxerrorhandler.core.RxErrorHandler
@@ -15,10 +11,10 @@ import com.novel.cn.mvp.contract.CommentContract
 import com.novel.cn.mvp.model.entity.BaseResponse
 import com.novel.cn.mvp.model.entity.Comment
 import com.novel.cn.mvp.ui.adapter.BookCommentAdapter
+import com.novel.cn.view.MultiStateView
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.schedulers.Schedulers
 import me.jessyan.rxerrorhandler.handler.ErrorHandleSubscriber
-import me.jessyan.rxerrorhandler.handler.ErrorHandlerFactory
 
 
 @ActivityScope
@@ -50,26 +46,49 @@ constructor(model: CommentContract.Model, rootView: CommentContract.View) :
                 .compose(RxLifecycleUtils.bindToLifecycle(mRootView))
                 .subscribe(object : ErrorHandleSubscriber<BaseResponse<MutableList<Comment>>>(mErrorHandler) {
                     override fun onNext(t: BaseResponse<MutableList<Comment>>) {
-
-                        val noMore = t.basePage.pages <= mPageIndex
-
-                        if (pullToRefresh) {
-                            mAdapter.setNewData(t.data)
+                        if (t.basePage.counts == 0) {
+                            mRootView.showState(MultiStateView.VIEW_STATE_EMPTY)
                         } else {
-                            mAdapter.addData(t.data)
-                            mAdapter.loadMoreComplete()
+                            mRootView.showState(MultiStateView.VIEW_STATE_CONTENT)
+                            val noMore = t.basePage.pages <= mPageIndex
+
+                            if (pullToRefresh) {
+                                mAdapter.setNewData(t.data)
+                            } else {
+                                mAdapter.addData(t.data)
+                                mAdapter.loadMoreComplete()
+                            }
+                            if (noMore)
+                                mAdapter.loadMoreEnd()
+
+                            mPageIndex++
+
+                            mRootView.showCommentCount(t.basePage.counts)
                         }
-                        if (noMore)
-                            mAdapter.loadMoreEnd()
-
-                        mPageIndex++
-
-                        mRootView.showCommentCount(t.basePage.counts)
                     }
 
                     override fun onError(t: Throwable) {
                         super.onError(t)
+                        mRootView.showState(MultiStateView.VIEW_STATE_ERROR)
+                    }
+                })
+    }
 
+    fun comment(bookId: String?, content: String) {
+
+    }
+
+    fun agree(position: Int) {
+        val item = mAdapter.getItem(position) as Comment
+        mModel.agree(item.commentId)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .compose(RxLifecycleUtils.bindToLifecycle(mRootView))
+                .subscribe(object : ErrorHandleSubscriber<BaseResponse<Any>>(mErrorHandler) {
+                    override fun onNext(t: BaseResponse<Any>) {
+                        item.thumbUp = true
+                        item.thumbUpNumber++
+                        mAdapter.notifyItemChanged(position)
                     }
                 })
     }

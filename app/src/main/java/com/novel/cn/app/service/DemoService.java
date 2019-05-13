@@ -15,7 +15,13 @@
  */
 package com.novel.cn.app.service;
 
+import com.google.gson.TypeAdapter;
+import com.google.gson.stream.JsonReader;
+import com.google.gson.stream.JsonToken;
+import com.google.gson.stream.JsonWriter;
 import com.jess.arms.base.BaseService;
+
+import java.io.IOException;
 
 /**
  * ================================================
@@ -29,6 +35,7 @@ import com.jess.arms.base.BaseService;
 public class DemoService extends BaseService {
     @Override
     public void init() {
-
     }
+
 }
+

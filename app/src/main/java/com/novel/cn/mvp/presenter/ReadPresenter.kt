@@ -32,8 +32,10 @@ constructor(model: ReadContract.Model, rootView: ReadContract.View) :
                 .compose(RxLifecycleUtils.bindToLifecycle(mRootView))
                 .subscribe(object : ErrorHandleSubscriber<BaseResponse<MutableList<Volume>?>>(mErrorHandler) {
                     override fun onNext(t: BaseResponse<MutableList<Volume>?>) {
-                        mRootView.showVolume(t.data)
-                        getChapterList(bookId, t.data?.get(0)?.volume)
+                        if (!t.data.isNullOrEmpty()) {
+                            mRootView.showVolume(t.data)
+                            getChapterList(bookId, t.data.get(0).volume)
+                        }
                     }
                 })
     }
@@ -64,7 +66,7 @@ constructor(model: ReadContract.Model, rootView: ReadContract.View) :
             for (i in 0 until size) {
                 val params = HashMap<String, Any?>()
                 val child = HashMap<String, Any?>()
-                child["id"] = it.getOrNull(0)?.link
+                child["id"] = it.getOrNull(i)?.link
                 child["uniqueId"] = "-1"
                 params["chapterInfo"] = child
                 chapterInfoBean.add(mModel.readNovel(params))
@@ -82,5 +84,60 @@ constructor(model: ReadContract.Model, rootView: ReadContract.View) :
                         }
                     })
         }
+    }
+
+    fun addCollection(novelId: String) {
+        val params = HashMap<String, Any>()
+        params["novel_id"] = novelId
+
+        mModel.addConllection(params)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .compose(RxLifecycleUtils.bindToLifecycle(mRootView))
+                .subscribe(object : ErrorHandleSubscriber<BaseResponse<Any>>(mErrorHandler) {
+                    override fun onNext(t: BaseResponse<Any>) {
+                        mRootView.collectionSuccess()
+                    }
+                })
+    }
+
+    fun cancelCollection(novelId: String) {
+        val params = HashMap<String, Any>()
+        params["novel_id"] = novelId
+
+        mModel.cancelCollection(params)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .compose(RxLifecycleUtils.bindToLifecycle(mRootView))
+                .subscribe(object : ErrorHandleSubscriber<BaseResponse<Any>>(mErrorHandler) {
+                    override fun onNext(t: BaseResponse<Any>) {
+                        mRootView.cancelCollection()
+                    }
+                })
+    }
+
+    fun readNovel(txtChapter: TxtChapter?, novelId: String, mCurChapterPos: Int) {
+        val params = HashMap<String, Any?>()
+        val child = HashMap<String, Any?>()
+        child["id"] = txtChapter?.link
+        child["uniqueId"] = "-1"
+        params["chapterInfo"] = child
+        mModel.readNovel(params)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .compose(RxLifecycleUtils.bindToLifecycle(mRootView))
+                .subscribe(object : ErrorHandleSubscriber<BaseResponse<ChapterInfoBean>>(mErrorHandler) {
+                    override fun onNext(t: BaseResponse<ChapterInfoBean>) {
+                        val data = t.data
+                        CacheManager.getInstance().saveChapterInfo(novelId, data.chapterInfo.id, data.chapterInfo.content)
+                        mRootView.showChapter(data,txtChapter,mCurChapterPos)
+                    }
+                })
+    }
+
+    fun readNovel2(txtChapter: TxtChapter?, novelId: String) {
+        val data = ArrayList<TxtChapter>()
+        data.add(txtChapter!!)
+        readNovel(data, novelId)
     }
 }

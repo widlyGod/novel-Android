@@ -17,10 +17,14 @@ import kotlinx.android.synthetic.main.item_search.view.*
 import org.jetbrains.anko.startActivity
 import android.support.v7.widget.PagerSnapHelper
 import android.view.ViewGroup
+import android.widget.LinearLayout
+import com.jess.arms.integration.EventBusManager
 import com.novel.cn.app.JumpManager
+import com.novel.cn.eventbus.SwitchFragmentEvent
 import com.novel.cn.mvp.model.entity.*
 import kotlinx.android.synthetic.main.item_indicator.view.*
 import kotlinx.android.synthetic.main.item_lately_update.view.*
+import org.greenrobot.eventbus.EventBus
 
 
 class BookChannelAdapter : BaseMultiItemQuickAdapter<MultiItemEntity, BaseViewHolder>(ArrayList()) {
@@ -78,6 +82,15 @@ class BookChannelAdapter : BaseMultiItemQuickAdapter<MultiItemEntity, BaseViewHo
                                 imageView?.loadImage(path?.path)
                             }
                         }).start()
+            }
+            TYPE_MENU -> {
+                itemView as LinearLayout
+                val count = itemView.childCount
+                for (i in 0 until count) {
+                    itemView.getChildAt(i).setOnClickListener {
+                        EventBusManager.getInstance().post(SwitchFragmentEvent(i))
+                    }
+                }
             }
             TYPE_INDICATOR -> {
                 item as TitleIndicator

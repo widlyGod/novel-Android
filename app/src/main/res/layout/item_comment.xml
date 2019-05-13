@@ -6,8 +6,8 @@
     android:layout_height="wrap_content"
     android:orientation="horizontal"
     android:paddingTop="14dp"
-    android:paddingRight="16dp"
-    android:paddingBottom="16dp">
+
+   >
 
 
     <de.hdodenhof.circleimageview.CircleImageView
@@ -73,6 +73,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="2019-03-02 10:00"
+        android:paddingRight="16dp"
         app:layout_constraintBottom_toBottomOf="@+id/tv_nickname"
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintTop_toTopOf="@+id/tv_nickname" />
@@ -84,6 +85,7 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="12dp"
         android:ellipsize="end"
+        android:paddingRight="16dp"
         android:maxLines="3"
         android:text="回复@青虫：好好看"
         android:textColor="@color/color_333333"
@@ -98,7 +100,8 @@
         android:id="@+id/tv_from"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="16dp"
+        android:paddingBottom="16dp"
+        android:paddingTop="16dp"
         android:layout_weight="1"
         android:text="来自手机站"
         android:textColor="@color/color_999999"
@@ -112,9 +115,13 @@
         android:id="@+id/tv_reply_num"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:paddingBottom="16dp"
+        android:paddingTop="16dp"
         android:text="回复(0)"
         android:textColor="@color/color_999999"
         android:textSize="13sp"
+        android:paddingRight="15dp"
+        android:paddingLeft="15dp"
         app:layout_constraintBaseline_toBaselineOf="@+id/tv_from"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent" />
@@ -124,10 +131,13 @@
         android:id="@+id/ll_like"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:paddingBottom="16dp"
+        android:paddingTop="16dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toStartOf="@+id/tv_reply_num"
         app:layout_constraintRight_toLeftOf="@+id/tv_reply_num"
-        android:layout_marginRight="30dp"
+        android:paddingRight="15dp"
+        android:paddingLeft="15dp"
         android:orientation="horizontal">
 
         <TextView
@@ -142,6 +152,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginLeft="3dp"
+            android:id="@+id/iv_thumbUp"
             android:src="@drawable/ic_zan_uncheck" />
 
     </LinearLayout>

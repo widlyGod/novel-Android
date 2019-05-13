@@ -33,6 +33,14 @@ import io.reactivex.Observable
 class ReadModel
 @Inject
 constructor(repositoryManager: IRepositoryManager) : BaseModel(repositoryManager), ReadContract.Model {
+    override fun cancelCollection(params: HashMap<String, Any>): Observable<BaseResponse<Any>> {
+        return mRepositoryManager.obtainRetrofitService(BookService::class.java).cancelCollection(params)
+    }
+
+    override fun addConllection(params: HashMap<String, Any>): Observable<BaseResponse<Any>> {
+        return mRepositoryManager.obtainRetrofitService(BookService::class.java).addConllcetion(params)
+    }
+
     override fun readNovel(params: HashMap<String, Any?>): Observable<BaseResponse<ChapterInfoBean>> {
         return mRepositoryManager.obtainRetrofitService(BookService::class.java).readNovel(params)
     }

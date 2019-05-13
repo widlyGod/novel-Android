@@ -15,6 +15,7 @@ import com.novel.cn.mvp.model.entity.BaseResponse
 import com.novel.cn.mvp.model.entity.RankBean
 import com.novel.cn.mvp.model.entity.RankResult
 import com.novel.cn.mvp.ui.adapter.RankAdapter
+import com.novel.cn.view.MultiStateView
 import io.reactivex.Observable
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.schedulers.Schedulers
@@ -39,7 +40,18 @@ constructor(model: RankingContract.Model, rootView: RankingContract.View) :
                 .compose(RxLifecycleUtils.bindToLifecycle(mRootView))
                 .subscribe(object : ErrorHandleSubscriber<BaseResponse<MutableList<RankBean>>>(mErrorHandler) {
                     override fun onNext(t: BaseResponse<MutableList<RankBean>>) {
-                        mAdapter.setNewData(t.data)
+                        if (t.data.isEmpty()) {
+                            mRootView.showState(MultiStateView.VIEW_STATE_EMPTY)
+                        }else{
+                            mRootView.showState(MultiStateView.VIEW_STATE_CONTENT)
+                            mAdapter.setNewData(t.data)
+                        }
+
+                    }
+
+                    override fun onError(t: Throwable) {
+                        super.onError(t)
+                        mRootView.showState(MultiStateView.VIEW_STATE_ERROR)
                     }
                 })
     }

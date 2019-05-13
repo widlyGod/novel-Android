@@ -47,4 +47,9 @@ class CategoryFragment : BaseFragment<CategoryPresenter>(), CategoryContract.Vie
         recyclerView.setHasFixedSize(true)
         mPresenter?.getCategory()
     }
+
+    override fun showState(state: Int) {
+        multiStateView.viewState = state
+    }
+
 }

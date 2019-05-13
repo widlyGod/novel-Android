@@ -31,6 +31,8 @@ import javax.inject.Inject
 
 
 class BookshelfFragment : BaseLazyLoadFragment<BookshelfPresenter>(), BookshelfContract.View {
+
+
     override fun lazyLoadData() {
 
     }
@@ -154,5 +156,8 @@ class BookshelfFragment : BaseLazyLoadFragment<BookshelfPresenter>(), BookshelfC
             mAdapter.addData(book)
     }
 
+    override fun showState(state: Int) {
+        multiStateView.viewState = state
+    }
 
 }

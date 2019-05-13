@@ -43,6 +43,10 @@ public class PageView extends View {
     private boolean isPrepare;
     // 动画类
     private PageAnimation mPageAnim;
+
+    private boolean isLoading;
+
+
     // 动画监听类
     private PageAnimation.OnPageChangeListener mPageAnimListener = new PageAnimation.OnPageChangeListener() {
         @Override
@@ -253,9 +257,6 @@ public class PageView extends View {
     private boolean hasPrevPage() {
 
         boolean prev = mPageLoader.prev();
-
-        LogUtils.warnInfo("gggggg==============>>>>>" + prev);
-
         mTouchListener.prePage(prev);
         return prev;
     }
@@ -268,7 +269,6 @@ public class PageView extends View {
     private boolean hasNextPage() {
         boolean next = mPageLoader.next();
         mTouchListener.nextPage(next);
-        LogUtils.warnInfo("gggggg==============>>>>>" + next);
         return next;
     }
 
@@ -279,9 +279,15 @@ public class PageView extends View {
 
     @Override
     public void computeScroll() {
-        //进行滑动
+
         mPageAnim.scrollAnim();
         super.computeScroll();
+    }
+
+    public void setLoading(boolean loading) {
+        isLoading = loading;
+        abortAnimation();
+
     }
 
     //如果滑动状态没有停止就取消状态，重新设置Anim的触碰点
@@ -352,7 +358,7 @@ public class PageView extends View {
         }
         // 根据书籍类型，获取具体的加载器
 
-        mPageLoader = new NetPageLoader(this,bookId);
+        mPageLoader = new NetPageLoader(this, bookId);
 
         // 判断是否 PageView 已经初始化完成
         if (mViewWidth != 0 || mViewHeight != 0) {
@@ -362,6 +368,14 @@ public class PageView extends View {
 
         return mPageLoader;
     }
+
+    public void resetPage() {
+    }
+
+    public void loadData() {
+        ((ScrollPageAnim)mPageAnim).reset();
+    }
+
 
     public interface TouchListener {
         boolean onTouch();

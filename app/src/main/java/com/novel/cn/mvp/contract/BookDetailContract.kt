@@ -30,6 +30,7 @@ interface BookDetailContract {
     interface Model : IModel {
         fun getBookDetail(bookId: String?):Observable<BaseResponse<NovelInfoBean>>
         fun addConllection(params: HashMap<String, Any>):Observable<BaseResponse<Any>>
+        fun agree(commentId: String): Observable<BaseResponse<Any>>
     }
 
 }

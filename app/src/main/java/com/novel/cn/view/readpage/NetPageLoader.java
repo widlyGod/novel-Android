@@ -188,7 +188,7 @@ public class NetPageLoader extends PageLoader {
         // 过滤，哪些数据已经加载了
         for (int i = start; i <= end; ++i) {
             TxtChapter txtChapter = mChapterList.get(i);
-            if (!hasChapterData(txtChapter)) {
+            if (!hasChapterData(txtChapter) && txtChapter.isFree) {
                 chapters.add(txtChapter);
             }
         }

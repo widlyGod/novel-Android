@@ -6,6 +6,7 @@
     android:orientation="vertical"
     app:rv_backgroundColor="@color/white"
     app:rv_strokeColor="#cfdaef"
+    android:padding="1dp"
     app:rv_strokeWidth="1dp">
 
     <android.support.v7.widget.RecyclerView

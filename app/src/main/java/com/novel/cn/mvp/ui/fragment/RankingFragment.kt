@@ -18,6 +18,7 @@ import kotlinx.android.synthetic.main.fragment_ranking.*
 import javax.inject.Inject
 
 class RankingFragment : BaseFragment<RankingPresenter>(), RankingContract.View {
+
     @Inject
     lateinit var mAdapter: RankAdapter
 
@@ -46,5 +47,8 @@ class RankingFragment : BaseFragment<RankingPresenter>(), RankingContract.View {
         mPresenter?.getRankList()
     }
 
+    override fun showState(state: Int) {
+        multiStateView.viewState = state
+    }
 
 }

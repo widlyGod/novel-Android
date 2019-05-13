@@ -60,7 +60,7 @@ class BookCommentAdapter : BaseQuickAdapter<Comment, BaseViewHolder>(R.layout.it
             tv_num.text = item.thumbUpNumber.toString()
             tv_reply_num.text = "回复(${item.replyNumber})"
             tv_isAuthor.visible(item.isAuthor)
-
+            iv_thumbUp.setImageResource(if (item.thumbUp) R.drawable.ic_zan_check else R.drawable.ic_zan_uncheck)
             levelList.forEach {
                 if (item.commentUser.fansValue in (it.startValue..it.endValue)) {
                     tv_level.apply {

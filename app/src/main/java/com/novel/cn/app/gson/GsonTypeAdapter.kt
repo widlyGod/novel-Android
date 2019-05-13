@@ -29,6 +29,7 @@ class StringAdapter : TypeAdapter<String>() {
     }
 }
 
+
 class BooleanAdapter : TypeAdapter<Boolean>() {
     override fun write(writer: JsonWriter?, value: Boolean?) {
         if (value == null) {

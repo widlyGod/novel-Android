@@ -16,6 +16,12 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent" />
 
+        <include
+            android:id="@+id/ll_info"
+            layout="@layout/layout_shoufei"
+            android:visibility="gone" />
+
+
         <android.support.v4.widget.NestedScrollView
             android:layout_width="match_parent"
             android:layout_height="match_parent"
@@ -96,141 +102,157 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_alignParentBottom="true"
-            android:background="#000000"
-            android:clickable="true"
-            android:visibility="gone"
-            android:orientation="vertical">
+            android:orientation="vertical"
+            android:visibility="gone">
 
-
-            <android.support.constraint.ConstraintLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content">
-
-                <ImageView
-                    android:id="@+id/iv_pre"
-                    android:layout_width="wrap_content"
-                    android:layout_height="40dp"
-                    android:paddingLeft="30dp"
-
-                    android:paddingRight="30dp"
-                    android:src="@drawable/back"
-                    app:layout_constraintBottom_toBottomOf="@+id/tv_chapter_name"
-                    app:layout_constraintLeft_toLeftOf="parent"
-                    app:layout_constraintTop_toTopOf="@+id/tv_chapter_name" />
-
-
-                <TextView
-                    android:id="@+id/tv_chapter_name"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="20dp"
-                    android:text="214:血泪挥剑斩情丝"
-                    android:textColor="@color/white"
-                    android:textSize="13sp"
-                    app:layout_constraintLeft_toLeftOf="parent"
-                    app:layout_constraintRight_toRightOf="parent"
-                    app:layout_constraintTop_toTopOf="parent" />
-
-                <TextView
-                    android:id="@+id/tv_chapter_info"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="1章节/831章节"
-                    android:textColor="@color/white"
-                    android:textSize="10sp"
-                    app:layout_constraintEnd_toEndOf="@+id/tv_chapter_name"
-                    app:layout_constraintStart_toStartOf="@+id/tv_chapter_name"
-                    app:layout_constraintTop_toBottomOf="@+id/tv_chapter_name" />
-
-                <ImageView
-                    android:id="@+id/iv_next"
-                    android:layout_width="wrap_content"
-                    android:layout_height="40dp"
-                    android:paddingLeft="30dp"
-                    android:paddingRight="30dp"
-                    android:src="@drawable/ic_arrow_right"
-                    android:tint="@color/white"
-                    app:layout_constraintBottom_toBottomOf="@id/tv_chapter_name"
-                    app:layout_constraintRight_toRightOf="parent"
-                    app:layout_constraintTop_toTopOf="@+id/tv_chapter_name" />
-
-
-            </android.support.constraint.ConstraintLayout>
-
-            <SeekBar
-                android:layout_width="match_parent"
+            <ImageView
+                android:id="@+id/iv_night_mode"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="30dp"
-                android:layout_marginTop="5dp"
+                android:layout_gravity="right"
                 android:layout_marginRight="30dp"
-                android:layout_marginBottom="5dp"
-                android:progress="0"
-                android:progressDrawable="@drawable/shape_seekbar_progress"
-                android:thumb="@drawable/shape_seekbar" />
+                android:layout_marginBottom="30dp"
+                android:src="@drawable/ic_night" />
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_margin="10dp"
-                android:orientation="horizontal">
+                android:background="#000000"
+                android:clickable="true"
+                android:orientation="vertical">
 
-                <TextView
-                    android:id="@+id/tv_catalogue"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:drawableTop="@drawable/ic_catalogue2"
-                    android:drawablePadding="19dp"
-                    android:gravity="center"
-                    android:text="目录"
-                    android:textColor="@color/white" />
 
-                <TextView
-                    android:id="@+id/tv_setting"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:drawableTop="@drawable/ic_setting2"
-                    android:drawablePadding="15dp"
-                    android:gravity="center"
-                    android:text="设置"
-                    android:textColor="@color/white" />
+                <android.support.constraint.ConstraintLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
 
-                <TextView
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:drawableTop="@drawable/ic_review2"
-                    android:drawablePadding="15dp"
-                    android:gravity="center"
-                    android:text="评论"
-                    android:textColor="@color/white" />
+                    <ImageView
+                        android:id="@+id/iv_pre"
+                        android:layout_width="wrap_content"
+                        android:layout_height="40dp"
+                        android:paddingLeft="30dp"
 
-                <TextView
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:drawableTop="@drawable/ic_like_uncheck"
-                    android:drawablePadding="15dp"
-                    android:gravity="center"
-                    android:text="收藏"
-                    android:textColor="@color/white" />
+                        android:paddingRight="30dp"
+                        android:src="@drawable/back"
+                        app:layout_constraintBottom_toBottomOf="@+id/tv_chapter_name"
+                        app:layout_constraintLeft_toLeftOf="parent"
+                        app:layout_constraintTop_toTopOf="@+id/tv_chapter_name" />
 
-                <TextView
-                    android:layout_width="0dp"
+
+                    <TextView
+                        android:id="@+id/tv_chapter_name"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="20dp"
+                        android:text="214:血泪挥剑斩情丝"
+                        android:textColor="@color/white"
+                        android:textSize="13sp"
+                        app:layout_constraintLeft_toLeftOf="parent"
+                        app:layout_constraintRight_toRightOf="parent"
+                        app:layout_constraintTop_toTopOf="parent" />
+
+                    <TextView
+                        android:id="@+id/tv_chapter_info"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="1章节/831章节"
+                        android:textColor="@color/white"
+                        android:textSize="10sp"
+                        app:layout_constraintEnd_toEndOf="@+id/tv_chapter_name"
+                        app:layout_constraintStart_toStartOf="@+id/tv_chapter_name"
+                        app:layout_constraintTop_toBottomOf="@+id/tv_chapter_name" />
+
+                    <ImageView
+                        android:id="@+id/iv_next"
+                        android:layout_width="wrap_content"
+                        android:layout_height="40dp"
+                        android:paddingLeft="30dp"
+                        android:paddingRight="30dp"
+                        android:src="@drawable/ic_arrow_right"
+                        android:tint="@color/white"
+                        app:layout_constraintBottom_toBottomOf="@id/tv_chapter_name"
+                        app:layout_constraintRight_toRightOf="parent"
+                        app:layout_constraintTop_toTopOf="@+id/tv_chapter_name" />
+
+
+                </android.support.constraint.ConstraintLayout>
+
+                <SeekBar
+                    android:id="@+id/seekbar"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:drawableTop="@drawable/ic_share"
-                    android:drawablePadding="15dp"
-                    android:gravity="center"
-                    android:text="分享"
-                    android:textColor="@color/white" />
+                    android:layout_marginLeft="30dp"
+                    android:layout_marginTop="5dp"
+                    android:layout_marginRight="30dp"
+                    android:layout_marginBottom="5dp"
+                    android:progress="0"
+                    android:progressDrawable="@drawable/shape_seekbar_progress"
+                    android:thumb="@drawable/shape_seekbar" />
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="10dp"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        android:id="@+id/tv_catalogue"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:drawableTop="@drawable/ic_catalogue2"
+                        android:drawablePadding="19dp"
+                        android:gravity="center"
+                        android:text="目录"
+                        android:textColor="@color/white" />
+
+                    <TextView
+                        android:id="@+id/tv_setting"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:drawableTop="@drawable/ic_setting2"
+                        android:drawablePadding="15dp"
+                        android:gravity="center"
+                        android:text="设置"
+                        android:textColor="@color/white" />
+
+                    <TextView
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:drawableTop="@drawable/ic_review2"
+                        android:drawablePadding="15dp"
+                        android:gravity="center"
+                        android:text="评论"
+                        android:textColor="@color/white" />
+
+                    <TextView
+                        android:id="@+id/tv_collect"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:drawableTop="@drawable/ic_like_uncheck"
+                        android:drawablePadding="15dp"
+                        android:gravity="center"
+                        android:text="收藏"
+                        android:textColor="@color/white" />
+
+                    <TextView
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:drawableTop="@drawable/ic_share"
+                        android:drawablePadding="15dp"
+                        android:gravity="center"
+                        android:text="分享"
+                        android:textColor="@color/white" />
+
+                </LinearLayout>
+
 
             </LinearLayout>
-
-
         </LinearLayout>
-
 
     </RelativeLayout>
 

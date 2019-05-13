@@ -20,6 +20,10 @@ import io.reactivex.Observable
 class CommentModel
 @Inject
 constructor(repositoryManager: IRepositoryManager) : BaseModel(repositoryManager), CommentContract.Model {
+    override fun agree(commentId: String): Observable<BaseResponse<Any>> {
+        return mRepositoryManager.obtainRetrofitService(BookService::class.java).agree(commentId)
+    }
+
     override fun getCommentList(params: HashMap<String, String>): Observable<BaseResponse<MutableList<Comment>>> {
        return mRepositoryManager.obtainRetrofitService(BookService::class.java).getCommentList(params)
     }

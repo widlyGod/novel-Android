@@ -14,11 +14,13 @@ import com.jess.arms.di.component.AppComponent
 import com.novel.cn.R
 import com.novel.cn.di.component.DaggerBookStoreComponent
 import com.novel.cn.di.module.BookStoreModule
+import com.novel.cn.eventbus.SwitchFragmentEvent
 import com.novel.cn.mvp.contract.BookStoreContract
 import com.novel.cn.mvp.presenter.BookStorePresenter
 import com.novel.cn.mvp.ui.activity.MainActivity
 import com.novel.cn.utils.StatusBarUtils
 import kotlinx.android.synthetic.main.fragment_book_store.*
+import org.greenrobot.eventbus.Subscribe
 import javax.inject.Inject
 import javax.inject.Named
 
@@ -73,6 +75,19 @@ class BookStoreFragment : BaseFragment<BookStorePresenter>(), BookStoreContract.
             }
         })
         switchFragment(0)
+    }
+
+    @Subscribe
+    fun changeTab(event: SwitchFragmentEvent) {
+        var realPosition = 0
+        when (event.position) {
+            0 -> realPosition = 3
+            1 -> realPosition = 0
+            2 -> realPosition = 1
+            3 -> realPosition = 2
+        }
+        tabLayout.currentTab = realPosition
+        switchFragment(realPosition)
     }
 
 

@@ -78,13 +78,13 @@ class ReadSettingDialog(val activity: Activity) : BottomBaseDialog<ReadSettingDi
                 }
                 tv_minus -> {
                     var textSize = ScreenUtils.pxToSp(ReadSettingManager.getInstance().textSize)
-                    if (textSize <= 8) {
+                    if (textSize <= 12) {
                         ArmsUtils.makeText(mContext, "已经是最小字体了")
                         return@click
                     }
                     textSize -= 1
-                    if (textSize < 8) {
-                        textSize = 8
+                    if (textSize < 12) {
+                        textSize = 12
                     }
                     saveTextSize(textSize)
                 }

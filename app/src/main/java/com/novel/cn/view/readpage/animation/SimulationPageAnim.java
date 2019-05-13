@@ -130,7 +130,7 @@ public class SimulationPageAnim extends HorizonPageAnim{
                 dx = (int) - (mScreenWidth + mTouchX);
             }
 
-            if (mCornerY > 0) {
+             if (mCornerY > 0) {
                 dy = (int) (mScreenHeight - mTouchY);
             } else {
                 dy = - (int) mTouchY; // 防止mTouchY最终变为0

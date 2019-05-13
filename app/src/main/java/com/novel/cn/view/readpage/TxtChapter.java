@@ -19,6 +19,16 @@ public class TxtChapter{
     //章节内容在文章中的终止位置(本地)
     long end;
 
+    boolean isFree;
+
+    public boolean isFree() {
+        return isFree;
+    }
+
+    public void setFree(boolean free) {
+        isFree = free;
+    }
+
     public String getBookId() {
         return bookId;
     }

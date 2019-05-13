@@ -15,13 +15,27 @@ import kotlinx.android.synthetic.main.layout_volume_popup.view.*
 
 class VolumePopup(context: Context) : PopupWindow(context) {
 
-    private val mAdapter by lazy { VolumeAdapter() }
+    private val mAdapter by lazy {
+        VolumeAdapter().apply {
+            setOnItemClickListener { adapter, view, position ->
+                setCurrentPosition(position)
+                listener?.invoke(adapter.getItem(position) as Volume)
+            }
+        }
+    }
 
     private var mData = ArrayList<Volume>()
 
     fun setData(data: MutableList<Volume>?) {
         mAdapter.setNewData(data)
         mAdapter.notifyDataSetChanged()
+    }
+
+    private var listener: ((item: Volume) -> Unit)? = null
+
+
+    fun setListener(listener: ((item: Volume) -> Unit)?) {
+        this.listener = listener
     }
 
     init {

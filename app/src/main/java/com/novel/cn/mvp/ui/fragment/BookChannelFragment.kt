@@ -13,6 +13,7 @@ import com.novel.cn.mvp.contract.BookChannelContract
 import com.novel.cn.mvp.presenter.BookChannelPresenter
 import com.novel.cn.mvp.ui.adapter.BookChannelAdapter
 import kotlinx.android.synthetic.main.fragment_book_channel.*
+import org.greenrobot.eventbus.Subscribe
 import javax.inject.Inject
 
 
@@ -48,6 +49,8 @@ class BookChannelFragment : BaseFragment<BookChannelPresenter>(), BookChannelCon
                 .inject(this)
     }
 
+
+
     override fun initView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
         return inflater.inflate(R.layout.fragment_book_channel, container, false);
     }
@@ -56,6 +59,9 @@ class BookChannelFragment : BaseFragment<BookChannelPresenter>(), BookChannelCon
         val type = arguments?.get("TYPE") as Int
         recyclerView.adapter = mAdapter
         mPresenter?.getChannel(type)
+    }
+    override fun changeState(state: Int) {
+        multiStateView.viewState = state
     }
 
 }

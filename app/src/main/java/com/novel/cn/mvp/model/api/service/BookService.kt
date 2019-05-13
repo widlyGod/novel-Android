@@ -82,6 +82,12 @@ interface BookService {
     fun addConllcetion(@Body params: HashMap<String, Any>): Observable<BaseResponse<Any>>
 
     /**
+     * 加入书架
+     */
+    @POST("novelOAService/novelCollection/cancelCollection")
+    fun cancelCollection(@Body params: HashMap<String, Any>): Observable<BaseResponse<Any>>
+
+    /**
      * 获取小说卷
      */
     @GET("novelOAService/mobile/getVolumes")
@@ -95,4 +101,7 @@ interface BookService {
 
     @POST("novelOAService/novel/readNovel")
     fun readNovel(@Body params: HashMap<String, Any?>): Observable<BaseResponse<ChapterInfoBean>>
+
+    @GET("novelOAService/comment/giveThumbUp")
+    fun agree(@Query("commentId")commentId: String): Observable<BaseResponse<Any>>
 }

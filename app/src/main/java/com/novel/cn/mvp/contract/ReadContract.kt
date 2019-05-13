@@ -3,6 +3,7 @@ package com.novel.cn.mvp.contract
 import com.jess.arms.mvp.IView
 import com.jess.arms.mvp.IModel
 import com.novel.cn.mvp.model.entity.*
+import com.novel.cn.view.readpage.TxtChapter
 import io.reactivex.Observable
 
 
@@ -24,6 +25,9 @@ interface ReadContract {
         fun showVolume(data: MutableList<Volume>?)
         fun showChapterList(volume: String?, data: ChapterBean)
         fun loadChapterSuccess(chapterInfo: ChapterInfo2)
+        fun collectionSuccess()
+        fun cancelCollection()
+        fun showChapter(data: ChapterInfoBean, txtChapter: TxtChapter?, mCurChapterPos: Int)
     }
 
     //Model层定义接口,外部只需关心Model返回的数据,无需关心内部细节,即是否使用缓存
@@ -31,6 +35,8 @@ interface ReadContract {
         fun getVolumeList(bookId: String?):Observable<BaseResponse<MutableList<Volume>?>>
         fun getChapterList(params: HashMap<String, Any?>):Observable<BaseResponse<ChapterBean>>
         fun readNovel(params: HashMap<String, Any?>):Observable<BaseResponse<ChapterInfoBean>>
+        fun addConllection(params: HashMap<String, Any>):Observable<BaseResponse<Any>>
+        fun cancelCollection(params: HashMap<String, Any>):Observable<BaseResponse<Any>>
     }
 
 }

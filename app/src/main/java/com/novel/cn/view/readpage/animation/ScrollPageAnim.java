@@ -7,6 +7,8 @@ import android.view.MotionEvent;
 import android.view.VelocityTracker;
 import android.view.View;
 
+import com.jess.arms.utils.LogUtils;
+
 import java.util.ArrayDeque;
 import java.util.ArrayList;
 import java.util.Iterator;
@@ -73,17 +75,18 @@ public class ScrollPageAnim extends PageAnimation {
             fillDown(0, 0);
             mDirection = Direction.NONE;
         } else {
-            int offset = (int) (mTouchY - mLastY);
+            float offset = mTouchY - mLastY;
             // 判断是下滑还是上拉 (下滑)
             if (offset > 0) {
                 int topEdge = mActiveViews.get(0).top;
-                fillUp(topEdge, offset);
+                fillUp(topEdge, (int) offset);
             }
             // 上拉
             else {
+                LogUtils.warnInfo("====>>layout");
                 // 底部的距离 = 当前底部的距离 + 滑动的距离 (因为上滑，得到的值肯定是负的)
                 int bottomEdge = mActiveViews.get(mActiveViews.size() - 1).bottom;
-                fillDown(bottomEdge, offset);
+                fillDown(bottomEdge, (int) offset);
             }
         }
     }
@@ -140,10 +143,12 @@ public class ScrollPageAnim extends PageAnimation {
             mNextBitmap = view.bitmap;
 
             if (!isRefresh) {
-                boolean hasNext = mListener.hasNext(); //如果不成功则无法滑动
 
+                boolean hasNext = mListener.hasNext(); //如果不成功则无法滑动
+                LogUtils.warnInfo("===>>hasNext" + hasNext);
                 // 如果不存在next,则进行还原
                 if (!hasNext) {
+                    abortAnim();
                     mNextBitmap = cancelBitmap;
                     for (BitmapView activeView : mActiveViews) {
                         activeView.top = 0;
@@ -152,7 +157,7 @@ public class ScrollPageAnim extends PageAnimation {
                         activeView.destRect.top = activeView.top;
                         activeView.destRect.bottom = activeView.bottom;
                     }
-                    abortAnim();
+
                     return;
                 }
             }
@@ -171,6 +176,9 @@ public class ScrollPageAnim extends PageAnimation {
             view.destRect.bottom = view.bottom;
 
             realEdge += view.bitmap.getHeight();
+
+
+//            LogUtils.warnInfo("===>>top" + view.top, "====>>bottom" + view.bottom);
         }
     }
 
@@ -226,6 +234,7 @@ public class ScrollPageAnim extends PageAnimation {
                 boolean hasPrev = mListener.hasPrev(); // 如果不成功则无法滑动
                 // 如果不存在next,则进行还原
                 if (!hasPrev) {
+                    abortAnim();
                     mNextBitmap = cancelBitmap;
                     for (BitmapView activeView : mActiveViews) {
                         activeView.top = 0;
@@ -234,7 +243,7 @@ public class ScrollPageAnim extends PageAnimation {
                         activeView.destRect.top = activeView.top;
                         activeView.destRect.bottom = activeView.bottom;
                     }
-                    abortAnim();
+
                     return;
                 }
             }
@@ -283,6 +292,7 @@ public class ScrollPageAnim extends PageAnimation {
         // 重新进行布局
         onLayout();
         isRefresh = false;
+
     }
 
     @Override
@@ -337,11 +347,14 @@ public class ScrollPageAnim extends PageAnimation {
 
     BitmapView tmpView;
 
+    public void reset() {
+        mLastY = mTouchY;
+    }
+
     @Override
     public void draw(Canvas canvas) {
         //进行布局
         onLayout();
-
         //绘制背景
         canvas.drawBitmap(mBgBitmap, 0, 0, null);
         //绘制内容
@@ -361,10 +374,11 @@ public class ScrollPageAnim extends PageAnimation {
     }
 
     @Override
-    public synchronized void startAnim(boolean isMove) {
+    public void startAnim(boolean isMove) {
         isRunning = true;
-        mScroller.fling(0, (int) mTouchY, 0, (int) (mVelocity.getYVelocity() * 0.3)
+        mScroller.fling(0, (int) mTouchY, 0, (int) (mVelocity.getYVelocity()*0.6)
                 , 0, 0, Integer.MAX_VALUE * -1, Integer.MAX_VALUE);
+
     }
 
     @Override

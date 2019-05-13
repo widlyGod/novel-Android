@@ -13,6 +13,7 @@ import com.novel.cn.di.component.DaggerBookDetailComponent
 import com.novel.cn.di.module.BookDetailModule
 import com.novel.cn.eventbus.BookshelfEvent
 import com.novel.cn.mvp.contract.BookDetailContract
+import com.novel.cn.mvp.model.entity.Comment
 import com.novel.cn.mvp.model.entity.NovelInfoBean
 import com.novel.cn.mvp.presenter.BookDetailPresenter
 import com.novel.cn.mvp.ui.adapter.BookCommentAdapter
@@ -52,8 +53,19 @@ class BookDetailActivity : BaseActivity<BookDetailPresenter>(), BookDetailContra
         StatusBarUtils.setPaddingSmart(this, toolbar)
         recyclerView.adapter = mAdapter
 
-        mAdapter.setOnItemClickListener { adapter, view, position ->
-            JumpManager.toCommentList(this, bookId)
+
+        mAdapter.apply {
+            setOnItemClickListener { adapter, view, position ->
+                JumpManager.toCommentList(this@BookDetailActivity, bookId)
+            }
+            //回复按钮点击
+            setOnReplyClickListener { position ->
+                JumpManager.toCommentDetail(this@BookDetailActivity, this.getItem(position))
+            }
+            setOnLikeClickListener {
+                val item = mAdapter.getItem(it) as Comment
+                mPresenter?.agree(it)
+            }
         }
         val decoration = LinearItemDecoration()
         //分割线与左右两边的间距
@@ -77,9 +89,10 @@ class BookDetailActivity : BaseActivity<BookDetailPresenter>(), BookDetailContra
 
         mAdapter.setNewData(data.comment.comments)
 
-        click(tv_read, tv_add_bookself) {
+        click(tv_read, tv_add_bookself, ll_comment, tv_comment, fl_contents) {
             when (it) {
-                tv_read -> JumpManager.jumpRead(this, bookId)
+                ll_comment, tv_comment -> JumpManager.toCommentList(this, data.novelInfo.novelId)
+                tv_read -> JumpManager.jumpRead(this, data)
                 tv_add_bookself -> {
                     if (data.novelInfo.isCollection) {
                         toast("该本小说已被主人收藏啦~")
@@ -87,6 +100,7 @@ class BookDetailActivity : BaseActivity<BookDetailPresenter>(), BookDetailContra
                         mPresenter?.addCollection(data.novelInfo.novelId)
                     }
                 }
+                fl_contents -> JumpManager.jumpContents(this, data)
             }
         }
     }

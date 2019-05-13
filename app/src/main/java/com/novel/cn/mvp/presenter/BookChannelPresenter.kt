@@ -18,6 +18,7 @@ import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.schedulers.Schedulers
 import me.jessyan.rxerrorhandler.handler.ErrorHandleSubscriber
 import com.google.gson.reflect.TypeToken
+import com.novel.cn.view.MultiStateView
 
 
 @FragmentScope
@@ -41,6 +42,7 @@ constructor(model: BookChannelContract.Model, rootView: BookChannelContract.View
                 .compose(RxLifecycleUtils.bindToLifecycle(mRootView))
                 .subscribe(object : ErrorHandleSubscriber<BaseResponse<Map<String, Any>>>(mErrorHandler) {
                     override fun onNext(t: BaseResponse<Map<String, Any>>) {
+                        mRootView.changeState(MultiStateView.VIEW_STATE_CONTENT)
                         val data = t.data
                         val list = ArrayList<MultiItemEntity>()
 
@@ -95,6 +97,11 @@ constructor(model: BookChannelContract.Model, rootView: BookChannelContract.View
 
                         list.add(MultiItemEntity { 7 })
                         mAdapter.setNewData(list)
+                    }
+
+                    override fun onError(t: Throwable) {
+                        super.onError(t)
+                        mRootView.changeState(MultiStateView.VIEW_STATE_ERROR)
                     }
                 })
     }

@@ -21,6 +21,8 @@ class ChapterAdapter : BaseQuickAdapter<ChapterInfo, BaseViewHolder>(R.layout.it
             val isCurrentChapter = currentPosition == helper.layoutPosition - headerLayoutCount
             iv_location.visible(isCurrentChapter)
             tv_chapter.setTextColor(ContextCompat.getColor(mContext, if (isCurrentChapter) R.color.color_5e8fca else R.color.color_999999))
+
+            iv_free.visible(!isCurrentChapter && !item.isFree && !item.isReading)
         }
     }
 

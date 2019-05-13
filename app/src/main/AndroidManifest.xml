@@ -21,6 +21,7 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         tools:replace="android:name,android:theme">
+
         <activity
             android:name=".mvp.ui.activity.MainActivity"
             android:screenOrientation="portrait">
@@ -88,6 +89,9 @@
         <activity
             android:name=".mvp.ui.activity.UserInfoActivity"
             android:label="用户信息" />
+
+        <activity android:name=".mvp.ui.activity.ContentsActivity"
+            android:label="目录"/>
     </application>
 
 </manifest>

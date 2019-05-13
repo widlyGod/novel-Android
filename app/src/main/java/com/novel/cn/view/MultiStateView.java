@@ -212,12 +212,7 @@ public class MultiStateView extends FrameLayout {
         super.onRestoreInstanceState(savedState.getSuperState());
     }
 
-    /**
-     * Returns the {@link View} associated with the {@link com.kennyc.view.MultiStateView.ViewState}
-     *
-     * @param state The {@link com.kennyc.view.MultiStateView.ViewState} with to return the view for
-     * @return The {@link View} associated with the {@link com.kennyc.view.MultiStateView.ViewState}, null if no view is present
-     */
+
     @Nullable
     public View getView(@ViewState int state) {
         switch (state) {
@@ -238,21 +233,13 @@ public class MultiStateView extends FrameLayout {
         }
     }
 
-    /**
-     * Returns the current {@link com.kennyc.view.MultiStateView.ViewState}
-     *
-     * @return
-     */
+
     @ViewState
     public int getViewState() {
         return mViewState;
     }
 
-    /**
-     * Sets the current {@link com.kennyc.view.MultiStateView.ViewState}
-     *
-     * @param state The {@link com.kennyc.view.MultiStateView.ViewState} to set {@link MultiStateView} to
-     */
+
     public void setViewState(@ViewState int state) {
         if (state != mViewState) {
             int previous = mViewState;
@@ -262,9 +249,6 @@ public class MultiStateView extends FrameLayout {
         }
     }
 
-    /**
-     * Shows the {@link View} based on the {@link com.kennyc.view.MultiStateView.ViewState}
-     */
     private void setView(@ViewState int previousState) {
         switch (mViewState) {
             case VIEW_STATE_LOADING:
@@ -352,13 +336,7 @@ public class MultiStateView extends FrameLayout {
         return view != mLoadingView && view != mErrorView && view != mEmptyView;
     }
 
-    /**
-     * Sets the view for the given view state
-     *
-     * @param view          The {@link View} to use
-     * @param state         The {@link com.kennyc.view.MultiStateView.ViewState}to set
-     * @param switchToState If the {@link com.kennyc.view.MultiStateView.ViewState} should be switched to
-     */
+
     public void setViewForState(View view, @ViewState int state, boolean switchToState) {
         switch (state) {
             case VIEW_STATE_LOADING:
@@ -390,35 +368,18 @@ public class MultiStateView extends FrameLayout {
         if (switchToState) setViewState(state);
     }
 
-    /**
-     * Sets the {@link View} for the given {@link com.kennyc.view.MultiStateView.ViewState}
-     *
-     * @param view  The {@link View} to use
-     * @param state The {@link com.kennyc.view.MultiStateView.ViewState} to set
-     */
     public void setViewForState(View view, @ViewState int state) {
         setViewForState(view, state, false);
     }
 
-    /**
-     * Sets the {@link View} for the given {@link com.kennyc.view.MultiStateView.ViewState}
-     *
-     * @param layoutRes     Layout resource id
-     * @param state         The {@link com.kennyc.view.MultiStateView.ViewState} to set
-     * @param switchToState If the {@link com.kennyc.view.MultiStateView.ViewState} should be switched to
-     */
+
     public void setViewForState(@LayoutRes int layoutRes, @ViewState int state, boolean switchToState) {
         if (mInflater == null) mInflater = LayoutInflater.from(getContext());
         View view = mInflater.inflate(layoutRes, this, false);
         setViewForState(view, state, switchToState);
     }
 
-    /**
-     * Sets the {@link View} for the given {@link com.kennyc.view.MultiStateView.ViewState}
-     *
-     * @param layoutRes Layout resource id
-     * @param state     The {@link View} state to set
-     */
+
     public void setViewForState(@LayoutRes int layoutRes, @ViewState int state) {
         setViewForState(layoutRes, state, false);
     }
@@ -453,16 +414,27 @@ public class MultiStateView extends FrameLayout {
         }
 
         previousView.setVisibility(View.VISIBLE);
-        ObjectAnimator anim = ObjectAnimator.ofFloat(previousView, "alpha", 1.0f, 0.0f).setDuration(250L);
+        ObjectAnimator anim = ObjectAnimator.ofFloat(previousView, "alpha", 1.0f, 0.0f).setDuration(200L);
         anim.addListener(new AnimatorListenerAdapter() {
             @Override
             public void onAnimationEnd(Animator animation) {
                 previousView.setVisibility(View.GONE);
                 getView(mViewState).setVisibility(View.VISIBLE);
-                ObjectAnimator.ofFloat(getView(mViewState), "alpha", 0.0f, 1.0f).setDuration(250L).start();
+                ObjectAnimator.ofFloat(getView(mViewState), "alpha", 0.0f, 1.0f).setDuration(200L).start();
             }
         });
         anim.start();
+
+       /* if (previousView == null) {
+            getView(mViewState).setVisibility(View.VISIBLE);
+            return;
+        }
+
+        previousView.setVisibility(View.GONE);
+        getView(mViewState).setVisibility(View.VISIBLE);
+        ObjectAnimator anim = ObjectAnimator.ofFloat(getView(mViewState), "alpha", 0.0f, 1.0f).setDuration(200L);
+        anim.start();*/
+
     }
 
     public interface StateListener {

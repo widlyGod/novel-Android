@@ -21,6 +21,7 @@
             android:layout_height="wrap_content"
             android:duplicateParentState="true"
             android:text="29.9"
+
             android:textColor="@color/selector_black_white"
             android:textSize="22sp"
             app:layout_constraintLeft_toLeftOf="parent"

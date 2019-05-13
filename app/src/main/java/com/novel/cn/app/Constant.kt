@@ -17,7 +17,6 @@ object Constant {
 
 
     init {
-        LogUtils.warnInfo("====================>>>init")
         DEVICE_TYPE[""] = "来自PC端"
         DEVICE_TYPE["normal"] = "来自PC端"
         DEVICE_TYPE["mobile"] = "来自手机端"
