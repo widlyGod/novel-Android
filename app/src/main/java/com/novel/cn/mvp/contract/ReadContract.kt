@@ -27,16 +27,23 @@ interface ReadContract {
         fun loadChapterSuccess(chapterInfo: ChapterInfo2)
         fun collectionSuccess()
         fun cancelCollection()
-        fun showChapter(data: ChapterInfoBean, txtChapter: TxtChapter?, mCurChapterPos: Int)
+        fun showChapter(data: ChapterInfoBean, txtChapter: TxtChapter?, mCurChapterPos: Int, charge: ChargeChapter)
+        fun isChargeChapter(data: ChargeChapter)
+        fun openBook(mCurChapterPos: Int, txtChapter: TxtChapter?)
+        fun subscribeError()
+//        fun subscribeSuccess()
     }
 
     //Model层定义接口,外部只需关心Model返回的数据,无需关心内部细节,即是否使用缓存
     interface Model : IModel {
-        fun getVolumeList(bookId: String?):Observable<BaseResponse<MutableList<Volume>?>>
-        fun getChapterList(params: HashMap<String, Any?>):Observable<BaseResponse<ChapterBean>>
-        fun readNovel(params: HashMap<String, Any?>):Observable<BaseResponse<ChapterInfoBean>>
-        fun addConllection(params: HashMap<String, Any>):Observable<BaseResponse<Any>>
-        fun cancelCollection(params: HashMap<String, Any>):Observable<BaseResponse<Any>>
+        fun getVolumeList(bookId: String?): Observable<BaseResponse<MutableList<Volume>?>>
+        fun getChapterList(params: HashMap<String, Any?>): Observable<BaseResponse<ChapterBean>>
+        fun readNovel(params: HashMap<String, Any?>): Observable<BaseResponse<ChapterInfoBean>>
+        fun addConllection(params: HashMap<String, Any>): Observable<BaseResponse<Any>>
+        fun cancelCollection(params: HashMap<String, Any>): Observable<BaseResponse<Any>>
+        fun subscribeBook(params: HashMap<String, Any?>): Observable<BaseResponse<Any>>
+        fun isChargeChapter(param: HashMap<String, Any?>): Observable<BaseResponse<ChargeChapter>>
+        fun getChapterInfo(link: String?):  Observable<BaseResponse<ChapterInfoBean>>
     }
 
 }

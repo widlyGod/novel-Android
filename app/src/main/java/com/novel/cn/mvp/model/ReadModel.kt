@@ -10,29 +10,27 @@ import javax.inject.Inject
 
 import com.novel.cn.mvp.contract.ReadContract
 import com.novel.cn.mvp.model.api.service.BookService
-import com.novel.cn.mvp.model.entity.BaseResponse
-import com.novel.cn.mvp.model.entity.ChapterBean
-import com.novel.cn.mvp.model.entity.ChapterInfoBean
-import com.novel.cn.mvp.model.entity.Volume
+import com.novel.cn.mvp.model.entity.*
 import io.reactivex.Observable
 
 
-/**
- * ================================================
- * Description:
- * <p>
- * Created by MVPArmsTemplate on 04/03/2019 15:39
- * <a href="mailto:jess.yan.effort@gmail.com">Contact me</a>
- * <a href="https://github.com/JessYanCoding">Follow me</a>
- * <a href="https://github.com/JessYanCoding/MVPArms">Star me</a>
- * <a href="https://github.com/JessYanCoding/MVPArms/wiki">See me</a>
- * <a href="https://github.com/JessYanCoding/MVPArmsTemplate">模版请保持更新</a>
- * ================================================
- */
+
 @ActivityScope
 class ReadModel
 @Inject
 constructor(repositoryManager: IRepositoryManager) : BaseModel(repositoryManager), ReadContract.Model {
+    override fun getChapterInfo(link: String?): Observable<BaseResponse<ChapterInfoBean>> {
+         return mRepositoryManager.obtainRetrofitService(BookService::class.java).getChapterInfo(link)
+    }
+
+    override fun isChargeChapter(param: HashMap<String, Any?>): Observable<BaseResponse<ChargeChapter>> {
+        return mRepositoryManager.obtainRetrofitService(BookService::class.java).isChargeChapter(param)
+    }
+
+    override fun subscribeBook(params: HashMap<String, Any?>): Observable<BaseResponse<Any>> {
+        return mRepositoryManager.obtainRetrofitService(BookService::class.java).subcribeBook(params)
+    }
+
     override fun cancelCollection(params: HashMap<String, Any>): Observable<BaseResponse<Any>> {
         return mRepositoryManager.obtainRetrofitService(BookService::class.java).cancelCollection(params)
     }

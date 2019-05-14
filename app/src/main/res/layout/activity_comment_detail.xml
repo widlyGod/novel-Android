@@ -37,12 +37,22 @@
 
     <include layout="@layout/item_reply" />
 
-    <View
-        android:layout_width="match_parent"
-        android:layout_height="1px"
-        android:layout_marginLeft="18dp"
-        android:layout_marginRight="18dp"
-        android:background="#ebebeb" />
+    <com.dd.ShadowLayout
+        android:layout_marginLeft="15dp"
+        android:layout_marginRight="15dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:sl_dy="1dp"
+        app:shadowDy="1dp"
+        app:sl_shadowColor="#999999">
+
+        <View
+            android:background="@color/line"
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+         />
+    </com.dd.ShadowLayout>
+
 
     <com.novel.cn.view.MultiStateView
         android:id="@+id/multiStateView"

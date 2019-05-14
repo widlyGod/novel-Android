@@ -52,9 +52,7 @@ constructor(model: MessageContract.Model, rootView: MessageContract.View) :
                     override fun onNext(t: BaseResponse<MessageBean>) {
                         //判断是否还有下一页
                         val noMore = mPageIndex * Constant.PAGE_SIZE >= t.data.total
-
                         mRootView.showStateView(if (t.data.total > 0) MultiStateView.VIEW_STATE_CONTENT else MultiStateView.VIEW_STATE_EMPTY)
-
                         if (pullToRefresh) {
                             mAdapter.replaceData(t.data.list)
                             mRootView.refreshComplete()
@@ -65,7 +63,6 @@ constructor(model: MessageContract.Model, rootView: MessageContract.View) :
                         }
                         if (noMore)
                             mAdapter.loadMoreEnd()
-
                         //请求成功后，当前页改变
                         mPageIndex++
                     }

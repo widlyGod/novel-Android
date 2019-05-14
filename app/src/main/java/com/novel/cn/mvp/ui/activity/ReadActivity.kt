@@ -1,8 +1,8 @@
 package com.novel.cn.mvp.ui.activity
 
 import android.os.Bundle
-import android.support.v4.content.ContextCompat
 import android.support.v4.widget.DrawerLayout
+import android.text.Html
 import android.view.Gravity
 import android.view.LayoutInflater
 import android.view.WindowManager
@@ -10,12 +10,14 @@ import android.widget.SeekBar
 import com.jess.arms.base.BaseActivity
 import com.jess.arms.di.component.AppComponent
 import com.novel.cn.R
+import com.novel.cn.app.JumpManager
 import com.novel.cn.app.click
 import com.novel.cn.app.isVisible
 import com.novel.cn.app.visible
 import com.novel.cn.di.component.DaggerReadComponent
 import com.novel.cn.di.module.ReadModule
 import com.novel.cn.ext.dp2px
+import com.novel.cn.ext.toast
 import com.novel.cn.mvp.contract.ReadContract
 import com.novel.cn.mvp.model.entity.*
 import com.novel.cn.mvp.presenter.ReadPresenter
@@ -46,7 +48,7 @@ class ReadActivity : BaseActivity<ReadPresenter>(), ReadContract.View {
             setOnSettingChanageListener(object : ReadSettingDialog.OnSettingChangeListener {
                 override fun onPageStyle(style: PageStyle) {
                     mPageLoader.setPageStyle(style)
-                    ll_info.setBackgroundColor(ContextCompat.getColor(this@ReadActivity, style.bgColor))
+//                    ll_info.setBackgroundColor(ContextCompat.getColor(this@ReadActivity, style.bgColor))
                 }
 
                 override fun onPageMode(mode: PageMode) {
@@ -136,15 +138,11 @@ class ReadActivity : BaseActivity<ReadPresenter>(), ReadContract.View {
             }
 
             override fun prePage(prev: Boolean) {
-                if (!prev) {
-//                    toast("没有上一页了")
-                }
+
             }
 
             override fun nextPage(next: Boolean) {
-                if (!next) {
-//                    toast("没有下一页了")
-                }
+
             }
 
             override fun cancel() {
@@ -154,14 +152,15 @@ class ReadActivity : BaseActivity<ReadPresenter>(), ReadContract.View {
 
         mPageLoader.setOnPageChangeListener(object : PageLoader.OnPageChangeListener {
             override fun parseSuccess() {
-                 ll_info.visible(false)
+                ll_info.visible(false)
+
             }
 
             override fun noFree(txtChapter: TxtChapter, mCurChapterPos: Int) {
                 if (!tipDialog.isShowing) {
                     tipDialog.show()
                 }
-                mPresenter?.readNovel(txtChapter, mBook.novelInfo.novelId, mCurChapterPos)
+                mPresenter?.isChargeChapter(mBook.novelInfo.novelId, mVolume?.volume, txtChapter, mCurChapterPos)
             }
 
             override fun onChapterChange(pos: Int) {
@@ -204,20 +203,21 @@ class ReadActivity : BaseActivity<ReadPresenter>(), ReadContract.View {
 
         })
 
-        click(tv_content, tv_setting, tv_catalogue, iv_pre, iv_next, iv_night_mode, tv_zhifu, tv_prev, tv_contents, tv_next, ll_info) {
+        click(tv_setting, tv_catalogue, iv_pre, iv_next, iv_night_mode,
+                tv_zhifu, tv_prev, tv_contents, tv_next, ll_info, tv_chapter_comment) {
             when (it) {
                 ll_info -> toggleMenu()
                 tv_prev -> {
                     mPageLoader.skipPreChapter()
                 }
-                tv_next ->{
+                tv_next -> {
                     mPageLoader.skipNextChapter()
                 }
                 tv_catalogue, tv_contents -> {
                     toggleMenu()
                     drawerLayout.openDrawer(Gravity.LEFT)
                 }
-                tv_content -> toggleMenu()
+//                tv_content -> toggleMenu()
                 tv_setting -> {
                     ll_bottom_menu.visible(false)
                     mSettingDialog.show()
@@ -228,22 +228,71 @@ class ReadActivity : BaseActivity<ReadPresenter>(), ReadContract.View {
                     ReadSettingManager.getInstance().isNightMode = !ReadSettingManager.getInstance().isNightMode
                     refreshNightMode()
                 }
+                tv_chapter_comment -> {
+                    val chapter = mAdapter.getCurrentChapter()
+                    chapter?.let {
+                        hideSystemBar()
+                        JumpManager.jumpChapterComment(this, mBook.novelInfo.novelId, it.id, mVolume?.volume)
+                    }
+                }
             }
         }
     }
 
-    override fun showChapter(data: ChapterInfoBean, txtChapter: TxtChapter?, mCurChapterPos: Int) {
+    override fun isChargeChapter(data: ChargeChapter) {
+        if (!data.isSubscibe) {
+
+        } else {
+
+        }
+    }
+
+    override fun subscribeError() {
         tipDialog.dismiss()
+    }
+
+    override fun openBook(mCurChapterPos: Int, txtChapter: TxtChapter?) {
+        ll_info.visible(false)
+        txtChapter?.isFree = true
+        mPageLoader.skipToChapter(mCurChapterPos)
+        tipDialog.dismiss()
+    }
+
+    override fun onPause() {
+        super.onPause()
+        mPageLoader?.saveRecord()
+    }
+
+    override fun showChapter(data: ChapterInfoBean, txtChapter: TxtChapter?, mCurChapterPos: Int, charge: ChargeChapter) {
+        tipDialog.dismiss()
+
         tv_book_name.text = "《${mBook.novelInfo.novelTitle}》"
         tv_chaptername.text = "第 ${data.chapterInfo.chapter} 章 ${data.chapterInfo.title}"
         tv_author.text = data.novelInfo.authorInfo.penName
         tv_update_time.text = data.chapterInfo.updateTime
+        tv_words.text = data.chapterInfo.words
         ll_info.visible(true)
-        tv_zhifu.setOnClickListener {
-            txtChapter?.isFree = true
-            mPageLoader.skipToChapter(mCurChapterPos)
-            ll_info.visible(false)
+
+        tv_price.text = Html.fromHtml("价格：<color='#5e8fca'>${charge.goldNumber}</color>阅读币")
+        tv_blance.text = "余额：${charge.goldNumber}阅读币 | 0钻石"
+
+        if (charge.goldNumber < data.chapterInfo.money) {
+            tv_zhifu.text = "余额不足，请立即充值"
+            tv_zhifu.setOnClickListener {
+                toast("支付")
+            }
+        } else {
+            tv_zhifu.text = "订阅"
+            tv_zhifu.setOnClickListener {
+                if (!tipDialog.isShowing) {
+                    tipDialog.show()
+                }
+                mPresenter?.subscribeBook(data.chapterInfo.id, data.chapterInfo.title,
+                        data.chapterInfo.money.toString(), data.chapterInfo.chapter,
+                        mBook.novelInfo.novelId, data.chapterInfo.volumeId, txtChapter, mCurChapterPos)
+            }
         }
+
     }
 
 
@@ -279,7 +328,6 @@ class ReadActivity : BaseActivity<ReadPresenter>(), ReadContract.View {
 
     override fun loadChapterSuccess(chapterInfo: ChapterInfo2) {
         if (mPageLoader.pageStatus == PageLoader.STATUS_LOADING) {
-//            tipDialog.dismiss()
             mPageLoader.openChapter()
         }
     }
@@ -301,6 +349,7 @@ class ReadActivity : BaseActivity<ReadPresenter>(), ReadContract.View {
         val list = ArrayList<TxtChapter>(data.list.size)
         data.list.forEach {
             val txt = TxtChapter()
+
             txt.bookId = mBook.novelInfo.novelId
             txt.link = it.id
             txt.title = it.title

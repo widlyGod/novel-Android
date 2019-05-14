@@ -126,6 +126,7 @@ class LoginActivity : BaseActivity<LoginPresenter>(), LoginContract.View {
         //保存数据
         Preference.put(Constant.LOGIN_INFO, data)
         Preference.put(Constant.SESSION_ID, data.sessionId)
+        startActivity<MainActivity>()
         finish()
     }
 

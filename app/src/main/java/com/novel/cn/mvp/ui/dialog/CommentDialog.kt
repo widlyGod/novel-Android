@@ -42,8 +42,13 @@ class CommentDialog(context: Context) : BottomBaseDialog<CommentDialog>(context)
         super.showWithAnim()
     }
 
-    override fun setUiBeforShow() {
+    override fun dismissWithAnim() {
+        mInnerDismissAnim = null
+        super.dismissWithAnim()
+    }
 
+    override fun setUiBeforShow() {
+        et_content.text = null
     }
 
 

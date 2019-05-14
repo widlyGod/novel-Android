@@ -20,10 +20,13 @@ import com.novel.cn.mvp.presenter.CommentDetailPresenter
 
 import com.novel.cn.R
 import com.novel.cn.app.Constant
+import com.novel.cn.app.Preference
 import com.novel.cn.app.loadImage
 import com.novel.cn.app.visible
+import com.novel.cn.ext.toast
 import com.novel.cn.mvp.model.entity.Comment
 import com.novel.cn.mvp.model.entity.CommentInfo
+import com.novel.cn.mvp.model.entity.LoginInfo
 import com.novel.cn.mvp.model.entity.Test
 import com.novel.cn.mvp.ui.adapter.BookReplyAdapter
 import com.novel.cn.mvp.ui.dialog.CommentDialog
@@ -50,7 +53,13 @@ class CommentDetailActivity : BaseActivity<CommentDetailPresenter>(), CommentDet
     private val mDialog by lazy {
         val dialog = CommentDialog(this)
         dialog.setOnReleaseClickListener {
-
+            val user = Preference.getDeviceData<LoginInfo?>(Constant.LOGIN_INFO)
+            if (!user?.userId.isNullOrEmpty()) {
+                val isAuthor = if (user?.userId == mComment?.commentUser?.userId && mComment.isAuthor) "1" else "0"
+                mPresenter?.reply(mComment.commentId, it, mComment.commentUser.userId, 0, isAuthor)
+            } else {
+                toast("请先登录")
+            }
         }
         dialog
     }
@@ -103,6 +112,12 @@ class CommentDetailActivity : BaseActivity<CommentDetailPresenter>(), CommentDet
             tv_comment.setOnClickListener { mDialog.show() }
             mPresenter?.getReplyList(it.commentId, true)
         }
+    }
+
+    override fun replySuccess(message: String) {
+        toast(message)
+        mDialog.dismiss()
+        mPresenter?.getReplyList(mComment.commentId, true)
     }
 
     override fun showState(state: Int) {

@@ -45,28 +45,36 @@ object JumpManager {
         context?.startActivity<CommentActivity>("bookId" to bookId)
     }
 
+    fun toCommentList(context: Context?, book: NovelInfoBean?) {
+        context?.startActivity<CommentActivity>("book" to book)
+    }
+
     /**
      * 跳转到评论详情
      */
-    fun toCommentDetail(context: Context?,comment: Comment?){
+    fun toCommentDetail(context: Context?, comment: Comment?) {
         context?.startActivity<CommentDetailActivity>("comment" to comment)
     }
 
     /**
      * 跳转到用户信息
      */
-    fun jumpUserInfo(context: Context?,user: User){
+    fun jumpUserInfo(context: Context?, user: User) {
         context?.startActivity<UserInfoActivity>("user" to user)
     }
 
     /**
      * 跳转到充值页面
      */
-    fun jumpRecharge(context: Context?,user: User){
+    fun jumpRecharge(context: Context?, user: User) {
         context?.startActivity<RechargeActivity>("user" to user)
     }
 
-    fun jumpContents(context: Context?,book: NovelInfoBean) {
+    fun jumpContents(context: Context?, book: NovelInfoBean) {
         context?.startActivity<ContentsActivity>("book" to book)
+    }
+
+    fun jumpChapterComment(context: Context?, bookId: String?, chapterId: String?,volumeId:String?) {
+        context?.startActivity<ChapterCommentActivity>("bookId" to bookId, "chapterId" to chapterId,"volumeId" to volumeId)
     }
 }

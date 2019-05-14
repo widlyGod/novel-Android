@@ -31,4 +31,12 @@ class ChapterAdapter : BaseQuickAdapter<ChapterInfo, BaseViewHolder>(R.layout.it
         notifyDataSetChanged()
         recyclerView.layoutManager?.scrollToPosition(position)
     }
+
+    fun getCurrentChapter(): ChapterInfo? {
+        if (this.data.size > 0) {
+            return getItem(currentPosition)
+        } else {
+            return null
+        }
+    }
 }

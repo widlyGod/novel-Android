@@ -6,6 +6,7 @@ import com.jess.arms.integration.AppManager
 import com.jess.arms.di.scope.ActivityScope
 import com.jess.arms.mvp.BasePresenter
 import com.jess.arms.http.imageloader.ImageLoader
+import com.jess.arms.utils.ArmsUtils
 import com.jess.arms.utils.RxLifecycleUtils
 import me.jessyan.rxerrorhandler.core.RxErrorHandler
 import javax.inject.Inject
@@ -33,13 +34,12 @@ constructor(model: RegistContract.Model, rootView: RegistContract.View) :
     lateinit var mAppManager: AppManager
 
 
-
     fun toRegist(nickname: String, email: String, password: String, emailCode: String) {
 
         val params = HashMap<String, String>()
         params.put("nickName", nickname)
         params.put("keyword", email)
-        params.put("userPassword", password)
+        params.put("userPassword", ArmsUtils.encodeToMD5(password))
         params.put("code", emailCode)
 
         mModel.regist(params)
@@ -61,8 +61,8 @@ constructor(model: RegistContract.Model, rootView: RegistContract.View) :
     }
 
     fun sendCode(email: String) {
-        val params = HashMap<String,String>()
-        params.put("keyword",email)
+        val params = HashMap<String, String>()
+        params.put("keyword", email)
         mModel.sendCode(params)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())

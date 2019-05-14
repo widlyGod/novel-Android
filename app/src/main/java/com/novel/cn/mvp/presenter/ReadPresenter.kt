@@ -40,6 +40,34 @@ constructor(model: ReadContract.Model, rootView: ReadContract.View) :
                 })
     }
 
+
+    fun subscribeBook(chapterId: String, chapterTitle: String, money: String, chapter: Int, novelId: String, volumeId: String, txtChapter: TxtChapter?, mCurChapterPos: Int) {
+
+        val params = HashMap<String, Any?>()
+        params["chapter"] = chapter
+        params["chapterTitle"] = chapterTitle
+        params["chargeNumber"] = money
+        params["novelChapterId"] = chapterId
+        params["novelId"] = novelId
+        params["novelVolumeId"] = volumeId
+
+        mModel.subscribeBook(params)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .compose(RxLifecycleUtils.bindToLifecycle(mRootView))
+                .subscribe(object : ErrorHandleSubscriber<BaseResponse<Any>>(mErrorHandler) {
+                    override fun onNext(t: BaseResponse<Any>) {
+                        readNovel(txtChapter, novelId, mCurChapterPos)
+                    }
+
+                    override fun onError(t: Throwable) {
+                        super.onError(t)
+                        mRootView.subscribeError()
+                    }
+                })
+
+    }
+
     fun getChapterList(bookId: String?, volume: String?) {
         val params = HashMap<String, Any?>()
         params["novelId"] = bookId
@@ -130,7 +158,7 @@ constructor(model: ReadContract.Model, rootView: ReadContract.View) :
                     override fun onNext(t: BaseResponse<ChapterInfoBean>) {
                         val data = t.data
                         CacheManager.getInstance().saveChapterInfo(novelId, data.chapterInfo.id, data.chapterInfo.content)
-                        mRootView.showChapter(data,txtChapter,mCurChapterPos)
+                        mRootView.openBook(mCurChapterPos,txtChapter)
                     }
                 })
     }
@@ -140,4 +168,38 @@ constructor(model: ReadContract.Model, rootView: ReadContract.View) :
         data.add(txtChapter!!)
         readNovel(data, novelId)
     }
+
+    fun isChargeChapter(novelId: String, volume: String?, txt: TxtChapter, mCurChapterPos: Int) {
+        val param = HashMap<String, Any?>()
+        param["novelId"] = novelId
+        param["novelVolumeId"] = volume
+        param["novelChapterId"] = txt.link
+        mModel.isChargeChapter(param)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .compose(RxLifecycleUtils.bindToLifecycle(mRootView))
+                .subscribe(object : ErrorHandleSubscriber<BaseResponse<ChargeChapter>>(mErrorHandler) {
+                    override fun onNext(t: BaseResponse<ChargeChapter>) {
+                        if (t.data.isSubscibe) {
+                            readNovel(txt, novelId, mCurChapterPos)
+                        } else {
+                            getChapterInfo(txt, novelId, mCurChapterPos,t.data)
+                        }
+                    }
+                })
+    }
+
+    fun getChapterInfo(txt: TxtChapter, novelId: String, mCurChapterPos: Int, charge: ChargeChapter) {
+        mModel.getChapterInfo(txt.link)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .compose(RxLifecycleUtils.bindToLifecycle(mRootView))
+                .subscribe(object : ErrorHandleSubscriber<BaseResponse<ChapterInfoBean>>(mErrorHandler) {
+                    override fun onNext(t: BaseResponse<ChapterInfoBean>) {
+                        val data = t.data
+                        mRootView.showChapter(data, txt, mCurChapterPos,charge)
+                    }
+                })
+    }
+
 }

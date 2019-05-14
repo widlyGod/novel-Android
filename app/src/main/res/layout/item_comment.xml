@@ -7,7 +7,7 @@
     android:orientation="horizontal"
     android:paddingTop="14dp"
 
-   >
+    >
 
 
     <de.hdodenhof.circleimageview.CircleImageView
@@ -35,20 +35,20 @@
 
 
     <com.flyco.roundview.RoundTextView
+        android:id="@+id/tv_isAuthor"
         android:layout_width="40dp"
+        android:layout_height="12dp"
+        android:layout_marginLeft="5dp"
+        android:gravity="center"
         android:text="本书作者"
         android:textColor="@color/white"
         android:textSize="8sp"
+        android:visibility="gone"
+        app:layout_constraintBottom_toBottomOf="@+id/tv_nickname"
         app:layout_constraintLeft_toRightOf="@+id/tv_nickname"
         app:layout_constraintTop_toTopOf="@+id/tv_nickname"
-        android:layout_marginLeft="5dp"
-        app:layout_constraintBottom_toBottomOf="@+id/tv_nickname"
-        android:gravity="center"
-        android:id="@+id/tv_isAuthor"
-        android:visibility="gone"
-        app:rv_cornerRadius="2dp"
         app:rv_backgroundColor="#6396d4"
-        android:layout_height="12dp" />
+        app:rv_cornerRadius="2dp" />
 
 
     <com.flyco.roundview.RoundTextView
@@ -72,8 +72,8 @@
         android:id="@+id/tv_time"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="2019-03-02 10:00"
         android:paddingRight="16dp"
+        android:text="2019-03-02 10:00"
         app:layout_constraintBottom_toBottomOf="@+id/tv_nickname"
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintTop_toTopOf="@+id/tv_nickname" />
@@ -85,8 +85,8 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="12dp"
         android:ellipsize="end"
-        android:paddingRight="16dp"
         android:maxLines="3"
+        android:paddingRight="16dp"
         android:text="回复@青虫：好好看"
         android:textColor="@color/color_333333"
         android:textSize="16sp"
@@ -100,9 +100,9 @@
         android:id="@+id/tv_from"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:paddingBottom="16dp"
-        android:paddingTop="16dp"
         android:layout_weight="1"
+        android:paddingTop="16dp"
+        android:paddingBottom="16dp"
         android:text="来自手机站"
         android:textColor="@color/color_999999"
         android:textSize="13sp"
@@ -110,35 +110,52 @@
         app:layout_constraintStart_toStartOf="@+id/tv_content"
         app:layout_constraintTop_toBottomOf="@+id/tv_content" />
 
-
-    <TextView
-        android:id="@+id/tv_reply_num"
+    <FrameLayout
+        android:id="@+id/fl_1"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:paddingBottom="16dp"
-        android:paddingTop="16dp"
-        android:text="回复(0)"
-        android:textColor="@color/color_999999"
-        android:textSize="13sp"
-        android:paddingRight="15dp"
-        android:paddingLeft="15dp"
-        app:layout_constraintBaseline_toBaselineOf="@+id/tv_from"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent" />
+        app:layout_constraintEnd_toEndOf="parent">
 
+        <TextView
+            android:id="@+id/tv_reply_num"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:paddingLeft="15dp"
+            android:paddingTop="16dp"
+            android:paddingRight="15dp"
+            android:paddingBottom="16dp"
+            android:text="回复(0)"
+            android:textColor="@color/color_999999"
+            android:textSize="13sp"
+          />
+
+        <TextView
+            android:id="@+id/tv_delete"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:paddingLeft="15dp"
+            android:visibility="gone"
+            android:paddingTop="16dp"
+            android:paddingRight="15dp"
+            android:paddingBottom="16dp"
+            android:text="删除"
+            android:textColor="@color/color_999999"
+            android:textSize="13sp"  />
+    </FrameLayout>
 
     <LinearLayout
         android:id="@+id/ll_like"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:paddingBottom="16dp"
-        android:paddingTop="16dp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toStartOf="@+id/tv_reply_num"
-        app:layout_constraintRight_toLeftOf="@+id/tv_reply_num"
-        android:paddingRight="15dp"
+        android:orientation="horizontal"
         android:paddingLeft="15dp"
-        android:orientation="horizontal">
+        android:paddingTop="16dp"
+        android:paddingRight="15dp"
+        android:paddingBottom="16dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toStartOf="@+id/fl_1"
+        app:layout_constraintRight_toLeftOf="@+id/fl_1">
 
         <TextView
             android:id="@+id/tv_num"
@@ -149,14 +166,13 @@
             android:textSize="13sp" />
 
         <ImageView
+            android:id="@+id/iv_thumbUp"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginLeft="3dp"
-            android:id="@+id/iv_thumbUp"
             android:src="@drawable/ic_zan_uncheck" />
 
     </LinearLayout>
-
 
 
 </android.support.constraint.ConstraintLayout>

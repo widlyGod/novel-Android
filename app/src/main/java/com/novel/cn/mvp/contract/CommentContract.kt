@@ -24,12 +24,15 @@ interface CommentContract {
     interface View : IView {
         fun showCommentCount(count: Int)
         fun showState(state: Int)
+        fun commentSuccess(message: String)
     }
 
     //Model层定义接口,外部只需关心Model返回的数据,无需关心内部细节,即是否使用缓存
     interface Model : IModel {
-        fun getCommentList(params: HashMap<String, String>):Observable<BaseResponse<MutableList<Comment>>>
-        fun agree(commentId: String):Observable<BaseResponse<Any>>
+        fun getCommentList(params: HashMap<String, String>): Observable<BaseResponse<MutableList<Comment>>>
+        fun agree(commentId: String): Observable<BaseResponse<Any>>
+        fun comment(params: HashMap<String, String?>): Observable<BaseResponse<Any>>
+        fun deleteComment(commentId: String): Observable<BaseResponse<Any>>
     }
 
 }

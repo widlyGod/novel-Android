@@ -4,7 +4,7 @@ import android.os.Parcelable
 import kotlinx.android.parcel.Parcelize
 
 @Parcelize
-data class BookDetail(val novelId: String, val novelAuthor: String, val novelPhoto: String, val isCollection: Boolean, val isRead: Boolean,
+data class BookDetail(val novelId: String, val novelAuthor: String, val novelPhoto: String, val isCollection: Boolean, val isRead: Boolean,val authorId:String,
                       val novelWords: Int, val clickNum: Int, val novelTitle: String, val novelIntro: String, val chapterCount: String) : Parcelable
 
 @Parcelize

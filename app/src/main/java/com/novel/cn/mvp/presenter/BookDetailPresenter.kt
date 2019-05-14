@@ -71,4 +71,17 @@ constructor(model: BookDetailContract.Model, rootView: BookDetailContract.View) 
                     }
                 })
     }
+
+    fun deleteComment(position: Int) {
+        val item = mAdapter.getItem(position) as Comment
+        mModel.deleteComment(item.commentId)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .compose(RxLifecycleUtils.bindToLifecycle(mRootView))
+                .subscribe(object : ErrorHandleSubscriber<BaseResponse<Any>>(mErrorHandler) {
+                    override fun onNext(t: BaseResponse<Any>) {
+                        mAdapter.notifyItemRemoved(position)
+                    }
+                })
+    }
 }

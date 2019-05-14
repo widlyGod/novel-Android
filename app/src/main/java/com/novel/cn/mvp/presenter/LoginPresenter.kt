@@ -12,6 +12,7 @@ import com.jess.arms.integration.AppManager
 import com.jess.arms.di.scope.ActivityScope
 import com.jess.arms.mvp.BasePresenter
 import com.jess.arms.http.imageloader.ImageLoader
+import com.jess.arms.utils.ArmsUtils
 import com.jess.arms.utils.LogUtils
 import com.jess.arms.utils.RxLifecycleUtils
 import me.jessyan.rxerrorhandler.core.RxErrorHandler
@@ -53,8 +54,8 @@ constructor(model: LoginContract.Model, rootView: LoginContract.View) :
 
 
     fun login(userName: String, password: String) {
-
-        mModel.login(userName, password)
+        val md5Password = ArmsUtils.encodeToMD5(password)
+        mModel.login(userName, md5Password)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .compose(RxLifecycleUtils.bindToLifecycle(mRootView))

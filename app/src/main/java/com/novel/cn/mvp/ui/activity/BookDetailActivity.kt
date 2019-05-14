@@ -12,6 +12,7 @@ import com.novel.cn.app.loadImage
 import com.novel.cn.di.component.DaggerBookDetailComponent
 import com.novel.cn.di.module.BookDetailModule
 import com.novel.cn.eventbus.BookshelfEvent
+import com.novel.cn.ext.toast
 import com.novel.cn.mvp.contract.BookDetailContract
 import com.novel.cn.mvp.model.entity.Comment
 import com.novel.cn.mvp.model.entity.NovelInfoBean
@@ -21,7 +22,6 @@ import com.novel.cn.utils.StatusBarUtils
 import com.novel.cn.view.decoration.LinearItemDecoration
 import kotlinx.android.synthetic.main.activity_book_detail.*
 import kotlinx.android.synthetic.main.include_title.*
-import org.jetbrains.anko.toast
 import javax.inject.Inject
 
 
@@ -55,9 +55,7 @@ class BookDetailActivity : BaseActivity<BookDetailPresenter>(), BookDetailContra
 
 
         mAdapter.apply {
-            setOnItemClickListener { adapter, view, position ->
-                JumpManager.toCommentList(this@BookDetailActivity, bookId)
-            }
+
             //回复按钮点击
             setOnReplyClickListener { position ->
                 JumpManager.toCommentDetail(this@BookDetailActivity, this.getItem(position))
@@ -65,6 +63,9 @@ class BookDetailActivity : BaseActivity<BookDetailPresenter>(), BookDetailContra
             setOnLikeClickListener {
                 val item = mAdapter.getItem(it) as Comment
                 mPresenter?.agree(it)
+            }
+            setOnDeleteClickListener {
+                mPresenter?.deleteComment(it)
             }
         }
         val decoration = LinearItemDecoration()
@@ -89,9 +90,13 @@ class BookDetailActivity : BaseActivity<BookDetailPresenter>(), BookDetailContra
 
         mAdapter.setNewData(data.comment.comments)
 
+        mAdapter.setOnItemClickListener { adapter, view, position ->
+            JumpManager.toCommentList(this@BookDetailActivity, data)
+        }
+
         click(tv_read, tv_add_bookself, ll_comment, tv_comment, fl_contents) {
             when (it) {
-                ll_comment, tv_comment -> JumpManager.toCommentList(this, data.novelInfo.novelId)
+                ll_comment, tv_comment -> JumpManager.toCommentList(this, data)
                 tv_read -> JumpManager.jumpRead(this, data)
                 tv_add_bookself -> {
                     if (data.novelInfo.isCollection) {

@@ -99,9 +99,52 @@ interface BookService {
     @POST("novelOAService/mobile/getChapters")
     fun getChapterList(@Body params: HashMap<String, Any?>): Observable<BaseResponse<ChapterBean>>
 
+
+    /**
+     * 获取单章小说
+     */
     @POST("novelOAService/novel/readNovel")
     fun readNovel(@Body params: HashMap<String, Any?>): Observable<BaseResponse<ChapterInfoBean>>
 
+    /**
+     * 点赞
+     */
     @GET("novelOAService/comment/giveThumbUp")
-    fun agree(@Query("commentId")commentId: String): Observable<BaseResponse<Any>>
+    fun agree(@Query("commentId") commentId: String): Observable<BaseResponse<Any>>
+
+    /**
+     * 发布评论
+     */
+    @POST("novelOAService/comment/saveComment")
+    fun comment(@Body params: HashMap<String, String?>): Observable<BaseResponse<Any>>
+
+    /**
+     * 删除评论
+     */
+    @GET("novelOAService/comment/deleteComment")
+    fun deleteComment(@Query("commentId") commentId: String): Observable<BaseResponse<Any>>
+
+    /**
+     * 回复
+     */
+    @POST("novelOAService/comment/saveReply")
+    fun reply(@Body params: HashMap<String, Any?>): Observable<BaseResponse<Any>>
+
+    /**
+     * 发布章节评论
+     */
+    @POST("novelOAService/chapterComment/queryChapterCommentPage")
+    fun getChapterComment(@Body params: HashMap<String, Any?> ): Observable<BaseResponse<Any>>
+
+    /**
+     * 单章订阅
+     */
+    @POST("novelOAService/novelDetail/addConsumeRecord")
+    fun subcribeBook(@Body params: HashMap<String, Any?>): Observable<BaseResponse<Any>>
+
+    @POST("novelOAService/novelDetail/isChargeChapter")
+    fun isChargeChapter(@Body param: HashMap<String, Any?>): Observable<BaseResponse<ChargeChapter>>
+
+    @GET("novelOAService/mobile/getChapter")
+    fun getChapterInfo(@Query("chapterId")link: String?): Observable<BaseResponse<ChapterInfoBean>>
 }

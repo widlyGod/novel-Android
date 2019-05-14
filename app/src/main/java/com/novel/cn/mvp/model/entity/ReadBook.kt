@@ -4,7 +4,8 @@ data class ChapterInfoBean(val chapterInfo:ChapterInfo2,val novelInfo:NovelInfo)
 
 
 data class ChapterInfo2(val chapter: Int, val content: String, val id: String, val isFree: Boolean,
-                        val updateTime:String,val title:String,val words:String
+                        val updateTime:String,val title:String,val words:String,val money:Int,
+                        val volumeId:String
                         )
 
 data class NovelInfo(val authorInfo:AuthorInfo)

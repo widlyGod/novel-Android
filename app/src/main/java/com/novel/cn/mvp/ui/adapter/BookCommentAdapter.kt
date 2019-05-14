@@ -4,9 +4,11 @@ import com.chad.library.adapter.base.BaseQuickAdapter
 import com.chad.library.adapter.base.BaseViewHolder
 import com.novel.cn.R
 import com.novel.cn.app.Constant
+import com.novel.cn.app.Preference
 import com.novel.cn.app.loadImage
 import com.novel.cn.app.visible
 import com.novel.cn.mvp.model.entity.Comment
+import com.novel.cn.mvp.model.entity.LoginInfo
 import com.novel.cn.utils.TimeUtils
 import kotlinx.android.synthetic.main.item_comment.view.*
 import java.text.SimpleDateFormat
@@ -15,7 +17,7 @@ class BookCommentAdapter : BaseQuickAdapter<Comment, BaseViewHolder>(R.layout.it
     val levelList = ArrayList<LEVEL>()
 
     private var onReplyClickListener: ((Int) -> Unit)? = null
-
+    private var onDeleteClickListener: ((Int) -> Unit)? = null
     private var onLikeClickListener: ((Int) -> Unit)? = null
 
     init {
@@ -43,7 +45,9 @@ class BookCommentAdapter : BaseQuickAdapter<Comment, BaseViewHolder>(R.layout.it
     fun setOnLikeClickListener(listener: ((Int) -> Unit)?) {
         this.onLikeClickListener = listener
     }
-
+    fun setOnDeleteClickListener(listener: ((Int) -> Unit)?) {
+        this.onDeleteClickListener = listener
+    }
     fun setOnReplyClickListener(listener: ((Int) -> Unit)?) {
         this.onReplyClickListener = listener
     }
@@ -73,8 +77,20 @@ class BookCommentAdapter : BaseQuickAdapter<Comment, BaseViewHolder>(R.layout.it
             tv_reply_num.setOnClickListener {
                 onReplyClickListener?.invoke(helper.adapterPosition)
             }
+            tv_delete.setOnClickListener {
+                onDeleteClickListener?.invoke(helper.adapterPosition)
+            }
 
             ll_like.setOnClickListener { onLikeClickListener?.invoke(helper.adapterPosition) }
+
+            val user = Preference.getDeviceData<LoginInfo?>(Constant.LOGIN_INFO)
+            if (user?.userId == item.commentUser.userId) {
+                tv_delete.visible(true)
+                tv_reply_num.visible(false)
+            }else{
+                tv_delete.visible(false)
+                tv_reply_num.visible(true)
+            }
 
         }
     }

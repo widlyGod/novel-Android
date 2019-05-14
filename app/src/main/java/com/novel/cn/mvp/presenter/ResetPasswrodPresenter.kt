@@ -6,6 +6,7 @@ import com.jess.arms.integration.AppManager
 import com.jess.arms.di.scope.ActivityScope
 import com.jess.arms.mvp.BasePresenter
 import com.jess.arms.http.imageloader.ImageLoader
+import com.jess.arms.utils.ArmsUtils
 import com.jess.arms.utils.RxLifecycleUtils
 import me.jessyan.rxerrorhandler.core.RxErrorHandler
 import javax.inject.Inject
@@ -70,14 +71,14 @@ constructor(model: ResetPasswrodContract.Model, rootView: ResetPasswrodContract.
         val params = HashMap<String,String>()
         params.put("userEmail",email)
         params.put("code",code)
-        params.put("userPassword",password)
+        params.put("userPassword",ArmsUtils.encodeToMD5(password))
         mModel.resetPasswrod(params)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .compose(RxLifecycleUtils.bindToLifecycle(mRootView))
                 .subscribe(object : ErrorHandleSubscriber<BaseResponse<Any>>(mErrorHandler) {
                     override fun onNext(t: BaseResponse<Any>) {
-//                        mRootView.sendSuccess()
+                        mRootView.resetSuccess(t.message)
                     }
 
                     override fun onError(t: Throwable) {

@@ -31,6 +31,10 @@ import io.reactivex.Observable
 class BookDetailModel
 @Inject
 constructor(repositoryManager: IRepositoryManager) : BaseModel(repositoryManager), BookDetailContract.Model {
+    override fun deleteComment(commentId: String): Observable<BaseResponse<Any>> {
+        return mRepositoryManager.obtainRetrofitService(BookService::class.java).deleteComment(commentId)
+    }
+
     override fun agree(commentId: String): Observable<BaseResponse<Any>> {
         return mRepositoryManager.obtainRetrofitService(BookService::class.java).agree(commentId)
     }

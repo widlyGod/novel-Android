@@ -12,12 +12,17 @@ import com.jess.arms.base.BaseActivity
 import com.jess.arms.di.component.AppComponent
 import com.jess.arms.utils.ArmsUtils
 import com.novel.cn.R
+import com.novel.cn.app.Constant
 import com.novel.cn.app.JumpManager
+import com.novel.cn.app.Preference
 import com.novel.cn.app.visible
 import com.novel.cn.di.component.DaggerCommentComponent
 import com.novel.cn.di.module.CommentModule
+import com.novel.cn.ext.toast
 import com.novel.cn.mvp.contract.CommentContract
 import com.novel.cn.mvp.model.entity.Comment
+import com.novel.cn.mvp.model.entity.LoginInfo
+import com.novel.cn.mvp.model.entity.NovelInfoBean
 import com.novel.cn.mvp.presenter.CommentPresenter
 import com.novel.cn.mvp.ui.adapter.BookCommentAdapter
 import com.novel.cn.mvp.ui.dialog.CommentDialog
@@ -32,13 +37,21 @@ import javax.inject.Inject
 class CommentActivity : BaseActivity<CommentPresenter>(), CommentContract.View {
 
 
-
-    private val bookId by lazy { intent.getStringExtra("bookId") }
+    private val book by lazy { intent.getParcelableExtra<NovelInfoBean?>("book") }
 
     private val dialog by lazy {
         val dialog = CommentDialog(this)
         dialog.setOnReleaseClickListener {
-            mPresenter?.comment(bookId, it)
+            val user = Preference.getDeviceData<LoginInfo?>(Constant.LOGIN_INFO)
+            if (!user?.userId.isNullOrEmpty()) {
+                val isAuthor = if (user?.userId == book?.novelInfo?.authorId) "1" else "0"
+                mPresenter?.comment(book?.novelInfo?.novelId,
+                        book?.novelInfo?.novelTitle,
+                        book?.novelInfo?.authorId,
+                        book?.novelInfo?.novelAuthor, isAuthor, it)
+            } else {
+                toast("请先登录")
+            }
         }
         dialog
     }
@@ -81,7 +94,7 @@ class CommentActivity : BaseActivity<CommentPresenter>(), CommentContract.View {
             setEnableLoadMore(true)
             setLoadMoreView(CustomLoadMoreView())
             setOnLoadMoreListener({
-                mPresenter?.getCommentList(bookId, false)
+                mPresenter?.getCommentList(book?.novelInfo?.novelId, false)
             }, recyclerView)
             //回复按钮点击
             setOnReplyClickListener { position ->
@@ -90,6 +103,10 @@ class CommentActivity : BaseActivity<CommentPresenter>(), CommentContract.View {
             setOnLikeClickListener {
                 val item = mAdapter.getItem(it) as Comment
                 mPresenter?.agree(it)
+            }
+            setOnDeleteClickListener {
+                val item = mAdapter.getItem(it) as Comment
+                mPresenter?.deleteComment(it)
             }
         }
         //快速定位到顶部
@@ -106,8 +123,15 @@ class CommentActivity : BaseActivity<CommentPresenter>(), CommentContract.View {
 
         tv_comment.setOnClickListener { dialog.show() }
 
-        mPresenter?.getCommentList(bookId, true)
+        mPresenter?.getCommentList(book?.novelInfo?.novelId, true)
     }
+
+    override fun commentSuccess(message: String) {
+        toast(message)
+        dialog.dismiss()
+        mPresenter?.getCommentList(book?.novelInfo?.novelId, true)
+    }
+
 
     override fun showCommentCount(count: Int) {
         val ss = SpannableString("共${count}条")

@@ -38,7 +38,7 @@ constructor(model: CommentContract.Model, rootView: CommentContract.View) :
         params["pageNum"] = mPageIndex.toString()
         params["pageSize"] = Constant.PAGE_SIZE.toString()
         params["novelId"] = bookId.orEmpty()
-        params["sort"] = "0"
+        params["sort"] = "1"
 
         mModel.getCommentList(params)
                 .subscribeOn(Schedulers.io())
@@ -74,8 +74,23 @@ constructor(model: CommentContract.Model, rootView: CommentContract.View) :
                 })
     }
 
-    fun comment(bookId: String?, content: String) {
-
+    fun comment(bookId: String?, bookName: String?, authorId: String?, authorName: String?, isAuthor: String?, content: String) {
+        val params = HashMap<String, String?>()
+        params["authorId"] = authorId
+        params["novelId"] = bookId
+        params["novelName"] = bookName
+        params["penName"] = authorName
+        params["isAuthor"] = isAuthor
+        params["content"] = content
+        mModel.comment(params)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .compose(RxLifecycleUtils.bindToLifecycle(mRootView))
+                .subscribe(object : ErrorHandleSubscriber<BaseResponse<Any>>(mErrorHandler) {
+                    override fun onNext(t: BaseResponse<Any>) {
+                        mRootView.commentSuccess(t.message)
+                    }
+                })
     }
 
     fun agree(position: Int) {
@@ -89,6 +104,19 @@ constructor(model: CommentContract.Model, rootView: CommentContract.View) :
                         item.thumbUp = true
                         item.thumbUpNumber++
                         mAdapter.notifyItemChanged(position)
+                    }
+                })
+    }
+
+    fun deleteComment(position: Int) {
+        val item = mAdapter.getItem(position) as Comment
+        mModel.deleteComment(item.commentId)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .compose(RxLifecycleUtils.bindToLifecycle(mRootView))
+                .subscribe(object : ErrorHandleSubscriber<BaseResponse<Any>>(mErrorHandler) {
+                    override fun onNext(t: BaseResponse<Any>) {
+                        mAdapter.notifyItemRemoved(position)
                     }
                 })
     }

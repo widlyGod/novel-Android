@@ -6,7 +6,7 @@ import java.util.*
 object DbManager {
 
 
-    const val DB_NAME = "novel-db"
+    const val DB_NAME = "novel_db"
 
     private lateinit var daoSession: DaoSession
 
@@ -49,5 +49,21 @@ object DbManager {
      * 清除所有历史记录
      */
     fun clearSearchRecord() = daoSession.searchHistoryDao.deleteAll()
+
+
+    fun getReadcord(bookId: String?): Readcord? {
+        return daoSession.readcordDao.queryBuilder().where(ReadcordDao.Properties.BookId.eq(bookId)).unique()
+    }
+
+    fun saveRecord(mBookRecord: Readcord) {
+        val data = daoSession.readcordDao.queryBuilder().where(ReadcordDao.Properties.BookId.eq(mBookRecord.bookId)).limit(1).unique()
+        if (data == null) {
+            daoSession.readcordDao.save(mBookRecord)
+        }else{
+            daoSession.readcordDao.update(mBookRecord)
+        }
+
+    }
+
 
 }

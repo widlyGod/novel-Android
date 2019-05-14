@@ -153,6 +153,7 @@ class BookChannelAdapter : BaseMultiItemQuickAdapter<MultiItemEntity, BaseViewHo
                             }
                         }
                     })
+
                 }
                 snapHelper.attachToRecyclerView(itemView.recyclerView)
                 adapter.setNewData(item.books)

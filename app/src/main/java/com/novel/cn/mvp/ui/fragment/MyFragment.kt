@@ -62,8 +62,6 @@ class MyFragment : BaseFragment<MyPresenter>(), MyContract.View {
         StatusBarUtils.setPadding(activity, cl_top)
         iv_setting.visible(true)
 
-        mPresenter?.getUserInfo()
-
         click(iv_setting, fl_messsage, iv_avatar, tv_recharge) { view ->
             when (view) {
                 iv_setting -> activity?.startActivity<SettingActivity>()
@@ -74,20 +72,28 @@ class MyFragment : BaseFragment<MyPresenter>(), MyContract.View {
         }
 
     }
-        override fun showUserInfo(data: User) {
-            mUser = data
-            iv_avatar.loadImage(data.userPhoto)
-            iv_gender.setImageResource(if (data.userGender == 0) R.drawable.ic_male else R.drawable.ic_famale)
-            tv_read_count.text = "读过${data.readCount}本"
 
-            tv_meet_day.text = "${data.meetDays}天"
-            tv_sign_day.text = "${data.signDays}天"
-
-            tv_month_ticket.text = data.monthTickets
-            tv_recommend_ticket.text = data.recommendTickets
-
-            tv_msg.text = data.msgCount
-
-
-        }
+    override fun onResume() {
+        super.onResume()
+        mPresenter?.getUserInfo()
     }
+
+
+
+    override fun showUserInfo(data: User) {
+        mUser = data
+        iv_avatar.loadImage(data.userPhoto)
+        iv_gender.setImageResource(if (data.userGender == 0) R.drawable.ic_male else R.drawable.ic_famale)
+        tv_read_count.text = "读过${data.readCount}本"
+
+        tv_meet_day.text = "${data.meetDays}天"
+        tv_sign_day.text = "${data.signDays}天"
+
+        tv_month_ticket.text = data.monthTickets
+        tv_recommend_ticket.text = data.recommendTickets
+
+        tv_msg.text = data.msgCount
+        tv_account.text = "余额\t\t\t${data.moneys}阅点"
+
+    }
+}

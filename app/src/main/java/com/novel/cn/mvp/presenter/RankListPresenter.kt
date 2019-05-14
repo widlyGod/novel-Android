@@ -44,11 +44,8 @@ constructor(model: RankListContract.Model, rootView: RankListContract.View) :
                 .compose(RxLifecycleUtils.bindToLifecycle(mRootView))
                 .subscribe(object : ErrorHandleSubscriber<BaseResponse<MutableList<RankBean>>>(mErrorHandler) {
                     override fun onNext(t: BaseResponse<MutableList<RankBean>>) {
-
                         val list = t.data.getOrNull(0)?.result?.week
-
                         val noMore = list.isNullOrEmpty()
-
                         if (pullToRefresh) {
                             mAdapter.setNewData(list)
                             mRootView.refreshComplete()

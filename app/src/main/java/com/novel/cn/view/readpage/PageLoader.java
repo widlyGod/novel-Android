@@ -15,6 +15,8 @@ import android.text.TextPaint;
 
 import com.novel.cn.R;
 import com.novel.cn.app.utils.RxUtils;
+import com.novel.cn.db.DbManager;
+import com.novel.cn.db.Readcord;
 import com.novel.cn.utils.ScreenUtils;
 import com.novel.cn.utils.StringUtils;
 
@@ -86,7 +88,7 @@ public abstract class PageLoader {
     // 被遮盖的页，或者认为被取消显示的页
     private TxtPage mCancelPage;
     // 存储阅读记录类
-    //    private BookRecord mBookRecord;
+    private Readcord mBookRecord;
 
     private Disposable mPreLoadDisp;
 
@@ -575,36 +577,36 @@ public abstract class PageLoader {
      */
     public void saveRecord() {
 
-           /* if (mChapterList.isEmpty()) {
-                return;
-            }
+        if (mChapterList.isEmpty()) {
+            return;
+        }
 
-            mBookRecord.setBookId(mCollBook.get_id());
-            mBookRecord.setChapter(mCurChapterPos);
+        mBookRecord.setBookId(mBookId);
+        mBookRecord.setChapter(mCurChapterPos);
 
-            if (mCurPage != null) {
-                mBookRecord.setPagePos(mCurPage.position);
-            } else {
-                mBookRecord.setPagePos(0);
-            }
+        if (mCurPage != null) {
+            mBookRecord.setPagePos(mCurPage.position);
+        } else {
+            mBookRecord.setPagePos(0);
+        }
 
-            //存储到数据库
-            DBManager.INSTANCE.saveRecord(mBookRecord);*/
+        //存储到数据库
+        DbManager.INSTANCE.saveRecord(mBookRecord);
     }
 
     /**
      * 初始化书籍
      */
     private void prepareBook() {
-           /* mBookRecord = DBManager.INSTANCE.getBookRecord(mCollBook.get_id());
+        mBookRecord = DbManager.INSTANCE.getReadcord(mBookId);
 
 
-            if (mBookRecord == null) {
-                mBookRecord = new BookRecord();
-            }
+        if (mBookRecord == null) {
+            mBookRecord = new Readcord();
+        }
 
-            mCurChapterPos = mBookRecord.getChapter();
-            mLastChapterPos = mCurChapterPos;*/
+        mCurChapterPos = mBookRecord.getChapter();
+        mLastChapterPos = mCurChapterPos;
     }
 
     /**

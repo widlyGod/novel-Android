@@ -11,6 +11,7 @@ import com.jakewharton.rxbinding2.widget.RxTextView
 import com.jess.arms.base.BaseActivity
 import com.jess.arms.di.component.AppComponent
 import com.jess.arms.integration.lifecycle.ActivityLifecycleable
+import com.jess.arms.utils.ArmsUtils
 import com.jess.arms.utils.RxLifecycleUtils
 import com.novel.cn.R
 import com.novel.cn.app.click
@@ -59,7 +60,7 @@ class ResetPasswrodActivity : BaseActivity<ResetPasswrodPresenter>(), ResetPassw
         verification()
 
 
-        click(tv_get_email_code, tv_confirm,iv_eyes) {
+        click(tv_get_email_code, tv_confirm, iv_eyes) {
             when (it) {
                 tv_get_email_code -> {
                     val email = et_email.text.toString().trim()
@@ -70,7 +71,7 @@ class ResetPasswrodActivity : BaseActivity<ResetPasswrodPresenter>(), ResetPassw
                     }
                 }
                 tv_confirm -> toResetPassword()
-                iv_eyes -> hidePasswordTransformation(it,et_password)
+                iv_eyes -> hidePasswordTransformation(it, et_password)
             }
         }
 
@@ -147,4 +148,10 @@ class ResetPasswrodActivity : BaseActivity<ResetPasswrodPresenter>(), ResetPassw
             }
         }
     }
+
+    override fun resetSuccess(message: String) {
+        ArmsUtils.makeText(this, message)
+        finish()
+    }
+
 }

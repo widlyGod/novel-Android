@@ -5,6 +5,7 @@ import android.os.Bundle
 
 import com.jess.arms.base.BaseActivity
 import com.jess.arms.di.component.AppComponent
+import com.jess.arms.integration.AppManager
 import com.jess.arms.utils.ArmsUtils
 import com.novel.cn.BuildConfig
 
@@ -14,6 +15,7 @@ import com.novel.cn.mvp.contract.SettingContract
 import com.novel.cn.mvp.presenter.SettingPresenter
 
 import com.novel.cn.R
+import com.novel.cn.app.Preference
 import com.novel.cn.app.click
 import com.novel.cn.utils.CacheDataManager
 import com.novel.cn.utils.StatusBarUtils
@@ -49,8 +51,13 @@ class SettingActivity : BaseActivity<SettingPresenter>(), SettingContract.View {
         tv_cache.text = CacheDataManager.getTotalCacheSize(this)
 
 
-        click(fl_cache, tv_about) {
+        click(fl_cache, tv_about, tv_logout) {
             when (it) {
+                tv_logout -> {
+                    Preference.clean()
+                    startActivity<LoginActivity>()
+                    AppManager.getAppManager().killAll(LoginActivity::class.java)
+                }
                 tv_about -> startActivity<LoginActivity>()
                 fl_cache -> {
                     CacheDataManager.clearAllCache(this)
