@@ -75,7 +75,7 @@ constructor(model: LoginContract.Model, rootView: LoginContract.View) :
     /**
      * 调用第三方授权
      */
-     fun authorize(type: String) {
+    fun authorize(type: String) {
         val platform = ShareSDK.getPlatform(type)
         platform.SSOSetting(false)
         platform.removeAccount(true)
@@ -117,7 +117,14 @@ constructor(model: LoginContract.Model, rootView: LoginContract.View) :
         }
         mModel.loginThrid(url, params)
                 .subscribeOn(Schedulers.io())
+                .doOnSubscribe {
+                    mRootView.showLoading()
+                }
+                .subscribeOn(AndroidSchedulers.mainThread())
                 .observeOn(AndroidSchedulers.mainThread())
+                .doFinally {
+                    mRootView.hideLoading()
+                }
                 .compose(RxLifecycleUtils.bindToLifecycle(mRootView))
                 .subscribe(object : ErrorHandleSubscriber<BaseResponse<LoginInfo>>(mErrorHandler) {
                     override fun onNext(t: BaseResponse<LoginInfo>) {

@@ -67,7 +67,7 @@ class MyFragment : BaseFragment<MyPresenter>(), MyContract.View {
                 iv_setting -> activity?.startActivity<SettingActivity>()
                 fl_messsage -> activity?.startActivity<MessageActivity>()
                 iv_avatar -> mUser?.let { JumpManager.jumpUserInfo(activity, it) }
-                tv_recharge -> mUser?.let { JumpManager.jumpRecharge(activity, it) }
+                tv_recharge ->  JumpManager.jumpRecharge(activity)
             }
         }
 

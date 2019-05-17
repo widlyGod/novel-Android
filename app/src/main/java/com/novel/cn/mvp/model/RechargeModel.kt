@@ -1,7 +1,5 @@
 package com.novel.cn.mvp.model
 
-import android.app.Application
-import com.google.gson.Gson
 import com.jess.arms.integration.IRepositoryManager
 import com.jess.arms.mvp.BaseModel
 
@@ -9,6 +7,12 @@ import com.jess.arms.di.scope.ActivityScope
 import javax.inject.Inject
 
 import com.novel.cn.mvp.contract.RechargeContract
+import com.novel.cn.mvp.model.api.service.BookService
+import com.novel.cn.mvp.model.api.service.UserService
+import com.novel.cn.mvp.model.entity.BaseResponse
+import com.novel.cn.mvp.model.entity.PayInfoBean
+import com.novel.cn.mvp.model.entity.User
+import io.reactivex.Observable
 
 
 /**
@@ -27,12 +31,17 @@ import com.novel.cn.mvp.contract.RechargeContract
 class RechargeModel
 @Inject
 constructor(repositoryManager: IRepositoryManager) : BaseModel(repositoryManager), RechargeContract.Model {
-    @Inject
-    lateinit var mGson: Gson;
-    @Inject
-    lateinit var mApplication: Application;
-
-    override fun onDestroy() {
-        super.onDestroy();
+    override fun getUserInfo(): Observable<BaseResponse<User>> {
+        return mRepositoryManager.obtainRetrofitService(UserService::class.java).getUserInfo()
     }
+
+    override fun recharge(code: String, money: String): Observable<BaseResponse<PayInfoBean>> {
+        val params = HashMap<String, Any>()
+        params["rechargeCode"] = code
+        params["requestCode"] = 2
+        params["orderAmount"] = money
+        return mRepositoryManager.obtainRetrofitService(BookService::class.java).recharge(params)
+    }
+
+
 }

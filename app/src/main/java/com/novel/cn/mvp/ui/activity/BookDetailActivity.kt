@@ -55,13 +55,11 @@ class BookDetailActivity : BaseActivity<BookDetailPresenter>(), BookDetailContra
 
 
         mAdapter.apply {
-
             //回复按钮点击
             setOnReplyClickListener { position ->
                 JumpManager.toCommentDetail(this@BookDetailActivity, this.getItem(position))
             }
             setOnLikeClickListener {
-                val item = mAdapter.getItem(it) as Comment
                 mPresenter?.agree(it)
             }
             setOnDeleteClickListener {

@@ -1,6 +1,8 @@
 package com.novel.cn.view.readpage;
 
 
+import android.graphics.Typeface;
+
 import com.novel.cn.utils.ScreenUtils;
 import com.novel.cn.utils.SharedPreUtils;
 
@@ -28,6 +30,8 @@ public class ReadSettingManager {
     public static final String SHARED_READ_VOLUME_TURN_PAGE = "shared_read_volume_turn_page";
     public static final String SHARED_READ_FULL_SCREEN = "shared_read_full_screen";
     public static final String SHARED_READ_CONVERT_TYPE = "shared_read_convert_type";
+
+    public static final String SHARED_READ_TEXT_FONT = "shared_read_text_font";
 
     private static volatile ReadSettingManager sInstance;
 
@@ -128,5 +132,13 @@ public class ReadSettingManager {
 
     public int getConvertType() {
         return sharedPreUtils.getInt(SHARED_READ_CONVERT_TYPE, 0);
+    }
+
+    public String getTextFont() {
+        return this.sharedPreUtils.getString(SHARED_READ_TEXT_FONT);
+    }
+
+    public void setTextFont(String font) {
+        this.sharedPreUtils.putString(SHARED_READ_TEXT_FONT, font);
     }
 }

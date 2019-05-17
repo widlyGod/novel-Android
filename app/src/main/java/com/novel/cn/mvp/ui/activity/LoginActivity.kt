@@ -25,6 +25,7 @@ import com.novel.cn.mvp.model.entity.LoginInfo
 import com.novel.cn.mvp.presenter.LoginPresenter
 import com.novel.cn.utils.PartsUtil
 import com.novel.cn.utils.StatusBarUtils
+import com.novel.cn.view.TipDialog
 import io.reactivex.Observable
 import io.reactivex.functions.BiFunction
 import kotlinx.android.synthetic.main.activity_login.*
@@ -33,6 +34,14 @@ import org.jetbrains.anko.startActivity
 
 
 class LoginActivity : BaseActivity<LoginPresenter>(), LoginContract.View {
+
+
+    private val mLoading by lazy {
+        TipDialog.Builder(this)
+                .setIconType(TipDialog.Builder.ICON_TYPE_LOADING)
+                .setTipWord("正在登录")
+                .create(false)
+    }
 
     override fun setupActivityComponent(appComponent: AppComponent) {
         DaggerLoginComponent
@@ -91,6 +100,14 @@ class LoginActivity : BaseActivity<LoginPresenter>(), LoginContract.View {
         } else {
             mPresenter?.login(userName, password)
         }
+    }
+
+    override fun showLoading() {
+        mLoading.show()
+    }
+
+    override fun hideLoading() {
+        mLoading.hide()
     }
 
 

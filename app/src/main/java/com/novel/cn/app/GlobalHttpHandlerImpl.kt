@@ -17,6 +17,7 @@ package com.novel.cn.app
 
 import android.content.Context
 import android.text.TextUtils
+import com.google.gson.JsonObject
 
 import com.jess.arms.http.GlobalHttpHandler
 import com.jess.arms.http.log.RequestInterceptor

@@ -372,7 +372,7 @@ public class PageView extends View {
     public void resetPage() {
     }
 
-    public void loadData() {
+    public void reset() {
         ((ScrollPageAnim)mPageAnim).reset();
     }
 

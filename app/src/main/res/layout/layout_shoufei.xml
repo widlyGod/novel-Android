@@ -24,7 +24,7 @@
         android:id="@+id/tv_chaptername"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="30dp"
+        android:layout_marginTop="25dp"
         android:text="第十章  冤家路窄"
         android:textColor="@color/color_333333" />
 
@@ -32,7 +32,7 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="30dp"
+        android:layout_marginTop="25dp"
         android:orientation="horizontal">
 
         <TextView
@@ -73,7 +73,7 @@
     <android.support.constraint.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="30dp">
+        android:layout_marginTop="25dp">
 
         <TextView
             android:id="@+id/tv_price"
@@ -98,7 +98,7 @@
         android:id="@+id/tv_zhifu"
         android:layout_width="match_parent"
         android:layout_height="45dp"
-        android:layout_marginTop="40dp"
+        android:layout_marginTop="37dp"
         android:gravity="center"
         android:text="余额不足，立即充值"
         android:textColor="@color/white"
@@ -107,14 +107,14 @@
         app:rv_isRadiusHalfHeight="true" />
 
     <CheckedTextView
+        android:id="@+id/ctv_sub"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center_horizontal"
-        android:layout_marginTop="30dp"
-        android:drawablePadding="3dp"
+        android:layout_marginTop="27dp"
         android:checked="true"
-        android:id="@+id/ctv_sub"
         android:drawableLeft="@drawable/selector_check2"
+        android:drawablePadding="3dp"
         android:gravity="center"
         android:text="自动订阅下一章" />
 
@@ -123,6 +123,8 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="25dp"
+        android:drawableLeft="@drawable/shape_c"
+        android:drawablePadding="3dp"
         android:text="后续购买不再提醒"
         android:textColor="@color/color_666666"
         android:textSize="12sp" />
@@ -131,6 +133,8 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="5dp"
+        android:drawableLeft="@drawable/shape_c"
+        android:drawablePadding="3dp"
         android:text="已购买章节不会重复购买"
         android:textColor="@color/color_666666"
         android:textSize="12sp" />
@@ -173,4 +177,35 @@
             app:rv_strokeColor="#cccccc"
             app:rv_strokeWidth="1dp" />
     </FrameLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="37dp"
+        android:gravity="center"
+        android:orientation="horizontal">
+
+        <View
+            android:id="@+id/v_dash1"
+            android:layout_width="0dp"
+            android:layout_height="1.5dp"
+            android:layout_marginRight="20dp"
+            android:layout_weight="1"
+            android:background="@drawable/shape_line_dash" />
+
+        <ImageView
+            android:id="@+id/iv_reward"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:src="@drawable/ic_loves" />
+
+        <View
+            android:id="@+id/v_dash2"
+            android:layout_width="0dp"
+            android:layout_height="1.5dp"
+            android:layout_marginLeft="20dp"
+            android:layout_weight="1"
+            android:background="@drawable/shape_line_dash" />
+    </LinearLayout>
 </LinearLayout>

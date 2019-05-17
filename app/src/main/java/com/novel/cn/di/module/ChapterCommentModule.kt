@@ -7,6 +7,7 @@ import dagger.Provides
 
 import com.novel.cn.mvp.contract.ChapterCommentContract
 import com.novel.cn.mvp.model.ChapterCommentModel
+import com.novel.cn.mvp.ui.adapter.ChapterCommentAdapter
 
 
 /**
@@ -35,4 +36,8 @@ class ChapterCommentModule(private val view: ChapterCommentContract.View) {
     fun provideChapterCommentModel(model: ChapterCommentModel): ChapterCommentContract.Model {
         return model
     }
+
+    @ActivityScope
+    @Provides
+    fun provideChapterCommentAdapter() = ChapterCommentAdapter()
 }

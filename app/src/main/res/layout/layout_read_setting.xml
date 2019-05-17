@@ -77,6 +77,7 @@
 
 
         <TextView
+            android:id="@+id/tv_yahei"
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_weight="1"
@@ -87,6 +88,7 @@
             android:textSize="18sp" />
 
         <TextView
+            android:id="@+id/tv_songti"
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_marginLeft="22dp"
@@ -98,6 +100,7 @@
             android:textSize="18sp" />
 
         <TextView
+            android:id="@+id/tv_kaiti"
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_marginLeft="22dp"

@@ -66,15 +66,18 @@ object JumpManager {
     /**
      * 跳转到充值页面
      */
-    fun jumpRecharge(context: Context?, user: User) {
-        context?.startActivity<RechargeActivity>("user" to user)
+    fun jumpRecharge(context: Context? ) {
+        context?.startActivity<RechargeActivity>()
     }
 
     fun jumpContents(context: Context?, book: NovelInfoBean) {
         context?.startActivity<ContentsActivity>("book" to book)
     }
 
-    fun jumpChapterComment(context: Context?, bookId: String?, chapterId: String?,volumeId:String?) {
-        context?.startActivity<ChapterCommentActivity>("bookId" to bookId, "chapterId" to chapterId,"volumeId" to volumeId)
+    fun jumpChapterComment(context: Context?, bookId: String?, chapterId: String?, volumeId: String?, authorId: String) {
+        context?.startActivity<ChapterCommentActivity>("bookId" to bookId,
+                "chapterId" to chapterId,
+                "volumeId" to volumeId,
+                "authorId" to authorId)
     }
 }

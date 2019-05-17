@@ -22,6 +22,7 @@ import com.jess.arms.utils.ArmsUtils
 import com.jess.arms.utils.DeviceUtils
 import com.jess.arms.utils.LogUtils
 import com.novel.cn.R
+import com.novel.cn.app.JumpManager
 import com.novel.cn.db.DbManager
 import com.novel.cn.db.SearchHistory
 import com.novel.cn.di.component.DaggerSearchComponent
@@ -88,6 +89,11 @@ class SearchActivity : BaseActivity<SearchPresenter>(), SearchContract.View {
         recyclerView.addItemDecoration(itemDecoration)
         */
         mHotWordAdapter.setNewData(hotNovels)
+
+        mHotWordAdapter.setOnItemClickListener { adapter, view, position ->
+            val item = mHotWordAdapter.getItem(position)
+            JumpManager.jumpBookDetail(this,item?.novelId)
+        }
 
         iv_clean.setOnClickListener { mPresenter?.cleanRecord() }
 

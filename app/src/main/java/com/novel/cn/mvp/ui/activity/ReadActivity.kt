@@ -1,10 +1,12 @@
 package com.novel.cn.mvp.ui.activity
 
+import android.graphics.Typeface
 import android.os.Bundle
 import android.support.v4.widget.DrawerLayout
 import android.text.Html
 import android.view.Gravity
 import android.view.LayoutInflater
+import android.view.View
 import android.view.WindowManager
 import android.widget.SeekBar
 import com.jess.arms.base.BaseActivity
@@ -17,12 +19,12 @@ import com.novel.cn.app.visible
 import com.novel.cn.di.component.DaggerReadComponent
 import com.novel.cn.di.module.ReadModule
 import com.novel.cn.ext.dp2px
-import com.novel.cn.ext.toast
 import com.novel.cn.mvp.contract.ReadContract
 import com.novel.cn.mvp.model.entity.*
 import com.novel.cn.mvp.presenter.ReadPresenter
 import com.novel.cn.mvp.ui.adapter.ChapterAdapter
 import com.novel.cn.mvp.ui.dialog.ReadSettingDialog
+import com.novel.cn.mvp.ui.dialog.RewardDialog
 import com.novel.cn.mvp.ui.dialog.VolumePopup
 import com.novel.cn.utils.StatusBarUtils
 import com.novel.cn.view.TipDialog
@@ -40,12 +42,18 @@ class ReadActivity : BaseActivity<ReadPresenter>(), ReadContract.View {
 
     private val mBook by lazy { intent.getParcelableExtra<NovelInfoBean>("book") }
 
+    private val mRewardDialog by lazy { RewardDialog(this) }
+
     private val mSettingDialog by lazy {
         ReadSettingDialog(this).apply {
             setOnDismissListener {
                 hideSystemBar()
             }
             setOnSettingChanageListener(object : ReadSettingDialog.OnSettingChangeListener {
+                override fun onTextFont(font: Typeface) {
+                    mPageLoader.setTextFont(font)
+                }
+
                 override fun onPageStyle(style: PageStyle) {
                     mPageLoader.setPageStyle(style)
 //                    ll_info.setBackgroundColor(ContextCompat.getColor(this@ReadActivity, style.bgColor))
@@ -170,6 +178,10 @@ class ReadActivity : BaseActivity<ReadPresenter>(), ReadContract.View {
                 tv_chapter_name.text = "${item.chapter}：${item.title}"
                 tv_chapter_info.text = "${item.chapter}章节/${mAdapter.data.size}章节"
                 toolbar_title.text = "第${item.chapter}章 ${item.title}"
+
+                if(tipDialog.isShowing){
+                    tipDialog.dismiss()
+                }
             }
 
             override fun requestChapters(requestChapters: MutableList<TxtChapter>?) {
@@ -178,6 +190,7 @@ class ReadActivity : BaseActivity<ReadPresenter>(), ReadContract.View {
             }
 
             override fun onCategoryFinish(chapters: MutableList<TxtChapter>?) {
+
             }
 
             override fun onPageCountChange(count: Int) {
@@ -198,14 +211,19 @@ class ReadActivity : BaseActivity<ReadPresenter>(), ReadContract.View {
             }
 
             override fun onProgressChanged(seekBar: SeekBar?, progress: Int, fromUser: Boolean) {
-
+                /* val item = mAdapter.getItem(progress) as ChapterInfo
+                 tv_chapter_name.text = "${item.chapter}：${item.title}"
+                 tv_chapter_info.text = "${item.chapter}章节/${mAdapter.data.size}章节"
+                 toolbar_title.text = "第${item.chapter}章 ${item.title}"*/
             }
 
         })
-
+        v_dash1.setLayerType(View.LAYER_TYPE_SOFTWARE, null)
+        v_dash2.setLayerType(View.LAYER_TYPE_SOFTWARE, null)
         click(tv_setting, tv_catalogue, iv_pre, iv_next, iv_night_mode,
-                tv_zhifu, tv_prev, tv_contents, tv_next, ll_info, tv_chapter_comment) {
+                tv_zhifu, tv_prev, tv_contents, tv_next, ll_info, iv_reward, tv_chapter_comment) {
             when (it) {
+                iv_reward -> mRewardDialog.show()
                 ll_info -> toggleMenu()
                 tv_prev -> {
                     mPageLoader.skipPreChapter()
@@ -232,7 +250,7 @@ class ReadActivity : BaseActivity<ReadPresenter>(), ReadContract.View {
                     val chapter = mAdapter.getCurrentChapter()
                     chapter?.let {
                         hideSystemBar()
-                        JumpManager.jumpChapterComment(this, mBook.novelInfo.novelId, it.id, mVolume?.volume)
+                        JumpManager.jumpChapterComment(this, mBook.novelInfo.novelId, it.id, mVolume?.volume, mBook.novelInfo.authorId)
                     }
                 }
             }
@@ -243,7 +261,6 @@ class ReadActivity : BaseActivity<ReadPresenter>(), ReadContract.View {
         if (!data.isSubscibe) {
 
         } else {
-
         }
     }
 
@@ -255,7 +272,6 @@ class ReadActivity : BaseActivity<ReadPresenter>(), ReadContract.View {
         ll_info.visible(false)
         txtChapter?.isFree = true
         mPageLoader.skipToChapter(mCurChapterPos)
-        tipDialog.dismiss()
     }
 
     override fun onPause() {
@@ -273,13 +289,13 @@ class ReadActivity : BaseActivity<ReadPresenter>(), ReadContract.View {
         tv_words.text = data.chapterInfo.words
         ll_info.visible(true)
 
-        tv_price.text = Html.fromHtml("价格：<color='#5e8fca'>${charge.goldNumber}</color>阅读币")
+        tv_price.text = Html.fromHtml("价格：<font color='#5e8fca'>${data.chapterInfo.money}</font>阅读币")
         tv_blance.text = "余额：${charge.goldNumber}阅读币 | 0钻石"
 
         if (charge.goldNumber < data.chapterInfo.money) {
             tv_zhifu.text = "余额不足，请立即充值"
             tv_zhifu.setOnClickListener {
-                toast("支付")
+                JumpManager.jumpRecharge(this)
             }
         } else {
             tv_zhifu.text = "订阅"

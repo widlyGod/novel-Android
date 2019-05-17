@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:gravity="center"
+    android:orientation="vertical"
+    android:paddingTop="35dp"
+    android:paddingBottom="35dp">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="32dp"
+        android:layout_marginLeft="30dp"
+        android:layout_marginRight="30dp"
+        android:gravity="center_vertical">
+
+        <EditText
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:background="@drawable/shape_edtext" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="10dp"
+            android:text="推荐票"
+            android:textColor="@color/color_333333"
+            android:textSize="11sp" />
+    </LinearLayout>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="28dp"
+        android:text="账户中还有 10 推荐票，本次投 10 推荐票"
+        android:textColor="@color/color_333333"
+        android:textSize="11sp" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="5dp"
+        android:text="账户中余额 500 阅读币，本次兑换 2 推荐票= 20阅读币"
+        android:textColor="@color/color_333333"
+        android:textSize="11sp" />
+
+    <com.flyco.roundview.RoundTextView
+        android:layout_width="96dp"
+        android:layout_height="30dp"
+        app:rv_cornerRadius="3dp"
+        android:layout_marginTop="29dp"
+        android:gravity="center"
+        android:text="确定"
+        android:textColor="@color/white"
+        app:rv_backgroundColor="#00a5ea" />
+</LinearLayout>

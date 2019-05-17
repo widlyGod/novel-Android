@@ -2,6 +2,7 @@ package com.novel.cn.mvp.ui.dialog
 
 import android.app.Activity
 import android.graphics.Rect
+import android.graphics.Typeface
 import android.os.Bundle
 import android.support.v7.widget.RecyclerView
 import android.view.View
@@ -24,6 +25,10 @@ class ReadSettingDialog(val activity: Activity) : BottomBaseDialog<ReadSettingDi
     private var onSettingChangeListener: OnSettingChangeListener? = null
     private var chapterCount = 1
     private var curPosition = 1
+
+    private val mKaiti by lazy { Typeface.createFromAsset(mContext.assets, "fonts/Kaiti.ttf") }
+    private val mYahei by lazy { Typeface.createFromAsset(mContext.assets, "fonts/Yahei.ttf") }
+    private val mSongti by lazy { Typeface.createFromAsset(mContext.assets, "fonts/Sonti.ttf") }
 
     init {
         list.add(PageStyle.BG_0)
@@ -62,8 +67,21 @@ class ReadSettingDialog(val activity: Activity) : BottomBaseDialog<ReadSettingDi
         }
         tv_textsize.text = ScreenUtils.pxToSp(ReadSettingManager.getInstance().textSize).toString()
 
-        click(tv_add, tv_minus) {
+        click(tv_add, tv_minus, tv_yahei, tv_songti, tv_kaiti) {
             when (it) {
+                tv_yahei -> {
+                    ReadSettingManager.getInstance().textFont = "fonts/Yahei.ttf"
+                    onSettingChangeListener?.onTextFont(mYahei)
+                }
+                tv_songti -> {
+                    onSettingChangeListener?.onTextFont(mSongti)
+                    ReadSettingManager.getInstance().textFont = "fonts/Sonti.ttf"
+                }
+                tv_kaiti -> {
+                    onSettingChangeListener?.onTextFont(mKaiti)
+                    ReadSettingManager.getInstance().textFont = "fonts/Kaiti.ttf"
+                }
+
                 tv_add -> {
                     var textSize = ScreenUtils.pxToSp(ReadSettingManager.getInstance().textSize)
                     if (textSize >= 30) {
@@ -116,6 +134,8 @@ class ReadSettingDialog(val activity: Activity) : BottomBaseDialog<ReadSettingDi
         fun onPageMode(mode: PageMode)
 
         fun onTextSize(textSize: Int)
+
+        fun onTextFont(font: Typeface)
     }
 
 }

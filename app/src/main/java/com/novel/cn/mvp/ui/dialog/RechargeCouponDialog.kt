@@ -8,6 +8,8 @@ import com.novel.cn.R
 
 class RechargeCouponDialog(context: Context) : BottomBaseDialog<ReadSettingDialog>(context) {
 
+    init {
+    }
 
     override fun setUiBeforShow() {
 

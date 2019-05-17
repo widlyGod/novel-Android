@@ -134,7 +134,7 @@ interface BookService {
      * 发布章节评论
      */
     @POST("novelOAService/chapterComment/queryChapterCommentPage")
-    fun getChapterComment(@Body params: HashMap<String, Any?> ): Observable<BaseResponse<Any>>
+    fun getChapterComment(@Body params: HashMap<String, Any?>): Observable<BaseResponse<MutableList<ChapterComment>>>
 
     /**
      * 单章订阅
@@ -146,5 +146,11 @@ interface BookService {
     fun isChargeChapter(@Body param: HashMap<String, Any?>): Observable<BaseResponse<ChargeChapter>>
 
     @GET("novelOAService/mobile/getChapter")
-    fun getChapterInfo(@Query("chapterId")link: String?): Observable<BaseResponse<ChapterInfoBean>>
+    fun getChapterInfo(@Query("chapterId") link: String?): Observable<BaseResponse<ChapterInfoBean>>
+
+    @POST("novelOAService/upayCenter/upayCenterRecharge")
+    fun recharge(@Body code: HashMap<String, Any> ): Observable<BaseResponse<PayInfoBean>>
+
+    @POST("novelOAService/chapterComment/saveChapterComment")
+    fun chapterComment(@Body params: HashMap<String, Any?>): Observable<BaseResponse<Any>>
 }

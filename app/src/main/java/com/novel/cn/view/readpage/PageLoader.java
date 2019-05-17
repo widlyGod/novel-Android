@@ -9,8 +9,10 @@ import android.graphics.DashPathEffect;
 import android.graphics.Paint;
 import android.graphics.Rect;
 import android.graphics.RectF;
+import android.graphics.Typeface;
 import android.support.v4.content.ContextCompat;
 import android.text.TextPaint;
+import android.text.TextUtils;
 
 
 import com.novel.cn.R;
@@ -106,6 +108,8 @@ public abstract class PageLoader {
     private PageMode mPageMode;
     // 加载器的颜色主题
     private PageStyle mPageStyle;
+
+    private Typeface mTextFont;
     //当前是否是夜间模式
     private boolean isNightMode;
     //书籍绘制区域的宽高
@@ -172,6 +176,13 @@ public abstract class PageLoader {
         // 获取配置参数
         mPageMode = mSettingManager.getPageMode();
         mPageStyle = mSettingManager.getPageStyle();
+        String fontPath = mSettingManager.getTextFont();
+        if (TextUtils.isEmpty(fontPath)) {
+            mTextFont = Typeface.DEFAULT;
+        } else {
+            mTextFont = Typeface.createFromAsset(mContext.getAssets(), fontPath);
+        }
+
         // 初始化参数
         mMarginWidth = ScreenUtils.dpToPx(DEFAULT_MARGIN_WIDTH);
         mMarginHeight = 0;
@@ -203,6 +214,7 @@ public abstract class PageLoader {
         mTipPaint.setTextAlign(Paint.Align.LEFT); // 绘制的起始点
         mTipPaint.setTextSize(ScreenUtils.spToPx(DEFAULT_TIP_SIZE)); // Tip默认的字体大小
         mTipPaint.setAntiAlias(true);
+        mTipPaint.setTypeface(mTextFont);
         mTipPaint.setSubpixelText(true);
 
         // 绘制页面内容的画笔
@@ -210,7 +222,7 @@ public abstract class PageLoader {
         mTextPaint.setColor(mTextColor);
         mTextPaint.setTextSize(mTextSize);
         mTextPaint.setAntiAlias(true);
-
+        mTextPaint.setTypeface(mTextFont);
         // 绘制标题的画笔
         mTitlePaint = new TextPaint();
         mTitlePaint.setColor(mTextColor);
@@ -218,7 +230,7 @@ public abstract class PageLoader {
         mTitlePaint.setStyle(Paint.Style.FILL_AND_STROKE);
         //        mTitlePaint.setTypeface(Typeface.DEFAULT_BOLD);
         mTitlePaint.setAntiAlias(true);
-
+        mTitlePaint.setTypeface(mTextFont);
         // 绘制背景的画笔
         mBgPaint = new Paint();
         mBgPaint.setColor(mBgColor);
@@ -253,6 +265,7 @@ public abstract class PageLoader {
         if (!hasPrevChapter()) {
             return false;
         }
+        mPageView.reset();
         TxtChapter txtChapter = mChapterList.get(mCurChapterPos - 1);
         if (!txtChapter.isFree) {
             mStatus = STATUS_LOADING;
@@ -261,6 +274,7 @@ public abstract class PageLoader {
             chapterChangeCallback();
             return false;
         }
+        mStatus = STATUS_FINISH;
         // 载入上一章。
         if (parsePrevChapter()) {
             mCurPage = getCurPage(0);
@@ -280,6 +294,7 @@ public abstract class PageLoader {
         if (!hasNextChapter()) {
             return false;
         }
+        mPageView.reset();
         TxtChapter txtChapter = mChapterList.get(mCurChapterPos + 1);
         if (!txtChapter.isFree) {
             mStatus = STATUS_LOADING;
@@ -288,6 +303,7 @@ public abstract class PageLoader {
             chapterChangeCallback();
             return false;
         }
+        mStatus = STATUS_FINISH;
         //判断是否达到章节的终止点
         if (parseNextChapter()) {
             mCurPage = getCurPage(0);
@@ -304,7 +320,7 @@ public abstract class PageLoader {
      * @param pos:从 0 开始。
      */
     public void skipToChapter(int pos) {
-        mPageView.loadData();
+        mPageView.reset();
 
         // 设置参数
         mCurChapterPos = pos;
@@ -385,6 +401,31 @@ public abstract class PageLoader {
         mTipPaint.setTextSize(textSize);
 
         // 如果屏幕大小加载完成
+        mPageView.drawCurPage(false);
+    }
+
+    public void setTextFont(Typeface typeface) {
+
+        mTextPaint.setTypeface(typeface);
+        mTipPaint.setTypeface(typeface);
+        mTitlePaint.setTypeface(typeface);
+        // 取消缓存
+        mPrePageList = null;
+        mNextPageList = null;
+
+        // 如果当前已经显示数据
+        if (isChapterListPrepare && mStatus == STATUS_FINISH) {
+            // 重新计算当前页面
+            dealLoadPageList(mCurChapterPos);
+
+            // 防止在最后一页，通过修改字体，以至于页面数减少导致崩溃的问题
+            if (mCurPage.position >= mCurPageList.size()) {
+                mCurPage.position = mCurPageList.size() - 1;
+            }
+            // 重新获取指定页面
+            mCurPage = mCurPageList.get(mCurPage.position);
+        }
+
         mPageView.drawCurPage(false);
     }
 
@@ -613,11 +654,12 @@ public abstract class PageLoader {
      * 打开指定章节
      */
     public void openChapter() {
+
         isFirstOpen = false;
         if (!mPageView.isPrepare()) {
             return;
         }
-
+        mPageView.reset();
         // 如果章节目录没有准备好
         if (!isChapterListPrepare) {
             mStatus = STATUS_LOADING;
@@ -1123,6 +1165,9 @@ public abstract class PageLoader {
     }
 
     boolean parseCurChapter() {
+        if (mPageChangeListener != null) {
+            mPageChangeListener.parseSuccess();
+        }
         // 解析数据
         dealLoadPageList(mCurChapterPos);
         // 预加载下一页面
@@ -1313,7 +1358,7 @@ public abstract class PageLoader {
         String paragraph = chapter.getTitle();//默认展示标题
         try {
             while (showTitle || (paragraph = br.readLine()) != null) {
-                paragraph = StringUtils.convertCC(paragraph, mContext);
+//                paragraph = StringUtils.convertCC(paragraph, mContext);
                 // 重置段落
                 if (!showTitle) {
                     paragraph = paragraph.replaceAll("\\s", "");
@@ -1338,7 +1383,7 @@ public abstract class PageLoader {
                         // 创建Page
                         TxtPage page = new TxtPage();
                         page.position = pages.size();
-                        page.title = StringUtils.convertCC(chapter.getTitle(), mContext);
+                        page.title = chapter.getTitle();
                         page.lines = new ArrayList<>(lines);
                         page.titleLines = titleLinesCount;
                         pages.add(page);
@@ -1391,7 +1436,7 @@ public abstract class PageLoader {
                 //创建Page
                 TxtPage page = new TxtPage();
                 page.position = pages.size();
-                page.title = StringUtils.convertCC(chapter.getTitle(), mContext);
+                page.title = chapter.getTitle();
                 page.lines = new ArrayList<>(lines);
                 page.titleLines = titleLinesCount;
                 pages.add(page);
@@ -1401,7 +1446,7 @@ public abstract class PageLoader {
                 if (rHeight < ScreenUtils.dpToPx(40)) {
                     TxtPage txtPage = new TxtPage();
                     txtPage.position = pages.size();
-                    txtPage.title = StringUtils.convertCC(chapter.getTitle(), mContext);
+                    txtPage.title = chapter.getTitle();
                     txtPage.lines = new ArrayList<>();
                     txtPage.titleLines = titleLinesCount;
                     //                    pages.add(txtPage);

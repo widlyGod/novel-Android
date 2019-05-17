@@ -202,6 +202,7 @@
                             android:src="@drawable/ic_rmb" />
 
                         <EditText
+                            android:id="@+id/et_money"
                             android:layout_width="match_parent"
                             android:layout_height="match_parent"
                             android:layout_marginLeft="7dp"
@@ -235,6 +236,7 @@
                         android:textColor="@color/white" />
 
                     <TextView
+                        android:id="@+id/tv_recharge"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
                         android:gravity="center"

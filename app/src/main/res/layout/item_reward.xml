@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="45dp"
+    android:background="@drawable/selector_reward"
+    android:gravity="center"
+    android:orientation="vertical">
+
+    <TextView
+        android:id="@+id/tv_money"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="30 阅读币"
+        android:textColor="@color/color_666666"
+        android:textSize="11sp" />
+
+    <TextView
+        android:id="@+id/tv_diamond"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="3dp"
+        android:text="赠2颗钻石"
+        android:textColor="@color/color_999999"
+        android:textSize="9sp" />
+</LinearLayout>

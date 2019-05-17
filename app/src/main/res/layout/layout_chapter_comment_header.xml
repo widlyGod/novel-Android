@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical"
+    android:layout_height="wrap_content">
+
+
+
+        <com.flyco.roundview.RoundFrameLayout
+            android:layout_width="match_parent"
+            android:layout_height="102dp"
+            android:layout_marginLeft="18dp"
+            android:layout_marginTop="30dp"
+            android:layout_marginRight="18dp"
+            app:rv_backgroundColor="#ebebeb"
+            app:rv_cornerRadius="3dp">
+
+            <EditText
+                android:id="@+id/et_content"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="@null"
+                android:gravity="top|left"
+                android:hint="写下你对该章节的感想吧！"
+                android:maxLength="200"
+                android:padding="15dp"
+                android:textSize="14sp" />
+
+        </com.flyco.roundview.RoundFrameLayout>
+
+        <TextView
+            android:id="@+id/tv_words"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="18dp"
+            android:layout_marginTop="12dp"
+            android:text="0/200"
+            android:textColor="@color/color_999999"
+            android:textSize="14sp" />
+
+        <com.flyco.roundview.RoundTextView
+            android:id="@+id/tv_release"
+            android:layout_width="102dp"
+            android:layout_height="35dp"
+            android:layout_gravity="right"
+            android:layout_marginRight="18dp"
+            android:gravity="center"
+            android:text="发布评论"
+            android:textColor="@color/white"
+            app:rv_backgroundColor="#c1c1c1"
+            app:rv_cornerRadius="2dp" />
+
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1px"
+            android:layout_marginLeft="18dp"
+            android:layout_marginTop="20dp"
+            android:layout_marginRight="18dp"
+            android:background="@color/line" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="18dp"
+            android:layout_marginTop="20dp"
+            android:layout_marginBottom="10dp"
+            android:gravity="center_vertical"
+            android:orientation="horizontal">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="全部回复"
+                android:textColor="@color/color_333333"
+                android:textSize="15sp" />
+
+            <TextView
+                android:id="@+id/tv_count"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="5dp"
+                android:text="共0条"
+                android:textColor="@color/color_999999"
+                android:textSize="14sp" />
+        </LinearLayout>
+</LinearLayout>
