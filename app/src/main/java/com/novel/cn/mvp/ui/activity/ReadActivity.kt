@@ -35,6 +35,7 @@ import kotlinx.android.synthetic.main.layout_header_volume.*
 import kotlinx.android.synthetic.main.layout_menu_chapter.*
 import kotlinx.android.synthetic.main.layout_shoufei.*
 import java.util.*
+import kotlin.collections.ArrayList
 
 
 class ReadActivity : BaseActivity<ReadPresenter>(), ReadContract.View {
@@ -56,7 +57,6 @@ class ReadActivity : BaseActivity<ReadPresenter>(), ReadContract.View {
 
                 override fun onPageStyle(style: PageStyle) {
                     mPageLoader.setPageStyle(style)
-//                    ll_info.setBackgroundColor(ContextCompat.getColor(this@ReadActivity, style.bgColor))
                 }
 
                 override fun onPageMode(mode: PageMode) {
@@ -74,7 +74,7 @@ class ReadActivity : BaseActivity<ReadPresenter>(), ReadContract.View {
 
     private val mAdapter by lazy { ChapterAdapter() }
 
-    private var mVolume: Volume? = null
+    private var mVolume: VolumeBean? = null
 
     private val mPopup by lazy { VolumePopup(this) }
 
@@ -161,32 +161,32 @@ class ReadActivity : BaseActivity<ReadPresenter>(), ReadContract.View {
         mPageLoader.setOnPageChangeListener(object : PageLoader.OnPageChangeListener {
             override fun parseSuccess() {
                 ll_info.visible(false)
-
             }
 
             override fun noFree(txtChapter: TxtChapter, mCurChapterPos: Int) {
                 if (!tipDialog.isShowing) {
                     tipDialog.show()
                 }
-                mPresenter?.isChargeChapter(mBook.novelInfo.novelId, mVolume?.volume, txtChapter, mCurChapterPos)
+                mPresenter?.isChargeChapter(mBook.novelInfo.novelId, mVolume?.volumeId, txtChapter, mCurChapterPos)
             }
 
             override fun onChapterChange(pos: Int) {
                 seekbar.progress = pos
                 mAdapter.setCurrentPosition(pos)
-                val item = mAdapter.getItem(pos) as ChapterInfo
-                tv_chapter_name.text = "${item.chapter}：${item.title}"
+                val item = mAdapter.getItem(pos) as Calalogue
+                tv_chapter_name.text = "${item.chapter}：${item.chapterTitle}"
                 tv_chapter_info.text = "${item.chapter}章节/${mAdapter.data.size}章节"
-                toolbar_title.text = "第${item.chapter}章 ${item.title}"
+                toolbar_title.text = "第${item.chapter}章 ${item.chapterTitle}"
 
-                if(tipDialog.isShowing){
+                if (tipDialog.isShowing) {
                     tipDialog.dismiss()
                 }
             }
 
             override fun requestChapters(requestChapters: MutableList<TxtChapter>?) {
 //                tipDialog.show()
-                mPresenter?.readNovel(requestChapters, mBook.novelInfo.novelId)
+//                mPresenter?.readNovel(requestChapters, mBook.novelInfo.novelId)
+                mPresenter?.preDownload(requestChapters)
             }
 
             override fun onCategoryFinish(chapters: MutableList<TxtChapter>?) {
@@ -200,8 +200,8 @@ class ReadActivity : BaseActivity<ReadPresenter>(), ReadContract.View {
             }
         })
         refreshNightMode()
-        mPresenter?.getVolumeList(mBook.novelInfo.novelId)
-
+//        mPresenter?.getVolumeList(mBook.novelInfo.novelId)
+        mPresenter?.getCatalogue(mBook.novelInfo.novelId)
         seekbar.setOnSeekBarChangeListener(object : SeekBar.OnSeekBarChangeListener {
             override fun onStopTrackingTouch(seekBar: SeekBar?) {
                 mPageLoader.skipToChapter(seekBar!!.progress)
@@ -250,11 +250,36 @@ class ReadActivity : BaseActivity<ReadPresenter>(), ReadContract.View {
                     val chapter = mAdapter.getCurrentChapter()
                     chapter?.let {
                         hideSystemBar()
-                        JumpManager.jumpChapterComment(this, mBook.novelInfo.novelId, it.id, mVolume?.volume, mBook.novelInfo.authorId)
+                        JumpManager.jumpChapterComment(this, mBook.novelInfo.novelId, it.chapterId, mVolume?.volumeId, mBook.novelInfo.authorId)
                     }
                 }
             }
         }
+    }
+
+    override fun showCalalogueInfo(list: ArrayList<VolumeBean>) {
+        val data = list[0]
+        tv_volume_title.text = data.volumeName
+        tv_count.text = "共${data.calalogue.size}章"
+        mPopup.setData(list)
+        seekbar.max = data.calalogue.size - 1
+
+        mAdapter.setNewData(data.calalogue)
+        val chapterList = ArrayList<TxtChapter>(data.calalogue.size)
+        data.calalogue.forEach {
+            val txt = TxtChapter()
+
+            txt.bookId = mBook.novelInfo.novelId
+            txt.chapterId = it.chapterId
+            txt.title = it.chapterTitle
+            txt.isFree = it.isFree
+            txt.isLocked = it.isLocked
+            txt.filePath = it.filePath
+            txt.words = it.words
+            txt.money = it.money
+            chapterList.add(txt)
+        }
+        mPageLoader.setChapterList(chapterList)
     }
 
     override fun isChargeChapter(data: ChargeChapter) {
@@ -271,6 +296,7 @@ class ReadActivity : BaseActivity<ReadPresenter>(), ReadContract.View {
     override fun openBook(mCurChapterPos: Int, txtChapter: TxtChapter?) {
         ll_info.visible(false)
         txtChapter?.isFree = true
+        tipDialog.dismiss()
         mPageLoader.skipToChapter(mCurChapterPos)
     }
 
@@ -342,38 +368,35 @@ class ReadActivity : BaseActivity<ReadPresenter>(), ReadContract.View {
      * 打开-》从缓存获取->从服务器获取
      */
 
-    override fun loadChapterSuccess(chapterInfo: ChapterInfo2) {
+    override fun loadChapterSuccess() {
         if (mPageLoader.pageStatus == PageLoader.STATUS_LOADING) {
             mPageLoader.openChapter()
         }
     }
 
     override fun showVolume(data: MutableList<Volume>?) {
-        mVolume = data?.get(0)
-        tv_volume_title.text = data?.get(0)?.title
-        tv_count.text = "共${data?.get(0)?.chapterNum}章"
 
-        mPopup.setData(data)
 
     }
 
     override fun showChapterList(volume: String?, data: ChapterBean) {
 
-        seekbar.max = data.list.size - 1
+        /*  seekbar.max = data.list.size - 1
 
-        mAdapter.setNewData(data.list)
-        val list = ArrayList<TxtChapter>(data.list.size)
-        data.list.forEach {
-            val txt = TxtChapter()
+          mAdapter.setNewData(data.list)
+          val list = ArrayList<TxtChapter>(data.list.size)
+          data.list.forEach {
+              val txt = TxtChapter()
 
-            txt.bookId = mBook.novelInfo.novelId
-            txt.link = it.id
-            txt.title = it.title
-            txt.isFree = it.isFree
-            list.add(txt)
-        }
+              txt.bookId = mBook.novelInfo.novelId
+              txt.link = it.id
+              txt.title = it.title
+              txt.isFree = it.isFree
 
-        mPageLoader.setChapterList(list)
+              list.add(txt)
+          }
+
+          mPageLoader.setChapterList(list)*/
     }
 
     private fun toggleMenu() {

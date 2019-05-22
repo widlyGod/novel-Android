@@ -157,7 +157,7 @@ class RechargeActivity : BaseActivity<RechargePresenter>(), RechargeContract.Vie
                         money = mAdapter.getSelectedItem().price
                     }
                     val code = if (!tv_wechat_pay.isEnabled) "0" else "1"
-                    mPresenter?.recharge(code, "0.01")
+                    mPresenter?.recharge(code, money)
                 }
             }
         }
@@ -166,6 +166,8 @@ class RechargeActivity : BaseActivity<RechargePresenter>(), RechargeContract.Vie
                 val text = et_money.text.toString()
                 if (text == ".") {
                     et_money.text = null
+                } else {
+                    tv_money.text = "(共${text}元)"
                 }
             }
         }

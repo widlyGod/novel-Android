@@ -1,8 +1,12 @@
 package com.novel.cn.view.readpage;
 
 
+import com.jess.arms.utils.LogUtils;
+
+import java.io.BufferedInputStream;
 import java.io.BufferedReader;
 import java.io.File;
+import java.io.FileInputStream;
 import java.io.FileReader;
 import java.io.Reader;
 import java.util.ArrayList;
@@ -44,17 +48,50 @@ public class NetPageLoader extends PageLoader {
 
     @Override
     protected BufferedReader getChapterReader(TxtChapter chapter) throws Exception {
-        File file = CacheManager.getInstance().getChapterFile(mBookId, chapter.link);
+        File file = CacheManager.getInstance().getChapterFile(mBookId, chapter.filePath);
         if (!file.exists()) {
             return null;
         }
         Reader reader = new FileReader(file);
+
+        String encoding = ((FileReader) reader).getEncoding();
+        LogUtils.warnInfo("===============encoding");
         return new BufferedReader(reader);
     }
 
+    /**
+     * 判断文件的编码格式
+     * @param fileName :file
+     * @return 文件编码格式
+     * @throws Exception
+     */
+    public static String codeString(String fileName) throws Exception{
+        BufferedInputStream bin = new BufferedInputStream(
+                new FileInputStream(fileName));
+        int p = (bin.read() << 8) + bin.read();
+        String code = null;
+
+        switch (p) {
+            case 0xefbb:
+                code = "UTF-8";
+                break;
+            case 0xfffe:
+                code = "Unicode";
+                break;
+            case 0xfeff:
+                code = "UTF-16BE";
+                break;
+            default:
+                code = "GBK";
+        }
+
+        return code;
+    }
+
+
     @Override
     protected boolean hasChapterData(TxtChapter chapter) {
-        return CacheManager.getInstance().isChapterCached(mBookId, chapter.link);
+        return CacheManager.getInstance().isChapterCached(mBookId, chapter.filePath);
     }
 
     // 装载上一章节的内容

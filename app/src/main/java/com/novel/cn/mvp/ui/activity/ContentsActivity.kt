@@ -31,8 +31,8 @@ class ContentsActivity : BaseActivity<ContentsPresenter>(), ContentsContract.Vie
     private val mPopup by lazy {
         VolumePopup(this).apply {
             setListener {
-                mVolume = it
-                mPresenter?.getChapterList(mBook.novelInfo.novelId, it.volume)
+//                mVolume = it
+//                mPresenter?.getChapterList(mBook.novelInfo.novelId, it.volume)
                 dismiss()
             }
         }
@@ -83,11 +83,11 @@ class ContentsActivity : BaseActivity<ContentsPresenter>(), ContentsContract.Vie
         mVolume = data?.get(0)
         mHeaderView.tv_volume_title.text = data?.get(0)?.title
         mHeaderView.tv_count.text = "共${data?.get(0)?.chapterNum}章"
-        mPopup.setData(data)
+//        mPopup.setData(data)
     }
 
     override fun showChapterList(volume: String?, data: ChapterBean) {
-        mAdapter.setNewData(data.list)
+//        mAdapter.setNewData(data.list)
     }
 
     override fun showState(state: Int) {

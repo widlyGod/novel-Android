@@ -15,6 +15,7 @@ import android.text.TextPaint;
 import android.text.TextUtils;
 
 
+import com.jess.arms.utils.LogUtils;
 import com.novel.cn.R;
 import com.novel.cn.app.utils.RxUtils;
 import com.novel.cn.db.DbManager;
@@ -747,6 +748,7 @@ public abstract class PageLoader {
         return isChapterOpen;
     }
 
+    private long startTime = 0;
     /**
      * 加载页面列表
      *
@@ -760,6 +762,7 @@ public abstract class PageLoader {
         if (!hasChapterData(chapter)) {
             return null;
         }
+        startTime = System.currentTimeMillis();
         // 获取章节的文本流
         BufferedReader reader = getChapterReader(chapter);
         List<TxtPage> chapters = loadPages(chapter, reader);
@@ -1359,6 +1362,7 @@ public abstract class PageLoader {
         try {
             while (showTitle || (paragraph = br.readLine()) != null) {
 //                paragraph = StringUtils.convertCC(paragraph, mContext);
+                LogUtils.warnInfo("=========== >>>"+paragraph);
                 // 重置段落
                 if (!showTitle) {
                     paragraph = paragraph.replaceAll("\\s", "");
@@ -1465,6 +1469,8 @@ public abstract class PageLoader {
                 e.printStackTrace();
             }
         }
+        long endTime = System.currentTimeMillis();
+        LogUtils.warnInfo("=========== >>> time "+(endTime - startTime));
         return pages;
     }
 

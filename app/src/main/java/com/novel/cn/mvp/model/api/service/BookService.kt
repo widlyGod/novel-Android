@@ -2,6 +2,7 @@ package com.novel.cn.mvp.model.api.service
 
 import com.novel.cn.mvp.model.entity.*
 import io.reactivex.Observable
+import okhttp3.ResponseBody
 import retrofit2.http.*
 import java.util.*
 import kotlin.collections.HashMap
@@ -149,8 +150,15 @@ interface BookService {
     fun getChapterInfo(@Query("chapterId") link: String?): Observable<BaseResponse<ChapterInfoBean>>
 
     @POST("novelOAService/upayCenter/upayCenterRecharge")
-    fun recharge(@Body code: HashMap<String, Any> ): Observable<BaseResponse<PayInfoBean>>
+    fun recharge(@Body code: HashMap<String, Any>): Observable<BaseResponse<PayInfoBean>>
 
     @POST("novelOAService/chapterComment/saveChapterComment")
     fun chapterComment(@Body params: HashMap<String, Any?>): Observable<BaseResponse<Any>>
+
+    @GET("novelAppService/catalogue/getCatalogue")
+    fun getCalalogue(@Query("novelId") novelId: String): Observable<BaseResponse<MutableList<Calalogue>>>
+
+    @Streaming
+    @GET
+    fun preDownload(@Url url: String?): Observable<ResponseBody>
 }

@@ -6,13 +6,14 @@ import com.chad.library.adapter.base.BaseQuickAdapter
 import com.chad.library.adapter.base.BaseViewHolder
 import com.novel.cn.R
 import com.novel.cn.mvp.model.entity.Volume
+import com.novel.cn.mvp.model.entity.VolumeBean
 
-class VolumeAdapter : BaseQuickAdapter<Volume, BaseViewHolder>(R.layout.item_volume) {
+class VolumeAdapter : BaseQuickAdapter<VolumeBean, BaseViewHolder>(R.layout.item_volume) {
 
     private var currentPosition = 0
 
-    override fun convert(helper: BaseViewHolder, item: Volume) {
-        (helper.itemView as TextView).text = item.title
+    override fun convert(helper: BaseViewHolder, item: VolumeBean) {
+        (helper.itemView as TextView).text = item.volumeName
         (helper.itemView as TextView).setBackgroundColor(if(currentPosition == helper.adapterPosition) Color.parseColor("#e3f1ff") else mContext.resources.getColor(R.color.white))
     }
 

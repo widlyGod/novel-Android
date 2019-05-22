@@ -1,18 +1,3 @@
-/*
- * Copyright 2017 JessYan
- *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
- *      http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
- */
 package com.novel.cn.app
 
 import android.content.Context
@@ -26,16 +11,6 @@ import com.novel.cn.mvp.model.entity.BaseResponse
 import okhttp3.*
 
 
-/**
- * ================================================
- * 展示 [GlobalHttpHandler] 的用法
- *
- *
- * Created by JessYan on 04/09/2017 17:06
- * [Contact me](mailto:jess.yan.effort@gmail.com)
- * [Follow me](https://github.com/JessYanCoding)
- * ================================================
- */
 class GlobalHttpHandlerImpl(private val context: Context) : GlobalHttpHandler {
 
     /**
@@ -55,18 +30,6 @@ class GlobalHttpHandlerImpl(private val context: Context) : GlobalHttpHandler {
                 throw ApiException(data.message)
             }
         }
-
-        /* 这里如果发现 token 过期, 可以先请求最新的 token, 然后在拿新的 token 放入 Request 里去重新请求
-        注意在这个回调之前已经调用过 proceed(), 所以这里必须自己去建立网络请求, 如使用 Okhttp 使用新的 Request 去请求
-        create a new request and modify it accordingly using the new token
-        Request newRequest = chain.request().newBuilder().header("token", newToken)
-                             .build();
-
-        retry the request
-
-        response.body().close();
-        如果使用 Okhttp 将新的请求, 请求成功后, 再将 Okhttp 返回的 Response return 出去即可
-        如果不需要返回新的结果, 则直接把参数 response 返回出去即可*/
         return response
     }
 
@@ -78,16 +41,12 @@ class GlobalHttpHandlerImpl(private val context: Context) : GlobalHttpHandler {
      * @return [Request]
      */
     override fun onHttpRequestBefore(chain: Interceptor.Chain, request: Request): Request {
-        /* 如果需要在请求服务器之前做一些操作, 则重新构建一个做过操作的 Request 并 return, 如增加 Header、Params 等请求信息, 不做操作则直接返回参数 request
-        return chain.request().newBuilder().header("token", tokenId)
-                              .build(); */
 
         val newRequest = chain.request().newBuilder()
 
-        newRequest.addHeader("Content-Type", "application/json")
+        newRequest.addHeader("Content-Type", "application/json; charset=UTF-8")
                 .addHeader("Accept", "application/json")
                 .addHeader("sessionId", Preference.getString(Constant.SESSION_ID))
-//                .post(RequestBody.create(MediaType.parse("application/json;charset=UTF-8"),request.body().toString()))
 
         return newRequest.build()
     }

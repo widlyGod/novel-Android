@@ -10,6 +10,7 @@ import android.widget.PopupWindow
 import com.novel.cn.R
 import com.novel.cn.ext.dp2px
 import com.novel.cn.mvp.model.entity.Volume
+import com.novel.cn.mvp.model.entity.VolumeBean
 import com.novel.cn.mvp.ui.adapter.VolumeAdapter
 import kotlinx.android.synthetic.main.layout_volume_popup.view.*
 
@@ -19,22 +20,22 @@ class VolumePopup(context: Context) : PopupWindow(context) {
         VolumeAdapter().apply {
             setOnItemClickListener { adapter, view, position ->
                 setCurrentPosition(position)
-                listener?.invoke(adapter.getItem(position) as Volume)
+                listener?.invoke(adapter.getItem(position) as VolumeBean)
             }
         }
     }
 
-    private var mData = ArrayList<Volume>()
+    private var mData = ArrayList<VolumeBean>()
 
-    fun setData(data: MutableList<Volume>?) {
+    fun setData(data: MutableList<VolumeBean>?) {
         mAdapter.setNewData(data)
         mAdapter.notifyDataSetChanged()
     }
 
-    private var listener: ((item: Volume) -> Unit)? = null
+    private var listener: ((item: VolumeBean) -> Unit)? = null
 
 
-    fun setListener(listener: ((item: Volume) -> Unit)?) {
+    fun setListener(listener: ((item: VolumeBean) -> Unit)?) {
         this.listener = listener
     }
 

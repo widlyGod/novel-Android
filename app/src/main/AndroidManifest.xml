@@ -23,7 +23,6 @@
         android:theme="@style/AppTheme"
         tools:replace="android:name,android:theme">
 
-
         <activity
             android:name=".mvp.ui.activity.LauncherActivity"
             android:launchMode="singleTask"

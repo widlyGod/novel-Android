@@ -57,7 +57,14 @@ constructor(model: LoginContract.Model, rootView: LoginContract.View) :
         val md5Password = ArmsUtils.encodeToMD5(password)
         mModel.login(userName, md5Password)
                 .subscribeOn(Schedulers.io())
+                .doOnSubscribe {
+                    mRootView.showLoading()
+                }
+                .subscribeOn(AndroidSchedulers.mainThread())
                 .observeOn(AndroidSchedulers.mainThread())
+                .doFinally {
+                    mRootView.hideLoading()
+                }
                 .compose(RxLifecycleUtils.bindToLifecycle(mRootView))
                 .subscribe(object : ErrorHandleSubscriber<BaseResponse<LoginInfo>>(mErrorHandler) {
                     override fun onNext(t: BaseResponse<LoginInfo>) {

@@ -12,13 +12,22 @@ import com.novel.cn.mvp.contract.ReadContract
 import com.novel.cn.mvp.model.api.service.BookService
 import com.novel.cn.mvp.model.entity.*
 import io.reactivex.Observable
-
+import okhttp3.ResponseBody
 
 
 @ActivityScope
 class ReadModel
 @Inject
 constructor(repositoryManager: IRepositoryManager) : BaseModel(repositoryManager), ReadContract.Model {
+    override fun preDownload(url: String?):Observable<ResponseBody> {
+         return mRepositoryManager.obtainRetrofitService(BookService::class.java).preDownload(url)
+    }
+
+    override fun getCalalogue(novelId: String): Observable<BaseResponse<MutableList<Calalogue>>> {
+
+        return mRepositoryManager.obtainRetrofitService(BookService::class.java).getCalalogue(novelId)
+    }
+
     override fun getChapterInfo(link: String?): Observable<BaseResponse<ChapterInfoBean>> {
          return mRepositoryManager.obtainRetrofitService(BookService::class.java).getChapterInfo(link)
     }

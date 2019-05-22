@@ -14,12 +14,73 @@ public class TxtChapter{
     //章节名(共用)
     String title;
 
+    String chapterId;
+
     //章节内容在文章中的起始位置(本地)
     long start;
     //章节内容在文章中的终止位置(本地)
     long end;
 
     boolean isFree;
+
+    String filePath;
+
+    boolean isLocked;
+
+    String money;
+
+    Long publishTime;
+
+    String words;
+
+
+    public String getChapterId() {
+        return chapterId;
+    }
+
+    public void setChapterId(String chapterId) {
+        this.chapterId = chapterId;
+    }
+
+    public String getFilePath() {
+        return filePath;
+    }
+
+    public void setFilePath(String filePath) {
+        this.filePath = filePath;
+    }
+
+    public boolean isLocked() {
+        return isLocked;
+    }
+
+    public void setLocked(boolean locked) {
+        isLocked = locked;
+    }
+
+    public String getMoney() {
+        return money;
+    }
+
+    public void setMoney(String money) {
+        this.money = money;
+    }
+
+    public Long getPublishTime() {
+        return publishTime;
+    }
+
+    public void setPublishTime(Long publishTime) {
+        this.publishTime = publishTime;
+    }
+
+    public String getWords() {
+        return words;
+    }
+
+    public void setWords(String words) {
+        this.words = words;
+    }
 
     public boolean isFree() {
         return isFree;
