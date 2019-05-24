@@ -16,9 +16,11 @@
 package com.jess.arms.mvp;
 
 import android.app.Activity;
+import android.arch.lifecycle.LifecycleOwner;
 import android.content.Intent;
 import android.support.annotation.NonNull;
 
+import com.jess.arms.base.IRxLifecycleProvider;
 import com.jess.arms.utils.ArmsUtils;
 
 import static com.jess.arms.utils.Preconditions.checkNotNull;
@@ -36,7 +38,7 @@ import static com.jess.arms.utils.Preconditions.checkNotNull;
  * <a href="https://github.com/JessYanCoding">Follow me</a>
  * ================================================
  */
-public interface IView {
+public interface IView extends IRxLifecycleProvider, LifecycleOwner {
 
     /**
      * 显示加载
@@ -57,9 +59,9 @@ public interface IView {
      *
      * @param message 消息内容, 不能为 {@code null}
      */
-   default void showMessage(@NonNull String message){
+    default void showMessage(@NonNull String message) {
 
-   }
+    }
 
     /**
      * 跳转 {@link Activity}

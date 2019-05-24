@@ -1,23 +1,18 @@
 package com.novel.cn.mvp.ui.activity
 
-import android.content.Intent
 import android.os.Bundle
 import android.support.v7.widget.SimpleItemAnimator
-
 import com.jess.arms.base.BaseActivity
 import com.jess.arms.di.component.AppComponent
 import com.jess.arms.integration.EventBusManager
-import com.jess.arms.utils.ArmsUtils
-
-import com.novel.cn.di.component.DaggerRankListComponent
-import com.novel.cn.di.module.RankListModule
-import com.novel.cn.mvp.contract.RankListContract
-import com.novel.cn.mvp.presenter.RankListPresenter
-
 import com.novel.cn.R
 import com.novel.cn.app.JumpManager
+import com.novel.cn.di.component.DaggerRankListComponent
+import com.novel.cn.di.module.RankListModule
 import com.novel.cn.eventbus.BookshelfEvent
+import com.novel.cn.mvp.contract.RankListContract
 import com.novel.cn.mvp.model.entity.RankWeek
+import com.novel.cn.mvp.presenter.RankListPresenter
 import com.novel.cn.mvp.ui.adapter.RankListAdapter
 import com.novel.cn.utils.StatusBarUtils
 import com.novel.cn.view.CustomLoadMoreView

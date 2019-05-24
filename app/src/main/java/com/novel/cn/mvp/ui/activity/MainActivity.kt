@@ -1,27 +1,21 @@
 package com.novel.cn.mvp.ui.activity
 
-import android.content.Intent
 import android.graphics.Typeface
 import android.os.Bundle
 import android.support.v4.app.Fragment
-import android.util.Log
 import com.flyco.tablayout.listener.CustomTabEntity
 import com.flyco.tablayout.listener.OnTabSelectListener
-
 import com.jess.arms.base.BaseActivity
 import com.jess.arms.di.component.AppComponent
-import com.jess.arms.utils.ArmsUtils
-
+import com.novel.cn.R
 import com.novel.cn.di.component.DaggerMainComponent
 import com.novel.cn.di.module.MainModule
 import com.novel.cn.mvp.contract.MainContract
 import com.novel.cn.mvp.presenter.MainPresenter
-import com.novel.cn.R
-import com.novel.cn.mvp.ui.fragment.BookshelfFragment
 import com.novel.cn.mvp.ui.fragment.MyFragment
 import com.novel.cn.utils.StatusBarUtils
 import kotlinx.android.synthetic.main.activity_main.*
-import java.util.ArrayList
+import java.util.*
 import javax.inject.Inject
 import javax.inject.Named
 

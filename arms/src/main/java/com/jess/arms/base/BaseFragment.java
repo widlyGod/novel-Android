@@ -29,11 +29,14 @@ import com.jess.arms.integration.cache.Cache;
 import com.jess.arms.integration.cache.CacheType;
 import com.jess.arms.integration.lifecycle.FragmentLifecycleable;
 import com.jess.arms.mvp.IPresenter;
+import com.jess.arms.mvp.IView;
 import com.jess.arms.utils.ArmsUtils;
 import com.trello.rxlifecycle2.android.FragmentEvent;
 
 import javax.inject.Inject;
 
+import io.reactivex.disposables.CompositeDisposable;
+import io.reactivex.disposables.Disposable;
 import io.reactivex.subjects.BehaviorSubject;
 import io.reactivex.subjects.Subject;
 
@@ -51,11 +54,12 @@ import io.reactivex.subjects.Subject;
  * <a href="https://github.com/JessYanCoding">Follow me</a>
  * ================================================
  */
-public abstract class BaseFragment<P extends IPresenter> extends Fragment implements IFragment, FragmentLifecycleable {
+public abstract class BaseFragment<P extends IPresenter> extends Fragment implements IFragment, FragmentLifecycleable, IView {
     protected final String TAG = this.getClass().getSimpleName();
     private final BehaviorSubject<FragmentEvent> mLifecycleSubject = BehaviorSubject.create();
     private Cache<String, Object> mCache;
     protected Context mContext;
+    private CompositeDisposable compositeDisposable;
     @Inject
     @Nullable
     protected P mPresenter;//如果当前页面逻辑简单, Presenter 可以为 null
@@ -84,12 +88,14 @@ public abstract class BaseFragment<P extends IPresenter> extends Fragment implem
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+        compositeDisposable = new CompositeDisposable();
         return initView(inflater, container, savedInstanceState);
     }
 
     @Override
     public void onDestroy() {
         super.onDestroy();
+        compositeDisposable.clear();
         if (mPresenter != null) mPresenter.onDestroy();//释放资源
         this.mPresenter = null;
     }
@@ -99,6 +105,17 @@ public abstract class BaseFragment<P extends IPresenter> extends Fragment implem
         super.onDetach();
         mContext = null;
     }
+
+    @Override
+    public void bindToLifecycle(Disposable disposable) {
+        compositeDisposable.add(disposable);
+    }
+
+    @Override
+    public void removeFromLifecycle(Disposable disposable) {
+        compositeDisposable.remove(disposable);
+    }
+
 
     /**
      * 是否使用 EventBus

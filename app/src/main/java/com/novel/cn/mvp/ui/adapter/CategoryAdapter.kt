@@ -4,6 +4,7 @@ import com.chad.library.adapter.base.BaseMultiItemQuickAdapter
 import com.chad.library.adapter.base.BaseViewHolder
 import com.chad.library.adapter.base.entity.MultiItemEntity
 import com.novel.cn.R
+import com.novel.cn.app.JumpManager
 import com.novel.cn.app.loadImage
 import com.novel.cn.app.visible
 import com.novel.cn.mvp.model.entity.Category
@@ -45,6 +46,7 @@ class CategoryAdapter : BaseMultiItemQuickAdapter<MultiItemEntity, BaseViewHolde
                 item as CategoryChildren
                 itemView.iv_icon.loadImage(item.imgUrl)
                 itemView.tv_category_name.text = item.typeName
+                itemView.setOnClickListener { JumpManager.toCategoryList(mContext, item.id, item.parentId, item.typeName) }
             }
         }
 

@@ -66,7 +66,7 @@ object JumpManager {
     /**
      * 跳转到充值页面
      */
-    fun jumpRecharge(context: Context? ) {
+    fun jumpRecharge(context: Context?) {
         context?.startActivity<RechargeActivity>()
     }
 
@@ -79,5 +79,12 @@ object JumpManager {
                 "chapterId" to chapterId,
                 "volumeId" to volumeId,
                 "authorId" to authorId)
+    }
+
+    /**
+     * 跳转到分类列表
+     */
+    fun toCategoryList(context: Context?, novelTypeId: Int?, parentId: Int?, title: String?) {
+        context?.startActivity<CategoryListActivity>("novelTypeId" to novelTypeId, "parentId" to parentId, "title" to title)
     }
 }

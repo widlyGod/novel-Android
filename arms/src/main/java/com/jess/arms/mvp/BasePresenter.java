@@ -25,6 +25,7 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.SupportActivity;
 import android.view.View;
 
+import com.jess.arms.base.IRxLifecycleProvider;
 import com.jess.arms.integration.EventBusManager;
 import com.jess.arms.utils.Preconditions;
 import com.trello.rxlifecycle2.RxLifecycle;
@@ -43,7 +44,7 @@ import io.reactivex.functions.Action;
  * <a href="https://github.com/JessYanCoding">Follow me</a>
  * ================================================
  */
-public class BasePresenter<M extends IModel, V extends IView> implements IPresenter, LifecycleObserver {
+public class BasePresenter<M extends IModel, V extends IView> implements IPresenter, LifecycleObserver, IRxLifecycleProvider {
     protected final String TAG = this.getClass().getSimpleName();
     protected CompositeDisposable mCompositeDisposable;
     protected M mModel;
@@ -158,5 +159,15 @@ public class BasePresenter<M extends IModel, V extends IView> implements IPresen
         if (mCompositeDisposable != null) {
             mCompositeDisposable.clear();//保证 Activity 结束时取消所有正在执行的订阅
         }
+    }
+
+    @Override
+    public void bindToLifecycle(Disposable disposable) {
+        mRootView.bindToLifecycle(disposable);
+    }
+
+    @Override
+    public void removeFromLifecycle(Disposable disposable) {
+        mRootView.removeFromLifecycle(disposable);
     }
 }

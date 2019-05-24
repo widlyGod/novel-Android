@@ -2,6 +2,7 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
+    xmlns:tools="http://schemas.android.com/tools"
     android:orientation="horizontal"
     android:paddingLeft="15dp"
     android:paddingTop="10dp"
@@ -29,7 +30,7 @@
             android:id="@+id/tv_book_name"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="勋喵"
+            tools:text="勋喵"
             android:textColor="@color/color_333333" />
 
         <LinearLayout
@@ -42,7 +43,7 @@
                 android:id="@+id/tv_author"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="上官明"
+                tools:text="上官明"
                 android:textColor="@color/color_333333"
                 android:textSize="12sp" />
 
@@ -65,7 +66,7 @@
             android:ellipsize="end"
             android:lineSpacingExtra="3dp"
             android:maxLines="3"
-            android:text="收到货付款交首付款交首付款精神可嘉发货速度快浩丰科技水电费框即可路径下"
+            tools:text="收到货付款交首付款交首付款精神可嘉发货速度快浩丰科技水电费框即可路径下"
             android:textColor="@color/color_999999"
             android:textSize="12sp" />
 
@@ -74,11 +75,12 @@
 
     <ImageView
         android:id="@+id/iv_collect"
+        android:padding="20dp"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
-        android:layout_marginLeft="30dp"
-        android:layout_marginRight="38dp"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="18dp"
         android:src="@drawable/ic_add_bookself_" />
 
 </LinearLayout>

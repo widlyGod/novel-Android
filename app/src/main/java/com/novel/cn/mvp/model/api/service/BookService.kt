@@ -64,6 +64,14 @@ interface BookService {
     @POST("novelOAService/novelList/getAppAllList")
     fun getRank(@Body params: HashMap<String, String>): Observable<BaseResponse<MutableList<RankBean>>>
 
+
+    /**
+     * 筛选小说
+     */
+    @POST("novelOAService/novelFilter/getNovels")
+    fun getNovels(@Body params: HashMap<String, String>): Observable<BaseResponse<CategoryBean>>
+
+
     /*
     *小说评论
      */
@@ -142,6 +150,14 @@ interface BookService {
      */
     @POST("novelOAService/novelDetail/addConsumeRecord")
     fun subcribeBook(@Body params: HashMap<String, Any?>): Observable<BaseResponse<Any>>
+
+
+    /**
+     * 书管理移动
+     */
+    @POST("novelOAService/mobile/moveMyNovel")
+    fun moveBook(@Body params: HashMap<String, HashMap<String,Int>>): Observable<BaseResponse<Any>>
+
 
     @POST("novelOAService/novelDetail/isChargeChapter")
     fun isChargeChapter(@Body param: HashMap<String, Any?>): Observable<BaseResponse<ChargeChapter>>

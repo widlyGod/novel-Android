@@ -13,6 +13,8 @@ import com.novel.cn.mvp.model.entity.Book
 import com.novel.cn.mvp.model.entity.Pagination
 import io.reactivex.Observable
 import java.util.*
+import kotlin.collections.HashMap
+import kotlin.collections.HashSet
 
 
 @ActivityScope
@@ -25,5 +27,9 @@ constructor(repositoryManager: IRepositoryManager) : BaseModel(repositoryManager
 
     override fun getBookList(params: HashMap<String, String>): Observable<BaseResponse<Pagination<Book>>> {
          return mRepositoryManager.obtainRetrofitService(BookService::class.java).getBookshelf(params)
+    }
+
+    override fun moveBook(params: HashMap<String, HashMap<String,Int>>): Observable<BaseResponse<Any>> {
+        return mRepositoryManager.obtainRetrofitService(BookService::class.java).moveBook(params)
     }
 }

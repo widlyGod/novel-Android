@@ -7,7 +7,7 @@ buildscript {
     repositories {
         google()
         jcenter()
-        mavenCentral()
+        maven { url "http://maven.aliyun.com/nexus/content/repositories/releases" }
     }
     dependencies {
         classpath 'com.android.tools.build:gradle:3.2.1'
@@ -22,6 +22,7 @@ allprojects {
         google()
         jcenter()
         maven { url "https://jitpack.io" }
+        maven { url "http://maven.aliyun.com/nexus/content/repositories/releases" }
         maven { url 'https://dl.bintray.com/qichuan/maven/' }
         // 支付宝 SDK AAR 包所需的配置
         flatDir {

@@ -70,14 +70,6 @@
             android:text="删除（0）"
             android:textColor="#ed5a60" />
 
-        <TextView
-            android:id="@+id/tv_move"
-            android:layout_width="0dp"
-            android:layout_height="match_parent"
-            android:layout_weight="1"
-            android:gravity="center"
-            android:text="移动"
-            android:textColor="#000000" />
     </LinearLayout>
 
 

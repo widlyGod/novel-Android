@@ -87,4 +87,21 @@ constructor(model: BookManagerContract.Model, rootView: BookManagerContract.View
                 })
 
     }
+
+    fun moveBook(map :HashMap<String, Int>) {
+        val params = HashMap<String, HashMap<String, Int>>()
+        params["moveNovelMap"] = map
+        mModel.moveBook(params)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .compose(RxLifecycleUtils.bindToLifecycle(mRootView))
+                .subscribe(object : ErrorHandleSubscriber<BaseResponse<Any>>(mErrorHandler) {
+                    override fun onNext(t: BaseResponse<Any>) {
+                        mRootView.moveSuccess()
+                    }
+
+                })
+
+    }
+
 }

@@ -50,8 +50,6 @@ class RegistActivity : BaseActivity<RegistPresenter>(), RegistContract.View, Log
 
     private var isCountdown = false
 
-
-
     override fun setupActivityComponent(appComponent: AppComponent) {
         DaggerRegistComponent //如找不到该类,请编译一下项目
                 .builder()

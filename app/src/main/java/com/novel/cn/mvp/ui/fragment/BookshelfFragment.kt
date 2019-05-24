@@ -37,7 +37,6 @@ class BookshelfFragment : BaseLazyLoadFragment<BookshelfPresenter>(), BookshelfC
 
     }
 
-
     @Inject
     lateinit var mMorePopup: MorePopup
 

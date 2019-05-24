@@ -1,0 +1,50 @@
+package com.novel.cn.mvp.model.entity
+
+data class CategoryBean(
+        val endRow: Int,
+        val firstPage: Int,
+        val hasNextPage: Boolean,
+        val hasPreviousPage: Boolean,
+        val isFirstPage: Boolean,
+        val isLastPage: Boolean,
+        val lastPage: Int,
+        val list: List<CategoryBook>,
+        val navigateFirstPage: Int,
+        val navigateLastPage: Int,
+        val navigatePages: Int,
+        val navigatepageNums: List<Any>,
+        val nextPage: Int,
+        val pageNum: Int,
+        val pageSize: Int,
+        val pages: Int,
+        val prePage: Int,
+        val size: Int,
+        val startRow: Int,
+        val total: Int
+)
+
+data class CategoryBook(
+    val chapter: String,
+    val chapterId: String,
+    val chapterIsFree: String,
+    val chapterMoney: String,
+    val chapterStatus: Int,
+    val isFree: Int,
+    val isFreeLimit: String,
+    val isSubscribe: String,
+    val novelClick: Int,
+    val novelCollect: Int,
+    val novelId: String,
+    val novelPhoto: String,
+    val novelTitle: String,
+    val novelType: String,
+    val novelWords: Int,
+    val parentType: String,
+    val photoContent: String,
+    val subTitle: String,
+    val updateTime: Long,
+    val userId: String,
+    val volume: String,
+    val volumeId: String,
+    val writer: String
+)

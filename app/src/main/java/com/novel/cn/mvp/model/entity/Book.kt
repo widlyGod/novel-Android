@@ -21,7 +21,8 @@ data class Book(
         val readChapterId: String = "",
         val readMoney: String = "",
         val noReadNum: Int = 0,
-        val readTime: Long = 0
+        val readTime: Long = 0,
+        val orderNum:Int = 0
 ) : MultiItemEntity, Parcelable {
     override fun getItemType(): Int {
         return BookChannelAdapter.TYPE_BOOKS
