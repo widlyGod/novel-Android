@@ -10,7 +10,6 @@ import com.jakewharton.rxbinding3.view.clicks
 
 import com.jess.arms.base.BaseActivity
 import com.jess.arms.di.component.AppComponent
-import com.jess.arms.utils.LogUtils
 
 import com.novel.cn.di.component.DaggerUserInfoComponent
 import com.novel.cn.di.module.UserInfoModule
@@ -20,12 +19,13 @@ import com.novel.cn.mvp.presenter.UserInfoPresenter
 import com.novel.cn.R
 import com.novel.cn.app.loadImage
 import com.novel.cn.mvp.model.entity.User
-import com.novel.cn.mvp.ui.dialog.SlideFromBottomInputPopup
+import com.novel.cn.mvp.ui.dialog.ModifyNamePopup
 import com.novel.cn.mvp.ui.dialog.UpdateGenderDialog
 import com.novel.cn.utils.StatusBarUtils
 import com.novel.cn.ext.bindToLifecycle
 import com.novel.cn.utils.AppPermissions
 import com.novel.cn.ext.setVisible
+import com.novel.cn.mvp.ui.dialog.ModifySignaturePopup
 import com.novel.cn.utils.Glide4Engine
 import com.novel.cn.utils.ImageUtil
 import com.tbruyelle.rxpermissions2.RxPermissions
@@ -48,10 +48,12 @@ class UserInfoActivity : BaseActivity<UserInfoPresenter>(), UserInfoContract.Vie
 
     override fun modifyName(name: String) {
         userName = name
+        tv_nickname.text = name
     }
 
     override fun modifySignature(name: String) {
         userSignature = name
+        tv_intro.text = name
     }
 
     private val mUser by lazy { intent.getParcelableExtra<User?>("user") }
@@ -73,9 +75,9 @@ class UserInfoActivity : BaseActivity<UserInfoPresenter>(), UserInfoContract.Vie
                 }
     }
 
-    private val mModifyNamePopup by lazy { SlideFromBottomInputPopup(this, 0, this) }
+    private val mModifyNamePopup by lazy { ModifyNamePopup(this, this) }
 
-    private val mModifySignaturePopup by lazy { SlideFromBottomInputPopup(this, 1, this) }
+    private val mModifySignaturePopup by lazy { ModifySignaturePopup(this, this) }
 
     override fun setupActivityComponent(appComponent: AppComponent) {
         DaggerUserInfoComponent //如找不到该类,请编译一下项目
