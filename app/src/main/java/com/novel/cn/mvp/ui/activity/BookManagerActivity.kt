@@ -4,7 +4,6 @@ import android.os.Bundle
 import android.support.v7.widget.RecyclerView
 import android.support.v7.widget.SimpleItemAnimator
 import android.support.v7.widget.helper.ItemTouchHelper
-import android.util.Log
 import com.jess.arms.base.BaseActivity
 import com.jess.arms.di.component.AppComponent
 import com.jess.arms.integration.EventBusManager
@@ -20,10 +19,6 @@ import com.novel.cn.mvp.ui.adapter.BookManagerAdapter
 import com.novel.cn.mvp.ui.weight.MyItemDragAndSwipeCallback
 import com.novel.cn.utils.StatusBarUtils
 import com.novel.cn.view.CustomLoadMoreView
-import com.xmssx.common.ext.bindToLifecycle
-import com.xmssx.common.ext.setVisible
-import com.xmssx.common.log.Timber
-import com.xmssx.common.log.info
 import kotlinx.android.synthetic.main.activity_book_manager.*
 import javax.inject.Inject
 

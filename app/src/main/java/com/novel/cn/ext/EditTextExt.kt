@@ -1,4 +1,4 @@
-package com.xmssx.common.ext
+package com.novel.cn.ext
 
 import android.widget.EditText
 import com.jess.arms.utils.DeviceUtils

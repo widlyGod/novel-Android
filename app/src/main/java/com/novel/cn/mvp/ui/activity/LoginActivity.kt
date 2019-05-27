@@ -10,7 +10,8 @@ import android.widget.EditText
 import cn.sharesdk.sina.weibo.SinaWeibo
 import cn.sharesdk.tencent.qq.QQ
 import cn.sharesdk.wechat.friends.Wechat
-import com.jakewharton.rxbinding2.widget.RxTextView
+import com.jakewharton.rxbinding3.widget.textChangeEvents
+import com.jakewharton.rxbinding3.widget.textChanges
 import com.jess.arms.base.BaseActivity
 import com.jess.arms.di.component.AppComponent
 import com.novel.cn.R
@@ -117,8 +118,8 @@ class LoginActivity : BaseActivity<LoginPresenter>(), LoginContract.View {
     @SuppressLint("CheckResult")
     private fun verification() {
         Observable.combineLatest(
-                RxTextView.textChanges(et_userName),
-                RxTextView.textChanges(et_password),
+                et_userName.textChanges(),
+                et_password.textChanges(),
                 BiFunction<CharSequence, CharSequence, Boolean> { userName, password ->
                     iv_clean.visible(password.trim().isNotEmpty())
                     //都不为空返回true

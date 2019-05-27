@@ -141,6 +141,8 @@ class ReadActivity : BaseActivity<ReadPresenter>(), ReadContract.View {
                 return true
             }
 
+
+
             override fun center() {
                 toggleMenu()
             }

@@ -1,4 +1,4 @@
-package com.xmssx.common.ext
+package com.novel.cn.ext
 
 import android.app.Activity
 import com.jess.arms.integration.AppManager

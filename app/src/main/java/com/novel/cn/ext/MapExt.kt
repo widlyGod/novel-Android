@@ -1,6 +1,6 @@
 @file:Suppress("NOTHING_TO_INLINE")
 
-package com.xmssx.common.ext
+package com.novel.cn.ext
 
 /**
  * Created by hy on 2018/11/8

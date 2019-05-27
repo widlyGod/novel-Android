@@ -1,4 +1,4 @@
-package com.xmssx.common.log
+package com.novel.cn.log
 
 import android.util.Log
 

@@ -1,4 +1,4 @@
-package com.xmssx.common.ext
+package com.novel.cn.ext
 
 import android.os.Bundle
 import android.support.v4.app.Fragment

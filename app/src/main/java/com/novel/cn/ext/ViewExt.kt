@@ -1,4 +1,4 @@
-package com.xmssx.common.ext
+package com.novel.cn.ext
 
 import android.view.View
 

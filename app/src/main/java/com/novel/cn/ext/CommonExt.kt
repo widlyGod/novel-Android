@@ -1,7 +1,7 @@
-package com.xmssx.common.ext
+package com.novel.cn.ext
 
-import com.xmssx.common.log.Timber
-import com.xmssx.common.log.error
+import com.novel.cn.log.Timber
+import com.novel.cn.log.error
 
 /**
  * Created by hy on 2018/1/20.

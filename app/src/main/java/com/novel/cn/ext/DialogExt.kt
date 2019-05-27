@@ -1,4 +1,4 @@
-package com.xmssx.common.ext
+package com.novel.cn.ext
 
 import android.app.Dialog
 import android.support.annotation.DimenRes

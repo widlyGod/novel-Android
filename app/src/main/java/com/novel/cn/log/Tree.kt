@@ -1,11 +1,11 @@
-package com.xmssx.common.log
+package com.novel.cn.log
 
-import com.xmssx.common.log.Timber.ASSERT
-import com.xmssx.common.log.Timber.DEBUG
-import com.xmssx.common.log.Timber.ERROR
-import com.xmssx.common.log.Timber.INFO
-import com.xmssx.common.log.Timber.VERBOSE
-import com.xmssx.common.log.Timber.WARNING
+import com.novel.cn.log.Timber.ASSERT
+import com.novel.cn.log.Timber.DEBUG
+import com.novel.cn.log.Timber.ERROR
+import com.novel.cn.log.Timber.INFO
+import com.novel.cn.log.Timber.VERBOSE
+import com.novel.cn.log.Timber.WARNING
 
 abstract class Tree {
     /**

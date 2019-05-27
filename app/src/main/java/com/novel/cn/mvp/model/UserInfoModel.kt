@@ -9,6 +9,11 @@ import com.jess.arms.di.scope.ActivityScope
 import javax.inject.Inject
 
 import com.novel.cn.mvp.contract.UserInfoContract
+import com.novel.cn.mvp.model.api.service.BookService
+import com.novel.cn.mvp.model.api.service.UserService
+import com.novel.cn.mvp.model.entity.BaseResponse
+import com.novel.cn.mvp.model.entity.User
+import io.reactivex.Observable
 
 
 /**
@@ -27,12 +32,13 @@ import com.novel.cn.mvp.contract.UserInfoContract
 class UserInfoModel
 @Inject
 constructor(repositoryManager: IRepositoryManager) : BaseModel(repositoryManager), UserInfoContract.Model {
+
     @Inject
     lateinit var mGson: Gson;
     @Inject
     lateinit var mApplication: Application;
 
-    override fun onDestroy() {
-        super.onDestroy();
+    override fun modifyUserInfo(params: HashMap<String, Any?>): Observable<BaseResponse<User>> {
+        return mRepositoryManager.obtainRetrofitService(UserService::class.java).modifyUserInfo(params)
     }
 }

@@ -10,27 +10,24 @@ import android.widget.EditText
 import cn.sharesdk.sina.weibo.SinaWeibo
 import cn.sharesdk.tencent.qq.QQ
 import cn.sharesdk.wechat.friends.Wechat
-import com.jakewharton.rxbinding2.widget.RxTextView
-
+import com.jakewharton.rxbinding3.widget.textChanges
 import com.jess.arms.base.BaseActivity
 import com.jess.arms.di.component.AppComponent
 import com.jess.arms.integration.lifecycle.ActivityLifecycleable
 import com.jess.arms.utils.RxLifecycleUtils
-
-import com.novel.cn.di.component.DaggerRegistComponent
-import com.novel.cn.di.module.RegistModule
-import com.novel.cn.mvp.contract.RegistContract
-import com.novel.cn.mvp.presenter.RegistPresenter
-
 import com.novel.cn.R
 import com.novel.cn.app.Constant
 import com.novel.cn.app.Preference
 import com.novel.cn.app.click
 import com.novel.cn.app.utils.RxUtils
+import com.novel.cn.di.component.DaggerRegistComponent
 import com.novel.cn.di.module.LoginModule
+import com.novel.cn.di.module.RegistModule
 import com.novel.cn.mvp.contract.LoginContract
+import com.novel.cn.mvp.contract.RegistContract
 import com.novel.cn.mvp.model.entity.LoginInfo
 import com.novel.cn.mvp.presenter.LoginPresenter
+import com.novel.cn.mvp.presenter.RegistPresenter
 import com.novel.cn.utils.PartsUtil
 import com.novel.cn.utils.StatusBarUtils
 import com.trello.rxlifecycle2.RxLifecycle
@@ -158,11 +155,11 @@ class RegistActivity : BaseActivity<RegistPresenter>(), RegistContract.View, Log
     @SuppressLint("CheckResult")
     private fun verification() {
         Observable.combineLatest(
-                RxTextView.textChanges(et_nickname),
-                RxTextView.textChanges(et_email),
-                RxTextView.textChanges(et_password),
-                RxTextView.textChanges(et_password2),
-                RxTextView.textChanges(et_email_code),
+                et_nickname.textChanges(),
+                et_email.textChanges(),
+                et_password.textChanges(),
+                et_password2.textChanges(),
+                et_email_code.textChanges(),
                 Function5<CharSequence, CharSequence, CharSequence, CharSequence, CharSequence, Boolean>
                 { nickname, email, password, password2, emailCode ->
 
@@ -175,7 +172,7 @@ class RegistActivity : BaseActivity<RegistPresenter>(), RegistContract.View, Log
                 .subscribe {
                     changeRegistButtonState(it)
                 }
-        RxTextView.textChanges(et_email)
+        et_email.textChanges()
                 .observeOn(AndroidSchedulers.mainThread())
                 .compose(RxLifecycleUtils.bindToLifecycle(this as ActivityLifecycleable))
                 .subscribe {

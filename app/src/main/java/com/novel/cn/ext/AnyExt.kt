@@ -1,10 +1,9 @@
-package com.xmssx.common.ext
+package com.novel.cn.ext
 
 import com.jess.arms.mvp.IView
 import com.novel.cn.utils.GsonUtil
-import com.xmssx.common.log.Timber
-import com.xmssx.common.log.error
-import java.net.ConnectException
+import com.novel.cn.log.Timber
+import com.novel.cn.log.error
 import java.net.SocketTimeoutException
 import java.util.concurrent.TimeoutException
 

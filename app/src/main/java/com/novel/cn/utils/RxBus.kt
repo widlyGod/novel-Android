@@ -6,7 +6,7 @@ import io.reactivex.subjects.Subject
 
 /**
  * RxJava实现EventBus，但不建议大量地方订阅同一个RxBus，否则性能不好
- * Created by jmw on 2018/10/23
+ * Created by hy on 2018/10/23
  */
 open class RxBus {
 

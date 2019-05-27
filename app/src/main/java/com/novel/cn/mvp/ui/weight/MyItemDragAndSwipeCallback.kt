@@ -10,7 +10,7 @@ import io.reactivex.Observable
 import io.reactivex.subjects.BehaviorSubject
 
 /**
- * Created by jmw on 2019/4/17
+ * Created by hy on 2019/4/17
  */
 open class MyItemDragAndSwipeCallback(adapter: BaseItemDraggableAdapter<*, *>, deleteView: View? = null) : ItemDragAndSwipeCallback(adapter) {
 

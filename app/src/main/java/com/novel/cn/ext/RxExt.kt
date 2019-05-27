@@ -1,9 +1,9 @@
-package com.xmssx.common.ext
+package com.novel.cn.ext
 
 import com.jess.arms.base.IRxLifecycleProvider
 import com.jess.arms.mvp.IView
-import com.xmssx.common.log.Timber
-import com.xmssx.common.log.error
+import com.novel.cn.log.Timber
+import com.novel.cn.log.error
 import io.reactivex.*
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.annotations.CheckReturnValue

@@ -7,7 +7,7 @@ import android.text.method.HideReturnsTransformationMethod
 import android.text.method.PasswordTransformationMethod
 import android.view.View
 import android.widget.EditText
-import com.jakewharton.rxbinding2.widget.RxTextView
+import com.jakewharton.rxbinding3.widget.textChanges
 import com.jess.arms.base.BaseActivity
 import com.jess.arms.di.component.AppComponent
 import com.jess.arms.integration.lifecycle.ActivityLifecycleable
@@ -123,7 +123,7 @@ class ResetPasswrodActivity : BaseActivity<ResetPasswrodPresenter>(), ResetPassw
     @SuppressLint("CheckResult")
     private fun verification() {
 
-        RxTextView.textChanges(et_email)
+        et_email.textChanges()
                 .observeOn(AndroidSchedulers.mainThread())
                 .compose(RxLifecycleUtils.bindToLifecycle(this as ActivityLifecycleable))
                 .subscribe {
@@ -131,9 +131,9 @@ class ResetPasswrodActivity : BaseActivity<ResetPasswrodPresenter>(), ResetPassw
                 }
 
         Observable.combineLatest(
-                RxTextView.textChanges(et_email),
-                RxTextView.textChanges(et_password),
-                RxTextView.textChanges(et_email_code),
+                et_email.textChanges(),
+                et_password.textChanges(),
+                et_email_code.textChanges(),
                 Function3<CharSequence, CharSequence, CharSequence, Boolean> { email, password, code ->
                     email.trim().isNotEmpty() && password.trim().isNotEmpty() && code.isNotEmpty()
                 }

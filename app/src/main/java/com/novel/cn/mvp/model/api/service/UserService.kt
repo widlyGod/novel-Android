@@ -80,4 +80,10 @@ interface UserService {
     @GET("novelOAService/mobile/personCenter")
     fun getUserInfo(): Observable<BaseResponse<User>>
 
+    /**
+     * 用户信息修改
+     */
+    @POST("novelAppService/personalCenter/updatePersonInfo")
+    fun modifyUserInfo(@Body params: HashMap<String, Any?>): Observable<BaseResponse<User>>
+
 }

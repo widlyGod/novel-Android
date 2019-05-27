@@ -31,4 +31,17 @@
         android:textSize="18sp"
         tools:text="TITLE" />
 
+    <TextView
+        android:id="@+id/toolbar_right_tv"
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:paddingLeft="10dp"
+        android:paddingRight="30dp"
+        android:textSize="@dimen/sp_14"
+        android:gravity="center_vertical"
+        android:text="保存"
+        android:layout_gravity="right"
+        android:textColor="#999999"
+        android:visibility="gone"/>
+
 </android.support.v7.widget.Toolbar>
