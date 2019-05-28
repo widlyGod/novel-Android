@@ -2,20 +2,21 @@ package com.novel.cn.mvp.presenter
 
 import com.jess.arms.di.scope.FragmentScope
 import com.jess.arms.mvp.BasePresenter
+import com.jess.arms.utils.LogUtils
 import com.jess.arms.utils.RxLifecycleUtils
 import com.novel.cn.app.Constant
-import me.jessyan.rxerrorhandler.core.RxErrorHandler
-import javax.inject.Inject
-
 import com.novel.cn.mvp.contract.BookshelfContract
 import com.novel.cn.mvp.model.entity.BaseResponse
 import com.novel.cn.mvp.model.entity.Book
 import com.novel.cn.mvp.model.entity.Pagination
 import com.novel.cn.mvp.model.entity.SignIn
 import com.novel.cn.view.MultiStateView
+import com.zchu.rxcache.data.CacheResult
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.schedulers.Schedulers
+import me.jessyan.rxerrorhandler.core.RxErrorHandler
 import me.jessyan.rxerrorhandler.handler.ErrorHandleSubscriber
+import javax.inject.Inject
 
 
 @FragmentScope
@@ -35,8 +36,11 @@ constructor(model: BookshelfContract.Model, rootView: BookshelfContract.View) :
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .compose(RxLifecycleUtils.bindToLifecycle(mRootView))
-                .subscribe(object : ErrorHandleSubscriber<BaseResponse<Pagination<Book>>>(mErrorHandler) {
-                    override fun onNext(t: BaseResponse<Pagination<Book>>) {
+                .map {
+                    it
+                }
+                .subscribe(object : ErrorHandleSubscriber<CacheResult<Pagination<Book>>>(mErrorHandler) {
+                    override fun onNext(t: CacheResult<Pagination<Book>>) {
                         if (t.data.total == 0) {
                             mRootView.showState(MultiStateView.VIEW_STATE_EMPTY)
                         } else {

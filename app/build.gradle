@@ -187,5 +187,7 @@ dependencies {
     implementation(name: 'alipaySdk-15.5.9-20181123210601', ext: 'aar')
     implementation 'com.tencent.mm.opensdk:wechat-sdk-android-with-mta:+'
     implementation 'com.github.razerdp:BasePopup:2.1.9'
+    implementation project(':rxcache')
+    implementation project(':rxcache-kotlin')
 //    implementation files('libs/reader-2.3.0.jar')
 }

@@ -11,6 +11,8 @@
             <option value="$PROJECT_DIR$/app" />
             <option value="$PROJECT_DIR$/arms" />
             <option value="$PROJECT_DIR$/arms-imageloader-glide" />
+            <option value="$PROJECT_DIR$/rxcache" />
+            <option value="$PROJECT_DIR$/rxcache-kotlin" />
           </set>
         </option>
         <option name="resolveModulePerSourceSet" value="false" />

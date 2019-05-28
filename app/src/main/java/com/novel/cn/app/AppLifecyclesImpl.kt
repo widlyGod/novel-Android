@@ -28,8 +28,11 @@ import com.scwang.smartrefresh.layout.SmartRefreshLayout
 import com.scwang.smartrefresh.layout.header.ClassicsHeader
 import com.squareup.leakcanary.LeakCanary
 import com.squareup.leakcanary.RefWatcher
+import com.zchu.rxcache.RxCache
+import com.zchu.rxcache.diskconverter.GsonDiskConverter
 
 import timber.log.Timber
+import java.io.File
 
 /**
  * ================================================
@@ -70,6 +73,7 @@ class AppLifecyclesImpl : AppLifecycles {
         Preference.init(application, "config")
         MobSDK.init(application)
         DbManager.init(application)
+        initRxCache(application)
         SmartRefreshLayout.setDefaultRefreshHeaderCreator { context, layout -> ClassicsHeader(application) }
         //LeakCanary 内存泄露检查
         //使用 IntelligentCache.KEY_KEEP 作为 key 的前缀, 可以使储存的数据永久存储在内存中
@@ -80,5 +84,17 @@ class AppLifecyclesImpl : AppLifecycles {
 
     override fun onTerminate(application: Application) {
 
+    }
+
+    private fun initRxCache(application: Application) {
+        RxCache.initializeDefault(
+                RxCache.Builder()
+                        .appVersion(1)//当版本号改变,缓存路径下存储的所有数据都会被清除掉
+                        .diskDir(File(application.cacheDir.path + File.separator + "data-cache"))
+                        .diskConverter(GsonDiskConverter())//支持Serializable、Json(GsonDiskConverter)
+                        .memoryMax(2 * 1024 * 1024)
+                        .diskMax(20 * 1024 * 1024)
+                        .build()
+        )
     }
 }

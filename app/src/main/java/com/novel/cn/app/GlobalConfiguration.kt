@@ -27,9 +27,12 @@ import com.novel.cn.BuildConfig
 import com.novel.cn.app.gson.BooleanAdapter
 import com.novel.cn.app.gson.StringAdapter
 import com.novel.cn.mvp.model.api.Api
+import com.zchu.rxcache.RxCache
+import com.zchu.rxcache.diskconverter.GsonDiskConverter
 import java.util.concurrent.TimeUnit
 import me.jessyan.progressmanager.ProgressManager
 import me.jessyan.retrofiturlmanager.RetrofitUrlManager
+import java.io.File
 
 
 class GlobalConfiguration : ConfigModule {
@@ -93,4 +96,6 @@ class GlobalConfiguration : ConfigModule {
         //可以根据不同的逻辑添加多个实现类
         lifecycles.add(FragmentLifecycleCallbacksImpl())
     }
+
+
 }

@@ -1,31 +1,23 @@
 package com.novel.cn.mvp.ui.fragment
 
-import android.content.Intent
-import android.graphics.Color
 import android.os.Bundle
-import android.os.Message
-import android.support.v4.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-
 import com.jess.arms.base.BaseFragment
 import com.jess.arms.di.component.AppComponent
-import com.jess.arms.utils.ArmsUtils
-
-import com.novel.cn.di.component.DaggerMyComponent
-import com.novel.cn.di.module.MyModule
-import com.novel.cn.mvp.contract.MyContract
-import com.novel.cn.mvp.presenter.MyPresenter
-
 import com.novel.cn.R
 import com.novel.cn.app.JumpManager
 import com.novel.cn.app.click
 import com.novel.cn.app.loadImage
 import com.novel.cn.app.visible
-import com.novel.cn.mvp.model.entity.Demo
+import com.novel.cn.di.component.DaggerMyComponent
+import com.novel.cn.di.module.MyModule
+import com.novel.cn.mvp.contract.MyContract
 import com.novel.cn.mvp.model.entity.User
-import com.novel.cn.mvp.ui.activity.*
+import com.novel.cn.mvp.presenter.MyPresenter
+import com.novel.cn.mvp.ui.activity.MessageActivity
+import com.novel.cn.mvp.ui.activity.SettingActivity
 import com.novel.cn.utils.StatusBarUtils
 import kotlinx.android.synthetic.main.fragment_my.*
 import kotlinx.android.synthetic.main.layout_my_header.*

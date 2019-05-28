@@ -14,6 +14,9 @@ import com.novel.cn.mvp.model.entity.BaseResponse
 import com.novel.cn.mvp.model.entity.Book
 import com.novel.cn.mvp.model.entity.Pagination
 import com.novel.cn.mvp.model.entity.SignIn
+import com.zchu.rxcache.data.CacheResult
+import com.zchu.rxcache.kotlin.rxCache
+import com.zchu.rxcache.stategy.CacheStrategy
 import io.reactivex.Observable
 
 
@@ -41,13 +44,15 @@ constructor(repositoryManager: IRepositoryManager) : BaseModel(repositoryManager
         return mRepositoryManager.obtainRetrofitService(UserService::class.java).signIn(params)
     }
 
-    override fun getBookshelf(pageIndex: Int): Observable<BaseResponse<Pagination<Book>>> {
+    override fun getBookshelf(pageIndex: Int): Observable<CacheResult<Pagination<Book>>> {
 
-        val params = HashMap<String,String>()
-        params.put("pageNum",pageIndex.toString())
-        params.put("pageSize",Constant.PAGE_SIZE.toString())
+        val params = HashMap<String, String>()
+        params.put("pageNum", pageIndex.toString())
+        params.put("pageSize", Constant.PAGE_SIZE.toString())
 
         return mRepositoryManager.obtainRetrofitService(BookService::class.java).getBookshelf(params)
+                .map { it.data }
+                .rxCache("bookshelf", CacheStrategy.firstRemoteSync())
     }
 
 
