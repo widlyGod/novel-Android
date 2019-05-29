@@ -11,21 +11,32 @@ import javax.inject.Inject
 import com.novel.cn.mvp.contract.ReadContract
 import com.novel.cn.mvp.model.api.service.BookService
 import com.novel.cn.mvp.model.entity.*
+import com.zchu.rxcache.data.CacheResult
+import com.zchu.rxcache.kotlin.rxCache
+import com.zchu.rxcache.stategy.CacheStrategy
 import io.reactivex.Observable
 import okhttp3.ResponseBody
+import java.util.concurrent.TimeUnit
 
 
 @ActivityScope
 class ReadModel
 @Inject
 constructor(repositoryManager: IRepositoryManager) : BaseModel(repositoryManager), ReadContract.Model {
+
+    companion object {
+        private val CACHE_TIMEOUT = TimeUnit.DAYS.toMillis(1)
+    }
+
     override fun preDownload(url: String?):Observable<ResponseBody> {
          return mRepositoryManager.obtainRetrofitService(BookService::class.java).preDownload(url)
     }
 
-    override fun getCalalogue(novelId: String): Observable<BaseResponse<MutableList<Calalogue>>> {
+    override fun getCalalogue(novelId: String): Observable<CacheResult<CalalogueVo>> {
 
         return mRepositoryManager.obtainRetrofitService(BookService::class.java).getCalalogue(novelId)
+                .map { it.data }
+                .rxCache("catalogue$novelId", CacheStrategy.firstCacheTimeout(CACHE_TIMEOUT))
     }
 
     override fun getChapterInfo(link: String?): Observable<BaseResponse<ChapterInfoBean>> {

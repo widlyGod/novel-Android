@@ -52,7 +52,7 @@ constructor(repositoryManager: IRepositoryManager) : BaseModel(repositoryManager
 
         return mRepositoryManager.obtainRetrofitService(BookService::class.java).getBookshelf(params)
                 .map { it.data }
-                .rxCache("bookshelf", CacheStrategy.firstRemoteSync())
+                .rxCache("bookshelf$pageIndex", CacheStrategy.firstRemoteSync())
     }
 
 

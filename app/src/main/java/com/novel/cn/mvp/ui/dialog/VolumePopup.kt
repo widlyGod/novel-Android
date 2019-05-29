@@ -7,22 +7,30 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import android.widget.PopupMenu
 import android.widget.PopupWindow
+import com.jess.arms.base.IRxLifecycleProvider
 import com.novel.cn.R
+import com.novel.cn.ext.bindToLifecycle
+import com.novel.cn.ext.childClicks
+import com.novel.cn.ext.clicks
 import com.novel.cn.ext.dp2px
+import com.novel.cn.mvp.contract.ReadContract
 import com.novel.cn.mvp.model.entity.Volume
 import com.novel.cn.mvp.model.entity.VolumeBean
 import com.novel.cn.mvp.ui.adapter.VolumeAdapter
+import com.novel.cn.view.VolumeView
 import kotlinx.android.synthetic.main.layout_volume_popup.view.*
+import java.util.concurrent.TimeUnit
 
-class VolumePopup(context: Context) : PopupWindow(context) {
+class VolumePopup(context: Context,private val readContractView: VolumeView) : PopupWindow(context) {
 
     private val mAdapter by lazy {
-        VolumeAdapter().apply {
-            setOnItemClickListener { adapter, view, position ->
-                setCurrentPosition(position)
-                listener?.invoke(adapter.getItem(position) as VolumeBean)
-            }
-        }
+        VolumeAdapter()
+//                .apply {
+//            setOnItemClickListener { adapter, view, position ->
+//                setCurrentPosition(position)
+//                listener?.invoke(adapter.getItem(position) as VolumeBean)
+//            }
+//        }
     }
 
     private var mData = ArrayList<VolumeBean>()
@@ -53,6 +61,13 @@ class VolumePopup(context: Context) : PopupWindow(context) {
         view.apply {
             recyclerView.adapter = mAdapter
             mAdapter.setNewData(mData)
+            mAdapter.clicks()
+                    .throttleFirst(1, TimeUnit.SECONDS)
+                    .subscribe {
+                        readContractView.selectVolume(it.second)
+                        mAdapter.setCurrentPosition(it.second)
+                        dismiss()
+                    }
         }
 
     }

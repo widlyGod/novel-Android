@@ -92,8 +92,8 @@ class AppLifecyclesImpl : AppLifecycles {
                         .appVersion(1)//当版本号改变,缓存路径下存储的所有数据都会被清除掉
                         .diskDir(File(application.cacheDir.path + File.separator + "data-cache"))
                         .diskConverter(GsonDiskConverter())//支持Serializable、Json(GsonDiskConverter)
-                        .memoryMax(2 * 1024 * 1024)
-                        .diskMax(20 * 1024 * 1024)
+                        .memoryMax(20 * 1024 * 1024)
+                        .diskMax(200 * 1024 * 1024)
                         .build()
         )
     }

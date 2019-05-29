@@ -26,6 +26,7 @@ public class ReadcordDao extends AbstractDao<Readcord, Long> {
         public final static Property BookId = new Property(1, String.class, "bookId", false, "BOOK_ID");
         public final static Property Chapter = new Property(2, int.class, "chapter", false, "CHAPTER");
         public final static Property PagePos = new Property(3, int.class, "pagePos", false, "PAGE_POS");
+        public final static Property VolumePos = new Property(4, int.class, "volumePos", false, "VOLUME_POS");
     }
 
 
@@ -44,7 +45,8 @@ public class ReadcordDao extends AbstractDao<Readcord, Long> {
                 "\"_id\" INTEGER PRIMARY KEY AUTOINCREMENT ," + // 0: id
                 "\"BOOK_ID\" TEXT," + // 1: bookId
                 "\"CHAPTER\" INTEGER NOT NULL ," + // 2: chapter
-                "\"PAGE_POS\" INTEGER NOT NULL );"); // 3: pagePos
+                "\"PAGE_POS\" INTEGER NOT NULL ," + // 3: pagePos
+                "\"VOLUME_POS\" INTEGER NOT NULL );"); // 4: volumePos
     }
 
     /** Drops the underlying database table. */
@@ -68,6 +70,7 @@ public class ReadcordDao extends AbstractDao<Readcord, Long> {
         }
         stmt.bindLong(3, entity.getChapter());
         stmt.bindLong(4, entity.getPagePos());
+        stmt.bindLong(5, entity.getVolumePos());
     }
 
     @Override
@@ -85,6 +88,7 @@ public class ReadcordDao extends AbstractDao<Readcord, Long> {
         }
         stmt.bindLong(3, entity.getChapter());
         stmt.bindLong(4, entity.getPagePos());
+        stmt.bindLong(5, entity.getVolumePos());
     }
 
     @Override
@@ -98,7 +102,8 @@ public class ReadcordDao extends AbstractDao<Readcord, Long> {
             cursor.isNull(offset + 0) ? null : cursor.getLong(offset + 0), // id
             cursor.isNull(offset + 1) ? null : cursor.getString(offset + 1), // bookId
             cursor.getInt(offset + 2), // chapter
-            cursor.getInt(offset + 3) // pagePos
+            cursor.getInt(offset + 3), // pagePos
+            cursor.getInt(offset + 4) // volumePos
         );
         return entity;
     }
@@ -109,6 +114,7 @@ public class ReadcordDao extends AbstractDao<Readcord, Long> {
         entity.setBookId(cursor.isNull(offset + 1) ? null : cursor.getString(offset + 1));
         entity.setChapter(cursor.getInt(offset + 2));
         entity.setPagePos(cursor.getInt(offset + 3));
+        entity.setVolumePos(cursor.getInt(offset + 4));
      }
     
     @Override

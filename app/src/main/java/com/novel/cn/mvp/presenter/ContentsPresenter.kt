@@ -11,10 +11,9 @@ import me.jessyan.rxerrorhandler.core.RxErrorHandler
 import javax.inject.Inject
 
 import com.novel.cn.mvp.contract.ContentsContract
-import com.novel.cn.mvp.model.entity.BaseResponse
-import com.novel.cn.mvp.model.entity.ChapterBean
-import com.novel.cn.mvp.model.entity.Volume
+import com.novel.cn.mvp.model.entity.*
 import com.novel.cn.view.MultiStateView
+import com.zchu.rxcache.data.CacheResult
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.schedulers.Schedulers
 import me.jessyan.rxerrorhandler.handler.ErrorHandleSubscriber
@@ -72,6 +71,25 @@ constructor(model: ContentsContract.Model, rootView: ContentsContract.View) :
                     override fun onError(t: Throwable) {
                         super.onError(t)
                         mRootView.showState(MultiStateView.VIEW_STATE_ERROR)
+                    }
+                })
+    }
+
+    fun getCatalogue(novelId: String) {
+        mModel.getCalalogue(novelId)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .compose(RxLifecycleUtils.bindToLifecycle(mRootView))
+                .subscribe(object : ErrorHandleSubscriber<CacheResult<CalalogueVo>>(mErrorHandler) {
+                    override fun onNext(t: CacheResult<CalalogueVo>) {
+                        val list = ArrayList<VolumeBean>()
+                        t.data.catalogue.groupBy { it.volumeId }
+                                .forEach {
+                                    val value = it.value
+                                    val volumeBean = VolumeBean(value[0].volumeId, value[0].volumeTitle, value)
+                                    list.add(volumeBean)
+                                }
+                        mRootView.showCalalogueInfo(list)
                     }
                 })
     }

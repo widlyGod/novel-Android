@@ -2,9 +2,8 @@ package com.novel.cn.mvp.contract
 
 import com.jess.arms.mvp.IView
 import com.jess.arms.mvp.IModel
-import com.novel.cn.mvp.model.entity.BaseResponse
-import com.novel.cn.mvp.model.entity.ChapterBean
-import com.novel.cn.mvp.model.entity.Volume
+import com.novel.cn.mvp.model.entity.*
+import com.zchu.rxcache.data.CacheResult
 import io.reactivex.Observable
 
 
@@ -26,12 +25,14 @@ interface ContentsContract {
         fun showVolume(data: MutableList<Volume>?)
         fun showChapterList(volume: String?, data: ChapterBean)
           fun showState(state: Int)
+        fun showCalalogueInfo(list: ArrayList<VolumeBean>)
     }
 
     //Model层定义接口,外部只需关心Model返回的数据,无需关心内部细节,即是否使用缓存
     interface Model : IModel{
         fun getVolumeList(bookId: String?): Observable<BaseResponse<MutableList<Volume>?>>
         fun getChapterList(params: HashMap<String, Any?>): Observable<BaseResponse<ChapterBean>>
+        fun getCalalogue(novelId: String): Observable<CacheResult<CalalogueVo>>
     }
 
 

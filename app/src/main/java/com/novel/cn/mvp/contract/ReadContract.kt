@@ -4,6 +4,7 @@ import com.jess.arms.mvp.IView
 import com.jess.arms.mvp.IModel
 import com.novel.cn.mvp.model.entity.*
 import com.novel.cn.view.readpage.TxtChapter
+import com.zchu.rxcache.data.CacheResult
 import io.reactivex.Observable
 import okhttp3.ResponseBody
 
@@ -33,6 +34,7 @@ interface ReadContract {
         fun openBook(mCurChapterPos: Int, txtChapter: TxtChapter?)
         fun subscribeError()
         fun showCalalogueInfo(list: ArrayList<VolumeBean>)
+
 //        fun subscribeSuccess()
     }
 
@@ -45,9 +47,9 @@ interface ReadContract {
         fun cancelCollection(params: HashMap<String, Any>): Observable<BaseResponse<Any>>
         fun subscribeBook(params: HashMap<String, Any?>): Observable<BaseResponse<Any>>
         fun isChargeChapter(param: HashMap<String, Any?>): Observable<BaseResponse<ChargeChapter>>
-        fun getChapterInfo(link: String?):  Observable<BaseResponse<ChapterInfoBean>>
-        fun getCalalogue(novelId: String):Observable<BaseResponse<MutableList<Calalogue>>>
-        fun preDownload(url: String?):Observable<ResponseBody>
+        fun getChapterInfo(link: String?): Observable<BaseResponse<ChapterInfoBean>>
+        fun getCalalogue(novelId: String): Observable<CacheResult<CalalogueVo>>
+        fun preDownload(url: String?): Observable<ResponseBody>
     }
 
 }

@@ -36,9 +36,6 @@ constructor(model: BookshelfContract.Model, rootView: BookshelfContract.View) :
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .compose(RxLifecycleUtils.bindToLifecycle(mRootView))
-                .map {
-                    it
-                }
                 .subscribe(object : ErrorHandleSubscriber<CacheResult<Pagination<Book>>>(mErrorHandler) {
                     override fun onNext(t: CacheResult<Pagination<Book>>) {
                         if (t.data.total == 0) {

@@ -27,12 +27,9 @@ import com.novel.cn.BuildConfig
 import com.novel.cn.app.gson.BooleanAdapter
 import com.novel.cn.app.gson.StringAdapter
 import com.novel.cn.mvp.model.api.Api
-import com.zchu.rxcache.RxCache
-import com.zchu.rxcache.diskconverter.GsonDiskConverter
-import java.util.concurrent.TimeUnit
 import me.jessyan.progressmanager.ProgressManager
 import me.jessyan.retrofiturlmanager.RetrofitUrlManager
-import java.io.File
+import java.util.concurrent.TimeUnit
 
 
 class GlobalConfiguration : ConfigModule {

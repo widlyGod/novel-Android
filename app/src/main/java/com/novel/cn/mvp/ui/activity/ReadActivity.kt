@@ -11,11 +11,14 @@ import android.view.WindowManager
 import android.widget.SeekBar
 import com.jess.arms.base.BaseActivity
 import com.jess.arms.di.component.AppComponent
+import com.jess.arms.utils.LogUtils
 import com.novel.cn.R
 import com.novel.cn.app.JumpManager
 import com.novel.cn.app.click
 import com.novel.cn.app.isVisible
 import com.novel.cn.app.visible
+import com.novel.cn.db.DbManager
+import com.novel.cn.db.Readcord
 import com.novel.cn.di.component.DaggerReadComponent
 import com.novel.cn.di.module.ReadModule
 import com.novel.cn.ext.dp2px
@@ -29,17 +32,18 @@ import com.novel.cn.mvp.ui.dialog.VolumePopup
 import com.novel.cn.utils.StatusBarUtils
 import com.novel.cn.view.TipDialog
 import com.novel.cn.view.TipDialog.Builder.ICON_TYPE_LOADING
+import com.novel.cn.view.VolumeView
 import com.novel.cn.view.readpage.*
 import kotlinx.android.synthetic.main.activity_read.*
 import kotlinx.android.synthetic.main.layout_header_volume.*
+import kotlinx.android.synthetic.main.layout_header_volume.view.*
 import kotlinx.android.synthetic.main.layout_menu_chapter.*
 import kotlinx.android.synthetic.main.layout_shoufei.*
 import java.util.*
 import kotlin.collections.ArrayList
 
 
-class ReadActivity : BaseActivity<ReadPresenter>(), ReadContract.View {
-
+class ReadActivity : BaseActivity<ReadPresenter>(), ReadContract.View, VolumeView {
 
     private val mBook by lazy { intent.getParcelableExtra<NovelInfoBean>("book") }
 
@@ -76,9 +80,11 @@ class ReadActivity : BaseActivity<ReadPresenter>(), ReadContract.View {
 
     private var mVolume: VolumeBean? = null
 
-    private val mPopup by lazy { VolumePopup(this) }
+    private val mPopup by lazy { VolumePopup(this, this) }
 
     private var isCollect = false
+
+    private var volumeList = mutableListOf<VolumeBean>()
 
 
     private val tipDialog by lazy {
@@ -110,12 +116,7 @@ class ReadActivity : BaseActivity<ReadPresenter>(), ReadContract.View {
         drawerLayout.setDrawerLockMode(DrawerLayout.LOCK_MODE_LOCKED_CLOSED)
         drawerLayout.isFocusableInTouchMode = false
         mAdapter.bindToRecyclerView(recyclerView)
-        val header = LayoutInflater.from(this).inflate(R.layout.layout_header_volume, recyclerView, false)
-        header.setOnClickListener {
-            mPopup.showAsDropDown(it, dp2px(20), 0)
-        }
-//        ll_info.setBackgroundColor(ContextCompat.getColor(this, ReadSettingManager.getInstance().pageStyle.bgColor))
-        mAdapter.addHeaderView(header)
+
 
         mAdapter.setOnItemClickListener { adapter, view, position ->
             mPageLoader.skipToChapter(position)
@@ -140,7 +141,6 @@ class ReadActivity : BaseActivity<ReadPresenter>(), ReadContract.View {
                 }
                 return true
             }
-
 
 
             override fun center() {
@@ -174,6 +174,7 @@ class ReadActivity : BaseActivity<ReadPresenter>(), ReadContract.View {
 
             override fun onChapterChange(pos: Int) {
                 seekbar.progress = pos
+                selectedVolumePosition = nowVolumePosition
                 mAdapter.setCurrentPosition(pos)
                 val item = mAdapter.getItem(pos) as Calalogue
                 tv_chapter_name.text = "${item.chapter}：${item.chapterTitle}"
@@ -191,8 +192,7 @@ class ReadActivity : BaseActivity<ReadPresenter>(), ReadContract.View {
                 mPresenter?.preDownload(requestChapters)
             }
 
-            override fun onCategoryFinish(chapters: MutableList<TxtChapter>?) {
-
+            override fun onCategoryFinish(chapters: MutableList<TxtChapter>) {
             }
 
             override fun onPageCountChange(count: Int) {
@@ -259,11 +259,39 @@ class ReadActivity : BaseActivity<ReadPresenter>(), ReadContract.View {
         }
     }
 
+    val header by lazy { LayoutInflater.from(this).inflate(R.layout.layout_header_volume, recyclerView, false) }
+
     override fun showCalalogueInfo(list: ArrayList<VolumeBean>) {
-        val data = list[0]
-        tv_volume_title.text = data.volumeName
-        tv_count.text = "共${data.calalogue.size}章"
+        header.setOnClickListener {
+            mPopup.showAsDropDown(it, dp2px(20), 0)
+        }
+//        ll_info.setBackgroundColor(ContextCompat.getColor(this, ReadSettingManager.getInstance().pageStyle.bgColor))
+        mAdapter.addHeaderView(header)
+        volumeList.clear()
+        volumeList.addAll(list)
         mPopup.setData(list)
+        if (volumeList.size > 0) {
+            var mBookRecord = DbManager.getReadcord(mBook.novelInfo.novelId)
+            if (mBookRecord == null) {
+                mBookRecord = Readcord()
+            }
+            chooseVolume(mBookRecord.volumePos)
+        }
+    }
+
+    var nowVolumePosition = 0//当前目录展示的券
+    var selectedVolumePosition = 0//已选择章节的券
+
+    private fun chooseVolume(position: Int) {
+        nowVolumePosition = position
+        val data = volumeList[position]
+        if (header.tv_volume_title != null) {
+            header.tv_volume_title.text = data.volumeName
+        }
+        if (header.tv_count != null) {
+            header.tv_count.text = "共${data.calalogue.size}章"
+        }
+
         seekbar.max = data.calalogue.size - 1
 
         mAdapter.setNewData(data.calalogue)
@@ -282,6 +310,11 @@ class ReadActivity : BaseActivity<ReadPresenter>(), ReadContract.View {
             chapterList.add(txt)
         }
         mPageLoader.setChapterList(chapterList)
+    }
+
+    override fun selectVolume(position: Int) {
+        chooseVolume(position)
+        mAdapter.isCurrentPositionShow(selectedVolumePosition == position)
     }
 
     override fun isChargeChapter(data: ChargeChapter) {
@@ -304,7 +337,7 @@ class ReadActivity : BaseActivity<ReadPresenter>(), ReadContract.View {
 
     override fun onPause() {
         super.onPause()
-        mPageLoader?.saveRecord()
+        mPageLoader?.saveRecord(selectedVolumePosition)
     }
 
     override fun showChapter(data: ChapterInfoBean, txtChapter: TxtChapter?, mCurChapterPos: Int, charge: ChargeChapter) {

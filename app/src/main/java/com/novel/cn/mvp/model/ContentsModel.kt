@@ -10,10 +10,12 @@ import javax.inject.Inject
 
 import com.novel.cn.mvp.contract.ContentsContract
 import com.novel.cn.mvp.model.api.service.BookService
-import com.novel.cn.mvp.model.entity.BaseResponse
-import com.novel.cn.mvp.model.entity.ChapterBean
-import com.novel.cn.mvp.model.entity.Volume
+import com.novel.cn.mvp.model.entity.*
+import com.zchu.rxcache.data.CacheResult
+import com.zchu.rxcache.kotlin.rxCache
+import com.zchu.rxcache.stategy.CacheStrategy
 import io.reactivex.Observable
+import java.util.concurrent.TimeUnit
 
 
 /**
@@ -32,14 +34,16 @@ import io.reactivex.Observable
 class ContentsModel
 @Inject
 constructor(repositoryManager: IRepositoryManager) : BaseModel(repositoryManager), ContentsContract.Model {
-    @Inject
-    lateinit var mGson: Gson;
-    @Inject
-    lateinit var mApplication: Application;
 
-    override fun onDestroy() {
-        super.onDestroy();
+    companion object {
+        private val CACHE_TIMEOUT = TimeUnit.DAYS.toMillis(1)
     }
+
+    @Inject
+    lateinit var mGson: Gson
+    @Inject
+    lateinit var mApplication: Application
+
 
     override fun getChapterList(params: HashMap<String, Any?>): Observable<BaseResponse<ChapterBean>> {
         return mRepositoryManager.obtainRetrofitService(BookService::class.java).getChapterList(params)
@@ -47,5 +51,12 @@ constructor(repositoryManager: IRepositoryManager) : BaseModel(repositoryManager
 
     override fun getVolumeList(bookId: String?): Observable<BaseResponse<MutableList<Volume>?>> {
         return mRepositoryManager.obtainRetrofitService(BookService::class.java).getVolumeList(bookId)
+    }
+
+    override fun getCalalogue(novelId: String): Observable<CacheResult<CalalogueVo>> {
+
+        return mRepositoryManager.obtainRetrofitService(BookService::class.java).getCalalogue(novelId)
+                .map { it.data }
+                .rxCache("catalogue$novelId", CacheStrategy.firstCacheTimeout(CACHE_TIMEOUT))
     }
 }

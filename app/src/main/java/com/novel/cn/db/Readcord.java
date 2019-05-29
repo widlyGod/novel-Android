@@ -16,13 +16,17 @@ public class Readcord {
 
     private int pagePos;
 
+    private int volumePos;
 
-    @Generated(hash = 216616547)
-    public Readcord(Long id, String bookId, int chapter, int pagePos) {
+
+    @Generated(hash = 1943779901)
+    public Readcord(Long id, String bookId, int chapter, int pagePos,
+            int volumePos) {
         this.id = id;
         this.bookId = bookId;
         this.chapter = chapter;
         this.pagePos = pagePos;
+        this.volumePos = volumePos;
     }
 
     @Generated(hash = 1619034495)
@@ -60,5 +64,13 @@ public class Readcord {
 
     public void setPagePos(int pagePos) {
         this.pagePos = pagePos;
+    }
+
+    public int getVolumePos() {
+        return volumePos;
+    }
+
+    public void setVolumePos(int volumePos) {
+        this.volumePos = volumePos;
     }
 }

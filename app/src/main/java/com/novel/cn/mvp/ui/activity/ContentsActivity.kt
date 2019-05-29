@@ -14,10 +14,12 @@ import com.novel.cn.mvp.contract.ContentsContract
 import com.novel.cn.mvp.model.entity.ChapterBean
 import com.novel.cn.mvp.model.entity.NovelInfoBean
 import com.novel.cn.mvp.model.entity.Volume
+import com.novel.cn.mvp.model.entity.VolumeBean
 import com.novel.cn.mvp.presenter.ContentsPresenter
 import com.novel.cn.mvp.ui.adapter.ChapterAdapter
 import com.novel.cn.mvp.ui.dialog.VolumePopup
 import com.novel.cn.utils.StatusBarUtils
+import com.novel.cn.view.VolumeView
 import com.novel.cn.view.decoration.LinearItemDecoration
 import kotlinx.android.synthetic.main.activity_contents.*
 import kotlinx.android.synthetic.main.include_title.*
@@ -25,24 +27,16 @@ import kotlinx.android.synthetic.main.layout_header_volume.*
 import kotlinx.android.synthetic.main.layout_header_volume.view.*
 
 
-class ContentsActivity : BaseActivity<ContentsPresenter>(), ContentsContract.View {
+class ContentsActivity : BaseActivity<ContentsPresenter>(), ContentsContract.View, VolumeView {
 
 
-    private val mPopup by lazy {
-        VolumePopup(this).apply {
-            setListener {
-//                mVolume = it
-//                mPresenter?.getChapterList(mBook.novelInfo.novelId, it.volume)
-                dismiss()
-            }
-        }
-    }
+    private val mPopup by lazy { VolumePopup(this, this) }
 
     private val mAdapter by lazy { ChapterAdapter() }
 
     private val mBook by lazy { intent.getParcelableExtra<NovelInfoBean>("book") }
     private var mVolume: Volume? = null
-    private lateinit var mHeaderView:View
+    private lateinit var mHeaderView: View
 
     override fun setupActivityComponent(appComponent: AppComponent) {
         DaggerContentsComponent //如找不到该类,请编译一下项目
@@ -65,7 +59,6 @@ class ContentsActivity : BaseActivity<ContentsPresenter>(), ContentsContract.Vie
         //给toolbar加个上边距，避免顶上去
         StatusBarUtils.setPaddingSmart(this, toolbar)
 
-
         mAdapter.bindToRecyclerView(recyclerView)
         mHeaderView = LayoutInflater.from(this).inflate(R.layout.layout_header_volume, recyclerView, false)
         mAdapter.addHeaderView(mHeaderView)
@@ -76,8 +69,14 @@ class ContentsActivity : BaseActivity<ContentsPresenter>(), ContentsContract.Vie
         decoration.leftMargin = dp2px(15)
         decoration.rightMargin = dp2px(15)
         recyclerView.addItemDecoration(decoration)
-        mPresenter?.getVolumeList(mBook.novelInfo.novelId)
+//        mPresenter?.getVolumeList(mBook.novelInfo.novelId)
+        mPresenter?.getCatalogue(mBook.novelInfo.novelId)
     }
+
+    override fun selectVolume(position: Int) {
+        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+    }
+
 
     override fun showVolume(data: MutableList<Volume>?) {
         mVolume = data?.get(0)
@@ -93,4 +92,9 @@ class ContentsActivity : BaseActivity<ContentsPresenter>(), ContentsContract.Vie
     override fun showState(state: Int) {
         multiStateView.viewState = state
     }
+
+    override fun showCalalogueInfo(list: ArrayList<VolumeBean>) {
+
+    }
+
 }

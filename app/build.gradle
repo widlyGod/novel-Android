@@ -128,7 +128,7 @@ android {
 //greendao
 greendao {
     //数据库schema版本，也可以理解为数据库版本号
-    schemaVersion 1
+    schemaVersion 2
     //设置DaoMaster 、DaoSession、Dao包名
     daoPackage "com.novel.cn.db"
     //设置DaoMaster 、DaoSession、Dao目录

@@ -14,23 +14,31 @@ class ChapterAdapter : BaseQuickAdapter<Calalogue, BaseViewHolder>(R.layout.item
 
 
     private var currentPosition = 0
+    private var isCurrentPositionShow = true
 
     override fun convert(helper: BaseViewHolder, item: Calalogue) {
         with(helper.itemView) {
             tv_chapter.text = "第${item.chapter}章${item.chapterTitle}"
             //添加了个头部，所以要减去
-            val isCurrentChapter = currentPosition == helper.layoutPosition - headerLayoutCount
-            iv_location.visible(isCurrentChapter)
-            tv_chapter.setTextColor(ContextCompat.getColor(mContext, if (isCurrentChapter) R.color.color_5e8fca else R.color.color_999999))
-
-            iv_free.visible(!isCurrentChapter && !item.isFree && !item.isLocked)
+            if (isCurrentPositionShow) {
+                val isCurrentChapter = currentPosition == helper.layoutPosition - headerLayoutCount
+                iv_location.visible(isCurrentChapter)
+                tv_chapter.setTextColor(ContextCompat.getColor(mContext, if (isCurrentChapter) R.color.color_5e8fca else R.color.color_999999))
+                iv_free.visible(!isCurrentChapter && !item.isFree && !item.isLocked)
+            }
         }
     }
 
     fun setCurrentPosition(position: Int) {
+        isCurrentPositionShow = true
         this.currentPosition = position
         notifyDataSetChanged()
         recyclerView.layoutManager?.scrollToPosition(position)
+    }
+
+    fun isCurrentPositionShow(isShow: Boolean) {
+        isCurrentPositionShow = isShow
+        notifyDataSetChanged()
     }
 
     fun getCurrentChapter(): Calalogue? {

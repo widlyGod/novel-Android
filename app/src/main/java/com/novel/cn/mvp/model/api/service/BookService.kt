@@ -172,7 +172,7 @@ interface BookService {
     fun chapterComment(@Body params: HashMap<String, Any?>): Observable<BaseResponse<Any>>
 
     @GET("novelAppService/catalogue/getCatalogue")
-    fun getCalalogue(@Query("novelId") novelId: String): Observable<BaseResponse<MutableList<Calalogue>>>
+    fun getCalalogue(@Query("novelId") novelId: String): Observable<BaseResponse<CalalogueVo>>
 
     @Streaming
     @GET

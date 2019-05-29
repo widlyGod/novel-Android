@@ -236,8 +236,8 @@ public class NetPageLoader extends PageLoader {
     }
 
     @Override
-    public void saveRecord() {
-        super.saveRecord();
+    public void saveRecord(int volumePos) {
+        super.saveRecord(volumePos);
 //        if (mCollBook != null && isChapterListPrepare) {
 //            //表示当前CollBook已经阅读
 //           /* mCollBook.setIsUpdate(false);

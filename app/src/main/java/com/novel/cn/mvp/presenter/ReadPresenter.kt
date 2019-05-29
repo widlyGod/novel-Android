@@ -11,6 +11,9 @@ import com.novel.cn.mvp.contract.ReadContract
 import com.novel.cn.mvp.model.entity.*
 import com.novel.cn.view.readpage.CacheManager
 import com.novel.cn.view.readpage.TxtChapter
+import com.zchu.rxcache.data.CacheResult
+import com.zchu.rxcache.kotlin.rxCache
+import com.zchu.rxcache.stategy.CacheStrategy
 import io.reactivex.Observable
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.schedulers.Schedulers
@@ -45,7 +48,7 @@ constructor(model: ReadContract.Model, rootView: ReadContract.View) :
                     override fun onNext(t: BaseResponse<Any>) {
 //                        readNovel(txtChapter, novelId, mCurChapterPos)
                         txtChapter?.isFree = true
-                        preDownload(txtChapter,novelId,mCurChapterPos)
+                        preDownload(txtChapter, novelId, mCurChapterPos)
                     }
 
                     override fun onError(t: Throwable) {
@@ -173,10 +176,10 @@ constructor(model: ReadContract.Model, rootView: ReadContract.View) :
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .compose(RxLifecycleUtils.bindToLifecycle(mRootView))
-                .subscribe(object : ErrorHandleSubscriber<BaseResponse<MutableList<Calalogue>>>(mErrorHandler) {
-                    override fun onNext(t: BaseResponse<MutableList<Calalogue>>) {
+                .subscribe(object : ErrorHandleSubscriber<CacheResult<CalalogueVo>>(mErrorHandler) {
+                    override fun onNext(t: CacheResult<CalalogueVo>) {
                         val list = ArrayList<VolumeBean>()
-                        t.data.groupBy { it.volumeId }
+                        t.data.catalogue.groupBy { it.volumeId }
                                 .forEach {
                                     val value = it.value
                                     val volumeBean = VolumeBean(value[0].volumeId, value[0].volumeTitle, value)
@@ -202,7 +205,8 @@ constructor(model: ReadContract.Model, rootView: ReadContract.View) :
                     }
                 })
     }
-    fun preDownload(txtChapter: TxtChapter?,novelId: String?,position:Int) {
+
+    fun preDownload(txtChapter: TxtChapter?, novelId: String?, position: Int) {
 
         val url = txtChapter?.filePath
 

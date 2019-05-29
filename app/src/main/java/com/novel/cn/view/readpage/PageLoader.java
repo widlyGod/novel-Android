@@ -617,7 +617,7 @@ public abstract class PageLoader {
     /**
      * 保存阅读记录
      */
-    public void saveRecord() {
+    public void saveRecord(int volumePos) {
 
         if (mChapterList.isEmpty()) {
             return;
@@ -625,6 +625,7 @@ public abstract class PageLoader {
 
         mBookRecord.setBookId(mBookId);
         mBookRecord.setChapter(mCurChapterPos);
+        mBookRecord.setVolumePos(volumePos);
 
         if (mCurPage != null) {
             mBookRecord.setPagePos(mCurPage.position);
