@@ -21,7 +21,7 @@ import com.novel.cn.view.VolumeView
 import kotlinx.android.synthetic.main.layout_volume_popup.view.*
 import java.util.concurrent.TimeUnit
 
-class VolumePopup(context: Context,private val readContractView: VolumeView) : PopupWindow(context) {
+class VolumePopup(context: Context, private val readContractView: VolumeView) : PopupWindow(context) {
 
     private val mAdapter by lazy {
         VolumeAdapter()

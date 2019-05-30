@@ -1,42 +1,59 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    android:gravity="center_vertical"
-    android:orientation="horizontal"
-    android:paddingLeft="15dp"
-    android:paddingTop="25dp"
-    android:paddingRight="15dp"
-    android:paddingBottom="25dp">
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center_vertical"
+        android:orientation="horizontal"
+        android:paddingLeft="15dp"
+        android:paddingTop="25dp"
+        android:paddingRight="15dp"
+        android:paddingBottom="25dp">
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@mipmap/ic_down" />
+
+        <TextView
+            android:id="@+id/tv_volume_title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="7dp"
+            android:textColor="@color/color_333333"
+            android:textSize="13sp"
+            tools:text="第一卷 飞流直下三千尺" />
+
+        <View
+            android:layout_width="1dp"
+            android:layout_height="11dp"
+            android:layout_marginLeft="8dp"
+            android:background="@color/color_333333" />
+
+        <TextView
+            android:id="@+id/tv_count"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="8dp"
+            android:textColor="@color/color_666666"
+            android:textSize="13sp"
+            tools:text="共50章" />
+
+    </LinearLayout>
 
     <ImageView
+        android:id="@+id/iv_rank_type"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:src="@mipmap/ic_down" />
+        android:padding="5dp"
+        android:layout_alignParentRight="true"
+        android:layout_centerVertical="true"
+        android:layout_marginRight="25dp"
+        android:src="@drawable/ic_rank_down" />
 
-    <TextView
-        android:id="@+id/tv_volume_title"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginLeft="7dp"
-        tools:text="第一卷 飞流直下三千尺"
-        android:textColor="@color/color_333333"
-        android:textSize="13sp" />
 
-    <View
-        android:layout_width="1dp"
-        android:layout_height="11dp"
-        android:layout_marginLeft="8dp"
-        android:background="@color/color_333333" />
-
-    <TextView
-        android:id="@+id/tv_count"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginLeft="8dp"
-        tools:text="共50章"
-        android:textColor="@color/color_666666"
-        android:textSize="13sp" />
-
-</LinearLayout>
+</RelativeLayout>

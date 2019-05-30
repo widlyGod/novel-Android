@@ -82,6 +82,7 @@ constructor(model: ContentsContract.Model, rootView: ContentsContract.View) :
                 .compose(RxLifecycleUtils.bindToLifecycle(mRootView))
                 .subscribe(object : ErrorHandleSubscriber<CacheResult<CalalogueVo>>(mErrorHandler) {
                     override fun onNext(t: CacheResult<CalalogueVo>) {
+                        mRootView.showState(MultiStateView.VIEW_STATE_CONTENT)
                         val list = ArrayList<VolumeBean>()
                         t.data.catalogue.groupBy { it.volumeId }
                                 .forEach {

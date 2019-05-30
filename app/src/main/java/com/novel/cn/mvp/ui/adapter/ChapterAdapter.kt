@@ -25,6 +25,10 @@ class ChapterAdapter : BaseQuickAdapter<Calalogue, BaseViewHolder>(R.layout.item
                 iv_location.visible(isCurrentChapter)
                 tv_chapter.setTextColor(ContextCompat.getColor(mContext, if (isCurrentChapter) R.color.color_5e8fca else R.color.color_999999))
                 iv_free.visible(!isCurrentChapter && !item.isFree && !item.isLocked)
+            } else {
+                iv_location.visible(false)
+                tv_chapter.setTextColor(ContextCompat.getColor(mContext, R.color.color_999999))
+                iv_free.visible(!item.isFree && !item.isLocked)
             }
         }
     }
@@ -33,7 +37,7 @@ class ChapterAdapter : BaseQuickAdapter<Calalogue, BaseViewHolder>(R.layout.item
         isCurrentPositionShow = true
         this.currentPosition = position
         notifyDataSetChanged()
-        recyclerView.layoutManager?.scrollToPosition(position)
+//        recyclerView.layoutManager?.scrollToPosition(position)
     }
 
     fun isCurrentPositionShow(isShow: Boolean) {

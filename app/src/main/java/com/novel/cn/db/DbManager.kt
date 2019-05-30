@@ -53,13 +53,14 @@ object DbManager {
 
     fun getReadcord(bookId: String?): Readcord? {
         return daoSession.readcordDao.queryBuilder().where(ReadcordDao.Properties.BookId.eq(bookId)).unique()
+                ?: Readcord()
     }
 
     fun saveRecord(mBookRecord: Readcord) {
         val data = daoSession.readcordDao.queryBuilder().where(ReadcordDao.Properties.BookId.eq(mBookRecord.bookId)).limit(1).unique()
         if (data == null) {
             daoSession.readcordDao.save(mBookRecord)
-        }else{
+        } else {
             daoSession.readcordDao.update(mBookRecord)
         }
 
