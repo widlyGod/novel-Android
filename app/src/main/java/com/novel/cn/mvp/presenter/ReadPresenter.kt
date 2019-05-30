@@ -140,19 +140,20 @@ constructor(model: ReadContract.Model, rootView: ReadContract.View) :
                 })
     }
 
-    fun isChargeChapter(novelId: String, volume: String?, txt: TxtChapter, mCurChapterPos: Int) {
+    fun isChargeChapter(novelId: String, volume: String?,chapterId: String, txt: TxtChapter, mCurChapterPos: Int) {
         val param = HashMap<String, Any?>()
         param["novelId"] = novelId
         param["novelVolumeId"] = volume
-        param["novelChapterId"] = txt.link
+        param["novelChapterId"] = chapterId
         mModel.isChargeChapter(param)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .compose(RxLifecycleUtils.bindToLifecycle(mRootView))
                 .subscribe(object : ErrorHandleSubscriber<BaseResponse<ChargeChapter>>(mErrorHandler) {
                     override fun onNext(t: BaseResponse<ChargeChapter>) {
-                        if (t.data.isSubscibe) {
-                            readNovel(txt, novelId, mCurChapterPos)
+                        if (t.code == 1) {
+//                            readNovel(txt, novelId, mCurChapterPos)
+                            preDownload(txt, novelId, mCurChapterPos)
                         } else {
                             getChapterInfo(txt, novelId, mCurChapterPos, t.data)
                         }

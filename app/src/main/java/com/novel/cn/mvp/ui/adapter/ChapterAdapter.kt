@@ -24,11 +24,11 @@ class ChapterAdapter : BaseQuickAdapter<Calalogue, BaseViewHolder>(R.layout.item
                 val isCurrentChapter = currentPosition == helper.layoutPosition - headerLayoutCount
                 iv_location.visible(isCurrentChapter)
                 tv_chapter.setTextColor(ContextCompat.getColor(mContext, if (isCurrentChapter) R.color.color_5e8fca else R.color.color_999999))
-                iv_free.visible(!isCurrentChapter && !item.isFree && !item.isLocked)
+                iv_free.visible(!isCurrentChapter && item.isFree && !item.isLocked)
             } else {
                 iv_location.visible(false)
                 tv_chapter.setTextColor(ContextCompat.getColor(mContext, R.color.color_999999))
-                iv_free.visible(!item.isFree && !item.isLocked)
+                iv_free.visible(item.isFree && !item.isLocked)
             }
         }
     }

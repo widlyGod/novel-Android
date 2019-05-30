@@ -80,7 +80,7 @@ class ReadActivity : BaseActivity<ReadPresenter>(), ReadContract.View, VolumeVie
 
     private val mAdapter by lazy { ChapterAdapter() }
 
-    private var mVolume: VolumeBean? = null
+    private lateinit var volumeIdId: String
 
     private val mPopup by lazy { VolumePopup(this, this) }
 
@@ -171,10 +171,11 @@ class ReadActivity : BaseActivity<ReadPresenter>(), ReadContract.View, VolumeVie
                 if (!tipDialog.isShowing) {
                     tipDialog.show()
                 }
-                mPresenter?.isChargeChapter(mBook.novelInfo.novelId, mVolume?.volumeId, txtChapter, mCurChapterPos)
+                mPresenter?.isChargeChapter(mBook.novelInfo.novelId, volumeList[selectedVolumePosition].calalogue[mCurChapterPos].volumeId, volumeList[selectedVolumePosition].calalogue[mCurChapterPos].chapterId, txtChapter, mCurChapterPos)
             }
 
             override fun onChapterChange(pos: Int) {
+                volumeIdId = volumeList[selectedVolumePosition].calalogue[pos].volumeId
                 seekbar.progress = pos
                 selectedVolumePosition = nowVolumePosition
                 mAdapter.setCurrentPosition(pos)
@@ -255,7 +256,7 @@ class ReadActivity : BaseActivity<ReadPresenter>(), ReadContract.View, VolumeVie
                     val chapter = mAdapter.getCurrentChapter()
                     chapter?.let {
                         hideSystemBar()
-                        JumpManager.jumpChapterComment(this, mBook.novelInfo.novelId, it.chapterId, mVolume?.volumeId, mBook.novelInfo.authorId)
+                        JumpManager.jumpChapterComment(this, mBook.novelInfo.novelId, it.chapterId, volumeIdId, mBook.novelInfo.authorId)
                     }
                 }
             }
@@ -305,7 +306,7 @@ class ReadActivity : BaseActivity<ReadPresenter>(), ReadContract.View, VolumeVie
             txt.bookId = mBook.novelInfo.novelId
             txt.chapterId = it.chapterId
             txt.title = it.chapterTitle
-            txt.isFree = it.isFree
+            txt.isFree = !it.isFree
             txt.isLocked = it.isLocked
             txt.filePath = it.filePath
             txt.words = it.words
