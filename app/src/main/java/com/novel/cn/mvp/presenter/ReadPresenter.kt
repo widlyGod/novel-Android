@@ -140,7 +140,7 @@ constructor(model: ReadContract.Model, rootView: ReadContract.View) :
                 })
     }
 
-    fun isChargeChapter(novelId: String, volume: String?,chapterId: String, txt: TxtChapter, mCurChapterPos: Int) {
+    fun isChargeChapter(novelId: String, volume: String?, chapterId: String, txt: TxtChapter, mCurChapterPos: Int) {
         val param = HashMap<String, Any?>()
         param["novelId"] = novelId
         param["novelVolumeId"] = volume
@@ -169,7 +169,14 @@ constructor(model: ReadContract.Model, rootView: ReadContract.View) :
                 .subscribe(object : ErrorHandleSubscriber<BaseResponse<ChapterInfoBean>>(mErrorHandler) {
                     override fun onNext(t: BaseResponse<ChapterInfoBean>) {
                         val data = t.data
-                        mRootView.showChapter(data, txt, mCurChapterPos, charge)
+                        if (charge.isSubscibe)
+                            subscribeBook(data.chapterInfo.id, data.chapterInfo.title,
+                                    data.chapterInfo.money.toString(), data.chapterInfo.chapter,
+                                    novelId, data.chapterInfo.volumeId, txt, mCurChapterPos)
+                        else
+                            mRootView.showChapter(data, txt, mCurChapterPos, charge)
+
+
                     }
                 })
     }
