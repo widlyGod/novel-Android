@@ -105,7 +105,7 @@ class BookshelfFragment : BaseLazyLoadFragment<BookshelfPresenter>(), BookshelfC
 
     @Subscribe
     fun onBookshelfChange(event: BookshelfEvent) {
-        LogUtils.warnInfo("=============>>>>")
+//        LogUtils.warnInfo("=============>>>>")
         mPresenter?.getBookshelfList(true)
     }
 

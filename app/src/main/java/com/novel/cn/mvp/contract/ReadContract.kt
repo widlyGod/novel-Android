@@ -50,6 +50,7 @@ interface ReadContract {
         fun getChapterInfo(link: String?): Observable<BaseResponse<ChapterInfoBean>>
         fun getCalalogue(novelId: String): Observable<CacheResult<CalalogueVo>>
         fun preDownload(url: String?): Observable<ResponseBody>
+        fun updateRead(params: ArrayList<HashMap<String, Any>>): Observable<BaseResponse<Any>>
     }
 
 }

@@ -151,12 +151,18 @@ interface BookService {
     @POST("novelOAService/novelDetail/addConsumeRecord")
     fun subcribeBook(@Body params: HashMap<String, Any?>): Observable<BaseResponse<Any>>
 
+    /**
+     * 阅读进度
+     */
+    @POST("novelAppService/novelChapter/updateReadRecord")
+    fun updateRead(@Body params: ArrayList<HashMap<String, Any>>): Observable<BaseResponse<Any>>
+
 
     /**
      * 书管理移动
      */
     @POST("novelOAService/mobile/moveMyNovel")
-    fun moveBook(@Body params: HashMap<String, HashMap<String,Int>>): Observable<BaseResponse<Any>>
+    fun moveBook(@Body params: HashMap<String, HashMap<String, Int>>): Observable<BaseResponse<Any>>
 
 
     @POST("novelOAService/novelDetail/isChargeChapter")

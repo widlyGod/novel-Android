@@ -83,7 +83,7 @@ public class ScrollPageAnim extends PageAnimation {
             }
             // 上拉
             else {
-                LogUtils.warnInfo("====>>layout");
+//                LogUtils.warnInfo("====>>layout");
                 // 底部的距离 = 当前底部的距离 + 滑动的距离 (因为上滑，得到的值肯定是负的)
                 int bottomEdge = mActiveViews.get(mActiveViews.size() - 1).bottom;
                 fillDown(bottomEdge, (int) offset);

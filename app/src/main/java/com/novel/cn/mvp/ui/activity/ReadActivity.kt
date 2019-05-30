@@ -11,6 +11,7 @@ import android.view.WindowManager
 import android.widget.SeekBar
 import com.jess.arms.base.BaseActivity
 import com.jess.arms.di.component.AppComponent
+import com.jess.arms.integration.EventBusManager
 import com.jess.arms.utils.LogUtils
 import com.novel.cn.R
 import com.novel.cn.app.JumpManager
@@ -21,6 +22,7 @@ import com.novel.cn.db.DbManager
 import com.novel.cn.db.Readcord
 import com.novel.cn.di.component.DaggerReadComponent
 import com.novel.cn.di.module.ReadModule
+import com.novel.cn.eventbus.BookshelfEvent
 import com.novel.cn.ext.dp2px
 import com.novel.cn.mvp.contract.ReadContract
 import com.novel.cn.mvp.model.entity.*
@@ -184,6 +186,7 @@ class ReadActivity : BaseActivity<ReadPresenter>(), ReadContract.View, VolumeVie
                 if (tipDialog.isShowing) {
                     tipDialog.dismiss()
                 }
+                mPresenter?.updateRead(item.novelId, item.chapterId)
             }
 
             override fun requestChapters(requestChapters: MutableList<TxtChapter>?) {
@@ -463,6 +466,7 @@ class ReadActivity : BaseActivity<ReadPresenter>(), ReadContract.View, VolumeVie
 
     override fun onDestroy() {
         mPageLoader.closeBook()
+        EventBusManager.getInstance().post(BookshelfEvent())
         super.onDestroy()
     }
 }

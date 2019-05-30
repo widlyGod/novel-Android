@@ -92,13 +92,22 @@ constructor(model: LoginContract.Model, rootView: LoginContract.View) :
                 val params = HashMap<String, String>()
 
                 val db = platform.db
-                params.put("openId", db.userId)
+
                 params.put("nickName", db.userName)
                 // 1或0   男,女
-                val gender = if (db.userGender == "m") "1" else "0"
+                val gender = if (db.userGender == "m") "0" else "1"
                 params.put("gender", gender)
                 params.put("channelId", "-1")
                 params.put("photo", db.userIcon)
+                if (type == Wechat.NAME) {
+                    val wechat = ShareSDK.getPlatform(Wechat.NAME)
+                    val unionid = wechat.db.get("unionid")
+                    params.put("openId", unionid)
+                } else {
+                    params.put("openId", db.userId)
+                }
+
+
                 loginThrid(type, params)
 
             }

@@ -71,6 +71,10 @@ constructor(repositoryManager: IRepositoryManager) : BaseModel(repositoryManager
         return mRepositoryManager.obtainRetrofitService(BookService::class.java).getVolumeList(bookId)
     }
 
+    override fun updateRead(params: ArrayList<HashMap<String, Any>>): Observable<BaseResponse<Any>> {
+        return mRepositoryManager.obtainRetrofitService(BookService::class.java).updateRead(params)
+    }
+
     @Inject
     lateinit var mGson: Gson;
     @Inject

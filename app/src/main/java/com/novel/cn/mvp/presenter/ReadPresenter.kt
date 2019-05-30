@@ -4,6 +4,8 @@ import com.jess.arms.di.scope.ActivityScope
 import com.jess.arms.mvp.BasePresenter
 import com.jess.arms.utils.LogUtils
 import com.jess.arms.utils.RxLifecycleUtils
+import com.novel.cn.app.Constant
+import com.novel.cn.app.Preference
 import me.jessyan.rxerrorhandler.core.RxErrorHandler
 import javax.inject.Inject
 
@@ -223,5 +225,23 @@ constructor(model: ReadContract.Model, rootView: ReadContract.View) :
                 })
     }
 
+    fun updateRead(novelId: String, chapterId: String) {
+        val user = Preference.getDeviceData<LoginInfo?>(Constant.LOGIN_INFO)
+        val param = HashMap<String, Any>()
+        param["userId"] = user!!.userId
+        param["novelId"] = novelId
+        param["chapterId"] = chapterId
+        var list = ArrayList<HashMap<String, Any>>()
+        list.add(param)
+        mModel.updateRead(list)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .compose(RxLifecycleUtils.bindToLifecycle(mRootView))
+                .subscribe(object : ErrorHandleSubscriber<BaseResponse<Any>>(mErrorHandler) {
+                    override fun onNext(t: BaseResponse<Any>) {
+
+                    }
+                })
+    }
 
 }
