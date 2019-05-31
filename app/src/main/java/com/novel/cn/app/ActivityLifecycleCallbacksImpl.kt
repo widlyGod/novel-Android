@@ -70,7 +70,7 @@ class ActivityLifecycleCallbacksImpl : Application.ActivityLifecycleCallbacks {
                     titleView.typeface = Typeface.createFromAsset(activity.assets,"fonts/FZQKBYSJW.TTF")
                 }
                 if (activity.findViewById<View>(R.id.toolbar_back) != null) {
-                    activity.findViewById<View>(R.id.toolbar_back).setOnClickListener({ v -> activity.onBackPressed() })
+                    activity.findViewById<View>(R.id.toolbar_back).setOnClickListener { activity.onBackPressed() }
                 }
             }
         }

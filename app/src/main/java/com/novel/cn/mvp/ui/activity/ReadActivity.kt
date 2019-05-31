@@ -49,7 +49,7 @@ class ReadActivity : BaseActivity<ReadPresenter>(), ReadContract.View, VolumeVie
 
     private val mBook by lazy { intent.getParcelableExtra<NovelInfoBean>("book") }
 
-    private val mRewardDialog by lazy { RewardDialog(this) }
+    private val mRewardDialog by lazy { RewardDialog(this, this) }
 
     private val mSettingDialog by lazy {
         ReadSettingDialog(this).apply {
@@ -229,7 +229,9 @@ class ReadActivity : BaseActivity<ReadPresenter>(), ReadContract.View, VolumeVie
         click(tv_setting, tv_catalogue, iv_pre, iv_next, iv_night_mode,
                 tv_zhifu, tv_prev, tv_contents, tv_next, ll_info, iv_reward, tv_chapter_comment) {
             when (it) {
-                iv_reward -> mRewardDialog.show()
+                iv_reward -> {
+                    mPresenter?.getUserAccountInfo()
+                }
                 ll_info -> toggleMenu()
                 tv_prev -> {
                     mPageLoader.skipPreChapter()
@@ -261,6 +263,16 @@ class ReadActivity : BaseActivity<ReadPresenter>(), ReadContract.View, VolumeVie
                 }
             }
         }
+    }
+
+    override fun reward(operation: String, number: Int) {
+        mPresenter?.reward(mBook.novelInfo.novelId, operation, number)
+    }
+
+
+    override fun getUserAccountInfoSuccess(userAccountBean: UserAccountBean) {
+        mRewardDialog.show()
+        mRewardDialog.setUserAccount(userAccountBean)
     }
 
     val header by lazy { LayoutInflater.from(this).inflate(R.layout.layout_header_volume, recyclerView, false) }

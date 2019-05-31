@@ -6,6 +6,8 @@ import com.jess.arms.utils.LogUtils
 import com.jess.arms.utils.RxLifecycleUtils
 import com.novel.cn.app.Constant
 import com.novel.cn.app.Preference
+import com.novel.cn.ext.applySchedulers
+import com.novel.cn.ext.toast
 import me.jessyan.rxerrorhandler.core.RxErrorHandler
 import javax.inject.Inject
 
@@ -251,5 +253,33 @@ constructor(model: ReadContract.Model, rootView: ReadContract.View) :
                     }
                 })
     }
+
+    fun getUserAccountInfo() {
+        mModel.getUserAccountInfo()
+                .applySchedulers(mRootView)
+                .compose(RxLifecycleUtils.bindToLifecycle(mRootView))
+                .subscribe(object : ErrorHandleSubscriber<BaseResponse<UserAccountBean>>(mErrorHandler) {
+                    override fun onNext(t: BaseResponse<UserAccountBean>) {
+                        mRootView.getUserAccountInfoSuccess(t.data)
+                    }
+                })
+    }
+
+    fun reward(novelId: String, operation: String, number: Int) {
+        val param = HashMap<String, Any?>()
+        param["novelId"] = novelId
+        param["operation"] = operation
+        param["number"] = number
+        mModel.reward(param)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .compose(RxLifecycleUtils.bindToLifecycle(mRootView))
+                .subscribe(object : ErrorHandleSubscriber<BaseResponse<Any>>(mErrorHandler) {
+                    override fun onNext(t: BaseResponse<Any>) {
+                        toast(t.message)
+                    }
+                })
+    }
+
 
 }

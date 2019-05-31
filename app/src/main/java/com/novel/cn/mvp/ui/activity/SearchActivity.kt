@@ -90,7 +90,7 @@ class SearchActivity : BaseActivity<SearchPresenter>(), SearchContract.View {
         */
         mHotWordAdapter.setNewData(hotNovels)
 
-        mHotWordAdapter.setOnItemClickListener { adapter, view, position ->
+        mHotWordAdapter.setOnItemClickListener { _, _, position ->
             val item = mHotWordAdapter.getItem(position)
             JumpManager.jumpBookDetail(this,item?.novelId)
         }

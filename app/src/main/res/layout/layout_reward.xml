@@ -10,23 +10,26 @@
         android:id="@+id/recyclerView"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_margin="7dp"
         app:layoutManager="android.support.v7.widget.GridLayoutManager"
         app:spanCount="3" />
 
     <TextView
+        android:id="@+id/tv_reward_detail"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
-        android:layout_marginTop="30dp"
+        android:layout_marginTop="20dp"
         android:text="账户余额 500 阅读币，本次打赏 30 阅读币" />
 
     <com.flyco.roundview.RoundTextView
+        android:id="@+id/tv_reward_done"
         android:layout_width="96dp"
         android:layout_height="30dp"
         android:layout_marginTop="29dp"
         android:layout_marginBottom="35dp"
         android:gravity="center"
-        android:text="确定"
+        android:text="确认打赏"
         android:textColor="@color/white"
         app:rv_backgroundColor="#00a5ea"
         app:rv_cornerRadius="3dp" />

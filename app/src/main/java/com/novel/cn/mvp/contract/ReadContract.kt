@@ -34,7 +34,8 @@ interface ReadContract {
         fun openBook(mCurChapterPos: Int, txtChapter: TxtChapter?)
         fun subscribeError()
         fun showCalalogueInfo(list: ArrayList<VolumeBean>)
-
+        fun getUserAccountInfoSuccess(userAccountBean: UserAccountBean)
+        fun reward(operation: String, number: Int)
 //        fun subscribeSuccess()
     }
 
@@ -51,6 +52,8 @@ interface ReadContract {
         fun getCalalogue(novelId: String): Observable<CacheResult<CalalogueVo>>
         fun preDownload(url: String?): Observable<ResponseBody>
         fun updateRead(params: ArrayList<HashMap<String, Any>>): Observable<BaseResponse<Any>>
+        fun getUserAccountInfo(): Observable<BaseResponse<UserAccountBean>>
+        fun reward(params: HashMap<String, Any?>): Observable<BaseResponse<Any>>
     }
 
 }

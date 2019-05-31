@@ -75,6 +75,15 @@ constructor(repositoryManager: IRepositoryManager) : BaseModel(repositoryManager
         return mRepositoryManager.obtainRetrofitService(BookService::class.java).updateRead(params)
     }
 
+    override fun getUserAccountInfo(): Observable<BaseResponse<UserAccountBean>> {
+        return mRepositoryManager.obtainRetrofitService(BookService::class.java).getUserAccountInfo()
+    }
+
+    override fun reward(params: HashMap<String, Any?>): Observable<BaseResponse<Any>> {
+        return mRepositoryManager.obtainRetrofitService(BookService::class.java).reward(params)
+    }
+
+
     @Inject
     lateinit var mGson: Gson;
     @Inject

@@ -164,6 +164,18 @@ interface BookService {
     @POST("novelOAService/mobile/moveMyNovel")
     fun moveBook(@Body params: HashMap<String, HashMap<String, Int>>): Observable<BaseResponse<Any>>
 
+    /**
+     * 获取用户账户信息
+     */
+    @POST("novelOAService/accountCenter/queryPersonAccount")
+    fun getUserAccountInfo(): Observable<BaseResponse<UserAccountBean>>
+
+    /**
+     * 打赏
+     */
+    @POST("novelOAService/reward/giveApp")
+    fun reward(@Body params: HashMap<String, Any?>): Observable<BaseResponse<Any>>
+
 
     @POST("novelOAService/novelDetail/isChargeChapter")
     fun isChargeChapter(@Body param: HashMap<String, Any?>): Observable<BaseResponse<ChargeChapter>>
