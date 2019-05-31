@@ -62,7 +62,9 @@ constructor(model: BookChannelContract.Model, rootView: BookChannelContract.View
                                 "2" -> {
                                     val map = next.value as Map<*, *>
                                     val hotList = mGson.fromJson<List<BookInfo>>(mGson.toJson(map["hotNovelInfoList"]), object : TypeToken<List<BookInfo>>() {}.type)
-                                    list.add(SearchBean(hotList))
+                                    if (hotList != null) {
+                                        list.add(SearchBean(hotList))
+                                    }
                                 }
                                 "3" -> {
                                     val json = mGson.toJson(next.value)
