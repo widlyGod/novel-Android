@@ -43,6 +43,7 @@ class RewardDialog(context: Context, private val view: ReadContract.View) : Base
 
     private var mPosition = 0
     private var rewardNum = 0
+    var readMoneySelected = 0
 
     init {
         this.window?.setDimAmount(0f)
@@ -93,7 +94,8 @@ class RewardDialog(context: Context, private val view: ReadContract.View) : Base
                 dismiss()
             }
         }
-        adapter.setSelect(0)
+        readMoneySelected = 0
+        adapter.setSelect(readMoneySelected)
 
     }
 
@@ -123,7 +125,7 @@ class RewardDialog(context: Context, private val view: ReadContract.View) : Base
         fl_content.addView(rewardView)
         setView(recommendView)
 
-        var readMoneySelected = 0
+
         adapter.clicks().subscribe {
             if (mUserAccountBean.goldNumber > list[it.second].money.toInt()) {
                 adapter.setSelect(it.second)
