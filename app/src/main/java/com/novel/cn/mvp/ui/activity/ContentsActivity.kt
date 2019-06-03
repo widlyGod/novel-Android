@@ -132,7 +132,11 @@ class ContentsActivity : BaseActivity<ContentsPresenter>(), ContentsContract.Vie
         }.bindToLifecycle(this)
         mFootView.tv_next_page.clicks().subscribe {
             if (page < calalogue.size / 100) {
-                page++
+                if (calalogue.size % 100 == 0) {
+                    if (page < calalogue.size / 100 - 1)
+                        page++
+                } else
+                    page++
                 setCurrentPositionShow()
             }
 
@@ -141,7 +145,7 @@ class ContentsActivity : BaseActivity<ContentsPresenter>(), ContentsContract.Vie
         mPresenter?.getCatalogue(mBook.novelInfo.novelId)
     }
 
-    private fun initPagePopup(){
+    private fun initPagePopup() {
         mPagePopup.setData(calalogue)
         mPagePopup.setCurrentPosition(page)
     }

@@ -70,14 +70,15 @@ constructor(model: BookChannelContract.Model, rootView: BookChannelContract.View
                                     val json = mGson.toJson(next.value)
                                     val bookInfoList = mGson.fromJson<List<BookInfoBean>>(json, object : TypeToken<List<BookInfoBean>>() {}.type)
 
-                                    bookInfoList.forEach {
+                                    bookInfoList.forEach { it ->
                                         //UI 展示样式，1：表示 展示六本 2：表示 左右滑动
                                         if (it.uIStyle == 1) {
-                                            list.add(TitleIndicator(it.selectLabelName))
-
-                                            it.novelList.forEach {
-                                                list.add(it)
-                                            }
+//                                            list.add(TitleIndicator(it.selectLabelName))
+//
+//                                            it.novelList.forEach {
+//                                                list.add(it)
+//                                            }
+                                            list.add(SwitchoverBooks(it))
                                         } else {
                                             list.add(BookHorizontal(it.novelList))
                                         }

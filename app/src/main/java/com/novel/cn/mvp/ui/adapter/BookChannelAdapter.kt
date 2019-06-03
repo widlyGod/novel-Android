@@ -1,30 +1,28 @@
 package com.novel.cn.mvp.ui.adapter
 
 import android.content.Context
+import android.support.v7.widget.PagerSnapHelper
 import android.support.v7.widget.RecyclerView
+import android.view.ViewGroup
 import android.widget.ImageView
+import android.widget.LinearLayout
 import com.chad.library.adapter.base.BaseMultiItemQuickAdapter
 import com.chad.library.adapter.base.BaseViewHolder
 import com.chad.library.adapter.base.entity.MultiItemEntity
+import com.jess.arms.integration.EventBusManager
 import com.novel.cn.R
+import com.novel.cn.app.JumpManager
 import com.novel.cn.app.loadImage
-import com.novel.cn.mvp.ui.activity.SearchActivity
+import com.novel.cn.eventbus.SwitchFragmentEvent
+import com.novel.cn.mvp.model.entity.*
 import com.youth.banner.loader.ImageLoaderInterface
 import kotlinx.android.synthetic.main.item_banner.view.*
 import kotlinx.android.synthetic.main.item_book.view.*
 import kotlinx.android.synthetic.main.item_book_banner.view.*
-import kotlinx.android.synthetic.main.item_search.view.*
-import org.jetbrains.anko.startActivity
-import android.support.v7.widget.PagerSnapHelper
-import android.view.ViewGroup
-import android.widget.LinearLayout
-import com.jess.arms.integration.EventBusManager
-import com.novel.cn.app.JumpManager
-import com.novel.cn.eventbus.SwitchFragmentEvent
-import com.novel.cn.mvp.model.entity.*
-import kotlinx.android.synthetic.main.item_indicator.view.*
+import kotlinx.android.synthetic.main.item_indicator.view.tv_title_indicator
 import kotlinx.android.synthetic.main.item_lately_update.view.*
-import org.greenrobot.eventbus.EventBus
+import kotlinx.android.synthetic.main.item_search.view.*
+import kotlinx.android.synthetic.main.item_switchover_book.view.*
 
 
 class BookChannelAdapter : BaseMultiItemQuickAdapter<MultiItemEntity, BaseViewHolder>(ArrayList()) {
@@ -38,6 +36,7 @@ class BookChannelAdapter : BaseMultiItemQuickAdapter<MultiItemEntity, BaseViewHo
         const val TYPE_LATEY_UPDATE = 6
         const val TYPE_EMPTY = 7
         const val TYPE_HORIZONTAL = 8
+        const val TYPE_SWITCHOVER = 9
     }
 
     init {
@@ -50,12 +49,13 @@ class BookChannelAdapter : BaseMultiItemQuickAdapter<MultiItemEntity, BaseViewHo
         addItemType(TYPE_LATEY_UPDATE, R.layout.item_lately_update)
         addItemType(TYPE_EMPTY, R.layout.item_empty)
         addItemType(TYPE_HORIZONTAL, R.layout.item_book_banner)
+        addItemType(TYPE_SWITCHOVER, R.layout.item_switchover_book)
 
         setSpanSizeLookup { gridLayoutManager, position ->
             val spanCount = gridLayoutManager.spanCount
             when (getItemViewType(position)) {
                 TYPE_BANNER, TYPE_MENU, TYPE_SEARCH, TYPE_INDICATOR,
-                TYPE_LATEY_UPDATE, TYPE_EMPTY, TYPE_HORIZONTAL -> spanCount
+                TYPE_LATEY_UPDATE, TYPE_EMPTY, TYPE_HORIZONTAL, TYPE_SWITCHOVER -> spanCount
                 else -> 1
             }
         }
@@ -167,6 +167,35 @@ class BookChannelAdapter : BaseMultiItemQuickAdapter<MultiItemEntity, BaseViewHo
                 itemView.tv_type.text = "【${item.novelType}】"
                 itemView.tv_content.text = "${item.novelTitle}：${item.chapterTitle}"
 
+            }
+
+            TYPE_SWITCHOVER -> {
+                item as SwitchoverBooks
+                var page = 0
+                itemView.tv_title_indicator.text = item.bookInfoBean.selectLabelName
+                val adapter = BookChannelAdapter()
+                itemView.rlv_books.apply {
+                    this.adapter = adapter
+                }
+                var list = item.bookInfoBean.novelList
+                itemView.tv_switchover_books.setOnClickListener {
+                    if (page < list.size / 6) {
+                        if (list.size % 6 == 0) {
+                            if (page < list.size / 6 - 1)
+                                page++
+                            else
+                                page = 0
+                        } else
+                            page++
+                    } else {
+                        page = 0
+                    }
+                    var takeList = list.take((page + 1) * 6).takeLast(if (list.size - page * 6 >= 6) 6 else list.size - page * 6)
+                    adapter.setNewData(takeList)
+                }
+
+                var takeList = list.take((page + 1) * 6).takeLast(if (list.size - page * 6 >= 6) 6 else list.size - page * 6)
+                adapter.setNewData(takeList)
             }
         }
     }

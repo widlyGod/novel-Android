@@ -71,6 +71,12 @@ data class TitleIndicator(val title: String) : MultiItemEntity {
     }
 }
 
+class SwitchoverBooks(val bookInfoBean: BookInfoBean) : MultiItemEntity {
+    override fun getItemType(): Int {
+        return BookChannelAdapter.TYPE_SWITCHOVER
+    }
+}
+
 class LateyUpdate : BookInfo(), MultiItemEntity {
     override fun getItemType(): Int {
         return BookChannelAdapter.TYPE_LATEY_UPDATE
