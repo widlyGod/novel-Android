@@ -485,4 +485,12 @@ class ReadActivity : BaseActivity<ReadPresenter>(), ReadContract.View, VolumeVie
         EventBusManager.getInstance().post(BookshelfEvent())
         super.onDestroy()
     }
+
+    override fun showLoading() {
+        tipDialog.show()
+    }
+
+    override fun hideLoading() {
+        tipDialog.hide()
+    }
 }

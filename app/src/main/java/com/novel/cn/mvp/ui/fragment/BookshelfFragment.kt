@@ -8,6 +8,7 @@ import android.view.ViewGroup
 import com.jess.arms.base.BaseLazyLoadFragment
 import com.jess.arms.di.component.AppComponent
 import com.jess.arms.utils.LogUtils
+import com.jess.arms.utils.ShareprefUtils
 import com.novel.cn.R
 import com.novel.cn.app.Constant
 import com.novel.cn.app.JumpManager
@@ -31,7 +32,6 @@ import javax.inject.Inject
 
 
 class BookshelfFragment : BaseLazyLoadFragment<BookshelfPresenter>(), BookshelfContract.View {
-
 
     override fun lazyLoadData() {
 
@@ -98,8 +98,15 @@ class BookshelfFragment : BaseLazyLoadFragment<BookshelfPresenter>(), BookshelfC
         }
     }
 
+    override fun getReadTimeSuccess(time: String) {
+        tv_read_time.text = "本周阅读时长${(time.toInt()+(ShareprefUtils.getLong(context, "APP_READ_TIME", 0) / 1000 / 60).toInt())}分钟"
+    }
+
+
+
     private fun onRefresh() {
         mPresenter?.validateSignIn()
+        mPresenter?.getReadTime()
         mPresenter?.getBookshelfList(true)
     }
 

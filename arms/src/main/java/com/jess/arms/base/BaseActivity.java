@@ -149,6 +149,15 @@ public abstract class BaseActivity<P extends IPresenter> extends AppCompatActivi
     public void removeFromLifecycle(Disposable disposable) {
         compositeDisposable.remove(disposable);
     }
+    @Override
+    public void showLoading() {
+
+    }
+
+    @Override
+    public void hideLoading() {
+
+    }
 
 
 }

@@ -5,15 +5,13 @@ import com.jess.arms.mvp.BaseModel
 
 import com.jess.arms.di.scope.FragmentScope
 import com.novel.cn.app.Constant
+import com.novel.cn.app.Preference
 import javax.inject.Inject
 
 import com.novel.cn.mvp.contract.BookshelfContract
 import com.novel.cn.mvp.model.api.service.BookService
 import com.novel.cn.mvp.model.api.service.UserService
-import com.novel.cn.mvp.model.entity.BaseResponse
-import com.novel.cn.mvp.model.entity.Book
-import com.novel.cn.mvp.model.entity.Pagination
-import com.novel.cn.mvp.model.entity.SignIn
+import com.novel.cn.mvp.model.entity.*
 import com.zchu.rxcache.data.CacheResult
 import com.zchu.rxcache.kotlin.rxCache
 import com.zchu.rxcache.stategy.CacheStrategy
@@ -36,6 +34,8 @@ import io.reactivex.Observable
 class BookshelfModel
 @Inject
 constructor(repositoryManager: IRepositoryManager) : BaseModel(repositoryManager), BookshelfContract.Model {
+
+    val user = Preference.getDeviceData<LoginInfo?>(Constant.LOGIN_INFO)
     override fun validateSignIn(): Observable<BaseResponse<SignIn>> {
         return mRepositoryManager.obtainRetrofitService(UserService::class.java).validateSignIn()
     }
@@ -55,5 +55,9 @@ constructor(repositoryManager: IRepositoryManager) : BaseModel(repositoryManager
                 .rxCache("bookshelf$pageIndex", CacheStrategy.firstRemoteSync())
     }
 
+    override fun getReadTime(): Observable<BaseResponse<ReadTimeBean>> {
+
+        return mRepositoryManager.obtainRetrofitService(BookService::class.java).getReadTime(user!!.userId)
+    }
 
 }

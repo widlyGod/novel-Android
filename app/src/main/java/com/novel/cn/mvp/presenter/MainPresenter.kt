@@ -62,6 +62,24 @@ constructor(model: MainContract.Model, rootView: MainContract.View) :
                         LogUtils.warnInfo("//////")
                     }
                 })
+
     }
 
+    fun uploadReadTime() {
+        mModel.uploadReadTime()
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .compose(RxLifecycleUtils.bindToLifecycle(mRootView))
+                .subscribe(object : ErrorHandleSubscriber<BaseResponse<Any>>(mErrorHandler) {
+                    override fun onNext(t: BaseResponse<Any>) {
+                        ShareprefUtils.saveLong(mApplication, "APP_READ_TIME", 0)
+                    }
+
+                    override fun onError(t: Throwable) {
+                        super.onError(t)
+                        LogUtils.warnInfo("//////")
+                    }
+                })
+
+    }
 }

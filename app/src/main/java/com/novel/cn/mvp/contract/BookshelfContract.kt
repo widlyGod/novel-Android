@@ -3,10 +3,7 @@ package com.novel.cn.mvp.contract
 import android.content.Context
 import com.jess.arms.mvp.IView
 import com.jess.arms.mvp.IModel
-import com.novel.cn.mvp.model.entity.BaseResponse
-import com.novel.cn.mvp.model.entity.Book
-import com.novel.cn.mvp.model.entity.Pagination
-import com.novel.cn.mvp.model.entity.SignIn
+import com.novel.cn.mvp.model.entity.*
 import com.zchu.rxcache.data.CacheResult
 import io.reactivex.Observable
 
@@ -33,13 +30,15 @@ interface BookshelfContract {
         fun signInSuccess()
         fun changeSignInInfo(data: SignIn)
         fun showState(state: Int)
+        fun getReadTimeSuccess(time: String)
     }
 
     //Model层定义接口,外部只需关心Model返回的数据,无需关心内部细节,即是否使用缓存
     interface Model : IModel {
-        fun getBookshelf(pageIndex: Int):Observable<CacheResult<Pagination<Book>>>
-        fun signIn(params: HashMap<String, String>):Observable<BaseResponse<Any>>
-        fun validateSignIn():Observable<BaseResponse<SignIn>>
+        fun getBookshelf(pageIndex: Int): Observable<CacheResult<Pagination<Book>>>
+        fun signIn(params: HashMap<String, String>): Observable<BaseResponse<Any>>
+        fun validateSignIn(): Observable<BaseResponse<SignIn>>
+        fun getReadTime(): Observable<BaseResponse<ReadTimeBean>>
     }
 
 }

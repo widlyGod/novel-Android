@@ -45,14 +45,14 @@ constructor(repositoryManager: IRepositoryManager) : BaseModel(repositoryManager
     val user = Preference.getDeviceData<LoginInfo?>(Constant.LOGIN_INFO)
 
     override fun uploadUseTime(): Observable<BaseResponse<Any>> {
-        return mRepositoryManager.obtainRetrofitService(UserService::class.java).updateLoginTime(user!!.userId,ShareprefUtils.getLong(mApplication, "APP_USE_TIME", 0))
+        return mRepositoryManager.obtainRetrofitService(UserService::class.java).updateLoginTime(user!!.userId, ShareprefUtils.getLong(mApplication, "APP_USE_TIME", 0))
     }
 
     override fun uploadReadTime(): Observable<BaseResponse<Any>> {
-//        val map = HashMap<String, Any?>()
-//        map.put("userId", user!!.userId)
-//        map.put("loginTime", ShareprefUtils.getLong(mApplication, "APP_USE_TIME", 0))
-        return mRepositoryManager.obtainRetrofitService(UserService::class.java).updateLoginTime(user!!.userId,ShareprefUtils.getLong(mApplication, "APP_USE_TIME", 0))
+        val params = HashMap<String, Any?>()
+        params["userId"] = user!!.userId
+        params["readTime"] = (ShareprefUtils.getLong(mApplication, "APP_READ_TIME", 0) / 1000 / 60).toInt().toString()
+        return mRepositoryManager.obtainRetrofitService(UserService::class.java).updateReadTime(params)
     }
 
 }

@@ -6,10 +6,7 @@ import com.jess.arms.utils.LogUtils
 import com.jess.arms.utils.RxLifecycleUtils
 import com.novel.cn.app.Constant
 import com.novel.cn.mvp.contract.BookshelfContract
-import com.novel.cn.mvp.model.entity.BaseResponse
-import com.novel.cn.mvp.model.entity.Book
-import com.novel.cn.mvp.model.entity.Pagination
-import com.novel.cn.mvp.model.entity.SignIn
+import com.novel.cn.mvp.model.entity.*
 import com.novel.cn.view.MultiStateView
 import com.zchu.rxcache.data.CacheResult
 import io.reactivex.android.schedulers.AndroidSchedulers
@@ -91,6 +88,22 @@ constructor(model: BookshelfContract.Model, rootView: BookshelfContract.View) :
                 .subscribe(object : ErrorHandleSubscriber<BaseResponse<SignIn>>(mErrorHandler) {
                     override fun onNext(t: BaseResponse<SignIn>) {
                         mRootView.changeSignInInfo(t.data)
+                    }
+                })
+    }
+
+    fun getReadTime() {
+        mModel.getReadTime()
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .compose(RxLifecycleUtils.bindToLifecycle(mRootView))
+                .subscribe(object : ErrorHandleSubscriber<BaseResponse<ReadTimeBean>>(mErrorHandler) {
+                    override fun onNext(t: BaseResponse<ReadTimeBean>) {
+                        mRootView.getReadTimeSuccess(t.data.readTime)
+                    }
+
+                    override fun onError(t: Throwable) {
+                        super.onError(t)
                     }
                 })
     }

@@ -93,4 +93,10 @@ interface UserService {
     @GET("novelAppService/personalCenter/updateLoginTime")
     fun updateLoginTime(@Query("userId") userId: String, @Query("loginTime") loginTime: Long): Observable<BaseResponse<Any>>
 
+    /**
+     * 上传阅读时长
+     */
+    @POST("novelUserService/personal/saveWeeklyReadTime")
+    fun updateReadTime(@Body params: HashMap<String, Any?>): Observable<BaseResponse<Any>>
+
 }

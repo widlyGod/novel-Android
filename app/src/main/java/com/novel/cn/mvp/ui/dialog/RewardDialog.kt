@@ -8,6 +8,11 @@ import android.support.v4.content.ContextCompat.getSystemService
 import android.text.TextWatcher
 import android.view.View
 import android.view.inputmethod.InputMethodManager
+import com.flyco.animation.FadeEnter.FadeEnter
+import com.flyco.animation.FadeExit.FadeExit
+import com.flyco.animation.SlideEnter.SlideRightEnter
+import com.flyco.animation.SlideEnter.SlideTopEnter
+import com.flyco.animation.SlideExit.SlideRightExit
 import com.flyco.dialog.widget.base.BaseDialog
 import com.flyco.tablayout.listener.CustomTabEntity
 import com.flyco.tablayout.listener.OnTabSelectListener
@@ -45,9 +50,18 @@ class RewardDialog(context: Context, private val view: ReadContract.View) : Base
     private var rewardNum = 0
     var readMoneySelected = 0
 
+    val list = arrayListOf(
+            Reward("10", 0), Reward("30", 0), Reward("50", 0),
+            Reward("100", 0), Reward("150", 0), Reward("200", 0),
+            Reward("500", 1), Reward("1000", 2), Reward("1500", 3))
+
+
     init {
         this.window?.setDimAmount(0f)
         widthScale(0.85f)
+        this.showAnim(FadeEnter().duration(300))
+        this.dismissAnim(FadeExit().duration(300))
+        this.setCanceledOnTouchOutside(false)
     }
 
     override fun setUiBeforShow() {
@@ -89,8 +103,14 @@ class RewardDialog(context: Context, private val view: ReadContract.View) : Base
         if (mUserAccountBean.goldNumber < 10) {
             rewardView!!.tv_reward_done.text = "去充值"
             rewardView!!.tv_reward_detail.text = "账户余额 ${mUserAccountBean.goldNumber} 阅读币，余额不足"
-            rewardView!!.setOnClickListener {
+            rewardView!!.tv_reward_done.setOnClickListener {
                 JumpManager.jumpRecharge(context)
+                dismiss()
+            }
+        }else{
+            rewardView!!.tv_reward_done.text = "确认打赏"
+            rewardView!!.tv_reward_done.setOnClickListener() {
+                view.reward("Money", list[readMoneySelected].money.toInt())
                 dismiss()
             }
         }
@@ -98,6 +118,7 @@ class RewardDialog(context: Context, private val view: ReadContract.View) : Base
         adapter.setSelect(readMoneySelected)
 
     }
+
 
     override fun onCreateView(): View {
         return layoutInflater.inflate(R.layout.dialog_reward, null, false)
@@ -113,10 +134,7 @@ class RewardDialog(context: Context, private val view: ReadContract.View) : Base
         tabLayout.setTabData(tabEntitys)
         recommendView = layoutInflater.inflate(R.layout.dialog_reward_recommend, fl_content, false)
         rewardView = layoutInflater.inflate(R.layout.layout_reward, fl_content, false)
-        val list = arrayListOf(
-                Reward("10", 0), Reward("30", 0), Reward("50", 0),
-                Reward("100", 0), Reward("150", 0), Reward("200", 0),
-                Reward("500", 1), Reward("1000", 2), Reward("1500", 3))
+
         adapter.setNewData(list)
         rewardView!!.recyclerView.adapter = adapter
         views.add(recommendView!!)
@@ -142,8 +160,9 @@ class RewardDialog(context: Context, private val view: ReadContract.View) : Base
             }
             dismiss()
         }
-        rewardView!!.tv_reward_done.clicks().subscribe {
-            view.reward("Money", list[readMoneySelected].money.toInt())
+
+
+        iv_close.clicks().subscribe {
             dismiss()
         }
 
@@ -175,11 +194,16 @@ class RewardDialog(context: Context, private val view: ReadContract.View) : Base
                         if (mUserAccountBean.goldNumber < 10) {
                             rewardView!!.tv_reward_done.text = "去充值"
                             rewardView!!.tv_reward_detail.text = "账户余额 ${mUserAccountBean.goldNumber} 阅读币，余额不足"
-                            rewardView!!.setOnClickListener {
+                            rewardView!!.tv_reward_done.setOnClickListener {
                                 JumpManager.jumpRecharge(context)
                                 dismiss()
                             }
-
+                        }else{
+                            rewardView!!.tv_reward_done.text = "确认打赏"
+                            rewardView!!.tv_reward_done.setOnClickListener() {
+                                view.reward("Money", list[readMoneySelected].money.toInt())
+                                dismiss()
+                            }
                         }
                     }
                 }

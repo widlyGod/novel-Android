@@ -945,15 +945,17 @@ public abstract class PageLoader {
             int para = mTextPara + (int) mTextPaint.getTextSize();
             int titleInterval = mTitleInterval + (int) mTitlePaint.getTextSize();
             int titlePara = mTitlePara + (int) mTextPaint.getTextSize();
-            String str = null;
+            String str = "";
 
             //对标题进行绘制
             for (int i = 0; i < mCurPage.titleLines; ++i) {
-                str = mCurPage.lines.get(i);
-
+                if (mCurPage.lines.size() > 0)
+                    str = mCurPage.lines.get(i);
                 //设置顶部间距
-                if (i == 0) {
-                    top += mTitlePara;
+                {
+                    if (i == 0) {
+                        top += mTitlePara;
+                    }
                 }
 
                 //计算文字显示的起始点
@@ -1008,7 +1010,7 @@ public abstract class PageLoader {
             if (mCurPage.position != 0) {
                 if (mCurPage.position < mCurPageList.size() - 2)
                     lastpage.reward(4, top);
-                else{
+                else {
                     lastpage.reward(3, top);
                 }
             }
@@ -1479,13 +1481,13 @@ public abstract class PageLoader {
                 //重置Lines
                 lines.clear();
                 //当前章节的最后一页如果可以 draw一个100dp的
-                if (rHeight < ScreenUtils.dpToPx(40)) {
+                if (rHeight < mLoveBitmap.getHeight() + 10) {
                     TxtPage txtPage = new TxtPage();
                     txtPage.position = pages.size();
                     txtPage.title = chapter.getTitle();
                     txtPage.lines = new ArrayList<>();
                     txtPage.titleLines = titleLinesCount;
-                    //                    pages.add(txtPage);
+                    pages.add(txtPage);
                 }
             }
 

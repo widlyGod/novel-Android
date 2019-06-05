@@ -171,6 +171,12 @@ interface BookService {
     fun getUserAccountInfo(): Observable<BaseResponse<UserAccountBean>>
 
     /**
+     * 获取阅读时间
+     */
+    @GET("novelUserService/personal/getWeeklyReadTime")
+    fun getReadTime(@Query("userId") userId: String): Observable<BaseResponse<ReadTimeBean>>
+
+    /**
      * 打赏
      */
     @POST("novelOAService/reward/giveApp")

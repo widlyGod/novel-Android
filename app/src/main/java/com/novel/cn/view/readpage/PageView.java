@@ -236,53 +236,52 @@ public class PageView extends View {
                         a = y - (((ScrollPageAnim) mPageAnim).getmActiveViews().get(1).top);
                     }
                     int b = y - (((ScrollPageAnim) mPageAnim).getmActiveViews().get(0).top);
-                    LogUtils.warnInfo("////" + pageType + "====>" + a + "======>" + b + "----" + nowLove + "|||" + lastLove);
-                    switch (pageType) {
-                        case 0:
-
-                            if (((ScrollPageAnim) mPageAnim).getmActiveViews().size() > 1) {
+                    if (a != 0 && b != 0) {
+                        LogUtils.warnInfo("////" + pageType + "====>" + a + "======>" + b + "----" + nowLove + "|||" + lastLove);
+                        switch (pageType) {
+                            case 0:
                                 if (a >= nowLove && a <= (nowLove + mLoveBitmap)) {
                                     mTouchListener.reward();
                                     return true;
                                 }
-                            }
-                            break;
-                        case 1:
-                            if (((ScrollPageAnim) mPageAnim).getmActiveViews().size() > 1) {
+                                break;
+                            case 1:
                                 if (b >= lastLove && b <= (lastLove + mLoveBitmap)) {
                                     mTouchListener.reward();
                                     return true;
                                 }
-                            }
-                            break;
-                        case 2:
-                            if (((ScrollPageAnim) mPageAnim).getmActiveViews().size() > 1) {
+                                break;
+                            case 2:
                                 if (b >= lastLove && b <= (lastLove + mLoveBitmap)) {
                                     mTouchListener.reward();
                                     return true;
                                 }
-                            }
-                            if (((ScrollPageAnim) mPageAnim).getmActiveViews().size() > 1) {
                                 if (a >= nowLove && a <= (nowLove + mLoveBitmap)) {
                                     mTouchListener.reward();
                                     return true;
                                 }
-                            }
-                            break;
-                        case 3:
-                            if (((ScrollPageAnim) mPageAnim).getmActiveViews().size() > 1 && a >= 0) {
-                                if (a >= nowLove && a <= (nowLove + mLoveBitmap)) {
-                                    mTouchListener.reward();
-                                    return true;
+                                break;
+                            case 3:
+                                if (lastPageType == 1 || lastPageType == 2) {
+                                    if (a >= lastLove && a <= (lastLove + mLoveBitmap)) {
+                                        mTouchListener.reward();
+                                        return true;
+                                    }
+                                } else {
+                                    if (a >= nowLove && a <= (nowLove + mLoveBitmap)) {
+                                        mTouchListener.reward();
+                                        return true;
+                                    }
                                 }
-                            } else if (((ScrollPageAnim) mPageAnim).getmActiveViews().size() > 1 && a < 0) {
-                                if (b >= nowLove && b <= (nowLove + mLoveBitmap)) {
-                                    mTouchListener.reward();
-                                    return true;
-                                }
-                            }
-                            break;
+                                break;
 
+                        }
+                    }
+                    if (a == 0 && b != 0) {
+                        if (b >= nowLove && b <= (nowLove + mLoveBitmap)) {
+                            mTouchListener.reward();
+                            return true;
+                        }
                     }
                     //设置中间区域范围
                     if (mCenterRect == null) {
@@ -404,6 +403,7 @@ public class PageView extends View {
     int pageType = 3;
     float lastLove = 0;
     float nowLove = 0;
+    int lastPageType = 0;
 
 
     /**
@@ -423,6 +423,8 @@ public class PageView extends View {
         mPageLoader.setLastpage(new PageLoader.Lastpage() {
             @Override
             public void reward(int a, float love) {
+                if (pageType != 0)
+                    lastPageType = pageType;
                 pageType = a;
 //                LogUtils.warnInfo("////" + pageType + "====>" + a + "======>" + love + "----" + nowLove + "|||" + lastLove);
                 switch (a) {

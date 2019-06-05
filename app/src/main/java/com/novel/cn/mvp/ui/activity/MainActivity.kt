@@ -50,6 +50,7 @@ class MainActivity : BaseActivity<MainPresenter>(), MainContract.View {
 
     override fun initData(savedInstanceState: Bundle?) {
         mPresenter?.uploadUseTime()
+        mPresenter?.uploadReadTime()
         setupPages()
         switchFragment(0)
 
