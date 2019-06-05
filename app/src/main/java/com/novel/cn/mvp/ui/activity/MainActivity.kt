@@ -31,7 +31,7 @@ class MainActivity : BaseActivity<MainPresenter>(), MainContract.View {
 
     private var mCurrentFragment: Fragment? = null
 
-     val mTitleTypeface: Typeface by lazy { Typeface.createFromAsset(assets, "fonts/FZQKBYSJW.TTF") }
+    val mTitleTypeface: Typeface by lazy { Typeface.createFromAsset(assets, "fonts/FZQKBYSJW.TTF") }
 
     override fun setupActivityComponent(appComponent: AppComponent) {
         DaggerMainComponent //如找不到该类,请编译一下项目
@@ -49,6 +49,7 @@ class MainActivity : BaseActivity<MainPresenter>(), MainContract.View {
 
 
     override fun initData(savedInstanceState: Bundle?) {
+        mPresenter?.uploadUseTime()
         setupPages()
         switchFragment(0)
 

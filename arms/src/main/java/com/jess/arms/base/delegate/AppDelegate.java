@@ -33,6 +33,7 @@ import com.jess.arms.di.module.GlobalConfigModule;
 import com.jess.arms.integration.ConfigModule;
 import com.jess.arms.integration.ManifestParser;
 import com.jess.arms.integration.cache.IntelligentCache;
+import com.jess.arms.utils.ActivityLifeCycle;
 import com.jess.arms.utils.ArmsUtils;
 import com.jess.arms.utils.Preconditions;
 
@@ -135,6 +136,8 @@ public class AppDelegate implements App, AppLifecycles {
         for (AppLifecycles lifecycle : mAppLifecycles) {
             lifecycle.onCreate(mApplication);
         }
+
+        mApplication.registerActivityLifecycleCallbacks(new ActivityLifeCycle());
     }
 
     @Override

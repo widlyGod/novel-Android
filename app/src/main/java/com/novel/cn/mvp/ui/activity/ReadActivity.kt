@@ -160,6 +160,9 @@ class ReadActivity : BaseActivity<ReadPresenter>(), ReadContract.View, VolumeVie
             override fun cancel() {
             }
 
+            override fun reward() {
+                mPresenter?.getUserAccountInfo()
+            }
         })
 
         mPageLoader.setOnPageChangeListener(object : PageLoader.OnPageChangeListener {

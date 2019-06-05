@@ -6,10 +6,19 @@ import com.jess.arms.integration.AppManager
 import com.jess.arms.di.scope.ActivityScope
 import com.jess.arms.mvp.BasePresenter
 import com.jess.arms.http.imageloader.ImageLoader
+import com.jess.arms.utils.LogUtils
+import com.jess.arms.utils.RxLifecycleUtils
+import com.jess.arms.utils.ShareprefUtils
 import me.jessyan.rxerrorhandler.core.RxErrorHandler
 import javax.inject.Inject
 
 import com.novel.cn.mvp.contract.MainContract
+import com.novel.cn.mvp.model.entity.BaseResponse
+import com.novel.cn.mvp.model.entity.NoBodyEntity
+import com.novel.cn.mvp.model.entity.User
+import io.reactivex.android.schedulers.AndroidSchedulers
+import io.reactivex.schedulers.Schedulers
+import me.jessyan.rxerrorhandler.handler.ErrorHandleSubscriber
 
 
 /**
@@ -38,8 +47,21 @@ constructor(model: MainContract.Model, rootView: MainContract.View) :
     @Inject
     lateinit var mAppManager: AppManager
 
+    fun uploadUseTime() {
+        mModel.uploadUseTime()
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .compose(RxLifecycleUtils.bindToLifecycle(mRootView))
+                .subscribe(object : ErrorHandleSubscriber<BaseResponse<Any>>(mErrorHandler) {
+                    override fun onNext(t: BaseResponse<Any>) {
+                        ShareprefUtils.saveLong(mApplication, "APP_USE_TIME", 0)
+                    }
 
-    override fun onDestroy() {
-        super.onDestroy();
+                    override fun onError(t: Throwable) {
+                        super.onError(t)
+                        LogUtils.warnInfo("//////")
+                    }
+                })
     }
+
 }

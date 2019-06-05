@@ -15,6 +15,7 @@
  */
 package com.novel.cn.mvp.model.api.service
 
+import com.jess.arms.mvp.BasePresenter
 import com.novel.cn.mvp.model.entity.*
 import io.reactivex.Observable
 import retrofit2.http.*
@@ -85,5 +86,11 @@ interface UserService {
      */
     @POST("novelAppService/personalCenter/updatePersonInfo")
     fun modifyUserInfo(@Body params: HashMap<String, Any?>): Observable<BaseResponse<User>>
+
+    /**
+     * 上传使用时长
+     */
+    @GET("novelAppService/personalCenter/updateLoginTime")
+    fun updateLoginTime(@Query("userId") userId: String, @Query("loginTime") loginTime: Long): Observable<BaseResponse<Any>>
 
 }

@@ -2,6 +2,7 @@ package com.novel.cn.view.readpage;
 
 import android.content.Context;
 import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
 import android.graphics.RectF;
 import android.util.AttributeSet;
@@ -10,6 +11,7 @@ import android.view.View;
 import android.view.ViewConfiguration;
 
 import com.jess.arms.utils.LogUtils;
+import com.novel.cn.R;
 import com.novel.cn.view.readpage.animation.CoverPageAnim;
 import com.novel.cn.view.readpage.animation.HorizonPageAnim;
 import com.novel.cn.view.readpage.animation.NonePageAnim;
@@ -204,7 +206,7 @@ public class PageView extends View {
         super.onTouchEvent(event);
 
         if (!canTouch && event.getAction() != MotionEvent.ACTION_DOWN) return true;
-
+        float mLoveBitmap = BitmapFactory.decodeResource(getContext().getResources(), R.drawable.ic_loves).getHeight();
         int x = (int) event.getX();
         int y = (int) event.getY();
         switch (event.getAction()) {
@@ -229,6 +231,59 @@ public class PageView extends View {
                 break;
             case MotionEvent.ACTION_UP:
                 if (!isMove) {
+                    int a = 0;
+                    if (((ScrollPageAnim) mPageAnim).getmActiveViews().size() > 1) {
+                        a = y - (((ScrollPageAnim) mPageAnim).getmActiveViews().get(1).top);
+                    }
+                    int b = y - (((ScrollPageAnim) mPageAnim).getmActiveViews().get(0).top);
+                    LogUtils.warnInfo("////" + pageType + "====>" + a + "======>" + b + "----" + nowLove + "|||" + lastLove);
+                    switch (pageType) {
+                        case 0:
+
+                            if (((ScrollPageAnim) mPageAnim).getmActiveViews().size() > 1) {
+                                if (a >= nowLove && a <= (nowLove + mLoveBitmap)) {
+                                    mTouchListener.reward();
+                                    return true;
+                                }
+                            }
+                            break;
+                        case 1:
+                            if (((ScrollPageAnim) mPageAnim).getmActiveViews().size() > 1) {
+                                if (b >= lastLove && b <= (lastLove + mLoveBitmap)) {
+                                    mTouchListener.reward();
+                                    return true;
+                                }
+                            }
+                            break;
+                        case 2:
+                            if (((ScrollPageAnim) mPageAnim).getmActiveViews().size() > 1) {
+                                if (b >= lastLove && b <= (lastLove + mLoveBitmap)) {
+                                    mTouchListener.reward();
+                                    return true;
+                                }
+                            }
+                            if (((ScrollPageAnim) mPageAnim).getmActiveViews().size() > 1) {
+                                if (a >= nowLove && a <= (nowLove + mLoveBitmap)) {
+                                    mTouchListener.reward();
+                                    return true;
+                                }
+                            }
+                            break;
+                        case 3:
+                            if (((ScrollPageAnim) mPageAnim).getmActiveViews().size() > 1 && a >= 0) {
+                                if (a >= nowLove && a <= (nowLove + mLoveBitmap)) {
+                                    mTouchListener.reward();
+                                    return true;
+                                }
+                            } else if (((ScrollPageAnim) mPageAnim).getmActiveViews().size() > 1 && a < 0) {
+                                if (b >= nowLove && b <= (nowLove + mLoveBitmap)) {
+                                    mTouchListener.reward();
+                                    return true;
+                                }
+                            }
+                            break;
+
+                    }
                     //设置中间区域范围
                     if (mCenterRect == null) {
                         mCenterRect = new RectF(mViewWidth / 5, mViewHeight / 3,
@@ -346,6 +401,11 @@ public class PageView extends View {
         mPageAnim = null;
     }
 
+    int pageType = 3;
+    float lastLove = 0;
+    float nowLove = 0;
+
+
     /**
      * 获取 PageLoader
      *
@@ -360,6 +420,34 @@ public class PageView extends View {
 
         mPageLoader = new NetPageLoader(this, bookId);
 
+        mPageLoader.setLastpage(new PageLoader.Lastpage() {
+            @Override
+            public void reward(int a, float love) {
+                pageType = a;
+//                LogUtils.warnInfo("////" + pageType + "====>" + a + "======>" + love + "----" + nowLove + "|||" + lastLove);
+                switch (a) {
+                    case 0:
+                        nowLove = love;
+                        break;
+                    case 1:
+                        if (nowLove != 0)
+                            lastLove = nowLove;
+                        nowLove = 0;
+                        break;
+                    case 2:
+                        nowLove = love;
+                        break;
+                    case 3:
+                        if (nowLove == 0)
+                            nowLove = lastLove;
+                        break;
+                    case 4:
+                        nowLove = 0;
+                        break;
+                }
+            }
+        });
+
         // 判断是否 PageView 已经初始化完成
         if (mViewWidth != 0 || mViewHeight != 0) {
             // 初始化 PageLoader 的屏幕大小
@@ -373,7 +461,7 @@ public class PageView extends View {
     }
 
     public void reset() {
-        ((ScrollPageAnim)mPageAnim).reset();
+        ((ScrollPageAnim) mPageAnim).reset();
     }
 
 
@@ -387,5 +475,7 @@ public class PageView extends View {
         void nextPage(boolean next);
 
         void cancel();
+
+        void reward();
     }
 }

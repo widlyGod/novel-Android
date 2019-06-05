@@ -6,9 +6,18 @@ import com.jess.arms.integration.IRepositoryManager
 import com.jess.arms.mvp.BaseModel
 
 import com.jess.arms.di.scope.ActivityScope
+import com.jess.arms.mvp.BasePresenter
+import com.jess.arms.utils.ShareprefUtils
+import com.novel.cn.app.Constant
+import com.novel.cn.app.Preference
 import javax.inject.Inject
 
 import com.novel.cn.mvp.contract.MainContract
+import com.novel.cn.mvp.model.api.service.UserService
+import com.novel.cn.mvp.model.entity.BaseResponse
+import com.novel.cn.mvp.model.entity.LoginInfo
+import com.novel.cn.mvp.model.entity.NoBodyEntity
+import io.reactivex.Observable
 
 
 /**
@@ -27,12 +36,23 @@ import com.novel.cn.mvp.contract.MainContract
 class MainModel
 @Inject
 constructor(repositoryManager: IRepositoryManager) : BaseModel(repositoryManager), MainContract.Model {
+
     @Inject
     lateinit var mGson: Gson;
     @Inject
     lateinit var mApplication: Application;
 
-    override fun onDestroy() {
-        super.onDestroy();
+    val user = Preference.getDeviceData<LoginInfo?>(Constant.LOGIN_INFO)
+
+    override fun uploadUseTime(): Observable<BaseResponse<Any>> {
+        return mRepositoryManager.obtainRetrofitService(UserService::class.java).updateLoginTime(user!!.userId,ShareprefUtils.getLong(mApplication, "APP_USE_TIME", 0))
     }
+
+    override fun uploadReadTime(): Observable<BaseResponse<Any>> {
+//        val map = HashMap<String, Any?>()
+//        map.put("userId", user!!.userId)
+//        map.put("loginTime", ShareprefUtils.getLong(mApplication, "APP_USE_TIME", 0))
+        return mRepositoryManager.obtainRetrofitService(UserService::class.java).updateLoginTime(user!!.userId,ShareprefUtils.getLong(mApplication, "APP_USE_TIME", 0))
+    }
+
 }

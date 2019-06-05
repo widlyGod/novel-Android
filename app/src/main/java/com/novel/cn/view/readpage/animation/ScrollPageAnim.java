@@ -40,6 +40,10 @@ public class ScrollPageAnim extends PageAnimation {
     // 正在被利用的图片列表
     private ArrayList<BitmapView> mActiveViews = new ArrayList<>(2);
 
+    public ArrayList<BitmapView> getmActiveViews() {
+        return mActiveViews;
+    }
+
     // 是否处于刷新阶段
     private boolean isRefresh = true;
 
@@ -178,7 +182,7 @@ public class ScrollPageAnim extends PageAnimation {
             realEdge += view.bitmap.getHeight();
 
 
-//            LogUtils.warnInfo("===>>top" + view.top, "====>>bottom" + view.bottom);
+//            LogUtils.warnInfo("===>>top" + view.top + "====>>bottom" + view.bottom + "////" + realEdge);
         }
     }
 
@@ -330,6 +334,10 @@ public class ScrollPageAnim extends PageAnimation {
                 // 删除检测器
                 mVelocity.recycle();
                 mVelocity = null;
+                int bottomEdge = 0;
+                if (mActiveViews.size() > 1)
+                    bottomEdge = mActiveViews.get(1).top;
+//                LogUtils.warnInfo(y - bottomEdge + "////" + (y - mActiveViews.get(0).top));
                 break;
 
             case MotionEvent.ACTION_CANCEL:
@@ -376,7 +384,7 @@ public class ScrollPageAnim extends PageAnimation {
     @Override
     public void startAnim(boolean isMove) {
         isRunning = true;
-        mScroller.fling(0, (int) mTouchY, 0, (int) (mVelocity.getYVelocity()*0.6)
+        mScroller.fling(0, (int) mTouchY, 0, (int) (mVelocity.getYVelocity() * 0.6)
                 , 0, 0, Integer.MAX_VALUE * -1, Integer.MAX_VALUE);
 
     }
@@ -412,11 +420,11 @@ public class ScrollPageAnim extends PageAnimation {
         return mNextBitmap;
     }
 
-    private static class BitmapView {
+    public static class BitmapView {
         Bitmap bitmap;
         Rect srcRect;
         Rect destRect;
-        int top;
+        public int top;
         int bottom;
     }
 }

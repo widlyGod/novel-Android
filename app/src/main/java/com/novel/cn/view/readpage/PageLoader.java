@@ -750,6 +750,7 @@ public abstract class PageLoader {
     }
 
     private long startTime = 0;
+
     /**
      * 加载页面列表
      *
@@ -980,8 +981,15 @@ public abstract class PageLoader {
                     top += interval;
                 }
             }
+
+            if (mCurPage.position == 0) {
+                lastpage.reward(1, top);
+            }
+
             //当前章节最后一页
             if (mCurPage.position + 1 == mCurPageList.size()) {
+
+                LogUtils.warnInfo(top + "----//");
                 mDst.left = mDisplayWidth / 2 - mLoveBitmap.getWidth() / 2;
                 mDst.right = mDisplayWidth / 2 + mLoveBitmap.getWidth() / 2;
                 mDst.top = (int) top;
@@ -991,9 +999,32 @@ public abstract class PageLoader {
                 canvas.drawLine(mMarginWidth, mDst.centerY(), mDst.left - ScreenUtils.dpToPx(20), mDst.centerY(), mDashLinePaint);
 
                 canvas.drawLine(mDst.right + ScreenUtils.dpToPx(20), mDst.centerY(), mVisibleWidth, mDst.centerY(), mDashLinePaint);
+
+                if (mCurPage.position == 0) {
+                    lastpage.reward(2, top);
+                } else
+                    lastpage.reward(0, top);
+            }
+            if (mCurPage.position != 0) {
+                if (mCurPage.position < mCurPageList.size() - 2)
+                    lastpage.reward(4, top);
+                else{
+                    lastpage.reward(3, top);
+                }
             }
 
+
         }
+    }
+
+    private Lastpage lastpage;
+
+    public void setLastpage(Lastpage lastpage) {
+        this.lastpage = lastpage;
+    }
+
+    public interface Lastpage {
+        void reward(int a, float love);
     }
 
     void prepareDisplay(int w, int h) {
@@ -1363,7 +1394,7 @@ public abstract class PageLoader {
         try {
             while (showTitle || (paragraph = br.readLine()) != null) {
 //                paragraph = StringUtils.convertCC(paragraph, mContext);
-                LogUtils.warnInfo("=========== >>>"+paragraph);
+                LogUtils.warnInfo("=========== >>>" + paragraph);
                 // 重置段落
                 if (!showTitle) {
                     paragraph = paragraph.replaceAll("\\s", "");
@@ -1471,7 +1502,7 @@ public abstract class PageLoader {
             }
         }
         long endTime = System.currentTimeMillis();
-        LogUtils.warnInfo("=========== >>> time "+(endTime - startTime));
+        LogUtils.warnInfo("=========== >>> time " + (endTime - startTime));
         return pages;
     }
 
