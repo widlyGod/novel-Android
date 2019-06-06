@@ -262,16 +262,22 @@ public class PageView extends View {
                                 }
                                 break;
                             case 3:
-                                if (lastPageType == 1 || lastPageType == 2) {
-                                    if (a >= lastLove && a <= (lastLove + mLoveBitmap)) {
+                                if (lastLove == 0) {
+                                    if (b >= nowLove && b <= (nowLove + mLoveBitmap)) {
                                         mTouchListener.reward();
                                         return true;
                                     }
-                                } else {
+                                }
+//                                if (lastPageType == 2) {
+//                                    if (b >= lastLove && b <= (lastLove + mLoveBitmap)) {
+//                                        mTouchListener.reward();
+//                                        return true;
+//                                    }
+//                                } else {
                                     if (a >= nowLove && a <= (nowLove + mLoveBitmap)) {
                                         mTouchListener.reward();
                                         return true;
-                                    }
+//                                    }
                                 }
                                 break;
 
