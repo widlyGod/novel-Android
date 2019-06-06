@@ -337,7 +337,7 @@ public class ScrollPageAnim extends PageAnimation {
                 int bottomEdge = 0;
                 if (mActiveViews.size() > 1)
                     bottomEdge = mActiveViews.get(1).top;
-//                LogUtils.warnInfo(y - bottomEdge + "////" + (y - mActiveViews.get(0).top));
+                LogUtils.warnInfo(mActiveViews.size() + "////" + mScrapViews.size());
                 break;
 
             case MotionEvent.ACTION_CANCEL:

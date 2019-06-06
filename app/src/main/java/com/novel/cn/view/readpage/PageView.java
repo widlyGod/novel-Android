@@ -268,16 +268,28 @@ public class PageView extends View {
                                         return true;
                                     }
                                 }
-//                                if (lastPageType == 2) {
-//                                    if (b >= lastLove && b <= (lastLove + mLoveBitmap)) {
-//                                        mTouchListener.reward();
-//                                        return true;
-//                                    }
-//                                } else {
+                                if (nowLove == 0) {
+                                    if (b >= lastLove && b <= (lastLove + mLoveBitmap)) {
+                                        mTouchListener.reward();
+                                        return true;
+                                    }
+                                }
+                                if (lastPageType == 4 || (lastPageType == 1 && upupPageType != 3) || lastPageType == 2) {
+                                    if (b >= lastLove && b <= (lastLove + mLoveBitmap)) {
+                                        mTouchListener.reward();
+                                        return true;
+                                    }
+                                } else {
                                     if (a >= nowLove && a <= (nowLove + mLoveBitmap)) {
                                         mTouchListener.reward();
                                         return true;
-//                                    }
+                                    }
+                                }
+                                if (lastPageType == 2 && upupPageType == 2) {
+                                    if (a >= lastLove && a <= (lastLove + mLoveBitmap)) {
+                                        mTouchListener.reward();
+                                        return true;
+                                    }
                                 }
                                 break;
 
@@ -409,7 +421,8 @@ public class PageView extends View {
     int pageType = 3;
     float lastLove = 0;
     float nowLove = 0;
-    int lastPageType = 0;
+    int lastPageType = -1;
+    int upupPageType = -1;
 
 
     /**
@@ -429,10 +442,11 @@ public class PageView extends View {
         mPageLoader.setLastpage(new PageLoader.Lastpage() {
             @Override
             public void reward(int a, float love) {
+                upupPageType = lastPageType;
                 if (pageType != 0)
                     lastPageType = pageType;
                 pageType = a;
-//                LogUtils.warnInfo("////" + pageType + "====>" + a + "======>" + love + "----" + nowLove + "|||" + lastLove);
+                LogUtils.warnInfo("111////" + upupPageType + "====>" + lastPageType + "======>" + pageType);
                 switch (a) {
                     case 0:
                         nowLove = love;
@@ -443,11 +457,19 @@ public class PageView extends View {
                         nowLove = 0;
                         break;
                     case 2:
+                        if (lastPageType == 2)
+                            lastLove = nowLove;
                         nowLove = love;
                         break;
                     case 3:
-                        if (nowLove == 0)
-                            nowLove = lastLove;
+                        if (lastPageType == 2)
+                            nowLove = love;
+                        else {
+                            if (nowLove == 0)
+                                nowLove = lastLove;
+                            if (lastPageType != 3)
+                                lastLove = 0;
+                        }
                         break;
                     case 4:
                         nowLove = 0;
