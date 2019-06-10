@@ -29,7 +29,7 @@ interface ReadContract {
         fun loadChapterSuccess()
         fun collectionSuccess()
         fun cancelCollection()
-        fun showChapter(data: ChapterInfoBean, txtChapter: TxtChapter?, mCurChapterPos: Int, charge: ChargeChapter)
+        fun showChapter(data: ChapterInfoBean, txtChapter: TxtChapter, mCurChapterPos: Int, charge: ChargeChapter)
         fun isChargeChapter(data: ChargeChapter)
         fun openBook(mCurChapterPos: Int, txtChapter: TxtChapter?)
         fun subscribeError()
@@ -54,6 +54,7 @@ interface ReadContract {
         fun updateRead(params: ArrayList<HashMap<String, Any>>): Observable<BaseResponse<Any>>
         fun getUserAccountInfo(): Observable<BaseResponse<UserAccountBean>>
         fun reward(params: HashMap<String, Any?>): Observable<BaseResponse<Any>>
+        fun addAutoSubscribe(list:ArrayList<String>): Observable<BaseResponse<Any>>
     }
 
 }

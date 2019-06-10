@@ -127,6 +127,7 @@ class SearchActivity : BaseActivity<SearchPresenter>(), SearchContract.View {
                 mPresenter?.getSearchResult(searchWord, false)
             }, recyclerView)
         }
+        refreshLayout.setOnRefreshListener {  mPresenter?.getSearchResult(searchWord) }
 
         et_keyword.viewTreeObserver.addOnGlobalLayoutListener(
                 object : ViewTreeObserver.OnGlobalLayoutListener {
@@ -186,12 +187,12 @@ class SearchActivity : BaseActivity<SearchPresenter>(), SearchContract.View {
     }
 
     override fun showState(state: Int) {
+        ll_search_index.visible(false)
+        multiStateView.visible(true)
         multiStateView.viewState = state
     }
 
     override fun showsearchResult(pullToRefresh: Boolean, searchInfos: List<SearchInfo>) {
-        ll_search_index.visible(false)
-        multiStateView.visible(true)
         hideSoftKeyboard()
         if (pullToRefresh)
             mSearchResultAdapter.setNewData(searchInfos)

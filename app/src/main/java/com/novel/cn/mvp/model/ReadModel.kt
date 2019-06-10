@@ -83,6 +83,10 @@ constructor(repositoryManager: IRepositoryManager) : BaseModel(repositoryManager
         return mRepositoryManager.obtainRetrofitService(BookService::class.java).reward(params)
     }
 
+    override fun addAutoSubscribe(params: ArrayList<String>): Observable<BaseResponse<Any>> {
+        return mRepositoryManager.obtainRetrofitService(BookService::class.java).addAutoSubscribe(params)
+    }
+
 
     @Inject
     lateinit var mGson: Gson;

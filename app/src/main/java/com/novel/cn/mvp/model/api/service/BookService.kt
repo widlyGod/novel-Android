@@ -189,6 +189,12 @@ interface BookService {
     @POST("novelOAService/reward/giveApp")
     fun reward(@Body params: HashMap<String, Any?>): Observable<BaseResponse<Any>>
 
+    /**
+     * 自动订阅
+     */
+    @POST("novelOAService/novelSubscribe/saveSubscribes")
+    fun addAutoSubscribe(@Body params: ArrayList<String>): Observable<BaseResponse<Any>>
+
 
     @POST("novelOAService/novelDetail/isChargeChapter")
     fun isChargeChapter(@Body param: HashMap<String, Any?>): Observable<BaseResponse<ChargeChapter>>

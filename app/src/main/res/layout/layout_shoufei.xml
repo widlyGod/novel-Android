@@ -108,11 +108,12 @@
 
     <CheckedTextView
         android:id="@+id/ctv_sub"
+        android:padding="10dp"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center_horizontal"
-        android:layout_marginTop="27dp"
-        android:checked="true"
+        android:layout_marginTop="17dp"
+        android:checked="false"
         android:drawableLeft="@drawable/selector_check2"
         android:drawablePadding="3dp"
         android:gravity="center"
@@ -122,7 +123,7 @@
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="25dp"
+        android:layout_marginTop="15dp"
         android:drawableLeft="@drawable/shape_c"
         android:drawablePadding="3dp"
         android:text="后续购买不再提醒"

@@ -344,7 +344,7 @@ class ReadActivity : BaseActivity<ReadPresenter>(), ReadContract.View, VolumeVie
     }
 
     override fun subscribeError() {
-        tipDialog.dismiss()
+
     }
 
     override fun openBook(mCurChapterPos: Int, txtChapter: TxtChapter?) {
@@ -359,7 +359,7 @@ class ReadActivity : BaseActivity<ReadPresenter>(), ReadContract.View, VolumeVie
         mPageLoader?.saveRecord(selectedVolumePosition)
     }
 
-    override fun showChapter(data: ChapterInfoBean, txtChapter: TxtChapter?, mCurChapterPos: Int, charge: ChargeChapter) {
+    override fun showChapter(data: ChapterInfoBean, txtChapter: TxtChapter, mCurChapterPos: Int, charge: ChargeChapter) {
         tipDialog.dismiss()
 
         tv_book_name.text = "《${mBook.novelInfo.novelTitle}》"
@@ -385,7 +385,15 @@ class ReadActivity : BaseActivity<ReadPresenter>(), ReadContract.View, VolumeVie
                 }
                 mPresenter?.subscribeBook(data.chapterInfo.id, data.chapterInfo.title,
                         data.chapterInfo.money.toString(), data.chapterInfo.chapter,
-                        mBook.novelInfo.novelId, data.chapterInfo.volumeId, txtChapter, mCurChapterPos)
+                        mBook.novelInfo.novelId, data.chapterInfo.volumeId, txtChapter, mCurChapterPos, charge, data)
+            }
+        }
+        ctv_sub.isChecked = charge.isSubscibe
+
+        ctv_sub.setOnClickListener {
+            if (!ctv_sub.isChecked) {
+                ctv_sub.isChecked = true
+                mPresenter?.addAutoSubscribe(mBook.novelInfo.novelId)
             }
         }
 

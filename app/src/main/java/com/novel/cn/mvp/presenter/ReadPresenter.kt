@@ -34,7 +34,7 @@ constructor(model: ReadContract.Model, rootView: ReadContract.View) :
     @Inject
     lateinit var mErrorHandler: RxErrorHandler
 
-    fun subscribeBook(chapterId: String, chapterTitle: String, money: String, chapter: Int, novelId: String, volumeId: String, txtChapter: TxtChapter?, mCurChapterPos: Int) {
+    fun subscribeBook(chapterId: String, chapterTitle: String, money: String, chapter: Int, novelId: String, volumeId: String, txtChapter: TxtChapter, mCurChapterPos: Int,charge: ChargeChapter,data: ChapterInfoBean) {
 
         val params = HashMap<String, Any?>()
         params["chapter"] = chapter
@@ -51,12 +51,13 @@ constructor(model: ReadContract.Model, rootView: ReadContract.View) :
                 .subscribe(object : ErrorHandleSubscriber<BaseResponse<Any>>(mErrorHandler) {
                     override fun onNext(t: BaseResponse<Any>) {
 //                        readNovel(txtChapter, novelId, mCurChapterPos)
-                        txtChapter?.isFree = true
+                        txtChapter.isFree = true
                         preDownload(txtChapter, novelId, mCurChapterPos)
                     }
 
                     override fun onError(t: Throwable) {
                         super.onError(t)
+                        mRootView.showChapter(data, txtChapter, mCurChapterPos, charge)
                         mRootView.subscribeError()
                     }
                 })
@@ -174,7 +175,7 @@ constructor(model: ReadContract.Model, rootView: ReadContract.View) :
                         if (charge.isSubscibe)
                             subscribeBook(data.chapterInfo.id, data.chapterInfo.title,
                                     data.chapterInfo.money.toString(), data.chapterInfo.chapter,
-                                    novelId, data.chapterInfo.volumeId, txt, mCurChapterPos)
+                                    novelId, data.chapterInfo.volumeId, txt, mCurChapterPos,charge,data)
                         else
                             mRootView.showChapter(data, txt, mCurChapterPos, charge)
 
@@ -271,6 +272,21 @@ constructor(model: ReadContract.Model, rootView: ReadContract.View) :
         param["operation"] = operation
         param["number"] = number
         mModel.reward(param)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .compose(RxLifecycleUtils.bindToLifecycle(mRootView))
+                .subscribe(object : ErrorHandleSubscriber<BaseResponse<Any>>(mErrorHandler) {
+                    override fun onNext(t: BaseResponse<Any>) {
+                        toast(t.message)
+                    }
+                })
+    }
+
+    fun addAutoSubscribe(novelId: String){
+
+        var list = ArrayList<String>()
+        list.add(novelId)
+        mModel.addAutoSubscribe(list)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .compose(RxLifecycleUtils.bindToLifecycle(mRootView))
