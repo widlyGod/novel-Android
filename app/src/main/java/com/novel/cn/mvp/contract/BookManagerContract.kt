@@ -18,9 +18,9 @@ interface BookManagerContract {
 
     //Model层定义接口,外部只需关心Model返回的数据,无需关心内部细节,即是否使用缓存
     interface Model : IModel {
-        fun getBookList(params: HashMap<String, String>): Observable<BaseResponse<Pagination<Book>>>
+        fun getBookList(params: HashMap<String, String>,type:Int): Observable<BaseResponse<Pagination<Book>>>
         fun moveBook(params: HashMap<String, HashMap<String,Int>>): Observable<BaseResponse<Any>>
-        fun deleteBook(params: LinkedList<String>): Observable<BaseResponse<Any>>
+        fun deleteBook(params: LinkedList<String>, type: Int): Observable<BaseResponse<Any>>
     }
 
 }

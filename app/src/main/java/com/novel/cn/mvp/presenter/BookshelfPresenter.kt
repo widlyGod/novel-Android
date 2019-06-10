@@ -58,7 +58,6 @@ constructor(model: BookshelfContract.Model, rootView: BookshelfContract.View) :
                     }
                 })
 
-
     }
 
     fun signIn(userId: String) {

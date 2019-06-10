@@ -32,13 +32,13 @@ constructor(model: BookManagerContract.Model, rootView: BookManagerContract.View
 
     private var mPageIndex = 1
 
-    fun getBookList(pullToRefresh: Boolean) {
+    fun getBookList(pullToRefresh: Boolean, type: Int) {
         if (pullToRefresh) mPageIndex = 1
 
         val params = HashMap<String, String>()
         params.put("pageNum", mPageIndex.toString())
         params.put("pageSize", Constant.PAGE_SIZE.toString())
-        mModel.getBookList(params)
+        mModel.getBookList(params, type)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .compose(RxLifecycleUtils.bindToLifecycle(mRootView))
@@ -68,10 +68,10 @@ constructor(model: BookManagerContract.Model, rootView: BookManagerContract.View
                 })
     }
 
-    fun deleteBook(checkList: LinkedList<String>) {
+    fun deleteBook(checkList: LinkedList<String>, type: Int) {
 //        val params = HashMap<String, LinkedList<String>>()
 //        params.put("novelIds",checkList)
-        mModel.deleteBook(checkList)
+        mModel.deleteBook(checkList, type)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .compose(RxLifecycleUtils.bindToLifecycle(mRootView))
@@ -88,7 +88,7 @@ constructor(model: BookManagerContract.Model, rootView: BookManagerContract.View
 
     }
 
-    fun moveBook(map :HashMap<String, Int>) {
+    fun moveBook(map: HashMap<String, Int>) {
         val params = HashMap<String, HashMap<String, Int>>()
         params["moveNovelMap"] = map
         mModel.moveBook(params)

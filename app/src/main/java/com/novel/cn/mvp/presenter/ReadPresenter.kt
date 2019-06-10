@@ -292,7 +292,7 @@ constructor(model: ReadContract.Model, rootView: ReadContract.View) :
                 .compose(RxLifecycleUtils.bindToLifecycle(mRootView))
                 .subscribe(object : ErrorHandleSubscriber<BaseResponse<Any>>(mErrorHandler) {
                     override fun onNext(t: BaseResponse<Any>) {
-                        toast(t.message)
+
                     }
                 })
     }

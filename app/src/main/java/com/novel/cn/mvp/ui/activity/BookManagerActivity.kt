@@ -28,6 +28,8 @@ class BookManagerActivity : BaseActivity<BookManagerPresenter>(), BookManagerCon
     @Inject
     lateinit var mAdapter: BookManagerAdapter
 
+    private val type by lazy { intent.getIntExtra("type", 0) }
+
     override fun setupActivityComponent(appComponent: AppComponent) {
         DaggerBookManagerComponent //如找不到该类,请编译一下项目
                 .builder()
@@ -55,7 +57,7 @@ class BookManagerActivity : BaseActivity<BookManagerPresenter>(), BookManagerCon
             setEnableLoadMore(true)
             setLoadMoreView(CustomLoadMoreView())
             setOnLoadMoreListener({
-                mPresenter?.getBookList(false)
+                mPresenter?.getBookList(false, type)
             }, recyclerView)
             //监听
             onCheckChange {
@@ -66,32 +68,35 @@ class BookManagerActivity : BaseActivity<BookManagerPresenter>(), BookManagerCon
         //取消默认动画,避免notify闪烁
         (recyclerView.itemAnimator as SimpleItemAnimator).supportsChangeAnimations = false
 
-        //可拖拽
-        val callBack = object : MyItemDragAndSwipeCallback(mAdapter) {
-            override fun onMoved(recyclerView: RecyclerView, source: RecyclerView.ViewHolder, fromPos: Int, target: RecyclerView.ViewHolder, toPos: Int, x: Int, y: Int) {
-                super.onMoved(recyclerView, source, fromPos, target, toPos, x, y)
-                val map = HashMap<String, Int>()
-                for ((a, i) in (mAdapter.data[0].orderNum downTo mAdapter.data[0].orderNum - mAdapter.data.size+1).withIndex()) {
-                    map[mAdapter.data[a].novelId] = i
+        if (type == 0) {
+            //可拖拽
+            val callBack = object : MyItemDragAndSwipeCallback(mAdapter) {
+                override fun onMoved(recyclerView: RecyclerView, source: RecyclerView.ViewHolder, fromPos: Int, target: RecyclerView.ViewHolder, toPos: Int, x: Int, y: Int) {
+                    super.onMoved(recyclerView, source, fromPos, target, toPos, x, y)
+                    val map = HashMap<String, Int>()
+                    for ((a, i) in (mAdapter.data[0].orderNum downTo mAdapter.data[0].orderNum - mAdapter.data.size + 1).withIndex()) {
+                        map[mAdapter.data[a].novelId] = i
+                    }
+                    LogUtils.warnInfo(map.toString())
+                    mPresenter?.moveBook(map)
                 }
-                LogUtils.warnInfo(map.toString())
-                mPresenter?.moveBook(map)
-            }
 
+            }
+            val itemTouchHelper = ItemTouchHelper(callBack)
+
+            itemTouchHelper.attachToRecyclerView(recyclerView)
+            mAdapter.enableDragItem(itemTouchHelper)
         }
-        val itemTouchHelper = ItemTouchHelper(callBack)
-        itemTouchHelper.attachToRecyclerView(recyclerView)
-        mAdapter.enableDragItem(itemTouchHelper)
 
         //点击事件
         click(tv_done, tv_checkAll, tv_delete) {
             when (it) {
                 tv_done -> finish()
                 tv_checkAll -> mAdapter.checkAll()
-                tv_delete -> mPresenter?.deleteBook(mAdapter.getCheckList())
+                tv_delete -> mPresenter?.deleteBook(mAdapter.getCheckList(), type)
             }
         }
-        mPresenter?.getBookList(true)
+        mPresenter?.getBookList(true, type)
     }
 
     /**

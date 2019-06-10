@@ -64,6 +64,13 @@ object JumpManager {
     }
 
     /**
+     * 跳转到书籍管理
+     */
+    fun jumpBookManager(context: Context?, type: Int) {
+        context?.startActivity<BookManagerActivity>("type" to type)
+    }
+
+    /**
      * 跳转到我的账户
      */
     fun jumpMineAccount(context: Context?) {

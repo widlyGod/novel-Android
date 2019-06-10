@@ -17,6 +17,12 @@ interface BookService {
     fun getBookshelf(@Body params: HashMap<String, String>): Observable<BaseResponse<Pagination<Book>>>
 
     /**
+     * 自动订阅查询
+     */
+    @POST("/novelapi/novelOAService/mobile/getSubcribe")
+    fun getBookSubcribe(@Body params: HashMap<String, String>): Observable<BaseResponse<Pagination<Book>>>
+
+    /**
      * 阅读记录
      */
     @POST("novelOAService/mobile/getNovleHistory")
@@ -33,6 +39,14 @@ interface BookService {
      */
     @POST("novelOAService/novelCollection/cancelCollectionList")
     fun deleteBook(@Body params: LinkedList<String>): Observable<BaseResponse<Any>>
+
+
+    /**
+     * 取消自动订阅
+     */
+    @POST("novelOAService/novelSubscribe/cancelSubscribeList")
+    fun cancelSubscribeList(@Body params: LinkedList<String>): Observable<BaseResponse<Any>>
+
 
     /**
      * 分类

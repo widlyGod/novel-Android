@@ -99,9 +99,8 @@ class BookshelfFragment : BaseLazyLoadFragment<BookshelfPresenter>(), BookshelfC
     }
 
     override fun getReadTimeSuccess(time: String) {
-        tv_read_time.text = "本周阅读时长${(time.toInt()+(ShareprefUtils.getLong(context, "APP_READ_TIME", 0) / 1000 / 60).toInt())}分钟"
+        tv_read_time.text = "本周阅读时长${(time.toInt() + (ShareprefUtils.getLong(context, "APP_READ_TIME", 0) / 1000 / 60).toInt())}分钟"
     }
-
 
 
     private fun onRefresh() {
@@ -112,7 +111,6 @@ class BookshelfFragment : BaseLazyLoadFragment<BookshelfPresenter>(), BookshelfC
 
     @Subscribe
     fun onBookshelfChange(event: BookshelfEvent) {
-//        LogUtils.warnInfo("=============>>>>")
         mPresenter?.getBookshelfList(true)
     }
 
