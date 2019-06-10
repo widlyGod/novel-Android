@@ -37,7 +37,7 @@ interface BookService {
     /**
      * 分类
      */
-    @GET("novelOAService/novelType/getAllTypesMo")
+    @GET("novelOAService/novelType/getAllTypesApp")
     fun getCategory(): Observable<BaseResponse<MutableList<Category>>>
 
     /**

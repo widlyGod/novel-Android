@@ -62,6 +62,8 @@ class BookChannelAdapter : BaseMultiItemQuickAdapter<MultiItemEntity, BaseViewHo
 
     }
 
+    var type = 0
+
     override fun onCreateDefViewHolder(parent: ViewGroup?, viewType: Int): BaseViewHolder {
         return super.onCreateDefViewHolder(parent, viewType)
     }
@@ -109,7 +111,7 @@ class BookChannelAdapter : BaseMultiItemQuickAdapter<MultiItemEntity, BaseViewHo
                 itemView.tv_keyword.text = builder
 
                 itemView.setOnClickListener {
-                    JumpManager.jumpSearch(mContext, item.books)
+                    JumpManager.jumpSearch(mContext, item.books,type)
                 }
             }
             TYPE_BOOKS -> {

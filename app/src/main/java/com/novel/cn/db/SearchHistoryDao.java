@@ -25,6 +25,7 @@ public class SearchHistoryDao extends AbstractDao<SearchHistory, Long> {
         public final static Property Id = new Property(0, Long.class, "id", true, "_id");
         public final static Property Text = new Property(1, String.class, "text", false, "TEXT");
         public final static Property Date = new Property(2, java.util.Date.class, "date", false, "DATE");
+        public final static Property Type = new Property(3, int.class, "type", false, "TYPE");
     }
 
 
@@ -42,7 +43,8 @@ public class SearchHistoryDao extends AbstractDao<SearchHistory, Long> {
         db.execSQL("CREATE TABLE " + constraint + "\"SEARCH_HISTORY\" (" + //
                 "\"_id\" INTEGER PRIMARY KEY AUTOINCREMENT ," + // 0: id
                 "\"TEXT\" TEXT," + // 1: text
-                "\"DATE\" INTEGER);"); // 2: date
+                "\"DATE\" INTEGER," + // 2: date
+                "\"TYPE\" INTEGER NOT NULL );"); // 3: type
     }
 
     /** Drops the underlying database table. */
@@ -69,6 +71,7 @@ public class SearchHistoryDao extends AbstractDao<SearchHistory, Long> {
         if (date != null) {
             stmt.bindLong(3, date.getTime());
         }
+        stmt.bindLong(4, entity.getType());
     }
 
     @Override
@@ -89,6 +92,7 @@ public class SearchHistoryDao extends AbstractDao<SearchHistory, Long> {
         if (date != null) {
             stmt.bindLong(3, date.getTime());
         }
+        stmt.bindLong(4, entity.getType());
     }
 
     @Override
@@ -101,7 +105,8 @@ public class SearchHistoryDao extends AbstractDao<SearchHistory, Long> {
         SearchHistory entity = new SearchHistory( //
             cursor.isNull(offset + 0) ? null : cursor.getLong(offset + 0), // id
             cursor.isNull(offset + 1) ? null : cursor.getString(offset + 1), // text
-            cursor.isNull(offset + 2) ? null : new java.util.Date(cursor.getLong(offset + 2)) // date
+            cursor.isNull(offset + 2) ? null : new java.util.Date(cursor.getLong(offset + 2)), // date
+            cursor.getInt(offset + 3) // type
         );
         return entity;
     }
@@ -111,6 +116,7 @@ public class SearchHistoryDao extends AbstractDao<SearchHistory, Long> {
         entity.setId(cursor.isNull(offset + 0) ? null : cursor.getLong(offset + 0));
         entity.setText(cursor.isNull(offset + 1) ? null : cursor.getString(offset + 1));
         entity.setDate(cursor.isNull(offset + 2) ? null : new java.util.Date(cursor.getLong(offset + 2)));
+        entity.setType(cursor.getInt(offset + 3));
      }
     
     @Override

@@ -50,10 +50,15 @@ constructor(model: SearchContract.Model, rootView: SearchContract.View) :
                 })
     }
 
-    fun getSearchResult(param: String, pullToRefresh: Boolean = true) {
+    fun getSearchResult(param: String, pullToRefresh: Boolean = true, type: Int) {
         if (pullToRefresh) mPageIndex = 1
 
-        mModel.getSearchResult(param, mPageIndex)
+        var pTypeId = ""
+        when (type) {
+            3 -> pTypeId = "1"
+            4 -> pTypeId = "2"
+        }
+        mModel.getSearchResult(param, mPageIndex,pTypeId)
                 .applySchedulers(mRootView)
                 .subscribe(object : ErrorHandleSubscriber<BaseResponse<SearchResultBean>>(mErrorHandler) {
                     override fun onNext(t: BaseResponse<SearchResultBean>) {
@@ -83,19 +88,19 @@ constructor(model: SearchContract.Model, rootView: SearchContract.View) :
 
     }
 
-    fun getSearchRecordList() {
-        val list = DbManager.getSearchRecordList()
+    fun getSearchRecordList(type: Int) {
+        val list = DbManager.getSearchRecordList(type)
         mSearchRecordAdapter.setNewData(list)
     }
 
-    fun cleanRecord() {
+    fun cleanRecord(type: Int) {
         DbManager.clearSearchRecord()
-        getSearchRecordList()
+        getSearchRecordList(type)
     }
 
-    fun saveKeyword(keyword: String) {
-        DbManager.saveSearch(keyword)
-        getSearchRecordList()
+    fun saveKeyword(keyword: String, type: Int) {
+        DbManager.saveSearch(keyword, type)
+        getSearchRecordList(type)
     }
 
 

@@ -14,6 +14,7 @@ public class SearchHistory {
     private Long id;
     private String text;
     private Date date;
+    private int type;
 
     public Long getId() {
         return id;
@@ -31,6 +32,14 @@ public class SearchHistory {
         this.text = text;
     }
 
+    public int getType() {
+        return type;
+    }
+
+    public void setType(int type) {
+        this.type = type;
+    }
+
     public Date getDate() {
         return date;
     }
@@ -39,11 +48,12 @@ public class SearchHistory {
         this.date = date;
     }
 
-    @Generated(hash = 842522063)
-    public SearchHistory(Long id, String text, Date date) {
+    @Generated(hash = 1892577398)
+    public SearchHistory(Long id, String text, Date date, int type) {
         this.id = id;
         this.text = text;
         this.date = date;
+        this.type = type;
     }
 
     @Generated(hash = 1905904755)

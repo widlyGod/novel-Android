@@ -57,7 +57,7 @@ class BookChannelFragment : BaseFragment<BookChannelPresenter>(), BookChannelCon
 
     override fun initData(savedInstanceState: Bundle?) {
         val type = arguments?.get("TYPE") as Int
-        recyclerView.adapter = mAdapter
+        recyclerView.adapter = mAdapter.also { it.type = type }
         mPresenter?.getChannel(type)
     }
     override fun changeState(state: Int) {

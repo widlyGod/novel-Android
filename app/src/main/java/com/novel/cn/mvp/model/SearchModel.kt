@@ -34,11 +34,13 @@ class SearchModel
 @Inject
 constructor(repositoryManager: IRepositoryManager) : BaseModel(repositoryManager), SearchContract.Model {
 
-    override fun getSearchResult(param: String, pageIndex: Int): Observable<BaseResponse<SearchResultBean>> {
+    override fun getSearchResult(param: String, pageIndex: Int, pTypeId: String): Observable<BaseResponse<SearchResultBean>> {
         val params = HashMap<String, Any>()
         params.put("pageNum", pageIndex)
         params.put("pageSize", Constant.PAGE_SIZE)
         params.put("param", param)
+        if (pTypeId.isNotEmpty())
+            params.put("pTypeId", pTypeId)
         return mRepositoryManager.obtainRetrofitService(BookService::class.java).search(params)
 
     }

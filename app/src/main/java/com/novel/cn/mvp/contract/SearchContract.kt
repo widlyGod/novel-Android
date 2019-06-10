@@ -31,7 +31,7 @@ interface SearchContract {
     //Model层定义接口,外部只需关心Model返回的数据,无需关心内部细节,即是否使用缓存
     interface Model : IModel {
         fun getHotWords(): Observable<BaseResponse<HotNovelBean>>
-        fun getSearchResult(param: String, pageIndex: Int): Observable<BaseResponse<SearchResultBean>>
+        fun getSearchResult(param: String, pageIndex: Int,pTypeId:String): Observable<BaseResponse<SearchResultBean>>
 
     }
 

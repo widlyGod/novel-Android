@@ -40,6 +40,7 @@ class SearchActivity : BaseActivity<SearchPresenter>(), SearchContract.View {
 
 
     private val hotNovels by lazy { intent.getParcelableArrayListExtra<BookInfo>("hotNovels") }
+    private val type by lazy { intent.getIntExtra("type", 0) }
 
     @Inject
     lateinit var mHotWordAdapter: HotWordAdapter
@@ -82,7 +83,7 @@ class SearchActivity : BaseActivity<SearchPresenter>(), SearchContract.View {
             et_keyword.setText(searchWord)
             et_keyword.requestFocus()
             et_keyword.setSelection(et_keyword.text.length)
-            mPresenter?.getSearchResult(searchWord)
+            mPresenter?.getSearchResult(searchWord, type = type)
         }.bindToLifecycle(this)
 
         val flexBoxLayoutManager = FlexboxLayoutManager(this)
@@ -104,16 +105,16 @@ class SearchActivity : BaseActivity<SearchPresenter>(), SearchContract.View {
             JumpManager.jumpBookDetail(this, item?.novelId)
         }
 
-        iv_clean.setOnClickListener { mPresenter?.cleanRecord() }
+        iv_clean.setOnClickListener { mPresenter?.cleanRecord(type) }
 
-        mPresenter?.getSearchRecordList()
+        mPresenter?.getSearchRecordList(type)
 
         et_keyword.setOnEditorActionListener { v, actionId, event ->
             if (actionId == EditorInfo.IME_ACTION_SEARCH) {
                 if (et_keyword.text.toString().isNotBlank()) {
                     searchWord = et_keyword.text.toString()
-                    mPresenter?.saveKeyword(et_keyword.text.toString())
-                    mPresenter?.getSearchResult(searchWord)
+                    mPresenter?.saveKeyword(et_keyword.text.toString(), type)
+                    mPresenter?.getSearchResult(searchWord, type = type)
                 }
             }
             false
@@ -124,10 +125,10 @@ class SearchActivity : BaseActivity<SearchPresenter>(), SearchContract.View {
             setEnableLoadMore(true)
             setLoadMoreView(CustomLoadMoreView())
             setOnLoadMoreListener({
-                mPresenter?.getSearchResult(searchWord, false)
+                mPresenter?.getSearchResult(searchWord, false, type = type)
             }, recyclerView)
         }
-        refreshLayout.setOnRefreshListener {  mPresenter?.getSearchResult(searchWord) }
+        refreshLayout.setOnRefreshListener { mPresenter?.getSearchResult(searchWord, type = type) }
 
         et_keyword.viewTreeObserver.addOnGlobalLayoutListener(
                 object : ViewTreeObserver.OnGlobalLayoutListener {
@@ -139,7 +140,7 @@ class SearchActivity : BaseActivity<SearchPresenter>(), SearchContract.View {
                             et_keyword.viewTreeObserver.removeOnGlobalLayoutListener(this)
                         }
                     }
-                });
+                })
 
         //输入框第一次获取焦点的时候执行动画
         et_keyword.setOnFocusChangeListener { v, hasFocus ->

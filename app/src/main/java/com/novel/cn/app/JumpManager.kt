@@ -27,8 +27,8 @@ object JumpManager {
     /**
      * 跳转到搜索页面
      */
-    fun jumpSearch(context: Context?, hotNovels: List<BookInfo>) {
-        context?.startActivity<SearchActivity>("hotNovels" to hotNovels)
+    fun jumpSearch(context: Context?, hotNovels: List<BookInfo>, type: Int) {
+        context?.startActivity<SearchActivity>("hotNovels" to hotNovels, "type" to type)
     }
 
     /**

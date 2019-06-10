@@ -23,13 +23,15 @@ object DbManager {
      * 如果存在了，则更新
      *
      */
-    fun saveSearch(keyword: String) {
+    fun saveSearch(keyword: String, type: Int) {
 
-        var data = daoSession.searchHistoryDao.queryBuilder().where(SearchHistoryDao.Properties.Text.eq(keyword)).limit(1).unique()
+        var data = daoSession.searchHistoryDao.queryBuilder().where(SearchHistoryDao.Properties.Type.eq(type)).where(SearchHistoryDao.Properties.Text.eq(keyword)).limit(1).unique()
         if (data == null) {
             data = SearchHistory()
             data.text = keyword
             data.date = Date()
+            data.type = type
+
             daoSession.searchHistoryDao.insert(data)
         } else {
             data.date = Date()
@@ -40,7 +42,8 @@ object DbManager {
     /**
      * 获取搜索历史记录 获取10条
      */
-    fun getSearchRecordList() = daoSession.searchHistoryDao.queryBuilder()
+    fun getSearchRecordList(type: Int) = daoSession.searchHistoryDao.queryBuilder()
+            .where(SearchHistoryDao.Properties.Type.eq(type))
             .orderDesc(SearchHistoryDao.Properties.Date)
             .limit(10)
             .list()
