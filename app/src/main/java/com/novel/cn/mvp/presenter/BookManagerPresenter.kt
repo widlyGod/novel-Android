@@ -4,6 +4,7 @@ import com.jess.arms.di.scope.ActivityScope
 import com.jess.arms.mvp.BasePresenter
 import com.jess.arms.utils.RxLifecycleUtils
 import com.novel.cn.app.Constant
+import com.novel.cn.ext.applySchedulers
 import me.jessyan.rxerrorhandler.core.RxErrorHandler
 import javax.inject.Inject
 
@@ -39,9 +40,7 @@ constructor(model: BookManagerContract.Model, rootView: BookManagerContract.View
         params.put("pageNum", mPageIndex.toString())
         params.put("pageSize", Constant.PAGE_SIZE.toString())
         mModel.getBookList(params, type)
-                .subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread())
-                .compose(RxLifecycleUtils.bindToLifecycle(mRootView))
+                .applySchedulers(mRootView)
                 .subscribe(object : ErrorHandleSubscriber<BaseResponse<Pagination<Book>>>(mErrorHandler) {
                     override fun onNext(t: BaseResponse<Pagination<Book>>) {
                         //判断是否还有下一页
@@ -72,9 +71,7 @@ constructor(model: BookManagerContract.Model, rootView: BookManagerContract.View
 //        val params = HashMap<String, LinkedList<String>>()
 //        params.put("novelIds",checkList)
         mModel.deleteBook(checkList, type)
-                .subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread())
-                .compose(RxLifecycleUtils.bindToLifecycle(mRootView))
+                .applySchedulers(mRootView)
                 .subscribe(object : ErrorHandleSubscriber<BaseResponse<Any>>(mErrorHandler) {
                     override fun onNext(t: BaseResponse<Any>) {
                         mRootView.deleteSuccess()

@@ -19,6 +19,7 @@ import com.novel.cn.mvp.ui.adapter.BookManagerAdapter
 import com.novel.cn.mvp.ui.weight.MyItemDragAndSwipeCallback
 import com.novel.cn.utils.StatusBarUtils
 import com.novel.cn.view.CustomLoadMoreView
+import com.novel.cn.view.TipDialog
 import kotlinx.android.synthetic.main.activity_book_manager.*
 import javax.inject.Inject
 
@@ -29,6 +30,13 @@ class BookManagerActivity : BaseActivity<BookManagerPresenter>(), BookManagerCon
     lateinit var mAdapter: BookManagerAdapter
 
     private val type by lazy { intent.getIntExtra("type", 0) }
+
+    private val tipDialog by lazy {
+        TipDialog.Builder(this)
+                .setTipWord("请稍后")
+                .setIconType(TipDialog.Builder.ICON_TYPE_LOADING)
+                .create()
+    }
 
     override fun setupActivityComponent(appComponent: AppComponent) {
         DaggerBookManagerComponent //如找不到该类,请编译一下项目
@@ -109,5 +117,13 @@ class BookManagerActivity : BaseActivity<BookManagerPresenter>(), BookManagerCon
 
     override fun moveSuccess() {
         EventBusManager.getInstance().post(BookshelfEvent())
+    }
+
+    override fun showLoading() {
+        tipDialog.show()
+    }
+
+    override fun hideLoading() {
+        tipDialog.hide()
     }
 }
