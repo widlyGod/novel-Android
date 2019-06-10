@@ -16,6 +16,7 @@ import com.novel.cn.di.module.ChapterCommentModule
 import com.novel.cn.ext.textWatcher
 import com.novel.cn.ext.toast
 import com.novel.cn.mvp.contract.ChapterCommentContract
+import com.novel.cn.mvp.model.entity.Comment
 import com.novel.cn.mvp.model.entity.LoginInfo
 import com.novel.cn.mvp.presenter.ChapterCommentPresenter
 import com.novel.cn.mvp.ui.adapter.ChapterCommentAdapter
@@ -89,6 +90,9 @@ class ChapterCommentActivity : BaseActivity<ChapterCommentPresenter>(), ChapterC
                 mPresenter?.getChapterComment(mBookId, mChapterId, false)
             }, recyclerView)
             setOnDeleteClickListener {
+
+            }
+            setOnReplyClickListener{
 
             }
         }

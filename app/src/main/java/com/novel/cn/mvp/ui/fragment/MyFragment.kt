@@ -46,7 +46,7 @@ class MyFragment : BaseFragment<MyPresenter>(), MyContract.View {
     }
 
     override fun initView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
-        return inflater.inflate(R.layout.fragment_my, container, false);
+        return inflater.inflate(R.layout.fragment_my, container, false)
     }
 
     override fun initData(savedInstanceState: Bundle?) {
@@ -54,12 +54,13 @@ class MyFragment : BaseFragment<MyPresenter>(), MyContract.View {
         StatusBarUtils.setPadding(activity, cl_top)
         iv_setting.visible(true)
 
-        click(iv_setting, fl_messsage, iv_avatar, tv_recharge) { view ->
+        click(iv_setting, fl_messsage, iv_avatar, tv_recharge, tv_my_account) { view ->
             when (view) {
                 iv_setting -> activity?.startActivity<SettingActivity>()
                 fl_messsage -> activity?.startActivity<MessageActivity>()
                 iv_avatar -> mUser?.let { JumpManager.jumpUserInfo(activity, it) }
-                tv_recharge ->  JumpManager.jumpRecharge(activity)
+                tv_recharge -> JumpManager.jumpRecharge(activity)
+                tv_my_account -> JumpManager.jumpMineAccount(activity)
             }
         }
 
@@ -69,7 +70,6 @@ class MyFragment : BaseFragment<MyPresenter>(), MyContract.View {
         super.onResume()
         mPresenter?.getUserInfo()
     }
-
 
 
     override fun showUserInfo(data: User) {

@@ -295,7 +295,7 @@ public class PageView extends View {
 
                         }
                     }
-                    if (a == 0 && b != 0) {
+                    if (a == 0 && b != 0 && nowLove != 0) {
                         if (b >= nowLove && b <= (nowLove + mLoveBitmap)) {
                             mTouchListener.reward();
                             return true;

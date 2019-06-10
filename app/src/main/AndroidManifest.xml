@@ -3,8 +3,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     package="com.novel.cn">
 
-    <uses-permission android:name="android.permission.REQUEST_INSTALL_PACKAGES" />
-    <!-- **************bugly end************ -->
+    <uses-permission android:name="android.permission.REQUEST_INSTALL_PACKAGES" /> <!-- **************bugly end************ -->
     <!-- **************百度定位权限start************ -->
     <!-- 这个权限用于进行网络定位 -->
     <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" /> <!-- 这个权限用于访问GPS定位 -->
@@ -30,7 +29,9 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         tools:replace="android:name,android:theme">
-        <activity android:name=".mvp.ui.activity.CategoryListActivity"/>
+        <activity android:name=".mvp.ui.activity.MineAccountActivity"
+            android:label="我的账户" />
+        <activity android:name=".mvp.ui.activity.CategoryListActivity" />
         <activity
             android:name=".mvp.ui.activity.LauncherActivity"
             android:launchMode="singleTask"
@@ -126,11 +127,10 @@
         <activity
             android:name=".mvp.ui.activity.ChapterCommentActivity"
             android:label="章节评论" />
-        <activity
-            android:name=".mvp.ui.activity.CropImageActivity" />
+        <activity android:name=".mvp.ui.activity.CropImageActivity" />
 
         <provider
-            android:name="com.novel.cn.utils.CFileProvider1"
+            android:name=".utils.CFileProvider1"
             android:authorities="com.novel.cn.fileprovider"
             android:exported="false"
             android:grantUriPermissions="true">
@@ -138,7 +138,6 @@
                 android:name="android.support.FILE_PROVIDER_PATHS"
                 android:resource="@xml/file_paths_public" />
         </provider>
-
     </application>
 
 </manifest>

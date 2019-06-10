@@ -58,6 +58,13 @@ interface BookService {
     @POST("novelOAService/homepage/hotNovels")
     fun getHotWords(): Observable<BaseResponse<HotNovelBean>>
 
+
+    /**
+     * 搜索
+     */
+    @POST("novelOAService/homepage/searchNovel")
+    fun search(@Body params: HashMap<String, Any>): Observable<BaseResponse<SearchResultBean>>
+
     /**
      * 排行版
      */

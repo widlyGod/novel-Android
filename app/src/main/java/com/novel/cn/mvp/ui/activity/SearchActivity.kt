@@ -1,41 +1,38 @@
 package com.novel.cn.mvp.ui.activity
 
-import android.animation.Animator
-import android.animation.AnimatorListenerAdapter
 import android.animation.ObjectAnimator
-import android.animation.ValueAnimator.REVERSE
-import android.graphics.Rect
-import android.graphics.drawable.ColorDrawable
 import android.os.Build
 import android.os.Bundle
-import android.support.v4.content.ContextCompat
-import android.support.v4.view.ViewCompat
-import android.support.v7.widget.RecyclerView
-import android.view.*
-import android.view.animation.Animation
-import android.view.animation.TranslateAnimation
+import android.view.View
+import android.view.ViewTreeObserver
 import android.view.inputmethod.EditorInfo
-import com.google.android.flexbox.*
+import com.google.android.flexbox.FlexWrap
+import com.google.android.flexbox.FlexboxLayoutManager
 import com.jess.arms.base.BaseActivity
 import com.jess.arms.di.component.AppComponent
 import com.jess.arms.utils.ArmsUtils
 import com.jess.arms.utils.DeviceUtils
-import com.jess.arms.utils.LogUtils
 import com.novel.cn.R
 import com.novel.cn.app.JumpManager
-import com.novel.cn.db.DbManager
-import com.novel.cn.db.SearchHistory
+import com.novel.cn.app.visible
 import com.novel.cn.di.component.DaggerSearchComponent
 import com.novel.cn.di.module.SearchModule
+import com.novel.cn.ext.bindToLifecycle
+import com.novel.cn.ext.clicks
 import com.novel.cn.mvp.contract.SearchContract
-import com.novel.cn.mvp.model.entity.Book
 import com.novel.cn.mvp.model.entity.BookInfo
+import com.novel.cn.mvp.model.entity.SearchInfo
 import com.novel.cn.mvp.presenter.SearchPresenter
 import com.novel.cn.mvp.ui.adapter.HotWordAdapter
 import com.novel.cn.mvp.ui.adapter.SearchRecordAdapter
+import com.novel.cn.mvp.ui.adapter.SearchResultAdapter
 import com.novel.cn.utils.StatusBarUtils
+import com.novel.cn.view.CustomLoadMoreView
 import kotlinx.android.synthetic.main.activity_search.*
-import org.jetbrains.anko.doAsync
+import kotlinx.android.synthetic.main.activity_search.multiStateView
+import kotlinx.android.synthetic.main.activity_search.recyclerView
+import kotlinx.android.synthetic.main.activity_search.refreshLayout
+import kotlinx.android.synthetic.main.fragment_bookshelf.*
 import javax.inject.Inject
 
 
@@ -49,6 +46,9 @@ class SearchActivity : BaseActivity<SearchPresenter>(), SearchContract.View {
 
     @Inject
     lateinit var mSearchRecordAdapter: SearchRecordAdapter
+
+    @Inject
+    lateinit var mSearchResultAdapter: SearchResultAdapter
 
     override fun setupActivityComponent(appComponent: AppComponent) {
         DaggerSearchComponent //如找不到该类,请编译一下项目
@@ -67,6 +67,7 @@ class SearchActivity : BaseActivity<SearchPresenter>(), SearchContract.View {
     private var oldX = 0
 
     private var isStarted = false
+    private var searchWord = ""
 
     override fun initData(savedInstanceState: Bundle?) {
         //白底黑字
@@ -75,6 +76,14 @@ class SearchActivity : BaseActivity<SearchPresenter>(), SearchContract.View {
         StatusBarUtils.setPaddingSmart(this, ll_search)
 
         search_record_recyclerview.adapter = mSearchRecordAdapter
+
+        mSearchRecordAdapter.clicks().subscribe {
+            searchWord = mSearchRecordAdapter.data[it.second].text
+            et_keyword.setText(searchWord)
+            et_keyword.requestFocus()
+            et_keyword.setSelection(et_keyword.text.length)
+            mPresenter?.getSearchResult(searchWord)
+        }.bindToLifecycle(this)
 
         val flexBoxLayoutManager = FlexboxLayoutManager(this)
         flexBoxLayoutManager.flexWrap = FlexWrap.WRAP      //按正常方向换行
@@ -92,7 +101,7 @@ class SearchActivity : BaseActivity<SearchPresenter>(), SearchContract.View {
 
         mHotWordAdapter.setOnItemClickListener { _, _, position ->
             val item = mHotWordAdapter.getItem(position)
-            JumpManager.jumpBookDetail(this,item?.novelId)
+            JumpManager.jumpBookDetail(this, item?.novelId)
         }
 
         iv_clean.setOnClickListener { mPresenter?.cleanRecord() }
@@ -101,9 +110,22 @@ class SearchActivity : BaseActivity<SearchPresenter>(), SearchContract.View {
 
         et_keyword.setOnEditorActionListener { v, actionId, event ->
             if (actionId == EditorInfo.IME_ACTION_SEARCH) {
-                mPresenter?.saveKeyword(et_keyword.text.toString())
+                if (et_keyword.text.toString().isNotBlank()) {
+                    searchWord = et_keyword.text.toString()
+                    mPresenter?.saveKeyword(et_keyword.text.toString())
+                    mPresenter?.getSearchResult(searchWord)
+                }
             }
             false
+        }
+
+        rlv_search_result.adapter = mSearchResultAdapter
+        mSearchResultAdapter.apply {
+            setEnableLoadMore(true)
+            setLoadMoreView(CustomLoadMoreView())
+            setOnLoadMoreListener({
+                mPresenter?.getSearchResult(searchWord, false)
+            }, recyclerView)
         }
 
         et_keyword.viewTreeObserver.addOnGlobalLayoutListener(
@@ -137,6 +159,10 @@ class SearchActivity : BaseActivity<SearchPresenter>(), SearchContract.View {
 
     }
 
+    override fun onPause() {
+        hideSoftKeyboard()
+        super.onPause()
+    }
 
     private fun startAnim(hasFocus: Boolean) {
         var x = oldX.toFloat()
@@ -146,6 +172,31 @@ class SearchActivity : BaseActivity<SearchPresenter>(), SearchContract.View {
         val anim = ObjectAnimator.ofFloat(et_keyword, "translationX", 0f, x)
         anim.duration = 300
         anim.start()
+    }
+
+    override fun complete(pullToRefresh: Boolean) {
+        if (pullToRefresh)
+            refreshLayout.finishRefresh()
+        else
+            mSearchResultAdapter.loadMoreComplete()
+    }
+
+    override fun noMore() {
+        mSearchResultAdapter.loadMoreEnd()
+    }
+
+    override fun showState(state: Int) {
+        multiStateView.viewState = state
+    }
+
+    override fun showsearchResult(pullToRefresh: Boolean, searchInfos: List<SearchInfo>) {
+        ll_search_index.visible(false)
+        multiStateView.visible(true)
+        hideSoftKeyboard()
+        if (pullToRefresh)
+            mSearchResultAdapter.setNewData(searchInfos)
+        else
+            mSearchResultAdapter.addData(searchInfos)
     }
 
 

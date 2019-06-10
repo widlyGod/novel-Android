@@ -25,6 +25,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.util.AttributeSet;
 import android.view.InflateException;
 import android.view.View;
+import android.view.inputmethod.InputMethodManager;
 
 import com.jess.arms.base.delegate.IActivity;
 import com.jess.arms.integration.cache.Cache;
@@ -156,6 +157,16 @@ public abstract class BaseActivity<P extends IPresenter> extends AppCompatActivi
 
     @Override
     public void hideLoading() {
+
+    }
+
+    protected void hideSoftKeyboard() {
+        View view = getWindow().peekDecorView();
+        if (view != null) {
+            InputMethodManager inputmanger = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
+            inputmanger.hideSoftInputFromWindow(view.getWindowToken(), 0);
+
+        }
 
     }
 

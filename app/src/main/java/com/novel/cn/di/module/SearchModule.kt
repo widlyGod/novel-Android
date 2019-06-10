@@ -1,6 +1,7 @@
 package com.novel.cn.di.module
 
 import com.jess.arms.di.scope.ActivityScope
+import com.jess.arms.di.scope.FragmentScope
 
 import dagger.Module
 import dagger.Provides
@@ -9,6 +10,7 @@ import com.novel.cn.mvp.contract.SearchContract
 import com.novel.cn.mvp.model.SearchModel
 import com.novel.cn.mvp.ui.adapter.HotWordAdapter
 import com.novel.cn.mvp.ui.adapter.SearchRecordAdapter
+import com.novel.cn.mvp.ui.adapter.SearchResultAdapter
 
 
 /**
@@ -47,4 +49,8 @@ class SearchModule(private val view: SearchContract.View) {
     @ActivityScope
     @Provides
     fun provideSearchRecordAdapter () = SearchRecordAdapter()
+
+    @ActivityScope
+    @Provides
+    fun provideSearchResultAdapter() = SearchResultAdapter()
 }

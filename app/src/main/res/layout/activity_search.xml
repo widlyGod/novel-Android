@@ -7,6 +7,7 @@
     android:layout_height="match_parent"
     android:background="@color/white"
     android:orientation="vertical">
+
     <LinearLayout
         android:id="@+id/ll_search"
         android:layout_width="match_parent"
@@ -50,7 +51,7 @@
                     android:hint="找书/找作者 关键字"
                     android:imeOptions="actionSearch"
                     android:singleLine="true"
-                    android:textColor="#b1b1b1"
+                    android:textColor="@color/black"
                     android:textSize="12sp" />
 
             </FrameLayout>
@@ -68,49 +69,83 @@
 
     </LinearLayout>
 
-
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginLeft="15dp"
-        android:text="热门搜搜" />
-
-
-    <android.support.v7.widget.RecyclerView
-        android:id="@+id/recyclerView"
+    <LinearLayout
+        android:id="@+id/ll_search_index"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:padding="10dp" />
-
-    <FrameLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginLeft="15dp"
-        android:layout_marginTop="25dp"
-        android:layout_marginRight="15dp">
+        android:layout_height="match_parent"
+        android:orientation="vertical">
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_gravity="center_vertical"
-            android:text="历史搜索" />
+            android:layout_marginLeft="15dp"
+            android:text="热门搜搜" />
 
 
-        <ImageView
-            android:id="@+id/iv_clean"
-            android:layout_width="wrap_content"
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/recyclerView"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_gravity="right|center_vertical"
-            android:padding="10dp"
-            android:src="@drawable/ic_delete" />
+            android:padding="10dp" />
 
-    </FrameLayout>
+        <FrameLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="15dp"
+            android:layout_marginTop="25dp"
+            android:layout_marginRight="15dp">
 
-    <android.support.v7.widget.RecyclerView
-        android:id="@+id/search_record_recyclerview"
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:text="历史搜索" />
+
+
+            <ImageView
+                android:id="@+id/iv_clean"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="right|center_vertical"
+                android:padding="10dp"
+                android:src="@drawable/ic_delete" />
+
+        </FrameLayout>
+
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/search_record_recyclerview"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginTop="10dp"
+            app:layoutManager="android.support.v7.widget.LinearLayoutManager" />
+
+    </LinearLayout>
+
+    <com.novel.cn.view.MultiStateView
+        android:id="@+id/multiStateView"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_marginTop="10dp"
-        app:layoutManager="android.support.v7.widget.LinearLayoutManager" />
+        app:msv_animateViewChanges="true"
+        app:msv_emptyView="@layout/layout_empty"
+        app:msv_empty_text="暂无数据"
+        app:msv_errorView="@layout/layout_error"
+        app:msv_loadingView="@layout/layout_loading"
+        android:visibility="gone">
+
+        <com.scwang.smartrefresh.layout.SmartRefreshLayout
+            android:id="@+id/refreshLayout"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            app:srlEnableLoadMore="false">
+
+            <android.support.v7.widget.RecyclerView
+                android:id="@+id/rlv_search_result"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                app:layoutManager="android.support.v7.widget.LinearLayoutManager" />
+
+        </com.scwang.smartrefresh.layout.SmartRefreshLayout>
+
+    </com.novel.cn.view.MultiStateView>
 
 </LinearLayout>

@@ -175,6 +175,9 @@ class BookChannelAdapter : BaseMultiItemQuickAdapter<MultiItemEntity, BaseViewHo
                 itemView.tv_title_indicator.text = item.bookInfoBean.selectLabelName
                 val adapter = BookChannelAdapter()
                 itemView.rlv_books.apply {
+                    onFlingListener = null
+                    //取消焦点
+                    isFocusableInTouchMode = false
                     this.adapter = adapter
                 }
                 var list = item.bookInfoBean.novelList
