@@ -18,6 +18,7 @@ package com.jess.arms.base;
 import android.app.Activity;
 import android.content.Context;
 import android.os.Bundle;
+import android.support.annotation.MainThread;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
@@ -34,7 +35,11 @@ import com.jess.arms.integration.lifecycle.ActivityLifecycleable;
 import com.jess.arms.mvp.IPresenter;
 import com.jess.arms.mvp.IView;
 import com.jess.arms.utils.ArmsUtils;
+import com.jess.arms.utils.LoginEvent;
 import com.trello.rxlifecycle2.android.ActivityEvent;
+
+import org.greenrobot.eventbus.Subscribe;
+import org.greenrobot.eventbus.ThreadMode;
 
 import javax.inject.Inject;
 
@@ -104,6 +109,7 @@ public abstract class BaseActivity<P extends IPresenter> extends AppCompatActivi
             if (e instanceof InflateException) throw e;
             e.printStackTrace();
         }
+        initStatusBar(savedInstanceState);
         initData(savedInstanceState);
     }
 
@@ -150,6 +156,12 @@ public abstract class BaseActivity<P extends IPresenter> extends AppCompatActivi
     public void removeFromLifecycle(Disposable disposable) {
         compositeDisposable.remove(disposable);
     }
+
+    @Override
+    public void initStatusBar(@Nullable Bundle savedInstanceState) {
+
+    }
+
     @Override
     public void showLoading() {
 
@@ -168,6 +180,11 @@ public abstract class BaseActivity<P extends IPresenter> extends AppCompatActivi
 
         }
 
+    }
+
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    public void onLoginChange(LoginEvent event) {
+        initData(null);
     }
 
 

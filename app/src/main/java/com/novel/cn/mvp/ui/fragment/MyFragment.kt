@@ -49,9 +49,12 @@ class MyFragment : BaseFragment<MyPresenter>(), MyContract.View {
         return inflater.inflate(R.layout.fragment_my, container, false)
     }
 
-    override fun initData(savedInstanceState: Bundle?) {
+    override fun initStatusBar(savedInstanceState: Bundle?) {
         //给布局加一个状态栏高度
         StatusBarUtils.setPadding(activity, cl_top)
+    }
+
+    override fun initData(savedInstanceState: Bundle?) {
         iv_setting.visible(true)
 
         click(iv_setting, fl_messsage, iv_avatar, tv_recharge, tv_my_account) { view ->

@@ -14,10 +14,7 @@ import com.jess.arms.di.component.AppComponent
 import com.jess.arms.integration.EventBusManager
 import com.jess.arms.utils.LogUtils
 import com.novel.cn.R
-import com.novel.cn.app.JumpManager
-import com.novel.cn.app.click
-import com.novel.cn.app.isVisible
-import com.novel.cn.app.visible
+import com.novel.cn.app.*
 import com.novel.cn.db.DbManager
 import com.novel.cn.db.Readcord
 import com.novel.cn.di.component.DaggerReadComponent
@@ -41,6 +38,7 @@ import kotlinx.android.synthetic.main.layout_header_volume.*
 import kotlinx.android.synthetic.main.layout_header_volume.view.*
 import kotlinx.android.synthetic.main.layout_menu_chapter.*
 import kotlinx.android.synthetic.main.layout_shoufei.*
+import org.jetbrains.anko.startActivity
 import java.util.*
 import kotlin.collections.ArrayList
 
@@ -76,6 +74,8 @@ class ReadActivity : BaseActivity<ReadPresenter>(), ReadContract.View, VolumeVie
         }
     }
 
+    private lateinit var user: LoginInfo
+
     private val mPageLoader by lazy { readView.getPageLoader(mBook.novelInfo.novelId) }
 
     private val mAdapter by lazy { ChapterAdapter() }
@@ -110,11 +110,14 @@ class ReadActivity : BaseActivity<ReadPresenter>(), ReadContract.View, VolumeVie
         return R.layout.activity_read
     }
 
-
-    override fun initData(savedInstanceState: Bundle?) {
+    override fun initStatusBar(savedInstanceState: Bundle?) {
         StatusBarUtils.immersive(this)
         StatusBarUtils.setPaddingSmart(this, toolbar)
+    }
 
+
+    override fun initData(savedInstanceState: Bundle?) {
+        user = Preference.getDeviceData<LoginInfo?>(Constant.LOGIN_INFO)!!
         drawerLayout.setDrawerLockMode(DrawerLayout.LOCK_MODE_LOCKED_CLOSED)
         drawerLayout.isFocusableInTouchMode = false
         mAdapter.bindToRecyclerView(recyclerView)
@@ -129,6 +132,10 @@ class ReadActivity : BaseActivity<ReadPresenter>(), ReadContract.View, VolumeVie
 
 
         tv_collect.setOnClickListener {
+            if (user!!.sessionId.isBlank()) {
+                startActivity<LoginActivity>()
+                return@setOnClickListener
+            }
             if (!isCollect)
                 mPresenter?.addCollection(mBook.novelInfo.novelId)
             else
@@ -161,6 +168,10 @@ class ReadActivity : BaseActivity<ReadPresenter>(), ReadContract.View, VolumeVie
             }
 
             override fun reward() {
+                if (user!!.sessionId.isBlank()) {
+                    startActivity<LoginActivity>()
+                    return
+                }
                 mPresenter?.getUserAccountInfo()
             }
         })
@@ -171,6 +182,11 @@ class ReadActivity : BaseActivity<ReadPresenter>(), ReadContract.View, VolumeVie
             }
 
             override fun noFree(txtChapter: TxtChapter, mCurChapterPos: Int) {
+                if (user!!.sessionId.isBlank()) {
+                    startActivity<LoginActivity>()
+                    finish()
+                    return
+                }
                 if (!tipDialog.isShowing) {
                     tipDialog.show()
                 }
@@ -233,6 +249,10 @@ class ReadActivity : BaseActivity<ReadPresenter>(), ReadContract.View, VolumeVie
                 tv_zhifu, tv_prev, tv_contents, tv_next, ll_info, iv_reward, tv_chapter_comment) {
             when (it) {
                 iv_reward -> {
+                    if (user!!.sessionId.isBlank()) {
+                        startActivity<LoginActivity>()
+                        return@click
+                    }
                     mPresenter?.getUserAccountInfo()
                 }
                 ll_info -> toggleMenu()
@@ -258,6 +278,10 @@ class ReadActivity : BaseActivity<ReadPresenter>(), ReadContract.View, VolumeVie
                     refreshNightMode()
                 }
                 tv_chapter_comment -> {
+                    if (user!!.sessionId.isBlank()) {
+                        startActivity<LoginActivity>()
+                        return@click
+                    }
                     val chapter = mAdapter.getCurrentChapter()
                     chapter?.let {
                         hideSystemBar()

@@ -38,13 +38,15 @@ class ReadRecordActivity : BaseActivity<ReadRecordPresenter>(), ReadRecordContra
         return R.layout.activity_read_record
     }
 
-
-    override fun initData(savedInstanceState: Bundle?) {
+    override fun initStatusBar(savedInstanceState: Bundle?) {
         //白底黑字
         StatusBarUtils.darkMode(this)
         //给toolbar加个上边距，避免顶上去
         StatusBarUtils.setPaddingSmart(this, toolbar)
+    }
 
+
+    override fun initData(savedInstanceState: Bundle?) {
         recyclerView.adapter = mAdapter
         recyclerView.addItemDecoration(LinearItemDecoration())
 

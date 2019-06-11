@@ -63,12 +63,15 @@ class RechargeActivity : BaseActivity<RechargePresenter>(), RechargeContract.Vie
         return R.layout.activity_recharge //如果你不需要框架帮你设置 setContentView(id) 需要自行设置,请返回 0
     }
 
-
-    override fun initData(savedInstanceState: Bundle?) {
-
+    override fun initStatusBar(savedInstanceState: Bundle?) {
         StatusBarUtils.darkMode(this)
         StatusBarUtils.setPaddingSmart(this, cl_top)
         StatusBarUtils.setPaddingSmart(this, toolbar)
+    }
+
+
+    override fun initData(savedInstanceState: Bundle?) {
+
         //支付宝沙盒环境
         EnvUtils.setEnv(EnvUtils.EnvEnum.SANDBOX)
 

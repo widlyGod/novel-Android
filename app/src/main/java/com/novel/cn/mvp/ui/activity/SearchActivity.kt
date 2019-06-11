@@ -70,11 +70,14 @@ class SearchActivity : BaseActivity<SearchPresenter>(), SearchContract.View {
     private var isStarted = false
     private var searchWord = ""
 
-    override fun initData(savedInstanceState: Bundle?) {
+    override fun initStatusBar(savedInstanceState: Bundle?) {
         //白底黑字
         StatusBarUtils.darkMode(this)
         //给toolbar加个上边距，避免顶上去
         StatusBarUtils.setPaddingSmart(this, ll_search)
+    }
+
+    override fun initData(savedInstanceState: Bundle?) {
 
         search_record_recyclerview.adapter = mSearchRecordAdapter
 

@@ -6,22 +6,24 @@ import com.jess.arms.di.component.AppComponent
 import com.jess.arms.integration.EventBusManager
 import com.jess.arms.utils.ArmsUtils
 import com.novel.cn.R
-import com.novel.cn.app.JumpManager
-import com.novel.cn.app.click
-import com.novel.cn.app.loadImage
+import com.novel.cn.app.*
 import com.novel.cn.di.component.DaggerBookDetailComponent
 import com.novel.cn.di.module.BookDetailModule
 import com.novel.cn.eventbus.BookshelfEvent
 import com.novel.cn.ext.toast
 import com.novel.cn.mvp.contract.BookDetailContract
 import com.novel.cn.mvp.model.entity.Comment
+import com.novel.cn.mvp.model.entity.LoginInfo
 import com.novel.cn.mvp.model.entity.NovelInfoBean
 import com.novel.cn.mvp.presenter.BookDetailPresenter
 import com.novel.cn.mvp.ui.adapter.BookCommentAdapter
 import com.novel.cn.utils.StatusBarUtils
 import com.novel.cn.view.decoration.LinearItemDecoration
 import kotlinx.android.synthetic.main.activity_book_detail.*
+import kotlinx.android.synthetic.main.activity_book_detail.recyclerView
+import kotlinx.android.synthetic.main.fragment_bookshelf.*
 import kotlinx.android.synthetic.main.include_title.*
+import org.jetbrains.anko.startActivity
 import javax.inject.Inject
 
 
@@ -47,10 +49,13 @@ class BookDetailActivity : BaseActivity<BookDetailPresenter>(), BookDetailContra
         return R.layout.activity_book_detail //如果你不需要框架帮你设置 setContentView(id) 需要自行设置,请返回 0
     }
 
-
-    override fun initData(savedInstanceState: Bundle?) {
+    override fun initStatusBar(savedInstanceState: Bundle?) {
         StatusBarUtils.darkMode(this)
         StatusBarUtils.setPaddingSmart(this, toolbar)
+    }
+
+    override fun initData(savedInstanceState: Bundle?) {
+
         recyclerView.adapter = mAdapter
 
 
@@ -93,10 +98,21 @@ class BookDetailActivity : BaseActivity<BookDetailPresenter>(), BookDetailContra
         }
 
         click(tv_read, tv_add_bookself, ll_comment, tv_comment, fl_contents) {
+            val user = Preference.getDeviceData<LoginInfo?>(Constant.LOGIN_INFO)
             when (it) {
-                ll_comment, tv_comment -> JumpManager.toCommentList(this, data)
+                ll_comment, tv_comment -> {
+                    if(user!!.userId.isBlank()){
+                        startActivity<LoginActivity>()
+                        return@click
+                    }
+                    JumpManager.toCommentList(this, data)
+                }
                 tv_read -> JumpManager.jumpRead(this, data)
                 tv_add_bookself -> {
+                    if(user!!.userId.isBlank()){
+                        startActivity<LoginActivity>()
+                        return@click
+                    }
                     if (data.novelInfo.isCollection) {
                         toast("该本小说已被主人收藏啦~")
                     } else {

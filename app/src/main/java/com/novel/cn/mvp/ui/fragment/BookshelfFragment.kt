@@ -21,6 +21,7 @@ import com.novel.cn.mvp.model.entity.Book
 import com.novel.cn.mvp.model.entity.SignIn
 import com.novel.cn.mvp.model.entity.LoginInfo
 import com.novel.cn.mvp.presenter.BookshelfPresenter
+import com.novel.cn.mvp.ui.activity.LoginActivity
 import com.novel.cn.mvp.ui.adapter.BookshelfAdapter
 import com.novel.cn.mvp.ui.dialog.MorePopup
 import com.novel.cn.mvp.ui.dialog.SignInDialog
@@ -28,6 +29,7 @@ import com.novel.cn.utils.StatusBarUtils
 import com.novel.cn.view.CustomLoadMoreView
 import kotlinx.android.synthetic.main.fragment_bookshelf.*
 import org.greenrobot.eventbus.Subscribe
+import org.jetbrains.anko.startActivity
 import javax.inject.Inject
 
 
@@ -65,13 +67,16 @@ class BookshelfFragment : BaseLazyLoadFragment<BookshelfPresenter>(), BookshelfC
     }
 
     override fun initView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
-        return inflater.inflate(R.layout.fragment_bookshelf, container, false);
+        return inflater.inflate(R.layout.fragment_bookshelf, container, false)
+    }
+
+    override fun initStatusBar(savedInstanceState: Bundle?) {
+        //给布局加一个状态栏高度
+        StatusBarUtils.setPaddingSmart(activity, rl_top)
     }
 
     override fun initData(savedInstanceState: Bundle?) {
-        //给布局加一个状态栏高度
-        StatusBarUtils.setPaddingSmart(activity, rl_top)
-
+        val user = Preference.getDeviceData<LoginInfo?>(Constant.LOGIN_INFO)
         recyclerView.adapter = mAdapter
         mAdapter.apply {
             setEnableLoadMore(true)
@@ -90,8 +95,14 @@ class BookshelfFragment : BaseLazyLoadFragment<BookshelfPresenter>(), BookshelfC
         iv_more.setOnClickListener {
             mMorePopup.showAsDropDown(it, 0, 0)
         }
+        if (user!!.sessionId.isBlank()) {
+            tv_read_time.text = ""
+        }
         tv_signIn.setOnClickListener {
-            val user = Preference.getDeviceData<LoginInfo>(Constant.LOGIN_INFO)
+            if (user!!.sessionId.isBlank()) {
+                context.startActivity<LoginActivity>()
+                return@setOnClickListener
+            }
             user?.let {
                 mPresenter?.signIn(it.userId)
             }

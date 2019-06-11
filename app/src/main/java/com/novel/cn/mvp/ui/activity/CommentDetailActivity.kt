@@ -78,10 +78,12 @@ class CommentDetailActivity : BaseActivity<CommentDetailPresenter>(), CommentDet
         return R.layout.activity_comment_detail //如果你不需要框架帮你设置 setContentView(id) 需要自行设置,请返回 0
     }
 
-
-    override fun initData(savedInstanceState: Bundle?) {
+    override fun initStatusBar(savedInstanceState: Bundle?) {
         StatusBarUtils.darkMode(this)
         StatusBarUtils.setPaddingSmart(this, toolbar)
+    }
+
+    override fun initData(savedInstanceState: Bundle?) {
 
         mComment?.let {
             //初始化数据

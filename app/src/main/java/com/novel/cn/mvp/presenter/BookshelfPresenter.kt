@@ -5,14 +5,17 @@ import com.jess.arms.mvp.BasePresenter
 import com.jess.arms.utils.LogUtils
 import com.jess.arms.utils.RxLifecycleUtils
 import com.novel.cn.app.Constant
+import com.novel.cn.app.Preference
 import com.novel.cn.mvp.contract.BookshelfContract
 import com.novel.cn.mvp.model.entity.*
+import com.novel.cn.mvp.ui.activity.LoginActivity
 import com.novel.cn.view.MultiStateView
 import com.zchu.rxcache.data.CacheResult
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.schedulers.Schedulers
 import me.jessyan.rxerrorhandler.core.RxErrorHandler
 import me.jessyan.rxerrorhandler.handler.ErrorHandleSubscriber
+import org.jetbrains.anko.startActivity
 import javax.inject.Inject
 
 
@@ -27,6 +30,11 @@ constructor(model: BookshelfContract.Model, rootView: BookshelfContract.View) :
     private var mPageIndex = 1
 
     fun getBookshelfList(pullToRefresh: Boolean) {
+        val user = Preference.getDeviceData<LoginInfo?>(Constant.LOGIN_INFO)
+        if (user!!.userId.isBlank()) {
+            mRootView.showState(MultiStateView.VIEW_STATE_ERROR)
+            return
+        }
         if (pullToRefresh) mPageIndex = 1
 
         mModel.getBookshelf(mPageIndex)

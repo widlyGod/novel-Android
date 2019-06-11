@@ -60,9 +60,13 @@ class BookStoreFragment : BaseFragment<BookStorePresenter>(), BookStoreContract.
         return inflater.inflate(R.layout.fragment_book_store, container, false);
     }
 
-    override fun initData(savedInstanceState: Bundle?) {
+    override fun initStatusBar(savedInstanceState: Bundle?) {
         //给布局加一个状态栏高度
         StatusBarUtils.setPaddingSmart(activity, tv_title)
+    }
+
+    override fun initData(savedInstanceState: Bundle?) {
+
         tv_title.typeface = (activity as MainActivity).mTitleTypeface
 
         tabLayout.setTabData(mTabEntities)

@@ -50,13 +50,15 @@ class ResetPasswrodActivity : BaseActivity<ResetPasswrodPresenter>(), ResetPassw
         return R.layout.activity_reset_passwrod //如果你不需要框架帮你设置 setContentView(id) 需要自行设置,请返回 0
     }
 
-
-    override fun initData(savedInstanceState: Bundle?) {
-
+    override fun initStatusBar(savedInstanceState: Bundle?) {
         //白底黑字
         StatusBarUtils.darkMode(this)
         //给toolbar加个上边距，避免顶上去
         StatusBarUtils.setPaddingSmart(this, toolbar)
+    }
+
+
+    override fun initData(savedInstanceState: Bundle?) {
         verification()
 
 

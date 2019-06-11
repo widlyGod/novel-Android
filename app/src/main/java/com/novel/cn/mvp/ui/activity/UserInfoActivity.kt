@@ -93,13 +93,14 @@ class UserInfoActivity : BaseActivity<UserInfoPresenter>(), UserInfoContract.Vie
         return R.layout.activity_user_info //如果你不需要框架帮你设置 setContentView(id) 需要自行设置,请返回 0
     }
 
-
-    override fun initData(savedInstanceState: Bundle?) {
+    override fun initStatusBar(savedInstanceState: Bundle?) {
         //白底黑字
         StatusBarUtils.darkMode(this)
         //给toolbar加个上边距，避免顶上去
         StatusBarUtils.setPaddingSmart(this, toolbar)
+    }
 
+    override fun initData(savedInstanceState: Bundle?) {
         toolbar_right_tv.setVisible(true)
         userGender = mUser!!.userGender
 

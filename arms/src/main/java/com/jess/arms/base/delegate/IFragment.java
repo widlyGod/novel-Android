@@ -133,4 +133,11 @@ public interface IFragment {
    default void setData(@Nullable Object data){
 
    }
+
+    /**
+     * 状态栏
+     *
+     * @param savedInstanceState
+     */
+    void initStatusBar(@Nullable Bundle savedInstanceState);
 }

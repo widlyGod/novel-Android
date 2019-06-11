@@ -71,12 +71,15 @@ class ContentsActivity : BaseActivity<ContentsPresenter>(), ContentsContract.Vie
         return R.layout.activity_contents
     }
 
-
-    override fun initData(savedInstanceState: Bundle?) {
+    override fun initStatusBar(savedInstanceState: Bundle?) {
         //白底黑字
         StatusBarUtils.darkMode(this)
         //给toolbar加个上边距，避免顶上去
         StatusBarUtils.setPaddingSmart(this, toolbar)
+    }
+
+    override fun initData(savedInstanceState: Bundle?) {
+
         mBookRecord = DbManager.getReadcord(mBook.novelInfo.novelId)!!
         mAdapter.bindToRecyclerView(recyclerView)
         mHeaderView = LayoutInflater.from(this).inflate(R.layout.layout_header_volume, recyclerView, false)

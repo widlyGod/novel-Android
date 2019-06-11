@@ -74,10 +74,13 @@ class CommentActivity : BaseActivity<CommentPresenter>(), CommentContract.View {
         return R.layout.activity_comment
     }
 
-
-    override fun initData(savedInstanceState: Bundle?) {
+    override fun initStatusBar(savedInstanceState: Bundle?) {
         StatusBarUtils.darkMode(this)
         StatusBarUtils.setPaddingSmart(this, toolbar)
+    }
+
+
+    override fun initData(savedInstanceState: Bundle?) {
 
         recyclerView.adapter = mAdapter
 

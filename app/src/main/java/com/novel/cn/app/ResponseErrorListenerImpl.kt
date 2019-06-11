@@ -48,6 +48,7 @@ class ResponseErrorListenerImpl : ResponseErrorListener {
             msg = "请求网络超时"
         } else if (t is ApiException) {
             msg = t.message
+            return
 //            val activity = AppManager.getAppManager().topActivity
 //            activity?.startActivity<LoginActivity>()
         } else if (t is HttpException) {

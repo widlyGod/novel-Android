@@ -14,6 +14,8 @@ import com.jakewharton.rxbinding3.widget.textChangeEvents
 import com.jakewharton.rxbinding3.widget.textChanges
 import com.jess.arms.base.BaseActivity
 import com.jess.arms.di.component.AppComponent
+import com.jess.arms.integration.EventBusManager
+import com.jess.arms.utils.LoginEvent
 import com.novel.cn.R
 import com.novel.cn.app.Constant
 import com.novel.cn.app.Preference
@@ -21,6 +23,7 @@ import com.novel.cn.app.click
 import com.novel.cn.app.visible
 import com.novel.cn.di.component.DaggerLoginComponent
 import com.novel.cn.di.module.LoginModule
+import com.novel.cn.eventbus.BookshelfEvent
 import com.novel.cn.mvp.contract.LoginContract
 import com.novel.cn.mvp.model.entity.LoginInfo
 import com.novel.cn.mvp.presenter.LoginPresenter
@@ -58,13 +61,15 @@ class LoginActivity : BaseActivity<LoginPresenter>(), LoginContract.View {
         return R.layout.activity_login
     }
 
-
-    override fun initData(savedInstanceState: Bundle?) {
+    override fun initStatusBar(savedInstanceState: Bundle?) {
         //白底黑字
         StatusBarUtils.darkMode(this)
         //给toolbar加个上边距，避免顶上去
         StatusBarUtils.setPaddingSmart(this, toolbar)
+    }
 
+
+    override fun initData(savedInstanceState: Bundle?) {
         verification()
 
         click(tv_login, iv_qq, iv_wechat, iv_weibo, tv_regist, tv_forget_password, iv_clean, iv_eyes) {
@@ -144,8 +149,8 @@ class LoginActivity : BaseActivity<LoginPresenter>(), LoginContract.View {
         //保存数据
         Preference.put(Constant.LOGIN_INFO, data)
         Preference.put(Constant.SESSION_ID, data.sessionId)
-        startActivity<MainActivity>()
         finish()
+        EventBusManager.getInstance().post(LoginEvent())
     }
 
 }

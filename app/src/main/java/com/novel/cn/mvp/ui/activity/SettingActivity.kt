@@ -6,7 +6,9 @@ import android.os.Bundle
 import com.jess.arms.base.BaseActivity
 import com.jess.arms.di.component.AppComponent
 import com.jess.arms.integration.AppManager
+import com.jess.arms.integration.EventBusManager
 import com.jess.arms.utils.ArmsUtils
+import com.jess.arms.utils.LoginEvent
 import com.novel.cn.BuildConfig
 
 import com.novel.cn.di.component.DaggerSettingComponent
@@ -15,8 +17,10 @@ import com.novel.cn.mvp.contract.SettingContract
 import com.novel.cn.mvp.presenter.SettingPresenter
 
 import com.novel.cn.R
+import com.novel.cn.app.Constant
 import com.novel.cn.app.Preference
 import com.novel.cn.app.click
+import com.novel.cn.mvp.model.entity.LoginInfo
 import com.novel.cn.utils.CacheDataManager
 import com.novel.cn.utils.StatusBarUtils
 import com.tencent.bugly.beta.Beta
@@ -41,12 +45,15 @@ class SettingActivity : BaseActivity<SettingPresenter>(), SettingContract.View {
         return R.layout.activity_setting //如果你不需要框架帮你设置 setContentView(id) 需要自行设置,请返回 0
     }
 
-
-    override fun initData(savedInstanceState: Bundle?) {
+    override fun initStatusBar(savedInstanceState: Bundle?) {
         //白底黑字
         StatusBarUtils.darkMode(this)
         //给toolbar加个上边距，避免顶上去
         StatusBarUtils.setPaddingSmart(this, toolbar)
+    }
+
+
+    override fun initData(savedInstanceState: Bundle?) {
 
         tv_version.text = "V${BuildConfig.VERSION_NAME}"
         tv_cache.text = CacheDataManager.getTotalCacheSize(this)
@@ -56,8 +63,11 @@ class SettingActivity : BaseActivity<SettingPresenter>(), SettingContract.View {
             when (it) {
                 tv_logout -> {
                     Preference.clean()
-                    startActivity<LoginActivity>()
-                    AppManager.getAppManager().killAll(LoginActivity::class.java)
+                    Preference.put(Constant.LOGIN_INFO, LoginInfo("",""))
+                    finish()
+                    EventBusManager.getInstance().post(LoginEvent())
+//                    startActivity<MainActivity>()
+                    AppManager.getAppManager().killAll(MainActivity::class.java)
                 }
                 tv_about -> startActivity<LoginActivity>()
                 fl_cache -> {

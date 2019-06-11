@@ -20,6 +20,9 @@ import com.novel.cn.utils.StatusBarUtils
 import com.novel.cn.view.CustomLoadMoreView
 import kotlinx.android.synthetic.main.include_title.*
 import kotlinx.android.synthetic.main.activity_category_list.*
+import kotlinx.android.synthetic.main.activity_category_list.recyclerView
+import kotlinx.android.synthetic.main.activity_category_list.refreshLayout
+import kotlinx.android.synthetic.main.fragment_bookshelf.*
 import javax.inject.Inject
 
 
@@ -50,9 +53,9 @@ import javax.inject.Inject
  */
 class CategoryListActivity : BaseActivity<CategoryListPresenter>(), CategoryListContract.View {
 
-    private val novelTypeId by lazy { intent.getIntExtra("novelTypeId",0) }
+    private val novelTypeId by lazy { intent.getIntExtra("novelTypeId", 0) }
 
-    private val parentId by lazy { intent.getIntExtra("parentId",0) }
+    private val parentId by lazy { intent.getIntExtra("parentId", 0) }
 
     private val title by lazy { intent.getStringExtra("title") }
 
@@ -74,18 +77,22 @@ class CategoryListActivity : BaseActivity<CategoryListPresenter>(), CategoryList
         return R.layout.activity_category_list //如果你不需要框架帮你设置 setContentView(id) 需要自行设置,请返回 0
     }
 
- override fun initData(savedInstanceState: Bundle?) {
+    override fun initStatusBar(savedInstanceState: Bundle?) {
         //白底黑字
         StatusBarUtils.darkMode(this)
         //给toolbar加个上边距，避免顶上去
         StatusBarUtils.setPaddingSmart(this, toolbar)
+    }
+
+    override fun initData(savedInstanceState: Bundle?) {
+
         setTitle(title)
 
         mAdapter.apply {
             setEnableLoadMore(true)
             setLoadMoreView(CustomLoadMoreView())
             setOnLoadMoreListener({
-                mPresenter?.getCategoryList(novelTypeId,parentId, false)
+                mPresenter?.getCategoryList(novelTypeId, parentId, false)
             }, recyclerView)
 
             setOnItemClickListener { adapter, view, position ->
@@ -108,7 +115,7 @@ class CategoryListActivity : BaseActivity<CategoryListPresenter>(), CategoryList
     }
 
     private fun onRefresh() {
-        mPresenter?.getCategoryList(novelTypeId,parentId,true)
+        mPresenter?.getCategoryList(novelTypeId, parentId, true)
     }
 
     override fun refreshComplete() {
@@ -119,7 +126,7 @@ class CategoryListActivity : BaseActivity<CategoryListPresenter>(), CategoryList
         //收藏成功后，更新页面，并通知书架
         val item = mAdapter.getItem(position)
         item?.let {
-//            it.isRecommend = 1
+            //            it.isRecommend = 1
             mAdapter.notifyItemChanged(position)
             EventBusManager.getInstance().post(BookshelfEvent())
         }

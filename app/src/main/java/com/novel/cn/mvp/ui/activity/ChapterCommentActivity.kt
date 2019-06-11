@@ -72,9 +72,13 @@ class ChapterCommentActivity : BaseActivity<ChapterCommentPresenter>(), ChapterC
         tv_count.text = Html.fromHtml("共<font color='#ea4b1a'>$counts</font>条")
     }
 
-    override fun initData(savedInstanceState: Bundle?) {
+    override fun initStatusBar(savedInstanceState: Bundle?) {
         StatusBarUtils.darkMode(this)
         StatusBarUtils.setPaddingSmart(this, toolbar)
+
+    }
+
+    override fun initData(savedInstanceState: Bundle?) {
 
         val decoration = LinearItemDecoration()
         //分割线与左右两边的间距

@@ -52,14 +52,15 @@ class BookManagerActivity : BaseActivity<BookManagerPresenter>(), BookManagerCon
         return R.layout.activity_book_manager
     }
 
-
-    override fun initData(savedInstanceState: Bundle?) {
+    override fun initStatusBar(savedInstanceState: Bundle?) {
         //白底黑字
         StatusBarUtils.darkMode(this)
         //给toolbar加个上边距，避免顶上去
         StatusBarUtils.setPaddingSmart(this, title_height)
+    }
 
 
+    override fun initData(savedInstanceState: Bundle?) {
         mAdapter.apply {
             //加载更多设置
             setEnableLoadMore(true)

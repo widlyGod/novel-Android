@@ -62,12 +62,15 @@ class RegistActivity : BaseActivity<RegistPresenter>(), RegistContract.View, Log
         return R.layout.activity_regist
     }
 
-
-    override fun initData(savedInstanceState: Bundle?) {
+    override fun initStatusBar(savedInstanceState: Bundle?) {
         //白底黑字
         StatusBarUtils.darkMode(this)
         //给toolbar加个上边距，避免顶上去
         StatusBarUtils.setPaddingSmart(this, toolbar)
+    }
+
+
+    override fun initData(savedInstanceState: Bundle?) {
 
         verification()
 

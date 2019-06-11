@@ -5,6 +5,7 @@ import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
 import com.novel.cn.app.Constant
 import com.novel.cn.app.Preference
+import com.novel.cn.mvp.model.entity.LoginInfo
 
 class LauncherActivity : AppCompatActivity() {
 
@@ -17,12 +18,14 @@ class LauncherActivity : AppCompatActivity() {
         }
 
         val token = Preference.getString(Constant.SESSION_ID)
-        val intent = Intent();
+        val intent = Intent()
         if (token.isNullOrEmpty()) {
-            intent.setClass(this, LoginActivity::class.java)
-        } else {
-            intent.setClass(this@LauncherActivity, MainActivity::class.java)
+            Preference.put(Constant.LOGIN_INFO, LoginInfo("",""))
         }
+//            intent.setClass(this, LoginActivity::class.java)
+//        } else {
+            intent.setClass(this@LauncherActivity, MainActivity::class.java)
+//        }
         startActivity(intent)
         finish()
     }
