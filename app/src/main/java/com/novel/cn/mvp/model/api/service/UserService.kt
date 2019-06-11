@@ -42,6 +42,12 @@ interface UserService {
     fun regist(@Body params: HashMap<String, String>): Observable<BaseResponse<LoginInfo>>
 
     /**
+     * 验证昵称
+     */
+    @POST("novelUserService/user/checkNickName")
+    fun checkNickName(@Body params: HashMap<String, String>): Observable<BaseResponse<Any>>
+
+    /**
      * 发送验证码
      * URL
      *      注册：novelUserService/user/sendCode

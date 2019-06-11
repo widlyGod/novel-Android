@@ -24,12 +24,15 @@ interface RegistContract {
     interface View : IView {
         fun registSuccess(data: LoginInfo)
         fun sendSuccess()
+        fun checkNickNameSuccess(code: Int)
+        fun checkNickNameFail(isRepetition: Boolean)
     }
 
     //Model层定义接口,外部只需关心Model返回的数据,无需关心内部细节,即是否使用缓存
     interface Model : IModel {
-        fun regist(params: HashMap<String, String>):Observable<BaseResponse<LoginInfo>>
-        fun sendCode(params: HashMap<String,String>):Observable<BaseResponse<Any>>
+        fun regist(params: HashMap<String, String>): Observable<BaseResponse<LoginInfo>>
+        fun sendCode(params: HashMap<String, String>): Observable<BaseResponse<Any>>
+        fun checkNickName(params: HashMap<String, String>): Observable<BaseResponse<Any>>
     }
 
 }

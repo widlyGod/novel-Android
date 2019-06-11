@@ -29,6 +29,10 @@ import io.reactivex.Observable
 class RegistModel
 @Inject
 constructor(repositoryManager: IRepositoryManager) : BaseModel(repositoryManager), RegistContract.Model {
+    override fun checkNickName(params: HashMap<String, String>): Observable<BaseResponse<Any>> {
+        return mRepositoryManager.obtainRetrofitService(UserService::class.java).checkNickName(params)
+    }
+
     override fun sendCode(params: HashMap<String,String>): Observable<BaseResponse<Any>> {
         return mRepositoryManager.obtainRetrofitService(UserService::class.java).sendCode("novelUserService/user/sendCode", params)
     }

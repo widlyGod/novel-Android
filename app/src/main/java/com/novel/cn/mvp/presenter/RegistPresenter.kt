@@ -8,6 +8,8 @@ import com.jess.arms.mvp.BasePresenter
 import com.jess.arms.http.imageloader.ImageLoader
 import com.jess.arms.utils.ArmsUtils
 import com.jess.arms.utils.RxLifecycleUtils
+import com.novel.cn.app.ApiException
+import com.novel.cn.ext.applySchedulers
 import me.jessyan.rxerrorhandler.core.RxErrorHandler
 import javax.inject.Inject
 
@@ -43,9 +45,7 @@ constructor(model: RegistContract.Model, rootView: RegistContract.View) :
         params.put("code", emailCode)
 
         mModel.regist(params)
-                .subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread())
-                .compose(RxLifecycleUtils.bindToLifecycle(mRootView))
+                .applySchedulers(mRootView)
                 .subscribe(object : ErrorHandleSubscriber<BaseResponse<LoginInfo>>(mErrorHandler) {
                     override fun onNext(t: BaseResponse<LoginInfo>) {
                         mRootView.registSuccess(t.data)
@@ -54,6 +54,30 @@ constructor(model: RegistContract.Model, rootView: RegistContract.View) :
                     override fun onError(t: Throwable) {
                         //全局处理异常 super.onError(t)默认实现，和下面代码同理
                         mErrorHandler.handlerFactory.handleError(t)
+//                        super.onError(t)
+                    }
+                })
+
+    }
+
+    fun checkNickName(nickname: String) {
+
+        val params = HashMap<String, String>()
+        params.put("nickName", nickname)
+
+        mModel.checkNickName(params)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .compose(RxLifecycleUtils.bindToLifecycle(mRootView))
+                .subscribe(object : ErrorHandleSubscriber<BaseResponse<Any>>(mErrorHandler) {
+                    override fun onNext(t: BaseResponse<Any>) {
+                        mRootView.checkNickNameSuccess(t.code)
+                    }
+
+
+                    override fun onError(t: Throwable) {
+                        //全局处理异常 super.onError(t)默认实现，和下面代码同理
+                        mRootView.checkNickNameFail(t is ApiException)
 //                        super.onError(t)
                     }
                 })

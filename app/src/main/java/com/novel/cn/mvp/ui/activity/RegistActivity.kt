@@ -23,6 +23,7 @@ import com.novel.cn.app.utils.RxUtils
 import com.novel.cn.di.component.DaggerRegistComponent
 import com.novel.cn.di.module.LoginModule
 import com.novel.cn.di.module.RegistModule
+import com.novel.cn.ext.toast
 import com.novel.cn.mvp.contract.LoginContract
 import com.novel.cn.mvp.contract.RegistContract
 import com.novel.cn.mvp.model.entity.LoginInfo
@@ -30,6 +31,7 @@ import com.novel.cn.mvp.presenter.LoginPresenter
 import com.novel.cn.mvp.presenter.RegistPresenter
 import com.novel.cn.utils.PartsUtil
 import com.novel.cn.utils.StatusBarUtils
+import com.novel.cn.view.TipDialog
 import com.trello.rxlifecycle2.RxLifecycle
 import com.trello.rxlifecycle2.android.ActivityEvent
 import io.reactivex.Observable
@@ -46,6 +48,15 @@ class RegistActivity : BaseActivity<RegistPresenter>(), RegistContract.View, Log
     lateinit var mLoginPresenter: LoginPresenter
 
     private var isCountdown = false
+
+    private var isRegist = false
+
+    private val mLoading by lazy {
+        TipDialog.Builder(this)
+                .setIconType(TipDialog.Builder.ICON_TYPE_LOADING)
+                .setTipWord("正在注册")
+                .create(false)
+    }
 
     override fun setupActivityComponent(appComponent: AppComponent) {
         DaggerRegistComponent //如找不到该类,请编译一下项目
@@ -76,10 +87,28 @@ class RegistActivity : BaseActivity<RegistPresenter>(), RegistContract.View, Log
 
         iv_check.isSelected = true
 
+        et_nickname.setOnFocusChangeListener { _, hasFocus ->
+            if (!hasFocus) {
+                if (et_nickname.text.toString().trim().isBlank()) {
+                    tv_tip.text = "请输入昵称"
+                } else {
+                    mPresenter?.checkNickName(et_nickname.text.toString().trim())
+                    tv_tip.text = "检验昵称中..."
+                }
+            }
+        }
 
-        click(tv_regist, tv_get_email_code, iv_qq, iv_wechat, iv_weibo, iv_check, iv_eyes,iv_eyes2) {
+        click(tv_regist, tv_get_email_code, iv_qq, iv_wechat, iv_weibo, iv_check, iv_eyes, iv_eyes2) {
             when (it) {
-                tv_regist -> toRegist()
+                tv_regist -> {
+                    if (et_nickname.text.toString().trim().isBlank()) {
+                        tv_tip.text = "请输入昵称"
+                    } else {
+                        isRegist = true
+                        mPresenter?.checkNickName(et_nickname.text.toString().trim())
+                        showLoading()
+                    }
+                }
                 tv_get_email_code -> sendCode()
                 iv_qq -> mLoginPresenter.authorize(QQ.NAME)
                 iv_wechat -> mLoginPresenter.authorize(Wechat.NAME)
@@ -88,10 +117,19 @@ class RegistActivity : BaseActivity<RegistPresenter>(), RegistContract.View, Log
                     iv_check.isSelected = !it.isSelected
                     et_email.text = et_email.text
                 }
-                iv_eyes -> hidePasswordTransformation(it,et_password)
-                iv_eyes2 -> hidePasswordTransformation(it,et_password2)
+                iv_eyes -> hidePasswordTransformation(it, et_password)
+                iv_eyes2 -> hidePasswordTransformation(it, et_password2)
             }
         }
+    }
+
+
+    override fun showLoading() {
+        mLoading.show()
+    }
+
+    override fun hideLoading() {
+        mLoading.hide()
     }
 
     /**
@@ -134,6 +172,24 @@ class RegistActivity : BaseActivity<RegistPresenter>(), RegistContract.View, Log
                 }
     }
 
+    override fun checkNickNameSuccess(code: Int) {
+        hideLoading()
+        if (isRegist) {
+            isRegist = false
+            toRegist()
+        } else
+            tv_tip.text = ""
+
+    }
+
+    override fun checkNickNameFail(isRepetition: Boolean) {
+        hideLoading()
+        if (isRepetition) {
+            tv_tip.text = "该昵称已被使用"
+        } else
+            tv_tip.text = ""
+        isRegist = false
+    }
 
     private fun toRegist() {
         val nickname = et_nickname.text.toString().trim()
@@ -197,8 +253,8 @@ class RegistActivity : BaseActivity<RegistPresenter>(), RegistContract.View, Log
 
     override fun loginSuccess(data: LoginInfo) {
         //保存数据
-        Preference.put(Constant.LOGIN_INFO,data)
-        Preference.put(Constant.SESSION_ID,data.sessionId)
+        Preference.put(Constant.LOGIN_INFO, data)
+        Preference.put(Constant.SESSION_ID, data.sessionId)
         finish()
     }
 
