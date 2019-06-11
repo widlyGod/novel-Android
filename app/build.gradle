@@ -189,5 +189,9 @@ dependencies {
     implementation 'com.github.razerdp:BasePopup:2.1.9'
     implementation project(':rxcache')
     implementation project(':rxcache-kotlin')
+
+    implementation 'com.tencent.bugly:crashreport_upgrade:latest.release'//其中latest.release指代最新版本号，也可以指定明确的版本号，例如1.2.0
+    implementation 'com.tencent.bugly:nativecrashreport:latest.release' //其中latest.release指代最新版本号，也可以指定明确的版本号，例如2.2.0
+
 //    implementation files('libs/reader-2.3.0.jar')
 }

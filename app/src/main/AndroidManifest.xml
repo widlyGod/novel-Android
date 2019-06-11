@@ -20,6 +20,8 @@
     <uses-permission android:name="android.permission.FLASHLIGHT" />
     <uses-permission android:name="android.permission.RECORD_VIDEO" />
     <uses-permission android:name="android.permission.RECORD_AUDIO" />
+    <uses-permission android:name="android.permission.READ_LOGS"
+        tools:ignore="ProtectedPermissions" />
 
     <application
         android:name="com.jess.arms.base.BaseApplication"
@@ -129,14 +131,29 @@
             android:label="章节评论" />
         <activity android:name=".mvp.ui.activity.CropImageActivity" />
 
+        <activity
+            android:name="com.tencent.bugly.beta.ui.BetaActivity"
+            android:configChanges="keyboardHidden|orientation|screenSize|locale"
+            android:theme="@android:style/Theme.Translucent" />
+
         <provider
             android:name=".utils.CFileProvider1"
-            android:authorities="com.novel.cn.fileprovider"
+            android:authorities="com.novel.cn.fileProvider"
             android:exported="false"
             android:grantUriPermissions="true">
             <meta-data
                 android:name="android.support.FILE_PROVIDER_PATHS"
                 android:resource="@xml/file_paths_public" />
+        </provider>
+
+        <provider
+            android:name=".utils.CFileProvider2"
+            android:authorities="com.novel.cn.fileProvider"
+            android:exported="false"
+            android:grantUriPermissions="true">
+            <meta-data
+                android:name="android.support.FILE_PROVIDER_PATHS"
+                android:resource="@xml/provider_paths" />
         </provider>
     </application>
 

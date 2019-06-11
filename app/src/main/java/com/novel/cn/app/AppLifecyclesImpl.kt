@@ -28,6 +28,7 @@ import com.scwang.smartrefresh.layout.SmartRefreshLayout
 import com.scwang.smartrefresh.layout.header.ClassicsHeader
 import com.squareup.leakcanary.LeakCanary
 import com.squareup.leakcanary.RefWatcher
+import com.tencent.bugly.Bugly
 import com.zchu.rxcache.RxCache
 import com.zchu.rxcache.diskconverter.GsonDiskConverter
 
@@ -80,6 +81,7 @@ class AppLifecyclesImpl : AppLifecycles {
         //否则存储在 LRU 算法的存储空间中, 前提是 extras 使用的是 IntelligentCache (框架默认使用)
         ArmsUtils.obtainAppComponentFromContext(application).extras()
                 .put(IntelligentCache.getKeyOfKeep(RefWatcher::class.java.name), if (BuildConfig.USE_CANARY) LeakCanary.install(application) else RefWatcher.DISABLED)
+        Bugly.init(application, "289ea54a9a", false)
     }
 
     override fun onTerminate(application: Application) {

@@ -19,6 +19,7 @@ import com.novel.cn.app.Preference
 import com.novel.cn.app.click
 import com.novel.cn.utils.CacheDataManager
 import com.novel.cn.utils.StatusBarUtils
+import com.tencent.bugly.beta.Beta
 import kotlinx.android.synthetic.main.activity_setting.*
 import kotlinx.android.synthetic.main.include_title.*
 import org.jetbrains.anko.startActivity
@@ -51,7 +52,7 @@ class SettingActivity : BaseActivity<SettingPresenter>(), SettingContract.View {
         tv_cache.text = CacheDataManager.getTotalCacheSize(this)
 
 
-        click(fl_cache, tv_about, tv_logout) {
+        click(fl_cache, tv_about, tv_logout, examine_update) {
             when (it) {
                 tv_logout -> {
                     Preference.clean()
@@ -63,6 +64,7 @@ class SettingActivity : BaseActivity<SettingPresenter>(), SettingContract.View {
                     CacheDataManager.clearAllCache(this)
                     tv_cache.text = CacheDataManager.getTotalCacheSize(this)
                 }
+                examine_update -> Beta.checkUpgrade()
             }
         }
     }
