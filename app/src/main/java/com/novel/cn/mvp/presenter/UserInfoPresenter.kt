@@ -6,6 +6,9 @@ import com.jess.arms.http.imageloader.ImageLoader
 import com.jess.arms.integration.AppManager
 import com.jess.arms.mvp.BasePresenter
 import com.jess.arms.utils.RxLifecycleUtils
+import com.novel.cn.app.ApiException
+import com.novel.cn.ext.applySchedulers
+import com.novel.cn.ext.toast
 import com.novel.cn.mvp.contract.UserInfoContract
 import com.novel.cn.mvp.model.entity.BaseResponse
 import com.novel.cn.mvp.model.entity.User
@@ -33,13 +36,33 @@ constructor(model: UserInfoContract.Model, rootView: UserInfoContract.View) :
 
     fun modifyUserInfo(params: HashMap<String, Any?>) {
         mModel.modifyUserInfo(params)
-                .subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread())
-                .compose(RxLifecycleUtils.bindToLifecycle(mRootView))
+                .applySchedulers(mRootView)
                 .subscribe(object : ErrorHandleSubscriber<BaseResponse<User>>(mErrorHandler) {
                     override fun onNext(t: BaseResponse<User>) {
                         mRootView.modifySuccess(t.data)
                     }
                 })
+    }
+
+    fun checkNickName(nickname: String, param: HashMap<String, Any?>) {
+
+        val params = HashMap<String, String>()
+        params.put("nickName", nickname)
+
+        mModel.checkNickName(params)
+                .applySchedulers(mRootView)
+                .subscribe(object : ErrorHandleSubscriber<BaseResponse<Any>>(mErrorHandler) {
+                    override fun onNext(t: BaseResponse<Any>) {
+                        modifyUserInfo(param)
+                    }
+
+
+                    override fun onError(t: Throwable) {
+                        //全局处理异常 super.onError(t)默认实现，和下面代码同理
+                        toast(t.message)
+//                        super.onError(t)
+                    }
+                })
+
     }
 }

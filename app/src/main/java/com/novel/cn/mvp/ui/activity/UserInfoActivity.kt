@@ -31,6 +31,7 @@ import com.novel.cn.utils.ImageUtil
 import com.tbruyelle.rxpermissions2.RxPermissions
 import com.zhihu.matisse.Matisse
 import com.zhihu.matisse.MimeType
+import kotlinx.android.synthetic.main.activity_regist.*
 import kotlinx.android.synthetic.main.activity_user_info.*
 import kotlinx.android.synthetic.main.include_title.*
 import java.io.File
@@ -126,13 +127,15 @@ class UserInfoActivity : BaseActivity<UserInfoPresenter>(), UserInfoContract.Vie
                 params.put("userPhoto", mUser?.userPhoto)
                 params.put("ext", "jpg")
             }
-            if (userName.isNotBlank()) {
-                params.put("userNickName", userName)
-            }
             if (userSignature.isNotBlank()) {
                 params.put("userIntroduction", userSignature)
             }
-            mPresenter?.modifyUserInfo(params)
+            if (userName.isNotBlank()) {
+                params.put("userNickName", userName)
+                mPresenter?.checkNickName(userName, params)
+            } else {
+                mPresenter?.modifyUserInfo(params)
+            }
         }.bindToLifecycle(this)
 
         cl_modify_name.clicks().throttleFirst(1, TimeUnit.SECONDS).subscribe {
@@ -159,6 +162,7 @@ class UserInfoActivity : BaseActivity<UserInfoPresenter>(), UserInfoContract.Vie
         }.bindToLifecycle(this)
 
     }
+
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
