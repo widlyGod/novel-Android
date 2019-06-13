@@ -97,6 +97,7 @@ class BookshelfFragment : BaseLazyLoadFragment<BookshelfPresenter>(), BookshelfC
         }
         if (user!!.sessionId.isBlank()) {
             tv_read_time.text = ""
+            tv_read_time_big.text = ""
         }
         tv_signIn.setOnClickListener {
             if (user!!.sessionId.isBlank()) {
@@ -110,7 +111,8 @@ class BookshelfFragment : BaseLazyLoadFragment<BookshelfPresenter>(), BookshelfC
     }
 
     override fun getReadTimeSuccess(time: String) {
-        tv_read_time.text = "本周阅读时长${(time.toInt() + (ShareprefUtils.getLong(context, "APP_READ_TIME", 0) / 1000 / 60).toInt())}分钟"
+        tv_read_time.text = "本周阅读时长${time}分钟"
+        tv_read_time_big.text = "$time"
     }
 
 

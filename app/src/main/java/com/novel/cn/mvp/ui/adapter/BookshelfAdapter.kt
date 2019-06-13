@@ -15,14 +15,13 @@ import java.util.*
 class BookshelfAdapter : BaseQuickAdapter<Book, BaseViewHolder>(R.layout.item_bookshelf) {
 
 
-
     override fun convert(helper: BaseViewHolder, item: Book) {
 
         with(helper.itemView) {
             iv_book_image.loadImage(item.novelPoto)
             tv_book_name.text = item.novelTitle
             tv_update.text = if (item.isRecord) "更新至第${item.newChapter}章" else "未读"
-            tv_noRead.text = item.noReadNum.toString()
+            tv_noRead.text = if (item.noReadNum < 100) item.noReadNum.toString() else "99+"
             tv_noRead.visible(item.noReadNum > 0)
 
         }
