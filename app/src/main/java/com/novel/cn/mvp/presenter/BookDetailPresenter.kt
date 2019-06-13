@@ -3,6 +3,7 @@ package com.novel.cn.mvp.presenter
 import com.jess.arms.di.scope.ActivityScope
 import com.jess.arms.mvp.BasePresenter
 import com.jess.arms.utils.RxLifecycleUtils
+import com.novel.cn.ext.applySchedulers
 import com.novel.cn.mvp.contract.BookDetailContract
 import com.novel.cn.mvp.model.entity.BaseResponse
 import com.novel.cn.mvp.model.entity.Comment
@@ -28,9 +29,7 @@ constructor(model: BookDetailContract.Model, rootView: BookDetailContract.View) 
 
     fun getBookDetail(bookId: String?) {
         mModel.getBookDetail(bookId)
-                .subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread())
-                .compose(RxLifecycleUtils.bindToLifecycle(mRootView))
+                .applySchedulers(mRootView)
                 .subscribe(object : ErrorHandleSubscriber<BaseResponse<NovelInfoBean>>(mErrorHandler) {
                     override fun onNext(t: BaseResponse<NovelInfoBean>) {
                         mRootView.showBookDetail(t.data)
@@ -81,6 +80,23 @@ constructor(model: BookDetailContract.Model, rootView: BookDetailContract.View) 
                 .subscribe(object : ErrorHandleSubscriber<BaseResponse<Any>>(mErrorHandler) {
                     override fun onNext(t: BaseResponse<Any>) {
                         mAdapter.notifyItemRemoved(position)
+                    }
+                })
+    }
+
+    fun comment(bookId: String?, bookName: String?, authorId: String?, authorName: String?, isAuthor: String?, content: String) {
+        val params = HashMap<String, String?>()
+        params["authorId"] = authorId
+        params["novelId"] = bookId
+        params["novelName"] = bookName
+        params["penName"] = authorName
+        params["isAuthor"] = isAuthor
+        params["content"] = content
+        mModel.comment(params)
+                .applySchedulers(mRootView)
+                .subscribe(object : ErrorHandleSubscriber<BaseResponse<Any>>(mErrorHandler) {
+                    override fun onNext(t: BaseResponse<Any>) {
+                        mRootView.commentSuccess(t.message)
                     }
                 })
     }

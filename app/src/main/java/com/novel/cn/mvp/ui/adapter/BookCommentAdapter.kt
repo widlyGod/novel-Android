@@ -45,9 +45,11 @@ class BookCommentAdapter : BaseQuickAdapter<Comment, BaseViewHolder>(R.layout.it
     fun setOnLikeClickListener(listener: ((Int) -> Unit)?) {
         this.onLikeClickListener = listener
     }
+
     fun setOnDeleteClickListener(listener: ((Int) -> Unit)?) {
         this.onDeleteClickListener = listener
     }
+
     fun setOnReplyClickListener(listener: ((Int) -> Unit)?) {
         this.onReplyClickListener = listener
     }
@@ -65,6 +67,10 @@ class BookCommentAdapter : BaseQuickAdapter<Comment, BaseViewHolder>(R.layout.it
             tv_reply_num.text = "回复(${item.replyNumber})"
             tv_isAuthor.visible(item.isAuthor)
             iv_thumbUp.setImageResource(if (item.thumbUp) R.drawable.ic_zan_check else R.drawable.ic_zan_uncheck)
+            if (item.commentUser.fansValue == 0)
+                tv_level.visible(false)
+            else
+                tv_level.visible(true)
             levelList.forEach {
                 if (item.commentUser.fansValue in (it.startValue..it.endValue)) {
                     tv_level.apply {
@@ -87,7 +93,7 @@ class BookCommentAdapter : BaseQuickAdapter<Comment, BaseViewHolder>(R.layout.it
             if (user?.userId == item.commentUser.userId) {
                 tv_delete.visible(true)
                 tv_reply_num.visible(false)
-            }else{
+            } else {
                 tv_delete.visible(false)
                 tv_reply_num.visible(true)
             }

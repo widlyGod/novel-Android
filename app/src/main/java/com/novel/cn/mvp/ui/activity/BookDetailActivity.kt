@@ -17,6 +17,7 @@ import com.novel.cn.mvp.model.entity.LoginInfo
 import com.novel.cn.mvp.model.entity.NovelInfoBean
 import com.novel.cn.mvp.presenter.BookDetailPresenter
 import com.novel.cn.mvp.ui.adapter.BookCommentAdapter
+import com.novel.cn.mvp.ui.dialog.CommentDialog
 import com.novel.cn.utils.StatusBarUtils
 import com.novel.cn.view.decoration.LinearItemDecoration
 import kotlinx.android.synthetic.main.activity_book_detail.*
@@ -34,6 +35,12 @@ class BookDetailActivity : BaseActivity<BookDetailPresenter>(), BookDetailContra
 
     @Inject
     lateinit var mAdapter: BookCommentAdapter
+
+    private val dialog by lazy {
+        val dialog = CommentDialog(this)
+
+        dialog
+    }
 
     override fun setupActivityComponent(appComponent: AppComponent) {
         DaggerBookDetailComponent //如找不到该类,请编译一下项目
@@ -105,7 +112,7 @@ class BookDetailActivity : BaseActivity<BookDetailPresenter>(), BookDetailContra
                         startActivity<LoginActivity>()
                         return@click
                     }
-                    JumpManager.toCommentList(this, data)
+                    dialog.show()
                 }
                 tv_read -> JumpManager.jumpRead(this, data)
                 tv_add_bookself -> {
@@ -122,7 +129,25 @@ class BookDetailActivity : BaseActivity<BookDetailPresenter>(), BookDetailContra
                 fl_contents -> JumpManager.jumpContents(this, data)
             }
         }
+        dialog.setOnReleaseClickListener {
+            val user = Preference.getDeviceData<LoginInfo?>(Constant.LOGIN_INFO)
+            if (!user?.userId.isNullOrEmpty()) {
+                val isAuthor = if (user?.userId == data.novelInfo.authorId) "1" else "0"
+                mPresenter?.comment(data.novelInfo.novelId,
+                        data.novelInfo.novelTitle,
+                        data.novelInfo.authorId,
+                        data.novelInfo.novelAuthor, isAuthor, it)
+            } else {
+                toast("请先登录")
+            }
+        }
     }
+
+    override fun commentSuccess(message: String) {
+        dialog.dismiss()
+        mPresenter?.getBookDetail(bookId)
+    }
+
 
     override fun conllectionSuccess() {
         tv_add_bookself.text = "已在书架"
