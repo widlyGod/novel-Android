@@ -8,6 +8,8 @@ import com.jess.arms.mvp.BasePresenter
 import com.jess.arms.http.imageloader.ImageLoader
 import com.jess.arms.utils.ArmsUtils
 import com.jess.arms.utils.RxLifecycleUtils
+import com.novel.cn.ext.applySchedulers
+import com.novel.cn.ext.toast
 import me.jessyan.rxerrorhandler.core.RxErrorHandler
 import javax.inject.Inject
 
@@ -45,17 +47,11 @@ constructor(model: ResetPasswrodContract.Model, rootView: ResetPasswrodContract.
     lateinit var mAppManager: AppManager
 
 
-    override fun onDestroy() {
-        super.onDestroy();
-    }
-
     fun sendCode(email: String) {
         val params = HashMap<String,String>()
         params.put("keyword",email)
         mModel.sendCode(params)
-                .subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread())
-                .compose(RxLifecycleUtils.bindToLifecycle(mRootView))
+                .applySchedulers(mRootView)
                 .subscribe(object : ErrorHandleSubscriber<BaseResponse<Any>>(mErrorHandler) {
                     override fun onNext(t: BaseResponse<Any>) {
                         mRootView.sendSuccess()
@@ -63,6 +59,7 @@ constructor(model: ResetPasswrodContract.Model, rootView: ResetPasswrodContract.
 
                     override fun onError(t: Throwable) {
                         super.onError(t)
+                        toast(t.message)
                     }
                 })
     }
@@ -73,9 +70,7 @@ constructor(model: ResetPasswrodContract.Model, rootView: ResetPasswrodContract.
         params.put("code",code)
         params.put("userPassword",ArmsUtils.encodeToMD5(password))
         mModel.resetPasswrod(params)
-                .subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread())
-                .compose(RxLifecycleUtils.bindToLifecycle(mRootView))
+                .applySchedulers(mRootView)
                 .subscribe(object : ErrorHandleSubscriber<BaseResponse<Any>>(mErrorHandler) {
                     override fun onNext(t: BaseResponse<Any>) {
                         mRootView.resetSuccess(t.message)
@@ -83,6 +78,7 @@ constructor(model: ResetPasswrodContract.Model, rootView: ResetPasswrodContract.
 
                     override fun onError(t: Throwable) {
                         super.onError(t)
+                        toast(t.message)
                     }
                 })
     }

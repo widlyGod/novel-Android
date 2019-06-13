@@ -15,6 +15,7 @@ import com.jess.arms.http.imageloader.ImageLoader
 import com.jess.arms.utils.ArmsUtils
 import com.jess.arms.utils.LogUtils
 import com.jess.arms.utils.RxLifecycleUtils
+import com.novel.cn.ext.toast
 import me.jessyan.rxerrorhandler.core.RxErrorHandler
 import javax.inject.Inject
 
@@ -74,6 +75,7 @@ constructor(model: LoginContract.Model, rootView: LoginContract.View) :
                     override fun onError(t: Throwable) {
                         //全局处理异常 super.onError(t)默认实现，和下面代码同理
                         mErrorHandler.handlerFactory.handleError(t)
+                        toast(t.message)
 //                        super.onError(t)
                     }
                 })

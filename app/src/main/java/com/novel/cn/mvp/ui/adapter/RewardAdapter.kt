@@ -12,7 +12,7 @@ import kotlinx.android.synthetic.main.item_reward.view.*
 class RewardAdapter : BaseQuickAdapter<Reward, BaseViewHolder>(R.layout.item_reward) {
 
     private var mSelectedPosition = 0
-    private var userMoney = 0
+    private var userMoney = 0F
 
     override fun convert(helper: BaseViewHolder, item: Reward) {
         with(helper.itemView) {
@@ -38,7 +38,7 @@ class RewardAdapter : BaseQuickAdapter<Reward, BaseViewHolder>(R.layout.item_rew
         notifyDataSetChanged()
     }
 
-    fun setUserMoney(money: Int) {
+    fun setUserMoney(money: Float) {
         userMoney = money
         notifyDataSetChanged()
     }

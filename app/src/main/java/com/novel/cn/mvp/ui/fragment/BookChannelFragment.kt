@@ -50,9 +50,8 @@ class BookChannelFragment : BaseFragment<BookChannelPresenter>(), BookChannelCon
     }
 
 
-
     override fun initView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
-        return inflater.inflate(R.layout.fragment_book_channel, container, false);
+        return inflater.inflate(R.layout.fragment_book_channel, container, false)
     }
 
     override fun initData(savedInstanceState: Bundle?) {
@@ -60,6 +59,7 @@ class BookChannelFragment : BaseFragment<BookChannelPresenter>(), BookChannelCon
         recyclerView.adapter = mAdapter.also { it.type = type }
         mPresenter?.getChannel(type)
     }
+
     override fun changeState(state: Int) {
         multiStateView.viewState = state
     }

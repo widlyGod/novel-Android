@@ -12,6 +12,8 @@ import android.widget.SeekBar
 import com.jess.arms.base.BaseActivity
 import com.jess.arms.di.component.AppComponent
 import com.jess.arms.integration.EventBusManager
+import com.jess.arms.utils.TipDialog
+import com.jess.arms.utils.TipDialog.Builder.ICON_TYPE_LOADING
 import com.novel.cn.R
 import com.novel.cn.app.*
 import com.novel.cn.db.DbManager
@@ -28,8 +30,6 @@ import com.novel.cn.mvp.ui.dialog.ReadSettingDialog
 import com.novel.cn.mvp.ui.dialog.RewardDialog
 import com.novel.cn.mvp.ui.dialog.VolumePopup
 import com.novel.cn.utils.StatusBarUtils
-import com.jess.arms.utils.TipDialog
-import com.jess.arms.utils.TipDialog.Builder.ICON_TYPE_LOADING
 import com.novel.cn.view.VolumeView
 import com.novel.cn.view.readpage.*
 import kotlinx.android.synthetic.main.activity_read.*
@@ -37,7 +37,6 @@ import kotlinx.android.synthetic.main.layout_header_volume.view.*
 import kotlinx.android.synthetic.main.layout_menu_chapter.*
 import kotlinx.android.synthetic.main.layout_shoufei.*
 import org.jetbrains.anko.startActivity
-import kotlin.collections.ArrayList
 
 
 class ReadActivity : BaseActivity<ReadPresenter>(), ReadContract.View, VolumeView {
@@ -342,7 +341,10 @@ class ReadActivity : BaseActivity<ReadPresenter>(), ReadContract.View, VolumeVie
             txt.bookId = mBook.novelInfo.novelId
             txt.chapterId = it.chapterId
             txt.title = it.chapterTitle
-            txt.isFree = !it.isFree
+            if (mBook.novelInfo.isFreeLimit)
+                txt.isFree = false
+            else
+                txt.isFree = !it.isFree
             txt.isLocked = it.isLocked
             txt.filePath = it.filePath
             txt.words = it.words

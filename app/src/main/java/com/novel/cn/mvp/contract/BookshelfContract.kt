@@ -31,6 +31,7 @@ interface BookshelfContract {
         fun changeSignInInfo(data: SignIn)
         fun showState(state: Int)
         fun getReadTimeSuccess(time: String)
+        fun goRead(novelInfoBean: NovelInfoBean)
     }
 
     //Model层定义接口,外部只需关心Model返回的数据,无需关心内部细节,即是否使用缓存
@@ -39,6 +40,8 @@ interface BookshelfContract {
         fun signIn(params: HashMap<String, String>): Observable<BaseResponse<Any>>
         fun validateSignIn(): Observable<BaseResponse<SignIn>>
         fun getReadTime(): Observable<BaseResponse<ReadTimeBean>>
+        fun getCalalogue(novelId: String): Observable<CacheResult<CalalogueVo>>
+        fun getBookDetail(bookId: String?):Observable<BaseResponse<NovelInfoBean>>
     }
 
 }

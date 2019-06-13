@@ -168,7 +168,9 @@ class BookChannelAdapter : BaseMultiItemQuickAdapter<MultiItemEntity, BaseViewHo
                 item as BookInfo
                 itemView.tv_type.text = "【${item.novelType}】"
                 itemView.tv_content.text = "${item.novelTitle}：${item.chapterTitle}"
-
+                itemView.setOnClickListener {
+                    JumpManager.jumpBookDetail(mContext, item.novelId)
+                }
             }
 
             TYPE_SWITCHOVER -> {

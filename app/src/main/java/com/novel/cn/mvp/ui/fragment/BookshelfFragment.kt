@@ -13,6 +13,7 @@ import com.novel.cn.R
 import com.novel.cn.app.Constant
 import com.novel.cn.app.JumpManager
 import com.novel.cn.app.Preference
+import com.novel.cn.db.DbManager
 import com.novel.cn.di.component.DaggerBookshelfComponent
 import com.novel.cn.di.module.BookshelfModule
 import com.novel.cn.eventbus.BookshelfEvent
@@ -20,6 +21,7 @@ import com.novel.cn.mvp.contract.BookshelfContract
 import com.novel.cn.mvp.model.entity.Book
 import com.novel.cn.mvp.model.entity.SignIn
 import com.novel.cn.mvp.model.entity.LoginInfo
+import com.novel.cn.mvp.model.entity.NovelInfoBean
 import com.novel.cn.mvp.presenter.BookshelfPresenter
 import com.novel.cn.mvp.ui.activity.LoginActivity
 import com.novel.cn.mvp.ui.adapter.BookshelfAdapter
@@ -85,7 +87,18 @@ class BookshelfFragment : BaseLazyLoadFragment<BookshelfPresenter>(), BookshelfC
                 mPresenter?.getBookshelfList(false)
             }, recyclerView)
             setOnItemClickListener { adapter, view, position ->
-                JumpManager.jumpBookDetail(activity, mAdapter.getItem(position)?.novelId)
+                val mBookRecord = DbManager.getReadcord(mAdapter.getItem(position)?.novelId)!!
+                if (mBookRecord.bookId != null) {
+                    mPresenter?.getBookDetail(mAdapter.getItem(position)?.novelId!!, "", true)
+                } else {
+                    if (mAdapter.getItem(position)?.readChapterId!!.isEmpty()) {
+                        JumpManager.jumpBookDetail(activity, mAdapter.getItem(position)?.novelId)
+                    } else {
+                        mPresenter?.getBookDetail(mAdapter.getItem(position)?.novelId!!, mAdapter.getItem(position)?.readChapterId!!, false)
+                    }
+                }
+
+
             }
         }
 
@@ -153,6 +166,10 @@ class BookshelfFragment : BaseLazyLoadFragment<BookshelfPresenter>(), BookshelfC
 
 
     override fun getContext(): Context = super.getContext()!!
+
+    override fun goRead(novelInfoBean: NovelInfoBean) {
+        JumpManager.jumpRead(context, novelInfoBean)
+    }
 
 
     override fun complete(pullToRefresh: Boolean) {
