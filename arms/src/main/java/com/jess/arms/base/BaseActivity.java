@@ -75,10 +75,7 @@ public abstract class BaseActivity<P extends IPresenter> extends AppCompatActivi
     @Nullable
     protected P mPresenter;//如果当前页面逻辑简单, Presenter 可以为 null
 
-    private TipDialog mLoading = new TipDialog.Builder(this)
-            .setIconType(TipDialog.Builder.ICON_TYPE_LOADING)
-            .setTipWord("请稍后")
-            .create(false);
+    private TipDialog mLoading;
 
 
     @NonNull
@@ -118,6 +115,10 @@ public abstract class BaseActivity<P extends IPresenter> extends AppCompatActivi
         }
         initStatusBar(savedInstanceState);
         initData(savedInstanceState);
+        mLoading = new TipDialog.Builder(this)
+                .setIconType(TipDialog.Builder.ICON_TYPE_LOADING)
+                .setTipWord("请稍后")
+                .create(false);
     }
 
     @Override
