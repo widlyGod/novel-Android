@@ -98,7 +98,6 @@ class BookshelfFragment : BaseLazyLoadFragment<BookshelfPresenter>(), BookshelfC
                     }
                 }
 
-
             }
         }
 

@@ -8,6 +8,7 @@ import com.chad.library.adapter.base.BaseQuickAdapter
 import com.chad.library.adapter.base.BaseViewHolder
 import com.novel.cn.R
 import com.novel.cn.app.JumpManager
+import com.novel.cn.ext.setVisible
 import com.novel.cn.mvp.model.entity.RankBean
 import com.novel.cn.mvp.model.entity.RankResult
 import com.novel.cn.mvp.model.entity.RankWeek
@@ -25,18 +26,27 @@ class RankAdapter : BaseQuickAdapter<RankBean, BaseViewHolder>(R.layout.item_ran
     val images = HashMap<String, Array<Int>>()
 
     init {
-        images["ALL"] = arrayOf(R.drawable.rank_month)
-        images["RECOMMEND"] = arrayOf(R.drawable.rank_month)
+//        images["ALL"] = arrayOf(R.drawable.rank_month)
+//        images["RECOMMEND"] = arrayOf(R.drawable.rank_month)
         images["CLICK"] = arrayOf(R.drawable.rank_click)
         images["SUBANDCOL"] = arrayOf(R.drawable.rank_subcribe)
         images["FINISH"] = arrayOf(R.drawable.rank_over)
-        images["UPDATE"] = arrayOf(R.drawable.rank_month)
+//        images["UPDATE"] = arrayOf(R.drawable.rank_month)
         images["NEW"] = arrayOf(R.drawable.rank_new)
-        images["DIAMOND"] = arrayOf(R.drawable.rank_month)
+//        images["DIAMOND"] = arrayOf(R.drawable.rank_month)
         images["READING"] = arrayOf(R.drawable.rank_pc)
         images["MONTHLY"] = arrayOf(R.drawable.rank_month)
+
     }
 
+    override fun setNewData(data: MutableList<RankBean>?) {
+        var list = mutableListOf<RankBean>()
+        data?.forEach {
+            if (images[it.code] != null)
+                list.add(it)
+        }
+        super.setNewData(list)
+    }
 
     override fun convert(helper: BaseViewHolder, item: RankBean) {
 

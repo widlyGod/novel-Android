@@ -57,7 +57,8 @@ constructor(model: BookChannelContract.Model, rootView: BookChannelContract.View
                                     val bannerList = mGson.fromJson<List<BannerInfo>>(mGson.toJson(map["recommendResultList"]), object : TypeToken<List<BannerInfo>>() {}.type)
                                     list.add(BannerBean(bannerList))
                                     //菜单
-                                    list.add(MenuBean())
+                                    if (type == 2)
+                                        list.add(MenuBean())
                                 }
                                 "2" -> {
                                     val map = next.value as Map<*, *>

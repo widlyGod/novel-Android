@@ -10,7 +10,7 @@ data class Category(val id: Int, val typeName: String, val children: MutableList
 }
 
 
-data class CategoryChildren(val id: Int, val imgUrl: String, val novelNum: String, val parentId: Int, val typeName: String):MultiItemEntity{
+data class CategoryChildren(val id: Int, val typeImage: String, val novelNum: String, val parentId: Int, val typeName: String):MultiItemEntity{
     override fun getItemType(): Int {
         return CategoryAdapter.TYPE_CHILD
     }
