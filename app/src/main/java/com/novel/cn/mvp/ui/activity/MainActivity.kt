@@ -102,7 +102,7 @@ class MainActivity : BaseActivity<MainPresenter>(), MainContract.View {
      */
     private fun switchFragment(position: Int) {
         val user = Preference.getDeviceData<LoginInfo?>(Constant.LOGIN_INFO)
-        if (position == 3 && user!!.userId.isBlank()) {
+        if ((position == 3 || position == 0) && user!!.userId.isBlank()) {
             startActivity<LoginActivity>()
             tabLayout.currentTab = positionTab
             return
