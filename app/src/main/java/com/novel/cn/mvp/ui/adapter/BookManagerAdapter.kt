@@ -62,9 +62,13 @@ class BookManagerAdapter : BaseItemDraggableAdapter<Book, BaseViewHolder>(R.layo
      * 全选
      */
     fun checkAll() {
-        mCheckList.clear()
-        data.forEach {
-            mCheckList.add(it.novelId)
+        if (mCheckList.size < data.size) {
+            mCheckList.clear()
+            data.forEach {
+                mCheckList.add(it.novelId)
+            }
+        }else{
+            mCheckList.clear()
         }
         notifyDataSetChanged()
         this.onCheckChange?.invoke(mCheckList.size)

@@ -20,6 +20,8 @@ import com.novel.cn.mvp.ui.weight.MyItemDragAndSwipeCallback
 import com.novel.cn.utils.StatusBarUtils
 import com.novel.cn.view.CustomLoadMoreView
 import com.jess.arms.utils.TipDialog
+import com.novel.cn.ext.toast
+import com.novel.cn.mvp.ui.dialog.ConfirmDialog
 import kotlinx.android.synthetic.main.activity_book_manager.*
 import javax.inject.Inject
 
@@ -102,7 +104,18 @@ class BookManagerActivity : BaseActivity<BookManagerPresenter>(), BookManagerCon
             when (it) {
                 tv_done -> finish()
                 tv_checkAll -> mAdapter.checkAll()
-                tv_delete -> mPresenter?.deleteBook(mAdapter.getCheckList(), type)
+                tv_delete -> {
+                    if (mAdapter.getCheckList().size > 0)
+                        ConfirmDialog(this) {
+                            onConfirm = {
+                                mPresenter?.deleteBook(mAdapter.getCheckList(), type)
+                                dismiss()
+                            }
+                        }.show("确认删除吗？")
+                    else
+                        toast("未选中书籍")
+
+                }
             }
         }
         mPresenter?.getBookList(true, type)

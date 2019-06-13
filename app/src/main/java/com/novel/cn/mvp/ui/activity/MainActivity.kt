@@ -57,10 +57,12 @@ class MainActivity : BaseActivity<MainPresenter>(), MainContract.View {
 
 
     override fun initData(savedInstanceState: Bundle?) {
-        mPresenter?.uploadUseTime()
-        mPresenter?.uploadReadTime()
-        setupPages()
         val user = Preference.getDeviceData<LoginInfo?>(Constant.LOGIN_INFO)
+        if (user!!.sessionId.isNotBlank()) {
+            mPresenter?.uploadUseTime()
+            mPresenter?.uploadReadTime()
+        }
+        setupPages()
 
         if (user!!.sessionId.isBlank())
             switchFragment(1)
