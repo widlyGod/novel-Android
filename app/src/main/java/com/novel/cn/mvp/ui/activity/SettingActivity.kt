@@ -67,7 +67,7 @@ class SettingActivity : BaseActivity<SettingPresenter>(), SettingContract.View {
                     finish()
                     EventBusManager.getInstance().post(LoginEvent())
 //                    startActivity<MainActivity>()
-                    AppManager.getAppManager().killAll(MainActivity::class.java)
+//                    AppManager.getAppManager().killAll(MainActivity::class.java)
                 }
                 tv_about -> startActivity<LoginActivity>()
                 fl_cache -> {

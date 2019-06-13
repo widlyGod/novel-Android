@@ -38,6 +38,7 @@ class MainActivity : BaseActivity<MainPresenter>(), MainContract.View {
 
     private var mCurrentFragment: Fragment? = null
 
+
     val mTitleTypeface: Typeface by lazy { Typeface.createFromAsset(assets, "fonts/FZQKBYSJW.TTF") }
 
     override fun setupActivityComponent(appComponent: AppComponent) {
@@ -59,7 +60,12 @@ class MainActivity : BaseActivity<MainPresenter>(), MainContract.View {
         mPresenter?.uploadUseTime()
         mPresenter?.uploadReadTime()
         setupPages()
-        switchFragment(0)
+        val user = Preference.getDeviceData<LoginInfo?>(Constant.LOGIN_INFO)
+
+        if (user!!.sessionId.isBlank())
+            switchFragment(1)
+        else
+            switchFragment(0)
 
     }
 
@@ -120,6 +126,10 @@ class MainActivity : BaseActivity<MainPresenter>(), MainContract.View {
 
     @Subscribe(threadMode = ThreadMode.MAIN)
     override fun onLoginChange(event: LoginEvent) {
-        switchFragment(0)
+        val user = Preference.getDeviceData<LoginInfo?>(Constant.LOGIN_INFO)
+        if (user!!.sessionId.isBlank())
+            switchFragment(1)
+        else
+            switchFragment(0)
     }
 }
