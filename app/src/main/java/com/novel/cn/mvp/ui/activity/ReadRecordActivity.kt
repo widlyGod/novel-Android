@@ -12,6 +12,7 @@ import com.novel.cn.mvp.contract.ReadRecordContract
 import com.novel.cn.mvp.model.entity.Book
 import com.novel.cn.mvp.presenter.ReadRecordPresenter
 import com.novel.cn.mvp.ui.adapter.ReadRecordAdapter
+import com.novel.cn.mvp.ui.dialog.ConfirmDialog
 import com.novel.cn.utils.StatusBarUtils
 import com.novel.cn.view.CustomLoadMoreView
 import com.novel.cn.view.decoration.LinearItemDecoration
@@ -70,7 +71,12 @@ class ReadRecordActivity : BaseActivity<ReadRecordPresenter>(), ReadRecordContra
     }
 
     override fun onOptionsItemSelected(item: MenuItem?): Boolean {
-        mPresenter?.cleanRecord()
+        ConfirmDialog(this) {
+            onConfirm = {
+                mPresenter?.cleanRecord()
+                dismiss()
+            }
+        }.show("确认要清空记录吗？")
         return super.onOptionsItemSelected(item)
     }
 
