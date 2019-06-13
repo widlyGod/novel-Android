@@ -59,7 +59,7 @@ class MenuBean : MultiItemEntity {
     }
 }
 
-class SearchBean(val books: List<BookInfo>) : MultiItemEntity {
+class SearchBean(val books: List<BookInfo>,val hotBooks: List<BookInfo>) : MultiItemEntity {
     override fun getItemType(): Int {
         return BookChannelAdapter.TYPE_SEARCH
     }

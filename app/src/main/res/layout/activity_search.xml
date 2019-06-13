@@ -79,7 +79,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginLeft="15dp"
-            android:text="热门搜搜" />
+            android:text="热门搜索" />
 
 
         <android.support.v7.widget.RecyclerView

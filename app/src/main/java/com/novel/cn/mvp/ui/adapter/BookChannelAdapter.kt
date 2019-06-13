@@ -9,6 +9,7 @@ import android.widget.LinearLayout
 import com.chad.library.adapter.base.BaseMultiItemQuickAdapter
 import com.chad.library.adapter.base.BaseViewHolder
 import com.chad.library.adapter.base.entity.MultiItemEntity
+import com.jakewharton.rxbinding3.view.clicks
 import com.jess.arms.integration.EventBusManager
 import com.novel.cn.R
 import com.novel.cn.app.JumpManager
@@ -84,6 +85,9 @@ class BookChannelAdapter : BaseMultiItemQuickAdapter<MultiItemEntity, BaseViewHo
                                 imageView?.loadImage(path?.path)
                             }
                         }).start()
+                itemView.banner.setOnBannerListener {
+                    JumpManager.jumpBookDetail(mContext, item.banner[it].novelId)
+                }
             }
             TYPE_MENU -> {
                 itemView as LinearLayout
@@ -103,15 +107,33 @@ class BookChannelAdapter : BaseMultiItemQuickAdapter<MultiItemEntity, BaseViewHo
 
                 val builder = StringBuilder()
                 item.books.forEach {
-                    builder.append(it.novelTitle)
-                            .append("\t")
-                            .append("\t")
-                            .append("\t")
+                    itemView.tv_keyword_1.text = it.novelTitle
                 }
-                itemView.tv_keyword.text = builder
+                item.books.forEachIndexed { index, bookInfo ->
+                    when (index) {
+                        0 -> {
+                            itemView.tv_keyword_1.text = bookInfo.novelTitle
+                            itemView.tv_keyword_1.setOnClickListener {
+                                JumpManager.jumpBookDetail(mContext, bookInfo.novelId)
+                            }
+                        }
+                        1 -> {
+                            itemView.tv_keyword_2.text = bookInfo.novelTitle
+                            itemView.tv_keyword_2.setOnClickListener {
+                                JumpManager.jumpBookDetail(mContext, bookInfo.novelId)
+                            }
+                        }
+                        2 -> {
+                            itemView.tv_keyword_3.text = bookInfo.novelTitle
+                            itemView.tv_keyword_3.setOnClickListener {
+                                JumpManager.jumpBookDetail(mContext, bookInfo.novelId)
+                            }
+                        }
+                    }
+                }
 
                 itemView.setOnClickListener {
-                    JumpManager.jumpSearch(mContext, item.books,type)
+                    JumpManager.jumpSearch(mContext, item.hotBooks, type)
                 }
             }
             TYPE_BOOKS -> {

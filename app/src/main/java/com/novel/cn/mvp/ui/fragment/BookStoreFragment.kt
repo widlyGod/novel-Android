@@ -86,7 +86,7 @@ class BookStoreFragment : BaseFragment<BookStorePresenter>(), BookStoreContract.
         var realPosition = 0
         when (event.position) {
             0 -> realPosition = 3
-            1 -> realPosition = 0
+            1 -> realPosition = 4
             2 -> realPosition = 1
             3 -> realPosition = 2
         }
