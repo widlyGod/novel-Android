@@ -6,10 +6,14 @@ import android.view.MenuItem
 import com.jess.arms.base.BaseActivity
 import com.jess.arms.di.component.AppComponent
 import com.novel.cn.R
+import com.novel.cn.app.JumpManager
 import com.novel.cn.di.component.DaggerReadRecordComponent
 import com.novel.cn.di.module.ReadRecordModule
+import com.novel.cn.ext.bindToLifecycle
+import com.novel.cn.ext.clicks
 import com.novel.cn.mvp.contract.ReadRecordContract
 import com.novel.cn.mvp.model.entity.Book
+import com.novel.cn.mvp.model.entity.NovelInfoBean
 import com.novel.cn.mvp.presenter.ReadRecordPresenter
 import com.novel.cn.mvp.ui.adapter.ReadRecordAdapter
 import com.novel.cn.mvp.ui.dialog.ConfirmDialog
@@ -59,6 +63,10 @@ class ReadRecordActivity : BaseActivity<ReadRecordPresenter>(), ReadRecordContra
             }, recyclerView)
         }
 
+        mAdapter.clicks().subscribe {
+            mPresenter?.getBookDetail(mAdapter.getItem(it.second)!!.novelId, mAdapter.getItem(it.second)!!.readChapterId)
+        }.bindToLifecycle(this)
+
         refreshLayout.setOnRefreshListener {
             mPresenter?.getReadRecordList(true)
         }
@@ -69,6 +77,11 @@ class ReadRecordActivity : BaseActivity<ReadRecordPresenter>(), ReadRecordContra
         menuInflater.inflate(R.menu.menu_clean, menu)
         return true
     }
+
+    override fun goRead(novelInfoBean: NovelInfoBean) {
+        JumpManager.jumpRead(this, novelInfoBean)
+    }
+
 
     override fun onOptionsItemSelected(item: MenuItem?): Boolean {
         ConfirmDialog(this) {

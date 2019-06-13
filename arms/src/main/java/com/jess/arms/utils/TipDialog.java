@@ -1,4 +1,4 @@
-package com.novel.cn.view;
+package com.jess.arms.utils;
 
 import android.app.Dialog;
 import android.content.Context;
@@ -19,8 +19,7 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 
-import com.jess.arms.utils.DeviceUtils;
-import com.novel.cn.R;
+import com.jess.arms.R;
 
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;

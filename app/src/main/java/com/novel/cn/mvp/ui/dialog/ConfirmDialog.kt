@@ -4,7 +4,6 @@ import android.app.Dialog
 import android.content.Context
 import com.flyco.dialog.listener.OnBtnClickL
 import com.flyco.dialog.widget.NormalDialog
-import kotlinx.android.synthetic.main.dialog_confirm.*
 
 /**
  * Created by jmw on 2018/12/21

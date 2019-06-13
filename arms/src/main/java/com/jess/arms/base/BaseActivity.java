@@ -36,6 +36,7 @@ import com.jess.arms.mvp.IPresenter;
 import com.jess.arms.mvp.IView;
 import com.jess.arms.utils.ArmsUtils;
 import com.jess.arms.utils.LoginEvent;
+import com.jess.arms.utils.TipDialog;
 import com.trello.rxlifecycle2.android.ActivityEvent;
 
 import org.greenrobot.eventbus.Subscribe;
@@ -73,6 +74,12 @@ public abstract class BaseActivity<P extends IPresenter> extends AppCompatActivi
     @Inject
     @Nullable
     protected P mPresenter;//如果当前页面逻辑简单, Presenter 可以为 null
+
+    private TipDialog mLoading = new TipDialog.Builder(this)
+            .setIconType(TipDialog.Builder.ICON_TYPE_LOADING)
+            .setTipWord("请稍后")
+            .create(false);
+
 
     @NonNull
     @Override
@@ -164,12 +171,12 @@ public abstract class BaseActivity<P extends IPresenter> extends AppCompatActivi
 
     @Override
     public void showLoading() {
-
+        mLoading.show();
     }
 
     @Override
     public void hideLoading() {
-
+        mLoading.hide();
     }
 
     protected void hideSoftKeyboard() {

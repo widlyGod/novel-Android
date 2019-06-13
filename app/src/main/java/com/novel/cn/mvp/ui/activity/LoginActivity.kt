@@ -10,7 +10,6 @@ import android.widget.EditText
 import cn.sharesdk.sina.weibo.SinaWeibo
 import cn.sharesdk.tencent.qq.QQ
 import cn.sharesdk.wechat.friends.Wechat
-import com.jakewharton.rxbinding3.widget.textChangeEvents
 import com.jakewharton.rxbinding3.widget.textChanges
 import com.jess.arms.base.BaseActivity
 import com.jess.arms.di.component.AppComponent
@@ -23,13 +22,12 @@ import com.novel.cn.app.click
 import com.novel.cn.app.visible
 import com.novel.cn.di.component.DaggerLoginComponent
 import com.novel.cn.di.module.LoginModule
-import com.novel.cn.eventbus.BookshelfEvent
 import com.novel.cn.mvp.contract.LoginContract
 import com.novel.cn.mvp.model.entity.LoginInfo
 import com.novel.cn.mvp.presenter.LoginPresenter
 import com.novel.cn.utils.PartsUtil
 import com.novel.cn.utils.StatusBarUtils
-import com.novel.cn.view.TipDialog
+import com.jess.arms.utils.TipDialog
 import io.reactivex.Observable
 import io.reactivex.functions.BiFunction
 import kotlinx.android.synthetic.main.activity_login.*

@@ -23,7 +23,6 @@ import com.novel.cn.app.utils.RxUtils
 import com.novel.cn.di.component.DaggerRegistComponent
 import com.novel.cn.di.module.LoginModule
 import com.novel.cn.di.module.RegistModule
-import com.novel.cn.ext.toast
 import com.novel.cn.mvp.contract.LoginContract
 import com.novel.cn.mvp.contract.RegistContract
 import com.novel.cn.mvp.model.entity.LoginInfo
@@ -31,7 +30,7 @@ import com.novel.cn.mvp.presenter.LoginPresenter
 import com.novel.cn.mvp.presenter.RegistPresenter
 import com.novel.cn.utils.PartsUtil
 import com.novel.cn.utils.StatusBarUtils
-import com.novel.cn.view.TipDialog
+import com.jess.arms.utils.TipDialog
 import com.trello.rxlifecycle2.RxLifecycle
 import com.trello.rxlifecycle2.android.ActivityEvent
 import io.reactivex.Observable

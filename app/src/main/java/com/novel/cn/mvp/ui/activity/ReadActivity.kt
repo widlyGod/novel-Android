@@ -12,7 +12,6 @@ import android.widget.SeekBar
 import com.jess.arms.base.BaseActivity
 import com.jess.arms.di.component.AppComponent
 import com.jess.arms.integration.EventBusManager
-import com.jess.arms.utils.LogUtils
 import com.novel.cn.R
 import com.novel.cn.app.*
 import com.novel.cn.db.DbManager
@@ -29,17 +28,15 @@ import com.novel.cn.mvp.ui.dialog.ReadSettingDialog
 import com.novel.cn.mvp.ui.dialog.RewardDialog
 import com.novel.cn.mvp.ui.dialog.VolumePopup
 import com.novel.cn.utils.StatusBarUtils
-import com.novel.cn.view.TipDialog
-import com.novel.cn.view.TipDialog.Builder.ICON_TYPE_LOADING
+import com.jess.arms.utils.TipDialog
+import com.jess.arms.utils.TipDialog.Builder.ICON_TYPE_LOADING
 import com.novel.cn.view.VolumeView
 import com.novel.cn.view.readpage.*
 import kotlinx.android.synthetic.main.activity_read.*
-import kotlinx.android.synthetic.main.layout_header_volume.*
 import kotlinx.android.synthetic.main.layout_header_volume.view.*
 import kotlinx.android.synthetic.main.layout_menu_chapter.*
 import kotlinx.android.synthetic.main.layout_shoufei.*
 import org.jetbrains.anko.startActivity
-import java.util.*
 import kotlin.collections.ArrayList
 
 

@@ -1,4 +1,4 @@
-package com.novel.cn.view;
+package com.jess.arms.utils;
 
 import android.animation.ValueAnimator;
 import android.content.Context;
@@ -12,7 +12,7 @@ import android.util.DisplayMetrics;
 import android.view.View;
 import android.view.animation.LinearInterpolator;
 
-import com.novel.cn.R;
+import com.jess.arms.R;
 
 
 public class LoadingView extends View {

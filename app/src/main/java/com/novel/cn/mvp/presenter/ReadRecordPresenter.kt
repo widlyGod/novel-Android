@@ -8,13 +8,15 @@ import com.jess.arms.mvp.BasePresenter
 import com.jess.arms.http.imageloader.ImageLoader
 import com.jess.arms.utils.RxLifecycleUtils
 import com.novel.cn.app.Constant
+import com.novel.cn.app.JumpManager
+import com.novel.cn.db.DbManager
+import com.novel.cn.ext.applySchedulers
 import me.jessyan.rxerrorhandler.core.RxErrorHandler
 import javax.inject.Inject
 
 import com.novel.cn.mvp.contract.ReadRecordContract
-import com.novel.cn.mvp.model.entity.BaseResponse
-import com.novel.cn.mvp.model.entity.Book
-import com.novel.cn.mvp.model.entity.Pagination
+import com.novel.cn.mvp.model.entity.*
+import com.zchu.rxcache.data.CacheResult
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.schedulers.Schedulers
 import me.jessyan.rxerrorhandler.handler.ErrorHandleSubscriber
@@ -68,6 +70,51 @@ constructor(model: ReadRecordContract.Model, rootView: ReadRecordContract.View) 
 
                     override fun onError(t: Throwable) {
                         super.onError(t)
+                    }
+                })
+    }
+
+    fun getBookDetail(bookId: String, readChapterId: String) {
+        mModel.getBookDetail(bookId)
+                .applySchedulers(mRootView)
+                .subscribe(object : ErrorHandleSubscriber<BaseResponse<NovelInfoBean>>(mErrorHandler) {
+                    override fun onNext(t: BaseResponse<NovelInfoBean>) {
+                        getCatalogue(bookId, readChapterId, t.data)
+                    }
+
+                    override fun onError(t: Throwable) {
+                        super.onError(t)
+                    }
+                })
+    }
+
+    fun getCatalogue(novelId: String, readChapterId: String, novelInfoBean: NovelInfoBean) {
+        mModel.getCalalogue(novelId)
+                .applySchedulers(mRootView)
+                .subscribe(object : ErrorHandleSubscriber<CacheResult<CalalogueVo>>(mErrorHandler) {
+                    override fun onNext(t: CacheResult<CalalogueVo>) {
+                        val list = ArrayList<VolumeBean>()
+                        var mCurChapterPos = 0
+                        var volumePos = 0
+                        t.data.catalogue.groupBy { it.volumeId }
+                                .forEach {
+                                    val value = it.value
+                                    for (calalogue in value) {
+                                        if (calalogue.chapterId == readChapterId) {
+                                            val mBookRecord = DbManager.getReadcord(novelId)!!
+                                            mBookRecord.bookId = novelId
+                                            mBookRecord.chapter = mCurChapterPos
+                                            mBookRecord.volumePos = volumePos
+                                            mBookRecord.pagePos = 0
+                                            DbManager.saveRecord(mBookRecord)
+                                            mRootView.goRead(novelInfoBean)
+                                        }
+                                        mCurChapterPos++
+                                    }
+                                    volumePos++
+
+                                }
+
                     }
                 })
     }
