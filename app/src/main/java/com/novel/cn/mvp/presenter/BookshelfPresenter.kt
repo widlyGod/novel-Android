@@ -70,16 +70,14 @@ constructor(model: BookshelfContract.Model, rootView: BookshelfContract.View) :
 
     }
 
-    fun signIn(userId: String) {
-        val params = HashMap<String, String>()
-        params.put("userId", userId)
-        mModel.signIn(params)
+    fun signIn() {
+        mModel.signIn()
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .compose(RxLifecycleUtils.bindToLifecycle(mRootView))
-                .subscribe(object : ErrorHandleSubscriber<BaseResponse<Any>>(mErrorHandler) {
-                    override fun onNext(t: BaseResponse<Any>) {
-                        mRootView.signInSuccess()
+                .subscribe(object : ErrorHandleSubscriber<BaseResponse<Signinbean>>(mErrorHandler) {
+                    override fun onNext(t: BaseResponse<Signinbean>) {
+                        mRootView.signInSuccess(t.data.readCoupon)
                     }
 
                     override fun onError(t: Throwable) {

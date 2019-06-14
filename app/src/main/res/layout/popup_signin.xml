@@ -12,10 +12,13 @@
         android:layout_height="wrap_content"
         android:src="@drawable/icon_signin" />
 
-    <ImageView
+    <TextView
+        android:id="@+id/tv_signin"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="16dp"
-        android:src="@mipmap/icon_signin_txt" />
+        android:textSize="16sp"
+        android:textColor="@color/white"
+        android:text=""/>
 
 </LinearLayout>

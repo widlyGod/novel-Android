@@ -65,8 +65,8 @@ interface UserService {
     /**
      * 签到
      */
-    @POST("novelapi/novelAppService/sign/in")
-    fun signIn(@Body params: HashMap<String, String>): Observable<BaseResponse<Any>>
+    @GET("novelAppService/signIn/in")
+    fun signIn(): Observable<BaseResponse<Signinbean>>
 
     /**
      * 是否签到

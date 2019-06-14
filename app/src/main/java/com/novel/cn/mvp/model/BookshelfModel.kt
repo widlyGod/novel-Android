@@ -44,8 +44,8 @@ constructor(repositoryManager: IRepositoryManager) : BaseModel(repositoryManager
         return mRepositoryManager.obtainRetrofitService(UserService::class.java).validateSignIn()
     }
 
-    override fun signIn(params: HashMap<String, String>): Observable<BaseResponse<Any>> {
-        return mRepositoryManager.obtainRetrofitService(UserService::class.java).signIn(params)
+    override fun signIn(): Observable<BaseResponse<Signinbean>> {
+        return mRepositoryManager.obtainRetrofitService(UserService::class.java).signIn()
     }
 
     override fun getBookshelf(pageIndex: Int): Observable<CacheResult<Pagination<Book>>> {

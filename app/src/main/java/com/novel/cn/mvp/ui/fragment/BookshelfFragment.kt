@@ -117,7 +117,7 @@ class BookshelfFragment : BaseLazyLoadFragment<BookshelfPresenter>(), BookshelfC
                 return@setOnClickListener
             }
             user?.let {
-                mPresenter?.signIn(it.userId)
+                mPresenter?.signIn()
             }
         }
     }
@@ -154,7 +154,8 @@ class BookshelfFragment : BaseLazyLoadFragment<BookshelfPresenter>(), BookshelfC
         }
     }
 
-    override fun signInSuccess() {
+    override fun signInSuccess(readCoupon:Int) {
+        mSignInDialog.setToast(readCoupon)
         mSignInDialog.show()
         //签到成功，禁止点击
         tv_signIn.isEnabled = false

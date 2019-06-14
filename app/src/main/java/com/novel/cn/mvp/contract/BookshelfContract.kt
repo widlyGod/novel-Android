@@ -27,7 +27,7 @@ interface BookshelfContract {
         fun complete(pullToRefresh: Boolean)
         fun showBookshelfList(pullToRefresh: Boolean, book: List<Book>)
         fun noMore()
-        fun signInSuccess()
+        fun signInSuccess(readCoupon:Int)
         fun changeSignInInfo(data: SignIn)
         fun showState(state: Int)
         fun getReadTimeSuccess(time: String)
@@ -37,7 +37,7 @@ interface BookshelfContract {
     //Model层定义接口,外部只需关心Model返回的数据,无需关心内部细节,即是否使用缓存
     interface Model : IModel {
         fun getBookshelf(pageIndex: Int): Observable<CacheResult<Pagination<Book>>>
-        fun signIn(params: HashMap<String, String>): Observable<BaseResponse<Any>>
+        fun signIn(): Observable<BaseResponse<Signinbean>>
         fun validateSignIn(): Observable<BaseResponse<SignIn>>
         fun getReadTime(): Observable<BaseResponse<ReadTimeBean>>
         fun getCalalogue(novelId: String): Observable<CacheResult<CalalogueVo>>
