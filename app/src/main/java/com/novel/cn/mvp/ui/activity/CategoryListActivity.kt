@@ -136,7 +136,7 @@ class CategoryListActivity : BaseActivity<CategoryListPresenter>(), CategoryList
         //收藏成功后，更新页面，并通知书架
         val item = mAdapter.getItem(position)
         item?.let {
-            it.iscollect = true
+            it.isCollect = "true"
             mAdapter.notifyItemChanged(position)
             EventBusManager.getInstance().post(BookshelfEvent())
         }

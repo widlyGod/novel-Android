@@ -47,5 +47,5 @@ data class CategoryBook(
         val volume: String,
         val volumeId: String,
         val writer: String,
-        var iscollect: Boolean
+        var isCollect: String
 )

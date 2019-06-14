@@ -20,8 +20,8 @@ class CategoryBookAdapter : BaseQuickAdapter<CategoryBook, BaseViewHolder>(R.lay
             tv_book_name.text = item.novelTitle
             tv_author.text = item.writer
 //            tv_desc.text = item.novelDescribe
-            iv_collect.visible(!item.iscollect)
             iv_collect.setOnClickListener { onConllectClickListener?.invoke(helper.adapterPosition) }
+            iv_collect.visible(item.isCollect != "true")
         }
 
     }
