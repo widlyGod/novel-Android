@@ -24,6 +24,7 @@ import com.novel.cn.R
 import com.novel.cn.app.JumpManager
 import com.novel.cn.app.visible
 import com.novel.cn.ext.clicks
+import com.novel.cn.ext.toast
 import com.novel.cn.mvp.contract.ReadContract
 import com.novel.cn.mvp.model.entity.Reward
 import com.novel.cn.mvp.model.entity.TabEntity
@@ -86,6 +87,11 @@ class RewardDialog(context: Context, private val view: ReadContract.View) : Base
                         recommendView!!.et_reward_num.text.toString().toInt()
                     else
                         0
+                    if (it.isNotEmpty() && it.toString().toInt() <= 0) {
+                        et_reward_num.setText("")
+                        return@subscribe
+                    }
+
                     when (mPosition) {
                         0 -> {
                             if (mUserAccountBean.recommendNumber <= 0) {
@@ -96,10 +102,14 @@ class RewardDialog(context: Context, private val view: ReadContract.View) : Base
                                 tv_reward_empty.text = "暂无推荐票"
 
                             } else {
-                                tv_reward_empty.visible(false)
-                                ll_reward_main.visible(true)
-                                recommendView!!.tv_reward_name.text = "推荐票"
-                                recommendView!!.tv_user_recommend.text = "账户中还有 ${mUserAccountBean.recommendNumber} 推荐票，本次投 $rewardNum 推荐票"
+                                if (mUserAccountBean.recommendNumber < rewardNum)
+                                    recommendView!!.tv_user_recommend.text = "打赏账户超过账户余额"
+                                else {
+                                    tv_reward_empty.visible(false)
+                                    ll_reward_main.visible(true)
+                                    recommendView!!.tv_reward_name.text = "推荐票"
+                                    recommendView!!.tv_user_recommend.text = "账户中还有 ${mUserAccountBean.recommendNumber} 推荐票，本次投 $rewardNum 推荐票"
+                                }
                             }
                         }
                         1 -> {
@@ -111,10 +121,14 @@ class RewardDialog(context: Context, private val view: ReadContract.View) : Base
                                 tv_reward_empty.text = "暂无月票"
 
                             } else {
-                                tv_reward_empty.visible(false)
-                                ll_reward_main.visible(true)
-                                recommendView!!.tv_reward_name.text = "月票"
-                                recommendView!!.tv_user_recommend.text = "账户中还有 ${mUserAccountBean.monthRecommendNumber} 月票，本次投 $rewardNum 月票"
+                                if (mUserAccountBean.monthRecommendNumber < rewardNum)
+                                    recommendView!!.tv_user_recommend.text = "打赏账户超过账户余额"
+                                else {
+                                    tv_reward_empty.visible(false)
+                                    ll_reward_main.visible(true)
+                                    recommendView!!.tv_reward_name.text = "月票"
+                                    recommendView!!.tv_user_recommend.text = "账户中还有 ${mUserAccountBean.monthRecommendNumber} 月票，本次投 $rewardNum 月票"
+                                }
                             }
                         }
                         2 -> {
@@ -126,18 +140,19 @@ class RewardDialog(context: Context, private val view: ReadContract.View) : Base
                                 tv_reward_empty.text = "暂无钻石"
 
                             } else {
-                                tv_reward_empty.visible(false)
-                                ll_reward_main.visible(true)
-                                recommendView!!.tv_reward_name.text = "钻石"
-                                recommendView!!.tv_user_recommend.text = "账户中还有 ${mUserAccountBean.diamondNumber} 钻石，本次投 $rewardNum 钻石"
+                                if (mUserAccountBean.diamondNumber < rewardNum)
+                                    recommendView!!.tv_user_recommend.text = "打赏账户超过账户余额"
+                                else {
+                                    tv_reward_empty.visible(false)
+                                    ll_reward_main.visible(true)
+                                    recommendView!!.tv_reward_name.text = "钻石"
+                                    recommendView!!.tv_user_recommend.text = "账户中还有 ${mUserAccountBean.diamondNumber} 钻石，本次投 $rewardNum 钻石"
+                                }
                             }
-                        }
-                        3 -> {
-                            setView(rewardView)
                         }
                     }
                 }
-        rewardView!!.tv_reward_detail.text = "账户余额 ${mUserAccountBean.goldNumber} 阅读币，本次打赏 ${0} 阅读币"
+        rewardView!!.tv_reward_detail.text = "账户余额 ${mUserAccountBean.goldNumber} 阅读币，本次打赏 ${list[readMoneySelected].money} 阅读币"
         if (mUserAccountBean.goldNumber < 10) {
             rewardView!!.tv_reward_done.text = "去充值"
             rewardView!!.tv_reward_detail.text = "账户余额 ${mUserAccountBean.goldNumber} 阅读币，余额不足"
@@ -191,14 +206,43 @@ class RewardDialog(context: Context, private val view: ReadContract.View) : Base
             }
         }
         recommendView!!.tv_reward.clicks().subscribe {
-            when (mPosition) {
-                0 -> view.reward("recommend", rewardNum)
-                1 -> view.reward("monthRecommend", rewardNum)
-                2 -> view.reward("diamond", rewardNum)
+            if (rewardNum <= 0) {
+                when (mPosition) {
+                    0 -> toast("请输入推荐票数")
+                    1 -> toast("请输入月票数")
+                    2 -> toast("请输入钻石")
+                }
+                return@subscribe
             }
-            dismiss()
-        }
+            when (mPosition) {
+                0 -> {
+                    if (mUserAccountBean.recommendNumber < rewardNum)
+                        recommendView!!.tv_user_recommend.text = "打赏账户超过账户余额"
+                    else {
+                        view.reward("recommend", rewardNum)
+                        dismiss()
+                    }
+                }
 
+                1 -> {
+                    if (mUserAccountBean.monthRecommendNumber < rewardNum)
+                        recommendView!!.tv_user_recommend.text = "打赏账户超过账户余额"
+                    else {
+                        view.reward("monthRecommend", rewardNum)
+                        dismiss()
+                    }
+                }
+                2 -> {
+                    if (mUserAccountBean.diamondNumber < rewardNum)
+                        recommendView!!.tv_user_recommend.text = "打赏账户超过账户余额"
+                    else {
+                        view.reward("diamond", rewardNum)
+                        dismiss()
+                    }
+                }
+            }
+
+        }
 
         iv_close.clicks().subscribe {
             dismiss()
