@@ -41,6 +41,8 @@ class ChapterAdapter : BaseQuickAdapter<Calalogue, BaseViewHolder>(R.layout.item
 //        recyclerView.layoutManager?.scrollToPosition(position)
     }
 
+    fun getCurrentPosition():Int = currentPosition
+
     fun isCurrentPositionShow(isShow: Boolean) {
         isCurrentPositionShow = isShow
         notifyDataSetChanged()

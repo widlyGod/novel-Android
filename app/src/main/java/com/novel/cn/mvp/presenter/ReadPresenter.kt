@@ -45,9 +45,7 @@ constructor(model: ReadContract.Model, rootView: ReadContract.View) :
         params["novelVolumeId"] = volumeId
 
         mModel.subscribeBook(params)
-                .subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread())
-                .compose(RxLifecycleUtils.bindToLifecycle(mRootView))
+                .applySchedulers(mRootView)
                 .subscribe(object : ErrorHandleSubscriber<BaseResponse<Any>>(mErrorHandler) {
                     override fun onNext(t: BaseResponse<Any>) {
 //                        readNovel(txtChapter, novelId, mCurChapterPos)
@@ -99,9 +97,7 @@ constructor(model: ReadContract.Model, rootView: ReadContract.View) :
         params["novel_id"] = novelId
 
         mModel.addConllection(params)
-                .subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread())
-                .compose(RxLifecycleUtils.bindToLifecycle(mRootView))
+                .applySchedulers(mRootView)
                 .subscribe(object : ErrorHandleSubscriber<BaseResponse<Any>>(mErrorHandler) {
                     override fun onNext(t: BaseResponse<Any>) {
                         mRootView.collectionSuccess()
@@ -114,9 +110,8 @@ constructor(model: ReadContract.Model, rootView: ReadContract.View) :
         params["novel_id"] = novelId
 
         mModel.cancelCollection(params)
-                .subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread())
-                .compose(RxLifecycleUtils.bindToLifecycle(mRootView))
+
+                .applySchedulers(mRootView)
                 .subscribe(object : ErrorHandleSubscriber<BaseResponse<Any>>(mErrorHandler) {
                     override fun onNext(t: BaseResponse<Any>) {
                         mRootView.cancelCollection()
@@ -149,9 +144,7 @@ constructor(model: ReadContract.Model, rootView: ReadContract.View) :
         param["novelVolumeId"] = volume
         param["novelChapterId"] = chapterId
         mModel.isChargeChapter(param)
-                .subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread())
-                .compose(RxLifecycleUtils.bindToLifecycle(mRootView))
+                .applySchedulers(mRootView)
                 .subscribe(object : ErrorHandleSubscriber<BaseResponse<ChargeChapter>>(mErrorHandler) {
                     override fun onNext(t: BaseResponse<ChargeChapter>) {
                         if (t.code == 1) {
@@ -166,9 +159,7 @@ constructor(model: ReadContract.Model, rootView: ReadContract.View) :
 
     fun getChapterInfo(txt: TxtChapter, novelId: String, mCurChapterPos: Int, charge: ChargeChapter) {
         mModel.getChapterInfo(txt.chapterId)
-                .subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread())
-                .compose(RxLifecycleUtils.bindToLifecycle(mRootView))
+                .applySchedulers(mRootView)
                 .subscribe(object : ErrorHandleSubscriber<BaseResponse<ChapterInfoBean>>(mErrorHandler) {
                     override fun onNext(t: BaseResponse<ChapterInfoBean>) {
                         val data = t.data
@@ -186,9 +177,7 @@ constructor(model: ReadContract.Model, rootView: ReadContract.View) :
 
     fun getCatalogue(novelId: String) {
         mModel.getCalalogue(novelId)
-                .subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread())
-                .compose(RxLifecycleUtils.bindToLifecycle(mRootView))
+                .applySchedulers(mRootView)
                 .subscribe(object : ErrorHandleSubscriber<CacheResult<CalalogueVo>>(mErrorHandler) {
                     override fun onNext(t: CacheResult<CalalogueVo>) {
                         val list = ArrayList<VolumeBean>()
@@ -275,9 +264,7 @@ constructor(model: ReadContract.Model, rootView: ReadContract.View) :
         param["operation"] = operation
         param["number"] = number
         mModel.reward(param)
-                .subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread())
-                .compose(RxLifecycleUtils.bindToLifecycle(mRootView))
+                .applySchedulers(mRootView)
                 .subscribe(object : ErrorHandleSubscriber<BaseResponse<Any>>(mErrorHandler) {
                     override fun onNext(t: BaseResponse<Any>) {
                         toast(t.message)
@@ -290,9 +277,7 @@ constructor(model: ReadContract.Model, rootView: ReadContract.View) :
         var list = ArrayList<String>()
         list.add(novelId)
         mModel.addAutoSubscribe(list)
-                .subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread())
-                .compose(RxLifecycleUtils.bindToLifecycle(mRootView))
+                .applySchedulers(mRootView)
                 .subscribe(object : ErrorHandleSubscriber<BaseResponse<Any>>(mErrorHandler) {
                     override fun onNext(t: BaseResponse<Any>) {
 

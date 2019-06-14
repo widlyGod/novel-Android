@@ -9,6 +9,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.WindowManager
 import android.widget.SeekBar
+import com.jakewharton.rxbinding3.view.clicks
 import com.jess.arms.base.BaseActivity
 import com.jess.arms.di.component.AppComponent
 import com.jess.arms.integration.EventBusManager
@@ -21,7 +22,9 @@ import com.novel.cn.db.Readcord
 import com.novel.cn.di.component.DaggerReadComponent
 import com.novel.cn.di.module.ReadModule
 import com.novel.cn.eventbus.BookshelfEvent
+import com.novel.cn.ext.bindToLifecycle
 import com.novel.cn.ext.dp2px
+import com.novel.cn.ext.getCompactDrawable
 import com.novel.cn.ext.toast
 import com.novel.cn.mvp.contract.ReadContract
 import com.novel.cn.mvp.model.entity.*
@@ -88,7 +91,7 @@ class ReadActivity : BaseActivity<ReadPresenter>(), ReadContract.View, VolumeVie
 
     private val tipDialog by lazy {
         TipDialog.Builder(this)
-                .setTipWord("正在加载")
+                .setTipWord("请稍后")
                 .setIconType(ICON_TYPE_LOADING)
                 .create()
     }
@@ -121,11 +124,15 @@ class ReadActivity : BaseActivity<ReadPresenter>(), ReadContract.View, VolumeVie
 
 
         mAdapter.setOnItemClickListener { _, _, position ->
-            if(mAdapter.data[position].isLocked){
+            if (mAdapter.data[position].isLocked) {
                 toast("该章节尚未发布")
                 return@setOnItemClickListener
             }
-            mPageLoader.skipToChapter(position)
+            if (isSequence)
+                mPageLoader.skipToChapter(position)
+            else
+                mPageLoader.skipToChapter(mAdapter.data.size - 1 - position)
+
             drawerLayout.closeDrawer(Gravity.LEFT)
         }
         isCollect = mBook.novelInfo.isCollection
@@ -195,15 +202,20 @@ class ReadActivity : BaseActivity<ReadPresenter>(), ReadContract.View, VolumeVie
                 if (!tipDialog.isShowing) {
                     tipDialog.show()
                 }
-                mPresenter?.isChargeChapter(mBook.novelInfo.novelId, volumeList[selectedVolumePosition].calalogue[mCurChapterPos].volumeId, volumeList[selectedVolumePosition].calalogue[mCurChapterPos].chapterId, txtChapter, mCurChapterPos)
+                mPresenter?.isChargeChapter(mBook.novelInfo.novelId, volumeList[nowVolumePosition].calalogue[mCurChapterPos].volumeId, volumeList[nowVolumePosition].calalogue[mCurChapterPos].chapterId, txtChapter, mCurChapterPos)
             }
 
             override fun onChapterChange(pos: Int) {
-                volumeIdId = volumeList[selectedVolumePosition].calalogue[pos].volumeId
+                volumeIdId = volumeList[nowVolumePosition].calalogue[pos].volumeId
                 seekbar.progress = pos
                 selectedVolumePosition = nowVolumePosition
-                mAdapter.setCurrentPosition(pos)
-                val item = mAdapter.getItem(pos) as Calalogue
+                var postion = 0
+                if (isSequence)
+                    postion = pos
+                else
+                    postion = mAdapter.data.size - 1 - pos
+                mAdapter.setCurrentPosition(postion)
+                val item = mAdapter.getItem(postion) as Calalogue
                 tv_chapter_name.text = "${item.chapter}：${item.chapterTitle}"
                 tv_chapter_info.text = "${item.chapter}章节/${mAdapter.data.size}章节"
                 toolbar_title.text = "第${item.chapter}章 ${item.chapterTitle}"
@@ -290,7 +302,7 @@ class ReadActivity : BaseActivity<ReadPresenter>(), ReadContract.View, VolumeVie
                     val chapter = mAdapter.getCurrentChapter()
                     chapter?.let {
                         hideSystemBar()
-                        JumpManager.jumpChapterComment(this, mBook.novelInfo.novelId, it.chapterId, volumeIdId, mBook.novelInfo.authorId,mBook)
+                        JumpManager.jumpChapterComment(this, mBook.novelInfo.novelId, it.chapterId, volumeIdId, mBook.novelInfo.authorId, mBook)
                     }
                 }
             }
@@ -308,11 +320,33 @@ class ReadActivity : BaseActivity<ReadPresenter>(), ReadContract.View, VolumeVie
     }
 
     val header by lazy { LayoutInflater.from(this).inflate(R.layout.layout_header_volume, recyclerView, false) }
+    private var isSequence = true
 
     override fun showCalalogueInfo(list: ArrayList<VolumeBean>) {
         header.setOnClickListener {
             mPopup.showAsDropDown(it, dp2px(20), 0)
         }
+        header.iv_rank_type.clicks().subscribe {
+            var list = volumeList[nowVolumePosition].calalogue
+            var calalogue = mutableListOf<Calalogue>()
+            isSequence = if (isSequence) {
+                calalogue.clear()
+                calalogue.addAll(list.sortedByDescending { it.chapter })
+                mAdapter.setNewData(calalogue)
+                false
+            } else {
+                calalogue.clear()
+                calalogue.addAll(list.sortedBy { it.chapter })
+                mAdapter.setNewData(calalogue)
+                true
+            }
+            if (selectedVolumePosition == nowVolumePosition)
+                mAdapter.setCurrentPosition(mAdapter.data.size - 1 - mAdapter.getCurrentPosition())
+            header.iv_rank_type.setImageDrawable(if (isSequence) {
+                getCompactDrawable(R.drawable.ic_rank_down)
+            } else getCompactDrawable(R.drawable.ic_rank_up))
+        }.bindToLifecycle(this)
+
 //        ll_info.setBackgroundColor(ContextCompat.getColor(this, ReadSettingManager.getInstance().pageStyle.bgColor))
         mAdapter.addHeaderView(header)
         volumeList.clear()
@@ -342,7 +376,20 @@ class ReadActivity : BaseActivity<ReadPresenter>(), ReadContract.View, VolumeVie
 
         seekbar.max = data.calalogue.size - 1
 
-        mAdapter.setNewData(data.calalogue)
+        var list = data.calalogue
+        var calalogue = mutableListOf<Calalogue>()
+        if (!isSequence) {
+            calalogue.clear()
+            calalogue.addAll(list.sortedByDescending { it.chapter })
+            mAdapter.setNewData(calalogue)
+            false
+        } else {
+            calalogue.clear()
+            calalogue.addAll(list.sortedBy { it.chapter })
+            mAdapter.setNewData(calalogue)
+            true
+        }
+        mAdapter.setNewData(calalogue)
         val chapterList = ArrayList<TxtChapter>(data.calalogue.size)
         data.calalogue.forEach {
             val txt = TxtChapter()

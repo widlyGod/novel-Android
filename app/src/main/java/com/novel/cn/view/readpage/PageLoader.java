@@ -268,6 +268,10 @@ public abstract class PageLoader {
         }
         mPageView.reset();
         TxtChapter txtChapter = mChapterList.get(mCurChapterPos - 1);
+        if (txtChapter.isLocked) {
+            mPageChangeListener.locked(txtChapter, mCurChapterPos);
+            return false;
+        }
         if (!txtChapter.isFree) {
             mStatus = STATUS_LOADING;
             mCurChapterPos--;
@@ -275,10 +279,7 @@ public abstract class PageLoader {
             chapterChangeCallback();
             return false;
         }
-        if (txtChapter.isLocked) {
-            mPageChangeListener.locked(txtChapter, mCurChapterPos);
-            return false;
-        }
+
         mStatus = STATUS_FINISH;
         // 载入上一章。
         if (parsePrevChapter()) {
@@ -301,6 +302,10 @@ public abstract class PageLoader {
         }
         mPageView.reset();
         TxtChapter txtChapter = mChapterList.get(mCurChapterPos + 1);
+        if (txtChapter.isLocked) {
+            mPageChangeListener.locked(txtChapter, mCurChapterPos);
+            return false;
+        }
         if (!txtChapter.isFree) {
             mStatus = STATUS_LOADING;
             mCurChapterPos++;
@@ -308,10 +313,7 @@ public abstract class PageLoader {
             chapterChangeCallback();
             return false;
         }
-        if (txtChapter.isLocked) {
-            mPageChangeListener.locked(txtChapter, mCurChapterPos);
-            return false;
-        }
+
         mStatus = STATUS_FINISH;
         //判断是否达到章节的终止点
         if (parseNextChapter()) {
@@ -329,6 +331,8 @@ public abstract class PageLoader {
      * @param pos:从 0 开始。
      */
     public void skipToChapter(int pos) {
+        isNext = true;
+        isLast = true;
         mPageView.reset();
 
         // 设置参数
@@ -684,12 +688,18 @@ public abstract class PageLoader {
             return;
         }
         TxtChapter txtChapter = mChapterList.get(mCurChapterPos);
+        if (txtChapter.isLocked) {
+            mStatus = STATUS_FINISH;
+            mPageChangeListener.locked(txtChapter, mCurChapterPos);
+            return ;
+        }
         if (!txtChapter.isFree) {
             mStatus = STATUS_LOADING;
             mPageChangeListener.noFree(txtChapter, mCurChapterPos);
             chapterChangeCallback();
             return;
         }
+
 
         if (parseCurChapter()) {
             // 如果章节从未打开
@@ -1100,6 +1110,11 @@ public abstract class PageLoader {
             return false;
         } else {
             TxtChapter txtChapter = mChapterList.get(mCurChapterPos - 1);
+            if (txtChapter.isLocked) {
+                isLast = false;
+                mPageChangeListener.locked(txtChapter, mCurChapterPos);
+                return false;
+            }
             if (!txtChapter.isFree) {
                 mStatus = STATUS_LOADING;
                 mCurChapterPos--;
@@ -1107,11 +1122,7 @@ public abstract class PageLoader {
                 chapterChangeCallback();
                 return false;
             }
-            if (txtChapter.isLocked) {
-                isLast = false;
-                mPageChangeListener.locked(txtChapter, mCurChapterPos);
-                return false;
-            }
+
         }
 
         mCancelPage = mCurPage;
@@ -1196,6 +1207,11 @@ public abstract class PageLoader {
             return false;
         } else {
             TxtChapter txtChapter = mChapterList.get(mCurChapterPos + 1);
+            if (txtChapter.isLocked) {
+                isNext = false;
+                mPageChangeListener.locked(txtChapter, mCurChapterPos);
+                return false;
+            }
             if (!txtChapter.isFree) {
                 mStatus = STATUS_LOADING;
                 mCurChapterPos++;
@@ -1203,12 +1219,6 @@ public abstract class PageLoader {
                 chapterChangeCallback();
                 return false;
             }
-            if (txtChapter.isLocked) {
-                isNext = false;
-                mPageChangeListener.locked(txtChapter, mCurChapterPos);
-                return false;
-            }
-
         }
 
 
