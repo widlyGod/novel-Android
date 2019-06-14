@@ -9,6 +9,7 @@ import com.jess.arms.http.imageloader.ImageLoader
 import com.jess.arms.utils.RxLifecycleUtils
 import com.novel.cn.app.Constant
 import com.novel.cn.app.isNullOrEmpty
+import com.novel.cn.ext.applySchedulers
 import me.jessyan.rxerrorhandler.core.RxErrorHandler
 import javax.inject.Inject
 
@@ -108,9 +109,7 @@ constructor(model: CategoryListContract.Model, rootView: CategoryListContract.Vi
         params["novel_id"] = novelId
 
         mModel.addConllection(params)
-                .subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread())
-                .compose(RxLifecycleUtils.bindToLifecycle(mRootView))
+                .applySchedulers(mRootView)
                 .subscribe(object : ErrorHandleSubscriber<BaseResponse<Any>>(mErrorHandler) {
                     override fun onNext(t: BaseResponse<Any>) {
                         mRootView.conllectionSuccess(it)

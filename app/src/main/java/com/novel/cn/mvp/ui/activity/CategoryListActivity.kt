@@ -6,13 +6,16 @@ import com.jess.arms.base.BaseActivity
 import com.jess.arms.di.component.AppComponent
 import com.jess.arms.integration.EventBusManager
 import com.novel.cn.R
+import com.novel.cn.app.Constant
 import com.novel.cn.app.JumpManager
+import com.novel.cn.app.Preference
 import com.novel.cn.di.component.DaggerCategoryListComponent
 import com.novel.cn.di.module.CategoryListModule
 import com.novel.cn.eventbus.BookshelfEvent
 import com.novel.cn.mvp.contract.CategoryListContract
 import com.novel.cn.mvp.model.entity.CategoryBean
 import com.novel.cn.mvp.model.entity.CategoryBook
+import com.novel.cn.mvp.model.entity.LoginInfo
 import com.novel.cn.mvp.presenter.CategoryListPresenter
 import com.novel.cn.mvp.ui.adapter.CategoryBookAdapter
 import com.novel.cn.mvp.ui.adapter.RankListAdapter
@@ -22,6 +25,7 @@ import kotlinx.android.synthetic.main.include_title.*
 import kotlinx.android.synthetic.main.activity_category_list.*
 import kotlinx.android.synthetic.main.activity_category_list.recyclerView
 import kotlinx.android.synthetic.main.activity_category_list.refreshLayout
+import org.jetbrains.anko.startActivity
 import javax.inject.Inject
 
 
@@ -101,8 +105,15 @@ class CategoryListActivity : BaseActivity<CategoryListPresenter>(), CategoryList
 
             //收藏按钮点击
             setOnConllectClickListener {
-                val item = mAdapter.getItem(it) as CategoryBook
-                mPresenter?.addConllection(item.novelId, it)
+                val user = Preference.getDeviceData<LoginInfo?>(Constant.LOGIN_INFO)
+                if (user!!.sessionId.isBlank()) {
+                    startActivity<LoginActivity>()
+                    return@setOnConllectClickListener
+                } else {
+                    val item = mAdapter.getItem(it) as CategoryBook
+                    mPresenter?.addConllection(item.novelId, it)
+                }
+
             }
 
         }
@@ -125,7 +136,7 @@ class CategoryListActivity : BaseActivity<CategoryListPresenter>(), CategoryList
         //收藏成功后，更新页面，并通知书架
         val item = mAdapter.getItem(position)
         item?.let {
-            //            it.isRecommend = 1
+            it.iscollect = true
             mAdapter.notifyItemChanged(position)
             EventBusManager.getInstance().post(BookshelfEvent())
         }

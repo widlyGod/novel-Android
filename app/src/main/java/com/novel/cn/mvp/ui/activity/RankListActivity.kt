@@ -6,11 +6,14 @@ import com.jess.arms.base.BaseActivity
 import com.jess.arms.di.component.AppComponent
 import com.jess.arms.integration.EventBusManager
 import com.novel.cn.R
+import com.novel.cn.app.Constant
 import com.novel.cn.app.JumpManager
+import com.novel.cn.app.Preference
 import com.novel.cn.di.component.DaggerRankListComponent
 import com.novel.cn.di.module.RankListModule
 import com.novel.cn.eventbus.BookshelfEvent
 import com.novel.cn.mvp.contract.RankListContract
+import com.novel.cn.mvp.model.entity.LoginInfo
 import com.novel.cn.mvp.model.entity.RankWeek
 import com.novel.cn.mvp.presenter.RankListPresenter
 import com.novel.cn.mvp.ui.adapter.RankListAdapter
@@ -18,6 +21,7 @@ import com.novel.cn.utils.StatusBarUtils
 import com.novel.cn.view.CustomLoadMoreView
 import kotlinx.android.synthetic.main.activity_rank_list.*
 import kotlinx.android.synthetic.main.include_title.*
+import org.jetbrains.anko.startActivity
 import javax.inject.Inject
 
 
@@ -70,8 +74,15 @@ class RankListActivity : BaseActivity<RankListPresenter>(), RankListContract.Vie
 
             //收藏按钮点击
             setOnConllectClickListener {
-                val item = mAdapter.getItem(it) as RankWeek
-                mPresenter?.addConllection(item.novelId, it)
+                val user = Preference.getDeviceData<LoginInfo?>(Constant.LOGIN_INFO)
+                if(user!!.sessionId.isBlank()){
+                    startActivity<LoginActivity>()
+                    return@setOnConllectClickListener
+                }else{
+                    val item = mAdapter.getItem(it) as RankWeek
+                    mPresenter?.addConllection(item.novelId, it)
+                }
+
             }
 
         }
