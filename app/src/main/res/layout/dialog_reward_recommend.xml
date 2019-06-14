@@ -1,67 +1,90 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
+    android:layout_height="wrap_content"
     android:gravity="center"
-    android:orientation="vertical"
     android:paddingTop="35dp"
     android:paddingBottom="35dp">
 
     <LinearLayout
+        android:id="@+id/ll_reward_main"
         android:layout_width="match_parent"
-        android:layout_height="32dp"
-        android:layout_marginLeft="30dp"
-        android:layout_marginRight="30dp"
-        android:gravity="center_vertical">
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:visibility="visible"
+        android:orientation="vertical">
 
-        <EditText
-            android:id="@+id/et_reward_num"
-            android:layout_width="0dp"
-            android:layout_height="match_parent"
-            android:layout_weight="1"
-            android:paddingLeft="10dp"
-            android:maxLength="6"
-            android:inputType="number"
-            android:background="@drawable/shape_edtext" />
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="32dp"
+            android:layout_marginLeft="30dp"
+            android:layout_marginRight="30dp"
+            android:gravity="center_vertical">
+
+            <EditText
+                android:id="@+id/et_reward_num"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:background="@drawable/shape_edtext"
+                android:inputType="number"
+                android:maxLength="6"
+                android:paddingLeft="10dp" />
+
+            <TextView
+                android:id="@+id/tv_reward_name"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="10dp"
+                android:text="推荐票"
+                android:textColor="@color/color_333333"
+                android:textSize="11sp" />
+        </LinearLayout>
 
         <TextView
-            android:id="@+id/tv_reward_name"
+            android:id="@+id/tv_user_recommend"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="10dp"
-            android:text="推荐票"
+            android:layout_marginTop="28dp"
+            android:text="账户中还有 10 推荐票，本次投 10 推荐票"
             android:textColor="@color/color_333333"
             android:textSize="11sp" />
+
+        <TextView
+            android:id="@+id/tv_user_money"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="5dp"
+            android:text="账户中余额 500 阅读币，本次兑换 2 推荐票= 20阅读币"
+            android:textColor="@color/color_333333"
+            android:textSize="11sp"
+            android:visibility="gone" />
+
+        <com.flyco.roundview.RoundTextView
+            android:id="@+id/tv_reward"
+            android:layout_width="96dp"
+            android:layout_height="30dp"
+            android:layout_marginTop="29dp"
+            android:gravity="center"
+            android:text="确定"
+            android:textColor="@color/white"
+            app:rv_backgroundColor="#00a5ea"
+            app:rv_cornerRadius="3dp" />
     </LinearLayout>
 
     <TextView
-        android:id="@+id/tv_user_recommend"
+        android:id="@+id/tv_reward_empty"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="28dp"
-        android:text="账户中还有 10 推荐票，本次投 10 推荐票"
-        android:textColor="@color/color_333333"
-        android:textSize="11sp" />
-
-    <TextView
-        android:id="@+id/tv_user_money"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="5dp"
-        android:visibility="gone"
-        android:text="账户中余额 500 阅读币，本次兑换 2 推荐票= 20阅读币"
-        android:textColor="@color/color_333333"
-        android:textSize="11sp" />
-
-    <com.flyco.roundview.RoundTextView
-        android:id="@+id/tv_reward"
-        android:layout_width="96dp"
-        android:layout_height="30dp"
-        app:rv_cornerRadius="3dp"
-        android:layout_marginTop="29dp"
+        android:textSize="13sp"
+        android:textColor="#666666"
+        android:drawableTop="@drawable/ic_no_recommend"
         android:gravity="center"
-        android:text="确定"
-        android:textColor="@color/white"
-        app:rv_backgroundColor="#00a5ea" />
-</LinearLayout>
+        android:drawablePadding="19dp"
+        android:layout_marginTop="10dp"
+        android:layout_centerInParent="true"
+        android:visibility="gone"
+        android:text="站务阿萨德"/>
+
+</RelativeLayout>

@@ -4,6 +4,7 @@ import android.annotation.SuppressLint
 import android.app.Activity
 import android.content.Context
 import android.os.Bundle
+import android.support.v4.content.ContextCompat
 import android.support.v4.content.ContextCompat.getSystemService
 import android.text.TextWatcher
 import android.view.View
@@ -18,6 +19,7 @@ import com.flyco.tablayout.listener.CustomTabEntity
 import com.flyco.tablayout.listener.OnTabSelectListener
 import com.jakewharton.rxbinding3.view.clicks
 import com.jakewharton.rxbinding3.widget.textChanges
+import com.jess.arms.utils.ArmsUtils.getResources
 import com.novel.cn.R
 import com.novel.cn.app.JumpManager
 import com.novel.cn.app.visible
@@ -86,13 +88,49 @@ class RewardDialog(context: Context, private val view: ReadContract.View) : Base
                         0
                     when (mPosition) {
                         0 -> {
-                            recommendView!!.tv_user_recommend.text = "账户中还有 ${mUserAccountBean.recommendNumber} 推荐票，本次投 $rewardNum 推荐票"
+                            if (mUserAccountBean.recommendNumber <= 0) {
+                                tv_reward_empty.visible(true)
+                                ll_reward_main.visible(false)
+                                tv_reward_empty.setCompoundDrawablesWithIntrinsicBounds(null,
+                                        ContextCompat.getDrawable(context, R.drawable.ic_no_recommend), null, null)
+                                tv_reward_empty.text = "暂无推荐票"
+
+                            } else {
+                                tv_reward_empty.visible(false)
+                                ll_reward_main.visible(true)
+                                recommendView!!.tv_reward_name.text = "推荐票"
+                                recommendView!!.tv_user_recommend.text = "账户中还有 ${mUserAccountBean.recommendNumber} 推荐票，本次投 $rewardNum 推荐票"
+                            }
                         }
                         1 -> {
-                            recommendView!!.tv_user_recommend.text = "账户中还有 ${mUserAccountBean.monthRecommendNumber} 月票，本次投 $rewardNum 月票"
+                            if (mUserAccountBean.monthRecommendNumber <= 0) {
+                                tv_reward_empty.visible(true)
+                                ll_reward_main.visible(false)
+                                tv_reward_empty.setCompoundDrawablesWithIntrinsicBounds(null,
+                                        ContextCompat.getDrawable(context, R.drawable.ic_no_month), null, null)
+                                tv_reward_empty.text = "暂无月票"
+
+                            } else {
+                                tv_reward_empty.visible(false)
+                                ll_reward_main.visible(true)
+                                recommendView!!.tv_reward_name.text = "月票"
+                                recommendView!!.tv_user_recommend.text = "账户中还有 ${mUserAccountBean.monthRecommendNumber} 月票，本次投 $rewardNum 月票"
+                            }
                         }
                         2 -> {
-                            recommendView!!.tv_user_recommend.text = "账户中还有 ${mUserAccountBean.diamondNumber} 钻石，本次投 $rewardNum 钻石"
+                            if (mUserAccountBean.diamondNumber <= 0) {
+                                tv_reward_empty.visible(true)
+                                ll_reward_main.visible(false)
+                                tv_reward_empty.setCompoundDrawablesWithIntrinsicBounds(null,
+                                        ContextCompat.getDrawable(context, R.drawable.ic_no_diamond), null, null)
+                                tv_reward_empty.text = "暂无钻石"
+
+                            } else {
+                                tv_reward_empty.visible(false)
+                                ll_reward_main.visible(true)
+                                recommendView!!.tv_reward_name.text = "钻石"
+                                recommendView!!.tv_user_recommend.text = "账户中还有 ${mUserAccountBean.diamondNumber} 钻石，本次投 $rewardNum 钻石"
+                            }
                         }
                         3 -> {
                             setView(rewardView)
@@ -107,7 +145,7 @@ class RewardDialog(context: Context, private val view: ReadContract.View) : Base
                 JumpManager.jumpRecharge(context)
                 dismiss()
             }
-        }else{
+        } else {
             rewardView!!.tv_reward_done.text = "确认打赏"
             rewardView!!.tv_reward_done.setOnClickListener() {
                 view.reward("Money", list[readMoneySelected].money.toInt())
@@ -174,18 +212,51 @@ class RewardDialog(context: Context, private val view: ReadContract.View) : Base
                 when (position) {
                     0 -> {
                         setView(recommendView)
-                        recommendView!!.tv_reward_name.text = "推荐票"
-                        recommendView!!.tv_user_recommend.text = "账户中还有 ${mUserAccountBean.recommendNumber} 推荐票，本次投 0 推荐票"
+                        if (mUserAccountBean.recommendNumber <= 0) {
+                            tv_reward_empty.visible(true)
+                            ll_reward_main.visible(false)
+                            tv_reward_empty.setCompoundDrawablesWithIntrinsicBounds(null,
+                                    ContextCompat.getDrawable(context, R.drawable.ic_no_recommend), null, null)
+                            tv_reward_empty.text = "暂无推荐票"
+
+                        } else {
+                            tv_reward_empty.visible(false)
+                            ll_reward_main.visible(true)
+                            recommendView!!.tv_reward_name.text = "推荐票"
+                            recommendView!!.tv_user_recommend.text = "账户中还有 ${mUserAccountBean.recommendNumber} 推荐票，本次投 0 推荐票"
+                        }
                     }
                     1 -> {
                         setView(recommendView)
-                        recommendView!!.tv_reward_name.text = "月票"
-                        recommendView!!.tv_user_recommend.text = "账户中还有 ${mUserAccountBean.monthRecommendNumber} 月票，本次投 0 月票"
+                        if (mUserAccountBean.monthRecommendNumber <= 0) {
+                            tv_reward_empty.visible(true)
+                            ll_reward_main.visible(false)
+                            tv_reward_empty.setCompoundDrawablesWithIntrinsicBounds(null,
+                                    ContextCompat.getDrawable(context, R.drawable.ic_no_month), null, null)
+                            tv_reward_empty.text = "暂无月票"
+
+                        } else {
+                            tv_reward_empty.visible(false)
+                            ll_reward_main.visible(true)
+                            recommendView!!.tv_reward_name.text = "月票"
+                            recommendView!!.tv_user_recommend.text = "账户中还有 ${mUserAccountBean.monthRecommendNumber} 月票，本次投 0 月票"
+                        }
                     }
                     2 -> {
                         setView(recommendView)
-                        recommendView!!.tv_reward_name.text = "钻石"
-                        recommendView!!.tv_user_recommend.text = "账户中还有 ${mUserAccountBean.diamondNumber} 钻石，本次投 0 钻石"
+                        if (mUserAccountBean.diamondNumber <= 0) {
+                            tv_reward_empty.visible(true)
+                            ll_reward_main.visible(false)
+                            tv_reward_empty.setCompoundDrawablesWithIntrinsicBounds(null,
+                                    ContextCompat.getDrawable(context, R.drawable.ic_no_diamond), null, null)
+                            tv_reward_empty.text = "暂无钻石"
+
+                        } else {
+                            tv_reward_empty.visible(false)
+                            ll_reward_main.visible(true)
+                            recommendView!!.tv_reward_name.text = "钻石"
+                            recommendView!!.tv_user_recommend.text = "账户中还有 ${mUserAccountBean.diamondNumber} 钻石，本次投 0 钻石"
+                        }
                     }
                     3 -> {
                         hintKeyboard()
@@ -198,7 +269,7 @@ class RewardDialog(context: Context, private val view: ReadContract.View) : Base
                                 JumpManager.jumpRecharge(context)
                                 dismiss()
                             }
-                        }else{
+                        } else {
                             rewardView!!.tv_reward_done.text = "确认打赏"
                             rewardView!!.tv_reward_done.setOnClickListener() {
                                 view.reward("Money", list[readMoneySelected].money.toInt())
