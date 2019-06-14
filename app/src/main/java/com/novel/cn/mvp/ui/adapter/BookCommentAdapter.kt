@@ -75,7 +75,7 @@ class BookCommentAdapter : BaseQuickAdapter<Comment, BaseViewHolder>(R.layout.it
                 if (item.commentUser.fansValue in (it.startValue..it.endValue)) {
                     tv_level.apply {
                         delegate.backgroundColor = it.color.toInt()
-                        text = it.text
+                        text = item.commentUser.levelName
                     }
                 }
             }

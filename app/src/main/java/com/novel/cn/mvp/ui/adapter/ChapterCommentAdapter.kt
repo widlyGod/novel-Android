@@ -71,7 +71,7 @@ class ChapterCommentAdapter : BaseQuickAdapter<ChapterComment, BaseViewHolder>(R
                 if (item.chapterCommentUser.fansValue in (it.startValue..it.endValue)) {
                     tv_level.apply {
                         delegate.backgroundColor = it.color.toInt()
-                        text = it.text
+                        text = item.chapterCommentUser.levelName
                     }
                 }
             }

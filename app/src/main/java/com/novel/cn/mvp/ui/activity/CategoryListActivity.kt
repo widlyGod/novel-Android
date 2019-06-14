@@ -22,7 +22,6 @@ import kotlinx.android.synthetic.main.include_title.*
 import kotlinx.android.synthetic.main.activity_category_list.*
 import kotlinx.android.synthetic.main.activity_category_list.recyclerView
 import kotlinx.android.synthetic.main.activity_category_list.refreshLayout
-import kotlinx.android.synthetic.main.fragment_bookshelf.*
 import javax.inject.Inject
 
 
@@ -130,5 +129,9 @@ class CategoryListActivity : BaseActivity<CategoryListPresenter>(), CategoryList
             mAdapter.notifyItemChanged(position)
             EventBusManager.getInstance().post(BookshelfEvent())
         }
+    }
+
+    override fun showState(state: Int) {
+        multiStateView.viewState = state
     }
 }

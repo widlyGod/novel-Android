@@ -52,7 +52,7 @@ class BookReplyAdapter : BaseQuickAdapter<Reply, BaseViewHolder>(R.layout.item_r
                 if (item.replyUser.fansValue in (it.startValue..it.endValue)) {
                     tv_level.apply {
                         delegate.backgroundColor = it.color.toInt()
-                        text = it.text
+                        text = item.replyUser.levelName
                     }
                 }
             }

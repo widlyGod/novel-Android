@@ -70,20 +70,34 @@ constructor(model: CategoryListContract.Model, rootView: CategoryListContract.Vi
                 .subscribe(object : ErrorHandleSubscriber<BaseResponse<CategoryBean>>(mErrorHandler) {
                     override fun onNext(t: BaseResponse<CategoryBean>) {
                         val list = t.data.list
-                        val noMore = list.isNullOrEmpty()
-                        if (pullToRefresh) {
-                            mAdapter.setNewData(list)
-                            mRootView.refreshComplete()
+                        if (t.data.total == 0) {
+                            mRootView.showState(MultiStateView.VIEW_STATE_EMPTY)
                         } else {
-                            if (!noMore)
-                                mAdapter.addData(list!!)
-                            mAdapter.loadMoreComplete()
-                        }
-                        if (noMore)
-                            mAdapter.loadMoreEnd()
+                            mRootView.showState(MultiStateView.VIEW_STATE_CONTENT)
+                            mRootView.showState(MultiStateView.VIEW_STATE_CONTENT)
+                            //判断是否还有下一页
+                            val noMore = mPageIndex * Constant.PAGE_SIZE >= t.data.total
+                            if (pullToRefresh) {
+                                mAdapter.setNewData(list)
+                                mRootView.refreshComplete()
+                            } else {
+                                if (!noMore)
+                                    mAdapter.addData(list!!)
+                                mAdapter.loadMoreComplete()
+                            }
+                            if (noMore)
+                                mAdapter.loadMoreEnd()
 
-                        //请求成功后，当前页改变
-                        mPageIndex++
+                            //请求成功后，当前页改变
+                            mPageIndex++
+                        }
+                    }
+
+                    override fun onError(t: Throwable) {
+                        super.onError(t)
+                        mRootView.refreshComplete()
+                        if (pullToRefresh)
+                            mRootView.showState(MultiStateView.VIEW_STATE_ERROR)
                     }
                 })
 
