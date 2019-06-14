@@ -1,5 +1,6 @@
 package com.novel.cn.mvp.ui.activity
 
+import android.content.Intent
 import android.graphics.Typeface
 import android.os.Bundle
 import android.support.v4.widget.DrawerLayout
@@ -120,8 +121,9 @@ class ReadActivity : BaseActivity<ReadPresenter>(), ReadContract.View, VolumeVie
         user = Preference.getDeviceData<LoginInfo?>(Constant.LOGIN_INFO)!!
         drawerLayout.setDrawerLockMode(DrawerLayout.LOCK_MODE_LOCKED_CLOSED)
         drawerLayout.isFocusableInTouchMode = false
-        mAdapter.bindToRecyclerView(recyclerView)
+//        mAdapter.bindToRecyclerView(recyclerView)
 
+        recyclerView.adapter = mAdapter
 
         mAdapter.setOnItemClickListener { _, _, position ->
             if (mAdapter.data[position].isLocked) {
@@ -195,8 +197,9 @@ class ReadActivity : BaseActivity<ReadPresenter>(), ReadContract.View, VolumeVie
 
             override fun noFree(txtChapter: TxtChapter, mCurChapterPos: Int) {
                 if (user!!.sessionId.isBlank()) {
-                    startActivity<LoginActivity>()
-                    finish()
+                    val intent = Intent()
+                    intent.setClass(this@ReadActivity, LoginActivity::class.java)
+                    startActivityForResult(intent, 1)
                     return
                 }
                 if (!tipDialog.isShowing) {
@@ -348,7 +351,8 @@ class ReadActivity : BaseActivity<ReadPresenter>(), ReadContract.View, VolumeVie
         }.bindToLifecycle(this)
 
 //        ll_info.setBackgroundColor(ContextCompat.getColor(this, ReadSettingManager.getInstance().pageStyle.bgColor))
-        mAdapter.addHeaderView(header)
+        mAdapter.removeAllHeaderView()
+        mAdapter.setHeaderView(header)
         volumeList.clear()
         volumeList.addAll(list)
         mPopup.setData(list)
@@ -569,6 +573,10 @@ class ReadActivity : BaseActivity<ReadPresenter>(), ReadContract.View, VolumeVie
 
     override fun onDestroy() {
         mPageLoader.closeBook()
+        if (tipDialog != null) {
+            tipDialog.dismiss()
+        }
+
         EventBusManager.getInstance().post(BookshelfEvent())
         super.onDestroy()
     }
@@ -579,5 +587,12 @@ class ReadActivity : BaseActivity<ReadPresenter>(), ReadContract.View, VolumeVie
 
     override fun hideLoading() {
         tipDialog.hide()
+    }
+
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+        if (requestCode == 1 && resultCode != 2) {
+            finish()
+        }
     }
 }

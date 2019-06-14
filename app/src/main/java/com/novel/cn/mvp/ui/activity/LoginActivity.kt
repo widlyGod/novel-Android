@@ -114,6 +114,14 @@ class LoginActivity : BaseActivity<LoginPresenter>(), LoginContract.View {
         mLoading.hide()
     }
 
+    override fun onDestroy() {
+        if (mLoading != null) {
+            mLoading.dismiss()
+        }
+        super.onDestroy()
+    }
+
+
 
     /**
      * 校验输入框,改变按钮状态
@@ -140,6 +148,7 @@ class LoginActivity : BaseActivity<LoginPresenter>(), LoginContract.View {
         }
     }
 
+
     /**
      * 登录成功回调
      */
@@ -147,6 +156,7 @@ class LoginActivity : BaseActivity<LoginPresenter>(), LoginContract.View {
         //保存数据
         Preference.put(Constant.LOGIN_INFO, data)
         Preference.put(Constant.SESSION_ID, data.sessionId)
+        setResult(2)
         finish()
         EventBusManager.getInstance().post(LoginEvent())
     }

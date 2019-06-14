@@ -172,6 +172,9 @@ constructor(model: ReadContract.Model, rootView: ReadContract.View) :
 
 
                     }
+                    override fun onError(t: Throwable) {
+                        super.onError(t)
+                    }
                 })
     }
 
