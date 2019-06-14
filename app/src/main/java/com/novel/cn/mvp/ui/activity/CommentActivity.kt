@@ -101,7 +101,7 @@ class CommentActivity : BaseActivity<CommentPresenter>(), CommentContract.View {
             }, recyclerView)
             //回复按钮点击
             setOnReplyClickListener { position ->
-                JumpManager.toCommentDetail(this@CommentActivity, this.getItem(position))
+                JumpManager.toCommentDetail(this@CommentActivity, this.getItem(position), book!!)
             }
             setOnLikeClickListener {
                 val item = mAdapter.getItem(it) as Comment
@@ -112,6 +112,7 @@ class CommentActivity : BaseActivity<CommentPresenter>(), CommentContract.View {
                 mPresenter?.deleteComment(it)
             }
         }
+        mAdapter.setBookDetail(book!!.novelInfo)
         //快速定位到顶部
         iv_back_top.setOnClickListener { recyclerView.scrollToPosition(0) }
         //滑动监听

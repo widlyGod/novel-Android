@@ -68,9 +68,7 @@ class BookDetailActivity : BaseActivity<BookDetailPresenter>(), BookDetailContra
 
         mAdapter.apply {
             //回复按钮点击
-            setOnReplyClickListener { position ->
-                JumpManager.toCommentDetail(this@BookDetailActivity, this.getItem(position))
-            }
+
             setOnLikeClickListener {
                 mPresenter?.agree(it)
             }
@@ -97,8 +95,11 @@ class BookDetailActivity : BaseActivity<BookDetailPresenter>(), BookDetailContra
         tv_chapter.text = "更新至${data.novelInfo.chapterCount}章"
         tv_review_count.text = data.comment.totalCount.toString()
         tv_add_bookself.text = if (data.novelInfo.isCollection) "已在书架" else "加入书架"
-
+        mAdapter.setBookDetail(data.novelInfo)
         mAdapter.setNewData(data.comment.comments)
+        mAdapter.setOnReplyClickListener { position ->
+            JumpManager.toCommentDetail(this@BookDetailActivity, mAdapter.getItem(position), data)
+        }
 
         mAdapter.setOnItemClickListener { adapter, view, position ->
             JumpManager.toCommentList(this@BookDetailActivity, data)
@@ -107,8 +108,9 @@ class BookDetailActivity : BaseActivity<BookDetailPresenter>(), BookDetailContra
         click(tv_read, tv_add_bookself, ll_comment, tv_comment, fl_contents) {
             val user = Preference.getDeviceData<LoginInfo?>(Constant.LOGIN_INFO)
             when (it) {
-                ll_comment, tv_comment -> {
-                    if(user!!.userId.isBlank()){
+                ll_comment -> JumpManager.toCommentList(this, data)
+                tv_comment -> {
+                    if (user!!.userId.isBlank()) {
                         startActivity<LoginActivity>()
                         return@click
                     }
@@ -116,7 +118,7 @@ class BookDetailActivity : BaseActivity<BookDetailPresenter>(), BookDetailContra
                 }
                 tv_read -> JumpManager.jumpRead(this, data)
                 tv_add_bookself -> {
-                    if(user!!.userId.isBlank()){
+                    if (user!!.userId.isBlank()) {
                         startActivity<LoginActivity>()
                         return@click
                     }

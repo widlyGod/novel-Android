@@ -128,6 +128,9 @@ public abstract class BaseActivity<P extends IPresenter> extends AppCompatActivi
         if (mPresenter != null)
             mPresenter.onDestroy();//释放资源
         this.mPresenter = null;
+        if(mLoading != null) {
+            mLoading.dismiss();
+        }
     }
 
     /**

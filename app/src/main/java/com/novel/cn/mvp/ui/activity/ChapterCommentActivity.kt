@@ -16,8 +16,8 @@ import com.novel.cn.di.module.ChapterCommentModule
 import com.novel.cn.ext.textWatcher
 import com.novel.cn.ext.toast
 import com.novel.cn.mvp.contract.ChapterCommentContract
-import com.novel.cn.mvp.model.entity.Comment
 import com.novel.cn.mvp.model.entity.LoginInfo
+import com.novel.cn.mvp.model.entity.NovelInfoBean
 import com.novel.cn.mvp.presenter.ChapterCommentPresenter
 import com.novel.cn.mvp.ui.adapter.ChapterCommentAdapter
 import com.novel.cn.utils.StatusBarUtils
@@ -25,7 +25,6 @@ import com.novel.cn.view.CustomLoadMoreView
 import com.novel.cn.view.decoration.LinearItemDecoration
 import kotlinx.android.synthetic.main.activity_chapter_comment.*
 import kotlinx.android.synthetic.main.include_title.*
-import kotlinx.android.synthetic.main.item_rank.view.*
 import kotlinx.android.synthetic.main.layout_chapter_comment_header.*
 import kotlinx.android.synthetic.main.layout_chapter_comment_header.view.*
 import javax.inject.Inject
@@ -41,6 +40,7 @@ class ChapterCommentActivity : BaseActivity<ChapterCommentPresenter>(), ChapterC
     private val mVolumeId by lazy { intent.getStringExtra("volumeId") }
 
     private val mAuthorId by lazy { intent.getStringExtra("authorId") }
+    private val book by lazy { intent.getParcelableExtra<NovelInfoBean?>("book") }
 
     @Inject
     lateinit var mAdapter: ChapterCommentAdapter
@@ -101,6 +101,7 @@ class ChapterCommentActivity : BaseActivity<ChapterCommentPresenter>(), ChapterC
             }
         }
         mAdapter.setHeaderView(mHeaderView)
+        mAdapter.setBookDetail(book!!.novelInfo)
         mPresenter?.getChapterComment(mBookId, mChapterId, true)
         mHeaderView.et_content.textWatcher {
             onTextChanged { charSequence, start, before, count ->

@@ -1,33 +1,26 @@
 package com.novel.cn.mvp.ui.activity
 
-import android.content.Intent
 import android.graphics.Color
 import android.os.Bundle
 import android.text.SpannableString
 import android.text.Spanned
 import android.text.style.ForegroundColorSpan
-import com.google.gson.Gson
-
 import com.jess.arms.base.BaseActivity
 import com.jess.arms.di.component.AppComponent
 import com.jess.arms.utils.ArmsUtils
-import com.jess.arms.utils.LogUtils
-
-import com.novel.cn.di.component.DaggerCommentDetailComponent
-import com.novel.cn.di.module.CommentDetailModule
-import com.novel.cn.mvp.contract.CommentDetailContract
-import com.novel.cn.mvp.presenter.CommentDetailPresenter
-
 import com.novel.cn.R
 import com.novel.cn.app.Constant
 import com.novel.cn.app.Preference
 import com.novel.cn.app.loadImage
 import com.novel.cn.app.visible
+import com.novel.cn.di.component.DaggerCommentDetailComponent
+import com.novel.cn.di.module.CommentDetailModule
 import com.novel.cn.ext.toast
+import com.novel.cn.mvp.contract.CommentDetailContract
 import com.novel.cn.mvp.model.entity.Comment
-import com.novel.cn.mvp.model.entity.CommentInfo
 import com.novel.cn.mvp.model.entity.LoginInfo
-import com.novel.cn.mvp.model.entity.Test
+import com.novel.cn.mvp.model.entity.NovelInfoBean
+import com.novel.cn.mvp.presenter.CommentDetailPresenter
 import com.novel.cn.mvp.ui.adapter.BookReplyAdapter
 import com.novel.cn.mvp.ui.dialog.CommentDialog
 import com.novel.cn.utils.StatusBarUtils
@@ -45,6 +38,7 @@ class CommentDetailActivity : BaseActivity<CommentDetailPresenter>(), CommentDet
 
 
     private val mComment by lazy { intent.getParcelableExtra<Comment>("comment") }
+    private val book by lazy { intent.getParcelableExtra<NovelInfoBean?>("book") }
 
     @Inject
     lateinit var mAdapter: BookReplyAdapter
@@ -114,10 +108,16 @@ class CommentDetailActivity : BaseActivity<CommentDetailPresenter>(), CommentDet
             ss.setSpan(ForegroundColorSpan(Color.parseColor("#EE4B1A")), 1, (1 + it.counts.toString().length), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE)
             tv_count.text = ss
             iv_avatar.loadImage(it.commentUser.userPhoto)
-            tv_nickname.text = it.commentUser.userNickName
+            if (book?.novelInfo?.authorId == it.commentUser.userId) {
+                tv_isAuthor.visible(true)
+                tv_nickname.text = book?.novelInfo?.novelAuthor
+            } else {
+                tv_isAuthor.visible(false)
+                tv_nickname.text = it.commentUser.userNickName
+            }
             tv_content.text = it.content
             tv_time.text = TimeUtils.millis2String(it.commentTime, SimpleDateFormat("yyyy-MM-dd HH:mm"))
-            tv_isAuthor.visible(it.isAuthor)
+
             tv_from.text = Constant.DEVICE_TYPE[it.deviceType]
 
             levelList.add(BookReplyAdapter.LEVEL.LEVEL_1)
@@ -153,6 +153,7 @@ class CommentDetailActivity : BaseActivity<CommentDetailPresenter>(), CommentDet
 
             recyclerView.addItemDecoration(decoration)
             recyclerView.adapter = mAdapter
+            mAdapter.setBookDetail(book!!.novelInfo)
             mAdapter.apply {
                 setEnableLoadMore(true)
                 setLoadMoreView(CustomLoadMoreView())

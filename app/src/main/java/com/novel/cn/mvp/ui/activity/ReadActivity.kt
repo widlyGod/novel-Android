@@ -290,7 +290,7 @@ class ReadActivity : BaseActivity<ReadPresenter>(), ReadContract.View, VolumeVie
                     val chapter = mAdapter.getCurrentChapter()
                     chapter?.let {
                         hideSystemBar()
-                        JumpManager.jumpChapterComment(this, mBook.novelInfo.novelId, it.chapterId, volumeIdId, mBook.novelInfo.authorId)
+                        JumpManager.jumpChapterComment(this, mBook.novelInfo.novelId, it.chapterId, volumeIdId, mBook.novelInfo.authorId,mBook)
                     }
                 }
             }

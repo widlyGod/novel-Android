@@ -41,9 +41,9 @@ object JumpManager {
     /**
      * 跳转到评论列表
      */
-    fun toCommentList(context: Context?, bookId: String?) {
-        context?.startActivity<CommentActivity>("bookId" to bookId)
-    }
+//    fun toCommentList(context: Context?, bookId: String?) {
+//        context?.startActivity<CommentActivity>("bookId" to bookId)
+//    }
 
     fun toCommentList(context: Context?, book: NovelInfoBean?) {
         context?.startActivity<CommentActivity>("book" to book)
@@ -52,8 +52,8 @@ object JumpManager {
     /**
      * 跳转到评论详情
      */
-    fun toCommentDetail(context: Context?, comment: Comment?) {
-        context?.startActivity<CommentDetailActivity>("comment" to comment)
+    fun toCommentDetail(context: Context?, comment: Comment?, book: NovelInfoBean?) {
+        context?.startActivity<CommentDetailActivity>("comment" to comment, "book" to book)
     }
 
     /**
@@ -88,11 +88,13 @@ object JumpManager {
         context?.startActivity<ContentsActivity>("book" to book)
     }
 
-    fun jumpChapterComment(context: Context?, bookId: String?, chapterId: String?, volumeId: String?, authorId: String) {
+    fun jumpChapterComment(context: Context?, bookId: String?, chapterId: String?, volumeId: String?, authorId: String, book: NovelInfoBean) {
         context?.startActivity<ChapterCommentActivity>("bookId" to bookId,
                 "chapterId" to chapterId,
                 "volumeId" to volumeId,
-                "authorId" to authorId)
+                "authorId" to authorId,
+                "book" to book
+        )
     }
 
     /**

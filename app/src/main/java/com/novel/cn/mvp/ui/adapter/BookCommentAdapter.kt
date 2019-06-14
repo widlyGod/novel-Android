@@ -7,6 +7,7 @@ import com.novel.cn.app.Constant
 import com.novel.cn.app.Preference
 import com.novel.cn.app.loadImage
 import com.novel.cn.app.visible
+import com.novel.cn.mvp.model.entity.BookDetail
 import com.novel.cn.mvp.model.entity.Comment
 import com.novel.cn.mvp.model.entity.LoginInfo
 import com.novel.cn.utils.TimeUtils
@@ -19,6 +20,7 @@ class BookCommentAdapter : BaseQuickAdapter<Comment, BaseViewHolder>(R.layout.it
     private var onReplyClickListener: ((Int) -> Unit)? = null
     private var onDeleteClickListener: ((Int) -> Unit)? = null
     private var onLikeClickListener: ((Int) -> Unit)? = null
+    private lateinit var mBookDetail: BookDetail
 
     init {
         levelList.add(LEVEL.LEVEL_1)
@@ -42,6 +44,10 @@ class BookCommentAdapter : BaseQuickAdapter<Comment, BaseViewHolder>(R.layout.it
 
     }
 
+    fun setBookDetail(bookDetail: BookDetail) {
+        mBookDetail = bookDetail
+    }
+
     fun setOnLikeClickListener(listener: ((Int) -> Unit)?) {
         this.onLikeClickListener = listener
     }
@@ -59,13 +65,20 @@ class BookCommentAdapter : BaseQuickAdapter<Comment, BaseViewHolder>(R.layout.it
         with(helper.itemView) {
             iv_avatar.loadImage(item.commentUser.userPhoto)
 
-            tv_nickname.text = item.commentUser.userNickName
+
             tv_time.text = TimeUtils.millis2String(item.commentTime, SimpleDateFormat("yyyy-MM-dd HH:mm"))
             tv_content.text = item.content
             tv_from.text = Constant.DEVICE_TYPE[item.deviceType]
             tv_num.text = item.thumbUpNumber.toString()
             tv_reply_num.text = "回复(${item.replyNumber})"
-            tv_isAuthor.visible(item.isAuthor)
+            if (mBookDetail.authorId == item.commentUser.userId) {
+                tv_isAuthor.visible(true)
+                tv_nickname.text = mBookDetail.novelAuthor
+            } else {
+                tv_isAuthor.visible(false)
+                tv_nickname.text = item.commentUser.userNickName
+            }
+
             iv_thumbUp.setImageResource(if (item.thumbUp) R.drawable.ic_zan_check else R.drawable.ic_zan_uncheck)
             if (item.commentUser.fansValue == 0)
                 tv_level.visible(false)

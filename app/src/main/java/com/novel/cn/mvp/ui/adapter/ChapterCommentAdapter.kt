@@ -7,6 +7,7 @@ import com.novel.cn.app.Constant
 import com.novel.cn.app.Preference
 import com.novel.cn.app.loadImage
 import com.novel.cn.app.visible
+import com.novel.cn.mvp.model.entity.BookDetail
 import com.novel.cn.mvp.model.entity.ChapterComment
 import com.novel.cn.mvp.model.entity.LoginInfo
 import com.novel.cn.utils.TimeUtils
@@ -19,6 +20,7 @@ class ChapterCommentAdapter : BaseQuickAdapter<ChapterComment, BaseViewHolder>(R
     private var onReplyClickListener: ((Int) -> Unit)? = null
     private var onDeleteClickListener: ((Int) -> Unit)? = null
     private var onLikeClickListener: ((Int) -> Unit)? = null
+    private lateinit var mBookDetail: BookDetail
 
     init {
         levelList.add(LEVEL.LEVEL_1)
@@ -53,19 +55,27 @@ class ChapterCommentAdapter : BaseQuickAdapter<ChapterComment, BaseViewHolder>(R
     fun setOnReplyClickListener(listener: ((Int) -> Unit)?) {
         this.onReplyClickListener = listener
     }
+    fun setBookDetail(bookDetail: BookDetail) {
+        mBookDetail = bookDetail
+    }
 
     override fun convert(helper: BaseViewHolder, item: ChapterComment) {
 
         with(helper.itemView) {
             iv_avatar.loadImage(item.chapterCommentUser.userPhoto)
 
-            tv_nickname.text = item.chapterCommentUser.userNickName
             tv_time.text = TimeUtils.millis2String(item.replyTime, SimpleDateFormat("yyyy-MM-dd HH:mm"))
             tv_content.text = item.content
             tv_from.text = Constant.DEVICE_TYPE[item.deviceType]
             tv_num.text = item.thumbUpNumber.toString()
             tv_reply_num.text = "回复(${item.replyNumber})"
-            tv_isAuthor.visible(item.isAuthor)
+            if (mBookDetail.authorId == item.chapterCommentUser.userId) {
+                tv_isAuthor.visible(true)
+                tv_nickname.text = mBookDetail.novelAuthor
+            } else {
+                tv_isAuthor.visible(false)
+                tv_nickname.text = item.chapterCommentUser.userNickName
+            }
             iv_thumbUp.setImageResource(if (item.thumbUp) R.drawable.ic_zan_check else R.drawable.ic_zan_uncheck)
             levelList.forEach {
                 if (item.chapterCommentUser.fansValue in (it.startValue..it.endValue)) {

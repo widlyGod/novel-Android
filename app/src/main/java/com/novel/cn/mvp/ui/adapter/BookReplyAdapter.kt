@@ -6,13 +6,23 @@ import com.novel.cn.R
 import com.novel.cn.app.Constant
 import com.novel.cn.app.loadImage
 import com.novel.cn.app.visible
+import com.novel.cn.mvp.model.entity.BookDetail
 import com.novel.cn.mvp.model.entity.Reply
 import com.novel.cn.utils.TimeUtils
+import kotlinx.android.synthetic.main.item_comment.view.*
 import kotlinx.android.synthetic.main.item_reply.view.*
+import kotlinx.android.synthetic.main.item_reply.view.iv_avatar
+import kotlinx.android.synthetic.main.item_reply.view.tv_content
+import kotlinx.android.synthetic.main.item_reply.view.tv_from
+import kotlinx.android.synthetic.main.item_reply.view.tv_isAuthor
+import kotlinx.android.synthetic.main.item_reply.view.tv_level
+import kotlinx.android.synthetic.main.item_reply.view.tv_nickname
+import kotlinx.android.synthetic.main.item_reply.view.tv_time
 import java.text.SimpleDateFormat
 
 class BookReplyAdapter : BaseQuickAdapter<Reply, BaseViewHolder>(R.layout.item_reply) {
     private val levelList = ArrayList<LEVEL>()
+    private lateinit var mBookDetail: BookDetail
 
     init {
         levelList.add(LEVEL.LEVEL_1)
@@ -32,8 +42,10 @@ class BookReplyAdapter : BaseQuickAdapter<Reply, BaseViewHolder>(R.layout.item_r
         levelList.add(LEVEL.LEVEL_15)
         levelList.add(LEVEL.LEVEL_16)
         levelList.add(LEVEL.LEVEL_17)
+    }
 
-
+    fun setBookDetail(bookDetail: BookDetail) {
+        mBookDetail = bookDetail
     }
 
 
@@ -42,11 +54,16 @@ class BookReplyAdapter : BaseQuickAdapter<Reply, BaseViewHolder>(R.layout.item_r
         with(helper.itemView) {
             iv_avatar.loadImage(item.replyUser.userPhoto)
 
-            tv_nickname.text = item.replyUser.userNickName
             tv_time.text = TimeUtils.millis2String(item.replyTime, SimpleDateFormat("yyyy-MM-dd HH:mm"))
             tv_content.text = item.content
             tv_from.text = Constant.DEVICE_TYPE[item.deviceType]
-            tv_isAuthor.visible(item.isAuthor)
+            if (mBookDetail.authorId == item.replyUser.userId) {
+                tv_isAuthor.visible(true)
+                tv_nickname.text = mBookDetail.novelAuthor
+            } else {
+                tv_isAuthor.visible(false)
+                tv_nickname.text = item.replyUser.userNickName
+            }
 
             levelList.forEach {
                 if (item.replyUser.fansValue in (it.startValue..it.endValue)) {
