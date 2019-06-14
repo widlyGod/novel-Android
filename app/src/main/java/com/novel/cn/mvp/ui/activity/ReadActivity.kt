@@ -22,6 +22,7 @@ import com.novel.cn.di.component.DaggerReadComponent
 import com.novel.cn.di.module.ReadModule
 import com.novel.cn.eventbus.BookshelfEvent
 import com.novel.cn.ext.dp2px
+import com.novel.cn.ext.toast
 import com.novel.cn.mvp.contract.ReadContract
 import com.novel.cn.mvp.model.entity.*
 import com.novel.cn.mvp.presenter.ReadPresenter
@@ -119,7 +120,11 @@ class ReadActivity : BaseActivity<ReadPresenter>(), ReadContract.View, VolumeVie
         mAdapter.bindToRecyclerView(recyclerView)
 
 
-        mAdapter.setOnItemClickListener { adapter, view, position ->
+        mAdapter.setOnItemClickListener { _, _, position ->
+            if(mAdapter.data[position].isLocked){
+                toast("该章节尚未发布")
+                return@setOnItemClickListener
+            }
             mPageLoader.skipToChapter(position)
             drawerLayout.closeDrawer(Gravity.LEFT)
         }
@@ -175,6 +180,10 @@ class ReadActivity : BaseActivity<ReadPresenter>(), ReadContract.View, VolumeVie
         mPageLoader.setOnPageChangeListener(object : PageLoader.OnPageChangeListener {
             override fun parseSuccess() {
                 ll_info.visible(false)
+            }
+
+            override fun locked(txtChapter: TxtChapter, mCurChapterPos: Int) {
+                toast("章节《${txtChapter.title}》未解锁")
             }
 
             override fun noFree(txtChapter: TxtChapter, mCurChapterPos: Int) {

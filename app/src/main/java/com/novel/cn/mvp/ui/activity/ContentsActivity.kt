@@ -15,10 +15,7 @@ import com.novel.cn.db.DbManager
 import com.novel.cn.db.Readcord
 import com.novel.cn.di.component.DaggerContentsComponent
 import com.novel.cn.di.module.ContentsModule
-import com.novel.cn.ext.bindToLifecycle
-import com.novel.cn.ext.clicks
-import com.novel.cn.ext.dp2px
-import com.novel.cn.ext.getCompactDrawable
+import com.novel.cn.ext.*
 import com.novel.cn.mvp.contract.ContentsContract
 import com.novel.cn.mvp.model.entity.*
 import com.novel.cn.mvp.presenter.ContentsPresenter
@@ -98,6 +95,10 @@ class ContentsActivity : BaseActivity<ContentsPresenter>(), ContentsContract.Vie
         decoration.rightMargin = dp2px(15)
         recyclerView.addItemDecoration(decoration)
         mAdapter.setOnItemClickListener { _, _, position ->
+            if(mAdapter.data[position].isLocked){
+                toast("该章节尚未发布")
+                return@setOnItemClickListener
+            }
             mBookRecord.bookId = mBook.novelInfo.novelId
             mBookRecord.chapter = position + page * 100
             mBookRecord.volumePos = selectedVolumePosition

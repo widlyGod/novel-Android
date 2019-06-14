@@ -21,11 +21,11 @@ public class TxtChapter{
     //章节内容在文章中的终止位置(本地)
     long end;
 
-    boolean isFree;
+    boolean isFree = true;
 
     String filePath;
 
-    boolean isLocked;
+    boolean isLocked = false;
 
     String money;
 

@@ -275,6 +275,10 @@ public abstract class PageLoader {
             chapterChangeCallback();
             return false;
         }
+        if (txtChapter.isLocked) {
+            mPageChangeListener.locked(txtChapter, mCurChapterPos);
+            return false;
+        }
         mStatus = STATUS_FINISH;
         // 载入上一章。
         if (parsePrevChapter()) {
@@ -302,6 +306,10 @@ public abstract class PageLoader {
             mCurChapterPos++;
             mPageChangeListener.noFree(txtChapter, mCurChapterPos);
             chapterChangeCallback();
+            return false;
+        }
+        if (txtChapter.isLocked) {
+            mPageChangeListener.locked(txtChapter, mCurChapterPos);
             return false;
         }
         mStatus = STATUS_FINISH;
@@ -682,7 +690,6 @@ public abstract class PageLoader {
             chapterChangeCallback();
             return;
         }
-
 
         if (parseCurChapter()) {
             // 如果章节从未打开
@@ -1077,12 +1084,17 @@ public abstract class PageLoader {
             // 先查看是否存在上一页
             TxtPage prevPage = getPrevPage();
             if (prevPage != null) {
+                isLast = true;
                 mCancelPage = mCurPage;
                 mCurPage = prevPage;
                 mPageView.drawNextPage();
                 return true;
             }
         }
+        if (!isLast) {
+            return false;
+        }
+
 
         if (!hasPrevChapter()) {
             return false;
@@ -1093,6 +1105,11 @@ public abstract class PageLoader {
                 mCurChapterPos--;
                 mPageChangeListener.noFree(txtChapter, mCurChapterPos);
                 chapterChangeCallback();
+                return false;
+            }
+            if (txtChapter.isLocked) {
+                isLast = false;
+                mPageChangeListener.locked(txtChapter, mCurChapterPos);
                 return false;
             }
         }
@@ -1146,6 +1163,9 @@ public abstract class PageLoader {
         return true;
     }
 
+    private boolean isNext = true;
+    private boolean isLast = true;
+
     /**
      * 翻到下一页
      *
@@ -1156,17 +1176,21 @@ public abstract class PageLoader {
         if (!canTurnPage()) {
             return false;
         }
-
         if (mStatus == STATUS_FINISH) {
             // 先查看是否存在下一页
             TxtPage nextPage = getNextPage();
             if (nextPage != null) {
+                isNext = true;
                 mCancelPage = mCurPage;
                 mCurPage = nextPage;
                 mPageView.drawNextPage();
                 return true;
             }
         }
+        if (!isNext) {
+            return false;
+        }
+
 
         if (!hasNextChapter()) {
             return false;
@@ -1179,6 +1203,12 @@ public abstract class PageLoader {
                 chapterChangeCallback();
                 return false;
             }
+            if (txtChapter.isLocked) {
+                isNext = false;
+                mPageChangeListener.locked(txtChapter, mCurChapterPos);
+                return false;
+            }
+
         }
 
 
@@ -1620,6 +1650,8 @@ public abstract class PageLoader {
         void onPageChange(int pos);
 
         void noFree(TxtChapter txtChapter, int mCurChapterPos);
+
+        void locked(TxtChapter txtChapter, int mCurChapterPos);
 
         void parseSuccess();
     }

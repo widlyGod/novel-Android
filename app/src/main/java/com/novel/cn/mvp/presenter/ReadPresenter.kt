@@ -34,7 +34,7 @@ constructor(model: ReadContract.Model, rootView: ReadContract.View) :
     @Inject
     lateinit var mErrorHandler: RxErrorHandler
 
-    fun subscribeBook(chapterId: String, chapterTitle: String, money: String, chapter: Int, novelId: String, volumeId: String, txtChapter: TxtChapter, mCurChapterPos: Int,charge: ChargeChapter,data: ChapterInfoBean) {
+    fun subscribeBook(chapterId: String, chapterTitle: String, money: String, chapter: Int, novelId: String, volumeId: String, txtChapter: TxtChapter, mCurChapterPos: Int, charge: ChargeChapter, data: ChapterInfoBean) {
 
         val params = HashMap<String, Any?>()
         params["chapter"] = chapter
@@ -175,7 +175,7 @@ constructor(model: ReadContract.Model, rootView: ReadContract.View) :
                         if (charge.isSubscibe)
                             subscribeBook(data.chapterInfo.id, data.chapterInfo.title,
                                     data.chapterInfo.money.toString(), data.chapterInfo.chapter,
-                                    novelId, data.chapterInfo.volumeId, txt, mCurChapterPos,charge,data)
+                                    novelId, data.chapterInfo.volumeId, txt, mCurChapterPos, charge, data)
                         else
                             mRootView.showChapter(data, txt, mCurChapterPos, charge)
 
@@ -261,7 +261,10 @@ constructor(model: ReadContract.Model, rootView: ReadContract.View) :
                 .compose(RxLifecycleUtils.bindToLifecycle(mRootView))
                 .subscribe(object : ErrorHandleSubscriber<BaseResponse<UserAccountBean>>(mErrorHandler) {
                     override fun onNext(t: BaseResponse<UserAccountBean>) {
-                        mRootView.getUserAccountInfoSuccess(t.data)
+                        if (t.data == null)
+                            mRootView.getUserAccountInfoSuccess(UserAccountBean())
+                        else
+                            mRootView.getUserAccountInfoSuccess(t.data)
                     }
                 })
     }
@@ -282,7 +285,7 @@ constructor(model: ReadContract.Model, rootView: ReadContract.View) :
                 })
     }
 
-    fun addAutoSubscribe(novelId: String){
+    fun addAutoSubscribe(novelId: String) {
 
         var list = ArrayList<String>()
         list.add(novelId)

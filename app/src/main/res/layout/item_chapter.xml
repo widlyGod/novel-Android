@@ -20,13 +20,22 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:src="@drawable/ic_location"
+        android:layout_marginLeft="10dp"
         android:visibility="gone" />
 
+    <ImageView
+        android:id="@+id/iv_locked"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:src="@drawable/ic_lock"
+        android:layout_marginLeft="10dp"
+        android:visibility="gone" />
 
     <ImageView
         android:id="@+id/iv_free"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:src="@drawable/ic_money"
+        android:layout_marginLeft="10dp"
         android:visibility="gone" />
 </LinearLayout>

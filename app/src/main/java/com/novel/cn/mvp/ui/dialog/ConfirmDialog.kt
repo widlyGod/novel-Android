@@ -3,12 +3,13 @@ package com.novel.cn.mvp.ui.dialog
 import android.app.Dialog
 import android.content.Context
 import com.flyco.dialog.listener.OnBtnClickL
+import com.flyco.dialog.widget.MaterialDialog
 import com.flyco.dialog.widget.NormalDialog
 
 /**
  * Created by jmw on 2018/12/21
  */
-class ConfirmDialog(context: Context, init: (ConfirmDialogBuilder.() -> Unit)) : NormalDialog(context) {
+class ConfirmDialog(context: Context, init: (ConfirmDialogBuilder.() -> Unit)) : MaterialDialog(context) {
 
 
     init {
@@ -16,7 +17,7 @@ class ConfirmDialog(context: Context, init: (ConfirmDialogBuilder.() -> Unit)) :
             ConfirmDialogBuilder().apply {
                 init()
 
-                style(STYLE_TWO)//
+                btnText("取消", "确定")
                         .titleTextSize(23f)//
 
 
