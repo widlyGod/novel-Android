@@ -26,6 +26,7 @@ interface CommentContract {
         fun showState(state: Int)
         fun commentSuccess(message: String)
         fun agreeSuccess()
+        fun replySuccess(message: String)
     }
 
     //Model层定义接口,外部只需关心Model返回的数据,无需关心内部细节,即是否使用缓存
@@ -34,6 +35,7 @@ interface CommentContract {
         fun agree(commentId: String,type:Int): Observable<BaseResponse<Any>>
         fun comment(params: HashMap<String, String?>): Observable<BaseResponse<Any>>
         fun deleteComment(commentId: String): Observable<BaseResponse<Any>>
+        fun reply(params: HashMap<String, Any?>): Observable<BaseResponse<Any>>
     }
 
 }

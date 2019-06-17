@@ -155,6 +155,12 @@ interface BookService {
     fun deleteComment(@Query("commentId") commentId: String): Observable<BaseResponse<Any>>
 
     /**
+     * 删除评论
+     */
+    @POST("novelOAService/comment/deleteReply")
+    fun deleteReply(@Body params: HashMap<String, Any?>): Observable<BaseResponse<Any>>
+
+    /**
      * 回复
      */
     @POST("novelOAService/comment/saveReply")

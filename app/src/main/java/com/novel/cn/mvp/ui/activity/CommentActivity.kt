@@ -1,3 +1,4 @@
+
 package com.novel.cn.mvp.ui.activity
 
 import android.graphics.Color
@@ -34,10 +35,13 @@ import com.novel.cn.view.CustomLoadMoreView
 import com.novel.cn.view.decoration.LinearItemDecoration
 import kotlinx.android.synthetic.main.activity_comment.*
 import kotlinx.android.synthetic.main.include_title.*
+import org.greenrobot.eventbus.Subscribe
+import org.jetbrains.anko.startActivity
 import javax.inject.Inject
 
 
 class CommentActivity : BaseActivity<CommentPresenter>(), CommentContract.View {
+
 
     private val book by lazy { intent.getParcelableExtra<NovelInfoBean?>("book") }
 
@@ -47,10 +51,14 @@ class CommentActivity : BaseActivity<CommentPresenter>(), CommentContract.View {
             val user = Preference.getDeviceData<LoginInfo?>(Constant.LOGIN_INFO)
             if (!user?.userId.isNullOrEmpty()) {
                 val isAuthor = if (user?.userId == book?.novelInfo?.authorId) "1" else "0"
-                mPresenter?.comment(book?.novelInfo?.novelId,
-                        book?.novelInfo?.novelTitle,
-                        book?.novelInfo?.authorId,
-                        book?.novelInfo?.novelAuthor, isAuthor, it)
+                if (isReply) {
+                    mPresenter?.reply(mAdapter.data[replyPosition].commentId, it, user!!.userId, 0, isAuthor)
+                } else {
+                    mPresenter?.comment(book?.novelInfo?.novelId,
+                            book?.novelInfo?.novelTitle,
+                            book?.novelInfo?.authorId,
+                            book?.novelInfo?.novelAuthor, isAuthor, it)
+                }
             } else {
                 toast("请先登录")
             }
@@ -61,6 +69,8 @@ class CommentActivity : BaseActivity<CommentPresenter>(), CommentContract.View {
     @Inject
     lateinit var mAdapter: BookCommentAdapter
 
+    var replyPosition = 0
+    var isReply = false
 
     override fun setupActivityComponent(appComponent: AppComponent) {
         DaggerCommentComponent //如找不到该类,请编译一下项目
@@ -103,7 +113,15 @@ class CommentActivity : BaseActivity<CommentPresenter>(), CommentContract.View {
             }, recyclerView)
             //回复按钮点击
             setOnReplyClickListener { position ->
-                JumpManager.toCommentDetail(this@CommentActivity, this.getItem(position), book!!)
+                //                JumpManager.toCommentDetail(this@CommentActivity, this.getItem(position), book!!)
+                val user = Preference.getDeviceData<LoginInfo?>(Constant.LOGIN_INFO)
+                if (user!!.userId.isBlank()) {
+                    startActivity<LoginActivity>()
+                    return@setOnReplyClickListener
+                }
+                isReply = true
+                replyPosition = position
+                dialog.show("@${mAdapter.data[position].commentUser.userNickName}")
             }
             setOnLikeClickListener {
                 val item = mAdapter.getItem(it) as Comment
@@ -113,6 +131,9 @@ class CommentActivity : BaseActivity<CommentPresenter>(), CommentContract.View {
                 val item = mAdapter.getItem(it) as Comment
                 mPresenter?.deleteComment(it)
             }
+        }
+        mAdapter.setOnItemClickListener { adapter, view, position ->
+            JumpManager.toCommentDetail(this, mAdapter.getItem(position), book)
         }
         mAdapter.setBookDetail(book!!.novelInfo)
         //快速定位到顶部
@@ -127,7 +148,10 @@ class CommentActivity : BaseActivity<CommentPresenter>(), CommentContract.View {
             }
         })
 
-        tv_comment.setOnClickListener { dialog.show() }
+        tv_comment.setOnClickListener {
+            isReply = false
+            dialog.show("我也说两句")
+        }
 
         mPresenter?.getCommentList(book?.novelInfo?.novelId, true)
     }
@@ -135,7 +159,7 @@ class CommentActivity : BaseActivity<CommentPresenter>(), CommentContract.View {
     override fun commentSuccess(message: String) {
         toast(message)
         dialog.dismiss()
-        mPresenter?.getCommentList(book?.novelInfo?.novelId, true)
+
         EventBusManager.getInstance().post(BookCommentEvent())
     }
 
@@ -154,5 +178,14 @@ class CommentActivity : BaseActivity<CommentPresenter>(), CommentContract.View {
         EventBusManager.getInstance().post(BookCommentEvent())
     }
 
+    override fun replySuccess(message: String) {
+        dialog.dismiss()
+        mPresenter?.getCommentList(book?.novelInfo?.novelId, true)
+    }
+
+    @Subscribe
+    fun onBookshelfChange(event: BookCommentEvent) {
+        mPresenter?.getCommentList(book?.novelInfo?.novelId, true)
+    }
 
 }

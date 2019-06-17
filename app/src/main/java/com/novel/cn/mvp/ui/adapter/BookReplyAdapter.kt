@@ -4,15 +4,18 @@ import com.chad.library.adapter.base.BaseQuickAdapter
 import com.chad.library.adapter.base.BaseViewHolder
 import com.novel.cn.R
 import com.novel.cn.app.Constant
+import com.novel.cn.app.Preference
 import com.novel.cn.app.loadImage
 import com.novel.cn.app.visible
 import com.novel.cn.mvp.model.entity.BookDetail
+import com.novel.cn.mvp.model.entity.LoginInfo
 import com.novel.cn.mvp.model.entity.Reply
 import com.novel.cn.utils.TimeUtils
 import kotlinx.android.synthetic.main.item_comment.view.*
 import kotlinx.android.synthetic.main.item_reply.view.*
 import kotlinx.android.synthetic.main.item_reply.view.iv_avatar
 import kotlinx.android.synthetic.main.item_reply.view.tv_content
+import kotlinx.android.synthetic.main.item_reply.view.tv_delete
 import kotlinx.android.synthetic.main.item_reply.view.tv_from
 import kotlinx.android.synthetic.main.item_reply.view.tv_isAuthor
 import kotlinx.android.synthetic.main.item_reply.view.tv_level
@@ -23,6 +26,7 @@ import java.text.SimpleDateFormat
 class BookReplyAdapter : BaseQuickAdapter<Reply, BaseViewHolder>(R.layout.item_reply) {
     private val levelList = ArrayList<LEVEL>()
     private lateinit var mBookDetail: BookDetail
+    private var onDeleteClickListener: ((Int) -> Unit)? = null
 
     init {
         levelList.add(LEVEL.LEVEL_1)
@@ -48,6 +52,9 @@ class BookReplyAdapter : BaseQuickAdapter<Reply, BaseViewHolder>(R.layout.item_r
         mBookDetail = bookDetail
     }
 
+    fun setOnDeleteClickListener(listener: ((Int) -> Unit)?) {
+        this.onDeleteClickListener = listener
+    }
 
     override fun convert(helper: BaseViewHolder, item: Reply) {
 
@@ -65,6 +72,10 @@ class BookReplyAdapter : BaseQuickAdapter<Reply, BaseViewHolder>(R.layout.item_r
                 tv_nickname.text = item.replyUser.userNickName
             }
 
+            tv_delete.setOnClickListener {
+                onDeleteClickListener?.invoke(helper.adapterPosition)
+            }
+
             levelList.forEach {
                 if (item.replyUser.fansValue in (it.startValue..it.endValue)) {
                     tv_level.apply {
@@ -72,6 +83,12 @@ class BookReplyAdapter : BaseQuickAdapter<Reply, BaseViewHolder>(R.layout.item_r
                         text = item.replyUser.levelName
                     }
                 }
+            }
+            val user = Preference.getDeviceData<LoginInfo?>(Constant.LOGIN_INFO)
+            if (user?.userId == item.replyUser.userId) {
+                tv_delete.visible(true)
+            } else {
+                tv_delete.visible(false)
             }
         }
     }

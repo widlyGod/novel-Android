@@ -36,5 +36,9 @@ constructor(repositoryManager: IRepositoryManager) : BaseModel(repositoryManager
        return mRepositoryManager.obtainRetrofitService(BookService::class.java).getCommentList(params)
     }
 
+    override fun reply(params: HashMap<String, Any?>): Observable<BaseResponse<Any>> {
+        return mRepositoryManager.obtainRetrofitService(BookService::class.java).reply(params)
+    }
+
 
 }

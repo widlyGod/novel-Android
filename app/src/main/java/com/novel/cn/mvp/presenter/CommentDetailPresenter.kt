@@ -6,13 +6,17 @@ import com.jess.arms.integration.AppManager
 import com.jess.arms.di.scope.ActivityScope
 import com.jess.arms.mvp.BasePresenter
 import com.jess.arms.http.imageloader.ImageLoader
+import com.jess.arms.integration.EventBusManager
 import com.jess.arms.utils.RxLifecycleUtils
 import com.novel.cn.app.Constant
+import com.novel.cn.eventbus.BookCommentEvent
+import com.novel.cn.ext.applySchedulers
 import me.jessyan.rxerrorhandler.core.RxErrorHandler
 import javax.inject.Inject
 
 import com.novel.cn.mvp.contract.CommentDetailContract
 import com.novel.cn.mvp.model.entity.BaseResponse
+import com.novel.cn.mvp.model.entity.Comment
 import com.novel.cn.mvp.model.entity.Reply
 import com.novel.cn.mvp.ui.adapter.BookReplyAdapter
 import com.novel.cn.view.MultiStateView
@@ -93,6 +97,22 @@ constructor(model: CommentDetailContract.Model, rootView: CommentDetailContract.
                 .subscribe(object : ErrorHandleSubscriber<BaseResponse<Any>>(mErrorHandler) {
                     override fun onNext(t: BaseResponse<Any>) {
                         mRootView.replySuccess(t.message)
+                    }
+                })
+    }
+
+    fun deleteComment(position: Int) {
+        val item = mAdapter.getItem(position) as Reply
+        val params = HashMap<String, Any?>()
+        params["replyId"] = item.replyId
+        params["commentId"] = item.commentId
+        mModel.deleteComment(params)
+                .applySchedulers(mRootView)
+                .subscribe(object : ErrorHandleSubscriber<BaseResponse<Any>>(mErrorHandler) {
+                    override fun onNext(t: BaseResponse<Any>) {
+//                        mAdapter.notifyItemRemoved(position)
+                        mRootView.deleteCommentSuccess()
+                        EventBusManager.getInstance().post(BookCommentEvent())
                     }
                 })
     }

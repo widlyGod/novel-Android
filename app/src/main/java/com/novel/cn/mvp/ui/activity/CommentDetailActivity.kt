@@ -20,6 +20,7 @@ import com.novel.cn.mvp.contract.CommentDetailContract
 import com.novel.cn.mvp.model.entity.Comment
 import com.novel.cn.mvp.model.entity.LoginInfo
 import com.novel.cn.mvp.model.entity.NovelInfoBean
+import com.novel.cn.mvp.model.entity.Reply
 import com.novel.cn.mvp.presenter.CommentDetailPresenter
 import com.novel.cn.mvp.ui.adapter.BookReplyAdapter
 import com.novel.cn.mvp.ui.dialog.CommentDialog
@@ -35,7 +36,6 @@ import javax.inject.Inject
 
 
 class CommentDetailActivity : BaseActivity<CommentDetailPresenter>(), CommentDetailContract.View {
-
 
     private val mComment by lazy { intent.getParcelableExtra<Comment>("comment") }
     private val book by lazy { intent.getParcelableExtra<NovelInfoBean?>("book") }
@@ -157,6 +157,9 @@ class CommentDetailActivity : BaseActivity<CommentDetailPresenter>(), CommentDet
             mAdapter.apply {
                 setEnableLoadMore(true)
                 setLoadMoreView(CustomLoadMoreView())
+                setOnDeleteClickListener {
+                    mPresenter?.deleteComment(it)
+                }
                 setOnLoadMoreListener({
                     mPresenter?.getReplyList(it.commentId, false)
                 }, recyclerView)
@@ -164,6 +167,10 @@ class CommentDetailActivity : BaseActivity<CommentDetailPresenter>(), CommentDet
             tv_comment.setOnClickListener { mDialog.show() }
             mPresenter?.getReplyList(it.commentId, true)
         }
+    }
+
+    override fun deleteCommentSuccess() {
+        mPresenter?.getReplyList(mComment.commentId, true)
     }
 
     override fun replySuccess(message: String) {
