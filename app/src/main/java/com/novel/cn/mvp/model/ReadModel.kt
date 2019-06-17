@@ -51,8 +51,8 @@ constructor(repositoryManager: IRepositoryManager) : BaseModel(repositoryManager
         return mRepositoryManager.obtainRetrofitService(BookService::class.java).subcribeBook(params)
     }
 
-    override fun cancelCollection(params: HashMap<String, Any>): Observable<BaseResponse<Any>> {
-        return mRepositoryManager.obtainRetrofitService(BookService::class.java).cancelCollection(params)
+    override fun cancelCollection(bookId: String): Observable<BaseResponse<Any>> {
+        return mRepositoryManager.obtainRetrofitService(BookService::class.java).cancelCollection(bookId)
     }
 
     override fun addConllection(params: HashMap<String, Any>): Observable<BaseResponse<Any>> {

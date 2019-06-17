@@ -42,7 +42,7 @@ constructor(model: BookDetailContract.Model, rootView: BookDetailContract.View) 
     }
 
     fun addCollection(novelId: String) {
-        val params = HashMap<String,Any>()
+        val params = HashMap<String, Any>()
         params["novel_id"] = novelId
 
         mModel.addConllection(params)
@@ -74,9 +74,7 @@ constructor(model: BookDetailContract.Model, rootView: BookDetailContract.View) 
     fun deleteComment(position: Int) {
         val item = mAdapter.getItem(position) as Comment
         mModel.deleteComment(item.commentId)
-                .subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread())
-                .compose(RxLifecycleUtils.bindToLifecycle(mRootView))
+                .applySchedulers(mRootView)
                 .subscribe(object : ErrorHandleSubscriber<BaseResponse<Any>>(mErrorHandler) {
                     override fun onNext(t: BaseResponse<Any>) {
                         mAdapter.notifyItemRemoved(position)

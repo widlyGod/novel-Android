@@ -2,6 +2,7 @@ package com.novel.cn.mvp.ui.adapter
 
 import com.chad.library.adapter.base.BaseQuickAdapter
 import com.chad.library.adapter.base.BaseViewHolder
+import com.jess.arms.utils.ArmsUtils.startActivity
 import com.novel.cn.R
 import com.novel.cn.app.Constant
 import com.novel.cn.app.Preference
@@ -10,8 +11,10 @@ import com.novel.cn.app.visible
 import com.novel.cn.mvp.model.entity.BookDetail
 import com.novel.cn.mvp.model.entity.ChapterComment
 import com.novel.cn.mvp.model.entity.LoginInfo
+import com.novel.cn.mvp.ui.activity.LoginActivity
 import com.novel.cn.utils.TimeUtils
 import kotlinx.android.synthetic.main.item_comment.view.*
+import org.jetbrains.anko.startActivity
 import java.text.SimpleDateFormat
 
 class ChapterCommentAdapter : BaseQuickAdapter<ChapterComment, BaseViewHolder>(R.layout.item_comment) {
@@ -55,6 +58,7 @@ class ChapterCommentAdapter : BaseQuickAdapter<ChapterComment, BaseViewHolder>(R
     fun setOnReplyClickListener(listener: ((Int) -> Unit)?) {
         this.onReplyClickListener = listener
     }
+
     fun setBookDetail(bookDetail: BookDetail) {
         mBookDetail = bookDetail
     }
@@ -87,6 +91,11 @@ class ChapterCommentAdapter : BaseQuickAdapter<ChapterComment, BaseViewHolder>(R
             }
 
             tv_reply_num.setOnClickListener {
+                val user = Preference.getDeviceData<LoginInfo?>(Constant.LOGIN_INFO)!!
+                if (user.sessionId.isBlank()) {
+                    context.startActivity<LoginActivity>()
+                    return@setOnClickListener
+                }
                 onReplyClickListener?.invoke(helper.adapterPosition - headerLayoutCount)
             }
             tv_delete.setOnClickListener {

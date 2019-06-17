@@ -112,10 +112,10 @@ interface BookService {
     fun addConllcetion(@Body params: HashMap<String, Any>): Observable<BaseResponse<Any>>
 
     /**
-     * 加入书架
+     * 取消加入书架
      */
-    @POST("novelOAService/novelCollection/cancelCollection")
-    fun cancelCollection(@Body params: HashMap<String, Any>): Observable<BaseResponse<Any>>
+    @GET("novelOAService/novelCollection/cancelCollection")
+    fun cancelCollection(@Query("novel_id") bookId: String): Observable<BaseResponse<Any>>
 
     /**
      * 获取小说卷

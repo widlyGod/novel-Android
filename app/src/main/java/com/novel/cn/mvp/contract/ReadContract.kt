@@ -45,7 +45,7 @@ interface ReadContract {
         fun getChapterList(params: HashMap<String, Any?>): Observable<BaseResponse<ChapterBean>>
         fun readNovel(params: HashMap<String, Any?>): Observable<BaseResponse<ChapterInfoBean>>
         fun addConllection(params: HashMap<String, Any>): Observable<BaseResponse<Any>>
-        fun cancelCollection(params: HashMap<String, Any>): Observable<BaseResponse<Any>>
+        fun cancelCollection(bookId: String): Observable<BaseResponse<Any>>
         fun subscribeBook(params: HashMap<String, Any?>): Observable<BaseResponse<Any>>
         fun isChargeChapter(param: HashMap<String, Any?>): Observable<BaseResponse<ChargeChapter>>
         fun getChapterInfo(link: String?): Observable<BaseResponse<ChapterInfoBean>>

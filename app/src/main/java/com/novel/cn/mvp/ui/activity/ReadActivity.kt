@@ -299,10 +299,6 @@ class ReadActivity : BaseActivity<ReadPresenter>(), ReadContract.View, VolumeVie
                     refreshNightMode()
                 }
                 tv_chapter_comment -> {
-                    if (user!!.sessionId.isBlank()) {
-                        startActivity<LoginActivity>()
-                        return@click
-                    }
                     val chapter = mAdapter.getCurrentChapter()
                     chapter?.let {
                         hideSystemBar()
@@ -505,11 +501,13 @@ class ReadActivity : BaseActivity<ReadPresenter>(), ReadContract.View, VolumeVie
     override fun collectionSuccess() {
         isCollect = true
         refreshCollectState()
+        EventBusManager.getInstance().post(BookshelfEvent())
     }
 
     override fun cancelCollection() {
         isCollect = false
         refreshCollectState()
+        EventBusManager.getInstance().post(BookshelfEvent())
     }
 
     /**
@@ -580,7 +578,7 @@ class ReadActivity : BaseActivity<ReadPresenter>(), ReadContract.View, VolumeVie
             tipDialog.dismiss()
         }
 
-        EventBusManager.getInstance().post(BookshelfEvent())
+
         super.onDestroy()
     }
 

@@ -106,10 +106,8 @@ constructor(model: ReadContract.Model, rootView: ReadContract.View) :
     }
 
     fun cancelCollection(novelId: String) {
-        val params = HashMap<String, Any>()
-        params["novel_id"] = novelId
 
-        mModel.cancelCollection(params)
+        mModel.cancelCollection(novelId)
 
                 .applySchedulers(mRootView)
                 .subscribe(object : ErrorHandleSubscriber<BaseResponse<Any>>(mErrorHandler) {

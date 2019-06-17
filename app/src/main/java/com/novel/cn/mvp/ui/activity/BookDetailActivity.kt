@@ -31,6 +31,7 @@ import kotlinx.android.synthetic.main.activity_book_detail.recyclerView
 import kotlinx.android.synthetic.main.activity_message.*
 import kotlinx.android.synthetic.main.fragment_bookshelf.*
 import kotlinx.android.synthetic.main.include_title.*
+import org.greenrobot.eventbus.Subscribe
 import org.jetbrains.anko.startActivity
 import javax.inject.Inject
 
@@ -179,6 +180,11 @@ class BookDetailActivity : BaseActivity<BookDetailPresenter>(), BookDetailContra
         } else
             startActivity<LoginActivity>()
         return super.onOptionsItemSelected(item)
+    }
+
+    @Subscribe
+    fun onBookshelfChange(event: BookshelfEvent) {
+        mPresenter?.getBookDetail(bookId)
     }
 
 

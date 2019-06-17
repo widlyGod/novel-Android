@@ -27,6 +27,7 @@ import kotlinx.android.synthetic.main.activity_chapter_comment.*
 import kotlinx.android.synthetic.main.include_title.*
 import kotlinx.android.synthetic.main.layout_chapter_comment_header.*
 import kotlinx.android.synthetic.main.layout_chapter_comment_header.view.*
+import org.jetbrains.anko.startActivity
 import javax.inject.Inject
 
 
@@ -45,6 +46,8 @@ class ChapterCommentActivity : BaseActivity<ChapterCommentPresenter>(), ChapterC
     @Inject
     lateinit var mAdapter: ChapterCommentAdapter
 
+    private lateinit var user: LoginInfo
+
     private val mHeaderView by lazy {
         LayoutInflater.from(this).inflate(R.layout.layout_chapter_comment_header, recyclerView, false)
     }
@@ -61,6 +64,7 @@ class ChapterCommentActivity : BaseActivity<ChapterCommentPresenter>(), ChapterC
     override fun initView(savedInstanceState: Bundle?): Int {
         return R.layout.activity_chapter_comment
     }
+
 
     override fun releaseCommentSuccess() {
         mHeaderView.et_content.text = null
@@ -79,7 +83,7 @@ class ChapterCommentActivity : BaseActivity<ChapterCommentPresenter>(), ChapterC
     }
 
     override fun initData(savedInstanceState: Bundle?) {
-
+        user = Preference.getDeviceData<LoginInfo?>(Constant.LOGIN_INFO)!!
         val decoration = LinearItemDecoration()
         //分割线与左右两边的间距
         decoration.leftMargin = ArmsUtils.dip2px(this, 18f)
@@ -96,7 +100,7 @@ class ChapterCommentActivity : BaseActivity<ChapterCommentPresenter>(), ChapterC
             setOnDeleteClickListener {
 
             }
-            setOnReplyClickListener{
+            setOnReplyClickListener {
 
             }
         }
@@ -105,7 +109,7 @@ class ChapterCommentActivity : BaseActivity<ChapterCommentPresenter>(), ChapterC
         mPresenter?.getChapterComment(mBookId, mChapterId, true)
         mHeaderView.et_content.textWatcher {
             onTextChanged { charSequence, start, before, count ->
-                mHeaderView.tv_words.text = "${ mHeaderView.et_content.text.length}/200"
+                mHeaderView.tv_words.text = "${mHeaderView.et_content.text.length}/200"
 
                 if (mHeaderView.et_content.text.isNotEmpty()) {
                     mHeaderView.tv_release.delegate.backgroundColor = Color.parseColor("#5e8fca")
@@ -116,6 +120,10 @@ class ChapterCommentActivity : BaseActivity<ChapterCommentPresenter>(), ChapterC
         }
 
         mHeaderView.tv_release.setOnClickListener {
+            if (user.sessionId.isBlank()) {
+                startActivity<LoginActivity>()
+                return@setOnClickListener
+            }
             val content = mHeaderView.et_content.text.toString()
             if (content.isEmpty()) {
                 toast("内容不能为空！")
