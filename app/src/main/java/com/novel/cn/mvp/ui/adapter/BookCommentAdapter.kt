@@ -79,7 +79,7 @@ class BookCommentAdapter : BaseQuickAdapter<Comment, BaseViewHolder>(R.layout.it
                 tv_nickname.text = item.commentUser.userNickName
             }
 
-            iv_thumbUp.setImageResource(if (item.thumbUp) R.drawable.ic_zan_check else R.drawable.ic_zan_uncheck)
+            iv_thumbUp.setImageResource(if (item.isThumbed) R.drawable.ic_zan_check else R.drawable.ic_zan_uncheck)
             if (item.commentUser.fansValue == 0)
                 tv_level.visible(false)
             else
@@ -100,7 +100,9 @@ class BookCommentAdapter : BaseQuickAdapter<Comment, BaseViewHolder>(R.layout.it
                 onDeleteClickListener?.invoke(helper.adapterPosition)
             }
 
-            ll_like.setOnClickListener { onLikeClickListener?.invoke(helper.adapterPosition) }
+            ll_like.setOnClickListener {
+                if (!item.isThumbed) onLikeClickListener?.invoke(helper.adapterPosition)
+            }
 
             val user = Preference.getDeviceData<LoginInfo?>(Constant.LOGIN_INFO)
             if (user?.userId == item.commentUser.userId) {

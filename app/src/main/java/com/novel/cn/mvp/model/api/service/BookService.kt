@@ -140,7 +140,7 @@ interface BookService {
      * 点赞
      */
     @GET("novelOAService/comment/giveThumbUp")
-    fun agree(@Query("commentId") commentId: String): Observable<BaseResponse<Any>>
+    fun agree(@Query("commentId") commentId: String,@Query("type") type: Int): Observable<BaseResponse<Any>>
 
     /**
      * 发布评论

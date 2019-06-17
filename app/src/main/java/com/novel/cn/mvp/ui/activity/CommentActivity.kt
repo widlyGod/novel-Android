@@ -10,6 +10,7 @@ import android.text.Spanned
 import android.text.style.ForegroundColorSpan
 import com.jess.arms.base.BaseActivity
 import com.jess.arms.di.component.AppComponent
+import com.jess.arms.integration.EventBusManager
 import com.jess.arms.utils.ArmsUtils
 import com.novel.cn.R
 import com.novel.cn.app.Constant
@@ -18,6 +19,8 @@ import com.novel.cn.app.Preference
 import com.novel.cn.app.visible
 import com.novel.cn.di.component.DaggerCommentComponent
 import com.novel.cn.di.module.CommentModule
+import com.novel.cn.eventbus.BookCommentEvent
+import com.novel.cn.eventbus.BookshelfEvent
 import com.novel.cn.ext.toast
 import com.novel.cn.mvp.contract.CommentContract
 import com.novel.cn.mvp.model.entity.Comment
@@ -35,7 +38,6 @@ import javax.inject.Inject
 
 
 class CommentActivity : BaseActivity<CommentPresenter>(), CommentContract.View {
-
 
     private val book by lazy { intent.getParcelableExtra<NovelInfoBean?>("book") }
 
@@ -134,6 +136,7 @@ class CommentActivity : BaseActivity<CommentPresenter>(), CommentContract.View {
         toast(message)
         dialog.dismiss()
         mPresenter?.getCommentList(book?.novelInfo?.novelId, true)
+        EventBusManager.getInstance().post(BookCommentEvent())
     }
 
 
@@ -146,5 +149,10 @@ class CommentActivity : BaseActivity<CommentPresenter>(), CommentContract.View {
     override fun showState(state: Int) {
         multiStateView.viewState = state
     }
+
+    override fun agreeSuccess() {
+        EventBusManager.getInstance().post(BookCommentEvent())
+    }
+
 
 }

@@ -28,8 +28,8 @@ constructor(repositoryManager: IRepositoryManager) : BaseModel(repositoryManager
         return mRepositoryManager.obtainRetrofitService(BookService::class.java).comment(params)
     }
 
-    override fun agree(commentId: String): Observable<BaseResponse<Any>> {
-        return mRepositoryManager.obtainRetrofitService(BookService::class.java).agree(commentId)
+    override fun agree(commentId: String,type:Int): Observable<BaseResponse<Any>> {
+        return mRepositoryManager.obtainRetrofitService(BookService::class.java).agree(commentId,type)
     }
 
     override fun getCommentList(params: HashMap<String, String>): Observable<BaseResponse<MutableList<Comment>>> {

@@ -3,6 +3,7 @@ package com.novel.cn.mvp.contract
 import com.jess.arms.mvp.IView
 import com.jess.arms.mvp.IModel
 import com.novel.cn.mvp.model.entity.BaseResponse
+import com.novel.cn.mvp.model.entity.Comment
 import com.novel.cn.mvp.model.entity.NovelInfoBean
 import io.reactivex.Observable
 
@@ -27,16 +28,18 @@ interface BookDetailContract {
         fun conllectionFail()
         fun commentSuccess(message: String)
         fun replySuccess(message: String)
+        fun showState(state: Int)
     }
 
     //Model层定义接口,外部只需关心Model返回的数据,无需关心内部细节,即是否使用缓存
     interface Model : IModel {
-        fun getBookDetail(bookId: String?):Observable<BaseResponse<NovelInfoBean>>
-        fun addConllection(params: HashMap<String, Any>):Observable<BaseResponse<Any>>
-        fun agree(commentId: String): Observable<BaseResponse<Any>>
+        fun getBookDetail(bookId: String?): Observable<BaseResponse<NovelInfoBean>>
+        fun addConllection(params: HashMap<String, Any>): Observable<BaseResponse<Any>>
+        fun agree(commentId: String, type: Int): Observable<BaseResponse<Any>>
         fun deleteComment(commentId: String): Observable<BaseResponse<Any>>
         fun comment(params: HashMap<String, String?>): Observable<BaseResponse<Any>>
         fun reply(params: HashMap<String, Any?>): Observable<BaseResponse<Any>>
+        fun getCommentList(params: HashMap<String, String>): Observable<BaseResponse<MutableList<Comment>>>
     }
 
 }

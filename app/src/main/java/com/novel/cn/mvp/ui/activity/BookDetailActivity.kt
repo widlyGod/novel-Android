@@ -15,6 +15,7 @@ import com.novel.cn.R
 import com.novel.cn.app.*
 import com.novel.cn.di.component.DaggerBookDetailComponent
 import com.novel.cn.di.module.BookDetailModule
+import com.novel.cn.eventbus.BookCommentEvent
 import com.novel.cn.eventbus.BookshelfEvent
 import com.novel.cn.ext.toast
 import com.novel.cn.mvp.contract.BookDetailContract
@@ -25,11 +26,14 @@ import com.novel.cn.mvp.presenter.BookDetailPresenter
 import com.novel.cn.mvp.ui.adapter.BookCommentAdapter
 import com.novel.cn.mvp.ui.dialog.CommentDialog
 import com.novel.cn.utils.StatusBarUtils
+import com.novel.cn.view.CustomLoadMoreView
 import com.novel.cn.view.decoration.LinearItemDecoration
 import kotlinx.android.synthetic.main.activity_book_detail.*
+import kotlinx.android.synthetic.main.activity_book_detail.multiStateView
 import kotlinx.android.synthetic.main.activity_book_detail.recyclerView
+import kotlinx.android.synthetic.main.activity_book_detail.tv_comment
+import kotlinx.android.synthetic.main.activity_comment.*
 import kotlinx.android.synthetic.main.activity_message.*
-import kotlinx.android.synthetic.main.fragment_bookshelf.*
 import kotlinx.android.synthetic.main.include_title.*
 import org.greenrobot.eventbus.Subscribe
 import org.jetbrains.anko.startActivity
@@ -37,6 +41,8 @@ import javax.inject.Inject
 
 
 class BookDetailActivity : BaseActivity<BookDetailPresenter>(), BookDetailContract.View {
+
+
     private val bookId by lazy { intent.getStringExtra("bookId") }
 
     @Inject
@@ -106,7 +112,15 @@ class BookDetailActivity : BaseActivity<BookDetailPresenter>(), BookDetailContra
         tv_review_count.text = data.comment.totalCount.toString()
         tv_add_bookself.text = if (data.novelInfo.isCollection) "已在书架" else "加入书架"
         mAdapter.setBookDetail(data.novelInfo)
-        mAdapter.setNewData(data.comment.comments)
+        mPresenter?.getCommentList(data.novelInfo.novelId,true)
+//        mAdapter.setNewData(data.comment.comments)
+        mAdapter.apply {
+            setEnableLoadMore(true)
+            setLoadMoreView(CustomLoadMoreView())
+            setOnLoadMoreListener({
+                mPresenter?.getCommentList(data.novelInfo.novelId,false)
+            }, recyclerView)
+        }
         mAdapter.setOnReplyClickListener { position ->
             //            JumpManager.toCommentDetail(this@BookDetailActivity, mAdapter.getItem(position), data)
             val user = Preference.getDeviceData<LoginInfo?>(Constant.LOGIN_INFO)
@@ -191,6 +205,10 @@ class BookDetailActivity : BaseActivity<BookDetailPresenter>(), BookDetailContra
 
     }
 
+    override fun showState(state: Int) {
+        multiStateView.viewState = state
+    }
+
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
         menuInflater.inflate(R.menu.menu_bookshelf, menu)
         return true
@@ -211,5 +229,9 @@ class BookDetailActivity : BaseActivity<BookDetailPresenter>(), BookDetailContra
         mPresenter?.getBookDetail(bookId)
     }
 
+    @Subscribe
+    fun onBookshelfChange(event: BookCommentEvent) {
+        mPresenter?.getBookDetail(bookId)
+    }
 
 }

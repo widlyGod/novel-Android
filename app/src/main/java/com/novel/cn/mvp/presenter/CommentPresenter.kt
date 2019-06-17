@@ -1,9 +1,11 @@
 package com.novel.cn.mvp.presenter
 
 import com.jess.arms.di.scope.ActivityScope
+import com.jess.arms.integration.EventBusManager
 import com.jess.arms.mvp.BasePresenter
 import com.jess.arms.utils.RxLifecycleUtils
 import com.novel.cn.app.Constant
+import com.novel.cn.eventbus.BookCommentEvent
 import com.novel.cn.ext.applySchedulers
 import me.jessyan.rxerrorhandler.core.RxErrorHandler
 import javax.inject.Inject
@@ -94,15 +96,16 @@ constructor(model: CommentContract.Model, rootView: CommentContract.View) :
 
     fun agree(position: Int) {
         val item = mAdapter.getItem(position) as Comment
-        mModel.agree(item.commentId)
+        mModel.agree(item.commentId,0)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .compose(RxLifecycleUtils.bindToLifecycle(mRootView))
                 .subscribe(object : ErrorHandleSubscriber<BaseResponse<Any>>(mErrorHandler) {
                     override fun onNext(t: BaseResponse<Any>) {
-                        item.thumbUp = true
+                        item.isThumbed = true
                         item.thumbUpNumber++
                         mAdapter.notifyItemChanged(position)
+                        mRootView.agreeSuccess()
                     }
                 })
     }
@@ -114,6 +117,7 @@ constructor(model: CommentContract.Model, rootView: CommentContract.View) :
                 .subscribe(object : ErrorHandleSubscriber<BaseResponse<Any>>(mErrorHandler) {
                     override fun onNext(t: BaseResponse<Any>) {
                         mAdapter.notifyItemRemoved(position)
+                        EventBusManager.getInstance().post(BookCommentEvent())
                     }
                 })
     }

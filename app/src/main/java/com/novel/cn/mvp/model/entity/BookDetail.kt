@@ -16,7 +16,7 @@ data class CommentInfo(val totalCount: Int, val comments: List<Comment>) : Parce
 @Parcelize
 data class Comment(val commentId: String, val commentTime: Long, val content: String, val counts: Int, var thumbUpNumber: Int,
                    val uid: String, var replyNumber: Int, val isAuthor: Boolean,
-                   val deviceType: String, val commentUser: CommentUser, var thumbUp: Boolean = false) : Parcelable
+                   val deviceType: String, val commentUser: CommentUser, var thumbUp: Boolean = false,var isThumbed: Boolean = false) : Parcelable
 
 @Parcelize
 data class CommentUser(val userPhoto: String, val userNickName: String, val userId: String,
