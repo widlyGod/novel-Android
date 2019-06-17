@@ -224,6 +224,11 @@ class BookDetailActivity : BaseActivity<BookDetailPresenter>(), BookDetailContra
         return super.onOptionsItemSelected(item)
     }
 
+    override fun deleteCommentSuccess() {
+        mPresenter?.getBookDetail(bookId)
+    }
+
+
     @Subscribe
     fun onBookshelfChange(event: BookshelfEvent) {
         mPresenter?.getBookDetail(bookId)

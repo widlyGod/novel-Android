@@ -87,7 +87,10 @@ constructor(model: BookDetailContract.Model, rootView: BookDetailContract.View) 
                 .applySchedulers(mRootView)
                 .subscribe(object : ErrorHandleSubscriber<BaseResponse<Any>>(mErrorHandler) {
                     override fun onNext(t: BaseResponse<Any>) {
-                        mAdapter.notifyItemRemoved(position)
+//                        mAdapter.notifyItemRemoved(position)
+//                        mAdapter.notifyItemRangeChanged(position, mAdapter.data.size - position)
+//                        mAdapter.data.removeAt(position)
+                        mRootView.deleteCommentSuccess()
                     }
                 })
     }

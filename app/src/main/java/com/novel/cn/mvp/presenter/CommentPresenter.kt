@@ -116,7 +116,7 @@ constructor(model: CommentContract.Model, rootView: CommentContract.View) :
                 .applySchedulers(mRootView)
                 .subscribe(object : ErrorHandleSubscriber<BaseResponse<Any>>(mErrorHandler) {
                     override fun onNext(t: BaseResponse<Any>) {
-                        mAdapter.notifyItemRemoved(position)
+//                        mAdapter.notifyItemRemoved(position)
                         EventBusManager.getInstance().post(BookCommentEvent())
                     }
                 })
