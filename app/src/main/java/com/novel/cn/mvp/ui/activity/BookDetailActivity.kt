@@ -37,12 +37,19 @@ import javax.inject.Inject
 
 
 class BookDetailActivity : BaseActivity<BookDetailPresenter>(), BookDetailContract.View {
+    override fun replySuccess(message: String) {
+        dialog.dismiss()
+        mPresenter?.getBookDetail(bookId)
+    }
 
 
     private val bookId by lazy { intent.getStringExtra("bookId") }
 
     @Inject
     lateinit var mAdapter: BookCommentAdapter
+
+    var isReply = false
+    var replyPosition = 0
 
     private val dialog by lazy {
         val dialog = CommentDialog(this)
@@ -107,11 +114,20 @@ class BookDetailActivity : BaseActivity<BookDetailPresenter>(), BookDetailContra
         mAdapter.setBookDetail(data.novelInfo)
         mAdapter.setNewData(data.comment.comments)
         mAdapter.setOnReplyClickListener { position ->
-            JumpManager.toCommentDetail(this@BookDetailActivity, mAdapter.getItem(position), data)
+            //            JumpManager.toCommentDetail(this@BookDetailActivity, mAdapter.getItem(position), data)
+            val user = Preference.getDeviceData<LoginInfo?>(Constant.LOGIN_INFO)
+            if (user!!.userId.isBlank()) {
+                startActivity<LoginActivity>()
+                return@setOnReplyClickListener
+            }
+            isReply = true
+            replyPosition = position
+            dialog.show("@${mAdapter.data[position].commentUser.userNickName}")
         }
 
         mAdapter.setOnItemClickListener { adapter, view, position ->
-            JumpManager.toCommentList(this@BookDetailActivity, data)
+            //            JumpManager.toCommentList(this@BookDetailActivity, data)
+            JumpManager.toCommentDetail(this@BookDetailActivity, mAdapter.getItem(position), data)
         }
 
         click(tv_read, tv_add_bookself, ll_comment, tv_comment, fl_contents) {
@@ -123,7 +139,8 @@ class BookDetailActivity : BaseActivity<BookDetailPresenter>(), BookDetailContra
                         startActivity<LoginActivity>()
                         return@click
                     }
-                    dialog.show()
+                    isReply = false
+                    dialog.show("我也说两句")
                 }
                 tv_read -> JumpManager.jumpRead(this, data)
                 tv_add_bookself -> {
@@ -144,10 +161,14 @@ class BookDetailActivity : BaseActivity<BookDetailPresenter>(), BookDetailContra
             val user = Preference.getDeviceData<LoginInfo?>(Constant.LOGIN_INFO)
             if (!user?.userId.isNullOrEmpty()) {
                 val isAuthor = if (user?.userId == data.novelInfo.authorId) "1" else "0"
-                mPresenter?.comment(data.novelInfo.novelId,
-                        data.novelInfo.novelTitle,
-                        data.novelInfo.authorId,
-                        data.novelInfo.novelAuthor, isAuthor, it)
+                if (isReply) {
+                    mPresenter?.reply(mAdapter.data[replyPosition].commentId, it, user!!.userId, 0, isAuthor)
+                } else {
+                    mPresenter?.comment(data.novelInfo.novelId,
+                            data.novelInfo.novelTitle,
+                            data.novelInfo.authorId,
+                            data.novelInfo.novelAuthor, isAuthor, it)
+                }
             } else {
                 toast("请先登录")
             }

@@ -12,6 +12,11 @@ import kotlinx.android.synthetic.main.dialog_comment.*
 class CommentDialog(context: Context) : BottomBaseDialog<CommentDialog>(context) {
 
     private var onReleaseClickListener: ((content: String) -> Unit)? = null
+    private var content = "我也说两句"
+
+    init {
+
+    }
 
     override fun onCreateView(): View {
         return layoutInflater.inflate(R.layout.dialog_comment, mLlControlHeight, false)
@@ -32,6 +37,10 @@ class CommentDialog(context: Context) : BottomBaseDialog<CommentDialog>(context)
         }
     }
 
+    override fun onViewCreated(inflate: View?) {
+        super.onViewCreated(inflate)
+    }
+
     fun setOnReleaseClickListener(listener: (content: String) -> Unit) {
         this.onReleaseClickListener = listener
     }
@@ -48,15 +57,19 @@ class CommentDialog(context: Context) : BottomBaseDialog<CommentDialog>(context)
     }
 
     override fun setUiBeforShow() {
-        et_content.text = null
+        et_content.setText("")
+        et_content.hint = content
     }
 
+
+    fun show(content: String) {
+        this.content = content
+        show()
+    }
 
     override fun show() {
         //显示dialog时，自动打开软键盘
         DeviceUtils.showSoftKeyboard(this)
         super.show()
     }
-
-
 }

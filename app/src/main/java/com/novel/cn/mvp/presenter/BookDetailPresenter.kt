@@ -98,4 +98,20 @@ constructor(model: BookDetailContract.Model, rootView: BookDetailContract.View) 
                     }
                 })
     }
+
+    fun reply(commentId: String, content: String, userId: String, type: Int, isAuthor: String) {
+        val params = HashMap<String, Any?>()
+        params["commentId"] = commentId
+        params["content"] = content
+        params["remindUid"] = userId
+        params["replyType"] = type
+        params["isAuthor"] = isAuthor
+        mModel.reply(params)
+                .applySchedulers(mRootView)
+                .subscribe(object : ErrorHandleSubscriber<BaseResponse<Any>>(mErrorHandler) {
+                    override fun onNext(t: BaseResponse<Any>) {
+                        mRootView.replySuccess(t.message)
+                    }
+                })
+    }
 }
