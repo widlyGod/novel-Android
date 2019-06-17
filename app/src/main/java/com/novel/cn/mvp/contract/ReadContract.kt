@@ -54,7 +54,8 @@ interface ReadContract {
         fun updateRead(params: ArrayList<HashMap<String, Any>>): Observable<BaseResponse<Any>>
         fun getUserAccountInfo(): Observable<BaseResponse<UserAccountBean>>
         fun reward(params: HashMap<String, Any?>): Observable<BaseResponse<Any>>
-        fun addAutoSubscribe(list:ArrayList<String>): Observable<BaseResponse<Any>>
+        fun addAutoSubscribe(list: ArrayList<String>): Observable<BaseResponse<Any>>
+        fun clickNum(params: HashMap<String, Any?>): Observable<BaseResponse<Any>>
     }
 
 }

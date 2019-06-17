@@ -288,5 +288,21 @@ constructor(model: ReadContract.Model, rootView: ReadContract.View) :
                 })
     }
 
+    fun clickNum(novelId: String) {
+        val param = HashMap<String, Any?>()
+        val param1 = HashMap<String, Any?>()
+        param1["id"] = novelId
+        param["novelInfo"] = param1
+        mModel.clickNum(param)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .compose(RxLifecycleUtils.bindToLifecycle(mRootView))
+                .subscribe(object : ErrorHandleSubscriber<BaseResponse<Any>>(mErrorHandler) {
+                    override fun onNext(t: BaseResponse<Any>) {
+
+                    }
+                })
+    }
+
 
 }

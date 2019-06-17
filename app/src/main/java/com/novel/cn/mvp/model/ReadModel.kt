@@ -28,8 +28,8 @@ constructor(repositoryManager: IRepositoryManager) : BaseModel(repositoryManager
         private val CACHE_TIMEOUT = TimeUnit.DAYS.toMillis(1)
     }
 
-    override fun preDownload(url: String?):Observable<ResponseBody> {
-         return mRepositoryManager.obtainRetrofitService(BookService::class.java).preDownload(url)
+    override fun preDownload(url: String?): Observable<ResponseBody> {
+        return mRepositoryManager.obtainRetrofitService(BookService::class.java).preDownload(url)
     }
 
     override fun getCalalogue(novelId: String): Observable<CacheResult<CalalogueVo>> {
@@ -40,7 +40,7 @@ constructor(repositoryManager: IRepositoryManager) : BaseModel(repositoryManager
     }
 
     override fun getChapterInfo(link: String?): Observable<BaseResponse<ChapterInfoBean>> {
-         return mRepositoryManager.obtainRetrofitService(BookService::class.java).getChapterInfo(link)
+        return mRepositoryManager.obtainRetrofitService(BookService::class.java).getChapterInfo(link)
     }
 
     override fun isChargeChapter(param: HashMap<String, Any?>): Observable<BaseResponse<ChargeChapter>> {
@@ -64,7 +64,7 @@ constructor(repositoryManager: IRepositoryManager) : BaseModel(repositoryManager
     }
 
     override fun getChapterList(params: HashMap<String, Any?>): Observable<BaseResponse<ChapterBean>> {
-         return mRepositoryManager.obtainRetrofitService(BookService::class.java).getChapterList(params)
+        return mRepositoryManager.obtainRetrofitService(BookService::class.java).getChapterList(params)
     }
 
     override fun getVolumeList(bookId: String?): Observable<BaseResponse<MutableList<Volume>?>> {
@@ -87,6 +87,9 @@ constructor(repositoryManager: IRepositoryManager) : BaseModel(repositoryManager
         return mRepositoryManager.obtainRetrofitService(BookService::class.java).addAutoSubscribe(params)
     }
 
+    override fun clickNum(params: HashMap<String, Any?>): Observable<BaseResponse<Any>> {
+        return mRepositoryManager.obtainRetrofitService(BookService::class.java).clickNum(params)
+    }
 
     @Inject
     lateinit var mGson: Gson;

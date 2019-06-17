@@ -247,6 +247,7 @@ class ReadActivity : BaseActivity<ReadPresenter>(), ReadContract.View, VolumeVie
         refreshNightMode()
 //        mPresenter?.getVolumeList(mBook.novelInfo.novelId)
         mPresenter?.getCatalogue(mBook.novelInfo.novelId)
+        mPresenter?.clickNum(mBook.novelInfo.novelId)
         seekbar.setOnSeekBarChangeListener(object : SeekBar.OnSeekBarChangeListener {
             override fun onStopTrackingTouch(seekBar: SeekBar?) {
                 mPageLoader.skipToChapter(seekBar!!.progress)
@@ -405,7 +406,7 @@ class ReadActivity : BaseActivity<ReadPresenter>(), ReadContract.View, VolumeVie
                 txt.isFree = false
             else
                 txt.isFree = !it.isFree
-            if (user.recodeCode == 101)
+            if (user.recodeCode == 101 || mBook.novelInfo.authorId == user.userId)
                 txt.isFree = true
             txt.isLocked = it.isLocked
             txt.filePath = it.filePath

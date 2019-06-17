@@ -209,6 +209,12 @@ interface BookService {
     @POST("novelOAService/novelSubscribe/saveSubscribes")
     fun addAutoSubscribe(@Body params: ArrayList<String>): Observable<BaseResponse<Any>>
 
+    /**
+     * 上传阅读点击
+     */
+    @POST("novelOAService/novel/clickNum")
+    fun clickNum(@Body params: HashMap<String, Any?>): Observable<BaseResponse<Any>>
+
 
     @POST("novelOAService/novelDetail/isChargeChapter")
     fun isChargeChapter(@Body param: HashMap<String, Any?>): Observable<BaseResponse<ChargeChapter>>
