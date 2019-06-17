@@ -33,6 +33,7 @@ import com.jess.arms.mvp.IPresenter;
 import com.jess.arms.mvp.IView;
 import com.jess.arms.utils.ArmsUtils;
 import com.jess.arms.utils.LoginEvent;
+import com.jess.arms.utils.TipDialog;
 import com.trello.rxlifecycle2.android.FragmentEvent;
 
 import org.greenrobot.eventbus.Subscribe;
@@ -68,6 +69,7 @@ public abstract class BaseFragment<P extends IPresenter> extends Fragment implem
     @Inject
     @Nullable
     protected P mPresenter;//如果当前页面逻辑简单, Presenter 可以为 null
+    private TipDialog mLoading;
 
     @NonNull
     @Override
@@ -94,6 +96,10 @@ public abstract class BaseFragment<P extends IPresenter> extends Fragment implem
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         compositeDisposable = new CompositeDisposable();
+        mLoading = new TipDialog.Builder(getContext())
+                .setIconType(TipDialog.Builder.ICON_TYPE_LOADING)
+                .setTipWord("请稍后")
+                .create(false);
         return initView(inflater, container, savedInstanceState);
     }
 
@@ -103,6 +109,9 @@ public abstract class BaseFragment<P extends IPresenter> extends Fragment implem
         compositeDisposable.clear();
         if (mPresenter != null) mPresenter.onDestroy();//释放资源
         this.mPresenter = null;
+        if(mLoading != null) {
+            mLoading.dismiss();
+        }
     }
 
     @Override
@@ -124,6 +133,16 @@ public abstract class BaseFragment<P extends IPresenter> extends Fragment implem
     @Override
     public void initStatusBar(@Nullable Bundle savedInstanceState) {
 
+    }
+
+    @Override
+    public void showLoading() {
+        mLoading.show();
+    }
+
+    @Override
+    public void hideLoading() {
+        mLoading.hide();
     }
 
 

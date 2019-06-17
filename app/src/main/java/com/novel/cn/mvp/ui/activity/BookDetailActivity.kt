@@ -1,10 +1,16 @@
 package com.novel.cn.mvp.ui.activity
 
 import android.os.Bundle
+import android.view.Gravity
+import android.view.Menu
+import android.view.MenuItem
 import com.jess.arms.base.BaseActivity
 import com.jess.arms.di.component.AppComponent
+import com.jess.arms.integration.AppManager
 import com.jess.arms.integration.EventBusManager
 import com.jess.arms.utils.ArmsUtils
+import com.jess.arms.utils.IndexEvent
+import com.jess.arms.utils.LoginEvent
 import com.novel.cn.R
 import com.novel.cn.app.*
 import com.novel.cn.di.component.DaggerBookDetailComponent
@@ -22,6 +28,7 @@ import com.novel.cn.utils.StatusBarUtils
 import com.novel.cn.view.decoration.LinearItemDecoration
 import kotlinx.android.synthetic.main.activity_book_detail.*
 import kotlinx.android.synthetic.main.activity_book_detail.recyclerView
+import kotlinx.android.synthetic.main.activity_message.*
 import kotlinx.android.synthetic.main.fragment_bookshelf.*
 import kotlinx.android.synthetic.main.include_title.*
 import org.jetbrains.anko.startActivity
@@ -156,6 +163,21 @@ class BookDetailActivity : BaseActivity<BookDetailPresenter>(), BookDetailContra
         //通知书架页面
         EventBusManager.getInstance().post(BookshelfEvent())
 
+    }
+
+    override fun onCreateOptionsMenu(menu: Menu?): Boolean {
+        menuInflater.inflate(R.menu.menu_bookshelf, menu)
+        return true
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem?): Boolean {
+        val user = Preference.getDeviceData<LoginInfo?>(Constant.LOGIN_INFO)
+        if (user!!.sessionId.isNotEmpty()) {
+            EventBusManager.getInstance().post(IndexEvent())
+            AppManager.getAppManager().killAll(MainActivity::class.java)
+        } else
+            startActivity<LoginActivity>()
+        return super.onOptionsItemSelected(item)
     }
 
 

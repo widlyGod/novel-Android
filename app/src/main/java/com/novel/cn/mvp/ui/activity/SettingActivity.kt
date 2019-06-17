@@ -63,7 +63,7 @@ class SettingActivity : BaseActivity<SettingPresenter>(), SettingContract.View {
             when (it) {
                 tv_logout -> {
                     Preference.clean()
-                    Preference.put(Constant.LOGIN_INFO, LoginInfo("",""))
+                    Preference.put(Constant.LOGIN_INFO, LoginInfo("","",0))
                     finish()
                     EventBusManager.getInstance().post(LoginEvent())
 //                    startActivity<MainActivity>()

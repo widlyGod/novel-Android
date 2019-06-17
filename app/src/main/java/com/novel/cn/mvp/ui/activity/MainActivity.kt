@@ -7,6 +7,7 @@ import com.flyco.tablayout.listener.CustomTabEntity
 import com.flyco.tablayout.listener.OnTabSelectListener
 import com.jess.arms.base.BaseActivity
 import com.jess.arms.di.component.AppComponent
+import com.jess.arms.utils.IndexEvent
 import com.jess.arms.utils.LoginEvent
 import com.novel.cn.R
 import com.novel.cn.app.Constant
@@ -128,6 +129,15 @@ class MainActivity : BaseActivity<MainPresenter>(), MainContract.View {
 
     @Subscribe(threadMode = ThreadMode.MAIN)
     override fun onLoginChange(event: LoginEvent) {
+        val user = Preference.getDeviceData<LoginInfo?>(Constant.LOGIN_INFO)
+        if (user!!.sessionId.isBlank())
+            switchFragment(1)
+        else
+            switchFragment(0)
+    }
+
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    fun onIndexChange(event: IndexEvent) {
         val user = Preference.getDeviceData<LoginInfo?>(Constant.LOGIN_INFO)
         if (user!!.sessionId.isBlank())
             switchFragment(1)

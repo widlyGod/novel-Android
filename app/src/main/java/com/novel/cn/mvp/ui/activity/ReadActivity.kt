@@ -405,6 +405,8 @@ class ReadActivity : BaseActivity<ReadPresenter>(), ReadContract.View, VolumeVie
                 txt.isFree = false
             else
                 txt.isFree = !it.isFree
+            if (user.recodeCode == 101)
+                txt.isFree = true
             txt.isLocked = it.isLocked
             txt.filePath = it.filePath
             txt.words = it.words

@@ -20,7 +20,7 @@ class LauncherActivity : AppCompatActivity() {
         val token = Preference.getString(Constant.SESSION_ID)
         val intent = Intent()
         if (token.isNullOrEmpty()) {
-            Preference.put(Constant.LOGIN_INFO, LoginInfo("",""))
+            Preference.put(Constant.LOGIN_INFO, LoginInfo("","",0))
         }
 //            intent.setClass(this, LoginActivity::class.java)
 //        } else {

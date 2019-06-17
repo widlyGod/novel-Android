@@ -7,6 +7,7 @@ import android.view.View
 import android.view.ViewGroup
 import com.jess.arms.base.BaseLazyLoadFragment
 import com.jess.arms.di.component.AppComponent
+import com.jess.arms.utils.IndexEvent
 import com.jess.arms.utils.LogUtils
 import com.jess.arms.utils.ShareprefUtils
 import com.novel.cn.R
@@ -31,6 +32,7 @@ import com.novel.cn.utils.StatusBarUtils
 import com.novel.cn.view.CustomLoadMoreView
 import kotlinx.android.synthetic.main.fragment_bookshelf.*
 import org.greenrobot.eventbus.Subscribe
+import org.greenrobot.eventbus.ThreadMode
 import org.jetbrains.anko.startActivity
 import javax.inject.Inject
 
@@ -154,7 +156,7 @@ class BookshelfFragment : BaseLazyLoadFragment<BookshelfPresenter>(), BookshelfC
         }
     }
 
-    override fun signInSuccess(readCoupon:Int) {
+    override fun signInSuccess(readCoupon: Int) {
         mSignInDialog.setToast(readCoupon)
         mSignInDialog.show()
         //签到成功，禁止点击
@@ -192,6 +194,11 @@ class BookshelfFragment : BaseLazyLoadFragment<BookshelfPresenter>(), BookshelfC
 
     override fun showState(state: Int) {
         multiStateView.viewState = state
+    }
+
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    fun onIndexChange(event: IndexEvent) {
+        onRefresh()
     }
 
 }
