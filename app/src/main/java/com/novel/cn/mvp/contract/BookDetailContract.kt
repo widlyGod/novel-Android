@@ -24,6 +24,7 @@ interface BookDetailContract {
     interface View : IView {
         fun showBookDetail(data: NovelInfoBean)
         fun conllectionSuccess()
+        fun conllectionFail()
         fun commentSuccess(message: String)
         fun replySuccess(message: String)
     }

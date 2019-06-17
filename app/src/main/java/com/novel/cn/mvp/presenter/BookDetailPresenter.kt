@@ -4,6 +4,7 @@ import com.jess.arms.di.scope.ActivityScope
 import com.jess.arms.mvp.BasePresenter
 import com.jess.arms.utils.RxLifecycleUtils
 import com.novel.cn.ext.applySchedulers
+import com.novel.cn.ext.toast
 import com.novel.cn.mvp.contract.BookDetailContract
 import com.novel.cn.mvp.model.entity.BaseResponse
 import com.novel.cn.mvp.model.entity.Comment
@@ -37,6 +38,7 @@ constructor(model: BookDetailContract.Model, rootView: BookDetailContract.View) 
 
                     override fun onError(t: Throwable) {
                         super.onError(t)
+                        toast(t.message)
                     }
                 })
     }
@@ -52,6 +54,10 @@ constructor(model: BookDetailContract.Model, rootView: BookDetailContract.View) 
                 .subscribe(object : ErrorHandleSubscriber<BaseResponse<Any>>(mErrorHandler) {
                     override fun onNext(t: BaseResponse<Any>) {
                         mRootView.conllectionSuccess()
+                    }
+
+                    override fun onError(t: Throwable) {
+                        super.onError(t)
                     }
                 })
     }

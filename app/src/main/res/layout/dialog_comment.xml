@@ -31,14 +31,30 @@
 
     </FrameLayout>
 
-    <EditText
-        android:id="@+id/et_content"
+    <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_marginTop="20dp"
-        android:background="@null"
-        android:gravity="top|left"
-        android:hint="我也说两句"
-        android:textColorHint="@color/color_999999" />
+        android:layout_height="match_parent">
+
+        <EditText
+            android:id="@+id/et_content"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginTop="20dp"
+            android:background="@null"
+            android:gravity="top|left"
+            android:hint="我也说两句"
+            android:maxLength="50"
+            android:textColorHint="@color/color_999999" />
+
+        <TextView
+            android:id="@+id/tv_text_num"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:layout_alignParentRight="true"
+            android:text="0/50"
+            android:textColor="@color/color_999999" />
+
+    </RelativeLayout>
 
 </com.flyco.roundview.RoundLinearLayout>

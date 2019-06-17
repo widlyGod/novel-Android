@@ -37,12 +37,6 @@ import javax.inject.Inject
 
 
 class BookDetailActivity : BaseActivity<BookDetailPresenter>(), BookDetailContract.View {
-    override fun replySuccess(message: String) {
-        dialog.dismiss()
-        mPresenter?.getBookDetail(bookId)
-    }
-
-
     private val bookId by lazy { intent.getStringExtra("bookId") }
 
     @Inject
@@ -176,6 +170,15 @@ class BookDetailActivity : BaseActivity<BookDetailPresenter>(), BookDetailContra
     }
 
     override fun commentSuccess(message: String) {
+        dialog.dismiss()
+        mPresenter?.getBookDetail(bookId)
+    }
+
+    override fun conllectionFail() {
+        mPresenter?.getBookDetail(bookId)
+    }
+
+    override fun replySuccess(message: String) {
         dialog.dismiss()
         mPresenter?.getBookDetail(bookId)
     }
