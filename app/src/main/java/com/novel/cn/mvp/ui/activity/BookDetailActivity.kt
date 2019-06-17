@@ -98,7 +98,8 @@ class BookDetailActivity : BaseActivity<BookDetailPresenter>(), BookDetailContra
         tv_author.text = data.novelInfo.novelAuthor
         tv_words.text = "${data.novelInfo.novelWords}字"
         tv_click_num.text = "${data.novelInfo.clickNum}次点击"
-        tv_novelIntro.text = data.novelInfo.novelIntro
+        expandable_text.text = data.novelInfo.novelIntro
+        expand_text_view.setText(data.novelInfo.novelIntro)
         tv_chapter.text = "更新至${data.novelInfo.chapterCount}章"
         tv_review_count.text = data.comment.totalCount.toString()
         tv_add_bookself.text = if (data.novelInfo.isCollection) "已在书架" else "加入书架"
