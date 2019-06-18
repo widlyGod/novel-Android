@@ -24,9 +24,9 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="头像"
-            app:layout_constraintLeft_toLeftOf="parent"
             android:textColor="@color/color_333333"
             app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
 
@@ -40,11 +40,11 @@
             app:layout_constraintTop_toTopOf="parent" />
 
         <de.hdodenhof.circleimageview.CircleImageView
+            android:id="@+id/iv_avatar"
             android:layout_width="39dp"
             android:layout_height="39dp"
             android:layout_marginRight="35dp"
             android:scaleType="centerCrop"
-            android:id="@+id/iv_avatar"
             android:src="@drawable/img_default_book"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintRight_toLeftOf="@+id/iv_arrow"
@@ -53,9 +53,9 @@
     </android.support.constraint.ConstraintLayout>
 
     <View
-        android:background="#e4e4e4"
         android:layout_width="match_parent"
-        android:layout_height="1px"/>
+        android:layout_height="1px"
+        android:background="#e4e4e4" />
 
     <android.support.constraint.ConstraintLayout
         android:id="@+id/cl_modify_name"
@@ -68,41 +68,51 @@
 
 
         <TextView
+            android:id="@+id/tv_nickname_title"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="昵称"
-            app:layout_constraintLeft_toLeftOf="parent"
             android:textColor="@color/color_333333"
             app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
 
         <TextView
+            android:id="@+id/tv_nickname"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:text="萨达所"
+            android:layout_marginEnd="35dp"
+            android:gravity="right"
+            android:textColor="@color/color_333333"
+            app:layout_constraintStart_toEndOf="@+id/tv_nickname_title"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintEnd_toStartOf="@+id/imageView_nickname" />
+
+        <ImageView
+            android:id="@+id/imageView_nickname"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:drawablePadding="35dp"
-            android:textColor="@color/color_333333"
-            android:id="@+id/tv_nickname"
-            android:text="疯狂小麦"
-            android:drawableRight="@drawable/ic_arrow_right"
+            android:src="@drawable/ic_arrow_right"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintRight_toRightOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
 
-
     </android.support.constraint.ConstraintLayout>
 
     <View
-        android:background="#e4e4e4"
         android:layout_width="match_parent"
-        android:layout_height="1px"/>
+        android:layout_height="1px"
+        android:background="#e4e4e4" />
 
     <android.support.constraint.ConstraintLayout
+        android:id="@+id/cl_gender"
         android:layout_width="match_parent"
         android:layout_height="55dp"
         android:gravity="center_vertical"
-        android:id="@+id/cl_gender"
         android:orientation="horizontal"
         android:paddingLeft="18dp"
         android:paddingRight="30dp">
@@ -113,36 +123,36 @@
             android:layout_height="wrap_content"
             android:text="性别"
             android:textColor="@color/color_333333"
-            app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
 
         <TextView
+            android:id="@+id/tv_gender"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:drawablePadding="35dp"
-            android:textColor="@color/color_333333"
-            android:text="男"
-            android:id="@+id/tv_gender"
             android:drawableRight="@drawable/ic_arrow_right"
+            android:drawablePadding="35dp"
+            android:text="男"
+            android:textColor="@color/color_333333"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintRight_toRightOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
 
-
     </android.support.constraint.ConstraintLayout>
 
     <View
-        android:background="#e4e4e4"
         android:layout_width="match_parent"
-        android:layout_height="1px"/>
+        android:layout_height="1px"
+        android:background="#e4e4e4" />
 
     <android.support.constraint.ConstraintLayout
         android:id="@+id/cl_modify_signature"
         android:layout_width="match_parent"
-        android:layout_height="55dp"
+        android:layout_height="wrap_content"
+        android:minHeight="55dp"
         android:gravity="center_vertical"
         android:orientation="horizontal"
         android:paddingLeft="18dp"
@@ -150,33 +160,42 @@
 
 
         <TextView
+            android:id="@+id/tv_intro_title"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="个性签名"
-            app:layout_constraintLeft_toLeftOf="parent"
             android:textColor="@color/color_333333"
             app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
 
         <TextView
+            android:id="@+id/tv_intro"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:text="萨达所"
+            android:layout_marginEnd="35dp"
+            android:gravity="right"
+            android:textColor="@color/color_333333"
+            app:layout_constraintStart_toEndOf="@+id/tv_intro_title"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintEnd_toStartOf="@+id/imageView"/>
+
+        <ImageView
+            android:id="@+id/imageView"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:drawablePadding="35dp"
-            android:textColor="@color/color_333333"
-            android:text="吃火锅"
-            android:id="@+id/tv_intro"
-            android:drawableRight="@drawable/ic_arrow_right"
+            android:src="@drawable/ic_arrow_right"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintRight_toRightOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
-
-
     </android.support.constraint.ConstraintLayout>
 
     <View
-        android:background="#e4e4e4"
         android:layout_width="match_parent"
-        android:layout_height="1px"/>
+        android:layout_height="1px"
+        android:background="#e4e4e4" />
 </LinearLayout>
