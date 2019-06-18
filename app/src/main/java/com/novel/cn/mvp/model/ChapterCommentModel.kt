@@ -20,6 +20,10 @@ import io.reactivex.Observable
 class ChapterCommentModel
 @Inject
 constructor(repositoryManager: IRepositoryManager) : BaseModel(repositoryManager), ChapterCommentContract.Model {
+    override fun deleteChapterComment(params: HashMap<String, Any?>): Observable<BaseResponse<Any>> {
+        return mRepositoryManager.obtainRetrofitService(BookService::class.java).deleteChapterComment(params)
+    }
+
     override fun chapterComment(params: HashMap<String, Any?>):Observable<BaseResponse<Any>> {
         return mRepositoryManager.obtainRetrofitService(BookService::class.java).chapterComment(params)
     }
@@ -28,5 +32,8 @@ constructor(repositoryManager: IRepositoryManager) : BaseModel(repositoryManager
         return mRepositoryManager.obtainRetrofitService(BookService::class.java).getChapterComment(params)
     }
 
+    override fun agree(commentId: String,type:Int): Observable<BaseResponse<Any>> {
+        return mRepositoryManager.obtainRetrofitService(BookService::class.java).agree(commentId,type)
+    }
 
 }

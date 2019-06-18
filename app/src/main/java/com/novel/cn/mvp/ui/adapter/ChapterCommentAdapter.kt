@@ -1,5 +1,6 @@
 package com.novel.cn.mvp.ui.adapter
 
+import android.annotation.SuppressLint
 import com.chad.library.adapter.base.BaseQuickAdapter
 import com.chad.library.adapter.base.BaseViewHolder
 import com.jess.arms.utils.ArmsUtils.startActivity
@@ -63,16 +64,20 @@ class ChapterCommentAdapter : BaseQuickAdapter<ChapterComment, BaseViewHolder>(R
         mBookDetail = bookDetail
     }
 
+    @SuppressLint("SetTextI18n")
     override fun convert(helper: BaseViewHolder, item: ChapterComment) {
 
         with(helper.itemView) {
             iv_avatar.loadImage(item.chapterCommentUser.userPhoto)
 
             tv_time.text = TimeUtils.millis2String(item.replyTime, SimpleDateFormat("yyyy-MM-dd HH:mm"))
-            tv_content.text = item.content
+            if (item.remindUser != null && item.remindUser.userNickName.isNotEmpty()) {
+                tv_content.text = "回复@${item.remindUser.userNickName} : ${item.content}"
+            } else
+                tv_content.text = item.content
             tv_from.text = Constant.DEVICE_TYPE[item.deviceType]
             tv_num.text = item.thumbUpNumber.toString()
-            tv_reply_num.text = "回复(${item.replyNumber})"
+            tv_reply_num.text = "回复"
             if (mBookDetail.authorId == item.chapterCommentUser.userId) {
                 tv_isAuthor.visible(true)
                 tv_nickname.text = mBookDetail.novelAuthor
@@ -80,7 +85,7 @@ class ChapterCommentAdapter : BaseQuickAdapter<ChapterComment, BaseViewHolder>(R
                 tv_isAuthor.visible(false)
                 tv_nickname.text = item.chapterCommentUser.userNickName
             }
-            iv_thumbUp.setImageResource(if (item.thumbUp) R.drawable.ic_zan_check else R.drawable.ic_zan_uncheck)
+            iv_thumbUp.setImageResource(if (item.isThumbed) R.drawable.ic_zan_check else R.drawable.ic_zan_uncheck)
             levelList.forEach {
                 if (item.chapterCommentUser.fansValue in (it.startValue..it.endValue)) {
                     tv_level.apply {
@@ -102,7 +107,7 @@ class ChapterCommentAdapter : BaseQuickAdapter<ChapterComment, BaseViewHolder>(R
                 onDeleteClickListener?.invoke(helper.adapterPosition - headerLayoutCount)
             }
 
-            ll_like.setOnClickListener { onLikeClickListener?.invoke(helper.adapterPosition - headerLayoutCount) }
+            ll_like.setOnClickListener { if (!item.isThumbed) onLikeClickListener?.invoke(helper.adapterPosition - headerLayoutCount) }
 
             val user = Preference.getDeviceData<LoginInfo?>(Constant.LOGIN_INFO)
             if (user?.userId == item.chapterCommentUser.userId) {

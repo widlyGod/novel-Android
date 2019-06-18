@@ -51,6 +51,7 @@ class CommentDetailActivity : BaseActivity<CommentDetailPresenter>(), CommentDet
             if (!user?.userId.isNullOrEmpty()) {
                 val isAuthor = if (user?.userId == mComment?.commentUser?.userId && mComment.isAuthor) "1" else "0"
                 mPresenter?.reply(mComment.commentId, it, mComment.commentUser.userId, 0, isAuthor)
+                dialog.dismiss()
             } else {
                 toast("请先登录")
             }
@@ -174,8 +175,7 @@ class CommentDetailActivity : BaseActivity<CommentDetailPresenter>(), CommentDet
     }
 
     override fun replySuccess(message: String) {
-        toast(message)
-        mDialog.dismiss()
+//        toast(message)
         mPresenter?.getReplyList(mComment.commentId, true)
     }
 

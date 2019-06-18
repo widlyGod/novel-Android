@@ -59,6 +59,7 @@ class CommentActivity : BaseActivity<CommentPresenter>(), CommentContract.View {
                             book?.novelInfo?.authorId,
                             book?.novelInfo?.novelAuthor, isAuthor, it)
                 }
+                dialog.dismiss()
             } else {
                 toast("请先登录")
             }
@@ -157,9 +158,7 @@ class CommentActivity : BaseActivity<CommentPresenter>(), CommentContract.View {
     }
 
     override fun commentSuccess(message: String) {
-        toast(message)
-        dialog.dismiss()
-
+//        toast(message)
         EventBusManager.getInstance().post(BookCommentEvent())
     }
 
@@ -179,7 +178,6 @@ class CommentActivity : BaseActivity<CommentPresenter>(), CommentContract.View {
     }
 
     override fun replySuccess(message: String) {
-        dialog.dismiss()
         mPresenter?.getCommentList(book?.novelInfo?.novelId, true)
     }
 

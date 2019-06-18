@@ -4,12 +4,14 @@ import com.jess.arms.di.scope.ActivityScope
 import com.jess.arms.mvp.BasePresenter
 import com.jess.arms.utils.RxLifecycleUtils
 import com.novel.cn.app.Constant
+import com.novel.cn.ext.applySchedulers
 import me.jessyan.rxerrorhandler.core.RxErrorHandler
 import javax.inject.Inject
 
 import com.novel.cn.mvp.contract.ChapterCommentContract
 import com.novel.cn.mvp.model.entity.BaseResponse
 import com.novel.cn.mvp.model.entity.ChapterComment
+import com.novel.cn.mvp.model.entity.Comment
 import com.novel.cn.mvp.ui.adapter.ChapterCommentAdapter
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.schedulers.Schedulers
@@ -35,9 +37,7 @@ constructor(model: ChapterCommentContract.Model, rootView: ChapterCommentContrac
         params["pageNum"] = mPageIndex
         params["pageSize"] = Constant.PAGE_SIZE
         mModel.getChapterComment(params)
-                .subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread())
-                .compose(RxLifecycleUtils.bindToLifecycle(mRootView))
+                .applySchedulers(mRootView)
                 .subscribe(object : ErrorHandleSubscriber<BaseResponse<MutableList<ChapterComment>>>(mErrorHandler) {
                     override fun onNext(t: BaseResponse<MutableList<ChapterComment>>) {
                         mRootView.showCount(t.basePage.counts)
@@ -64,22 +64,47 @@ constructor(model: ChapterCommentContract.Model, rootView: ChapterCommentContrac
                 })
     }
 
-    fun chapterComment(mBookId: String, mChapterId: String, mVolumeId: String, content: String, isAuthor: String) {
+    fun chapterComment(mBookId: String, mChapterId: String, mVolumeId: String, content: String, remindUid: String, replyType: Int, isAuthor: String) {
         val params = HashMap<String, Any?>()
         params["novelId"] = mBookId
         params["chapterId"] = mChapterId
         params["volumeId"] = mVolumeId
         params["content"] = content
-        params["remindUid"] = "1"
-        params["replyType"] = "0"
+        params["remindUid"] = remindUid
+        params["replyType"] = replyType
         params["isAuthor"] = isAuthor
         mModel.chapterComment(params)
-                .subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread())
-                .compose(RxLifecycleUtils.bindToLifecycle(mRootView))
+                .applySchedulers(mRootView)
                 .subscribe(object : ErrorHandleSubscriber<BaseResponse<Any>>(mErrorHandler) {
                     override fun onNext(t: BaseResponse<Any>) {
                         mRootView.releaseCommentSuccess()
+                    }
+                })
+    }
+
+    fun agree(position: Int) {
+        val item = mAdapter.getItem(position) as ChapterComment
+        mModel.agree(item.replyId, 1)
+                .applySchedulers(mRootView)
+                .subscribe(object : ErrorHandleSubscriber<BaseResponse<Any>>(mErrorHandler) {
+                    override fun onNext(t: BaseResponse<Any>) {
+                        item.isThumbed = true
+                        item.thumbUpNumber++
+                        mAdapter.notifyDataSetChanged()
+                    }
+                })
+    }
+
+    fun deleteChapterComment(mBookId: String, mChapterId: String, replyId: String) {
+        val params = HashMap<String, Any?>()
+        params["novelId"] = mBookId
+        params["chapterId"] = mChapterId
+        params["replyId"] = replyId
+        mModel.deleteChapterComment(params)
+                .applySchedulers(mRootView)
+                .subscribe(object : ErrorHandleSubscriber<BaseResponse<Any>>(mErrorHandler) {
+                    override fun onNext(t: BaseResponse<Any>) {
+                        getChapterComment(mBookId, mChapterId, true)
                     }
                 })
     }

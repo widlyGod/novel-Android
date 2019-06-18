@@ -177,6 +177,7 @@ class BookDetailActivity : BaseActivity<BookDetailPresenter>(), BookDetailContra
                             data.novelInfo.authorId,
                             data.novelInfo.novelAuthor, isAuthor, it)
                 }
+                dialog.dismiss()
             } else {
                 toast("请先登录")
             }
@@ -184,7 +185,6 @@ class BookDetailActivity : BaseActivity<BookDetailPresenter>(), BookDetailContra
     }
 
     override fun commentSuccess(message: String) {
-        dialog.dismiss()
         mPresenter?.getBookDetail(bookId)
     }
 
@@ -193,7 +193,6 @@ class BookDetailActivity : BaseActivity<BookDetailPresenter>(), BookDetailContra
     }
 
     override fun replySuccess(message: String) {
-        dialog.dismiss()
         mPresenter?.getBookDetail(bookId)
     }
 

@@ -20,6 +20,7 @@ import com.novel.cn.mvp.model.entity.LoginInfo
 import com.novel.cn.mvp.model.entity.NovelInfoBean
 import com.novel.cn.mvp.presenter.ChapterCommentPresenter
 import com.novel.cn.mvp.ui.adapter.ChapterCommentAdapter
+import com.novel.cn.mvp.ui.dialog.CommentDialog
 import com.novel.cn.utils.StatusBarUtils
 import com.novel.cn.view.CustomLoadMoreView
 import com.novel.cn.view.decoration.LinearItemDecoration
@@ -33,7 +34,6 @@ import javax.inject.Inject
 
 class ChapterCommentActivity : BaseActivity<ChapterCommentPresenter>(), ChapterCommentContract.View {
 
-
     private val mChapterId by lazy { intent.getStringExtra("chapterId") }
 
     private val mBookId by lazy { intent.getStringExtra("bookId") }
@@ -42,6 +42,25 @@ class ChapterCommentActivity : BaseActivity<ChapterCommentPresenter>(), ChapterC
 
     private val mAuthorId by lazy { intent.getStringExtra("authorId") }
     private val book by lazy { intent.getParcelableExtra<NovelInfoBean?>("book") }
+
+    private val dialog by lazy {
+        val dialog = CommentDialog(this)
+        dialog.setOnReleaseClickListener {
+            val user = Preference.getDeviceData<LoginInfo?>(Constant.LOGIN_INFO)
+            if (!user?.userId.isNullOrEmpty()) {
+                val isAuthor = if (user?.userId == book?.novelInfo?.authorId) "1" else "0"
+                mPresenter?.chapterComment(mBookId, mChapterId, mVolumeId, it, mAdapter.data[replyPosition].chapterCommentUser.userId, 1, isAuthor)
+                if (dialog.isShowing)
+                    dialog.dismiss()
+                hideSoftKeyboard()
+            } else {
+                toast("请先登录")
+            }
+        }
+        dialog
+    }
+
+    var replyPosition = 0
 
     @Inject
     lateinit var mAdapter: ChapterCommentAdapter
@@ -67,6 +86,7 @@ class ChapterCommentActivity : BaseActivity<ChapterCommentPresenter>(), ChapterC
 
 
     override fun releaseCommentSuccess() {
+
         mHeaderView.et_content.text = null
         DeviceUtils.hideSoftKeyboard(this, mHeaderView.et_content)
         mPresenter?.getChapterComment(mBookId, mChapterId, true)
@@ -98,10 +118,19 @@ class ChapterCommentActivity : BaseActivity<ChapterCommentPresenter>(), ChapterC
                 mPresenter?.getChapterComment(mBookId, mChapterId, false)
             }, recyclerView)
             setOnDeleteClickListener {
-
+                mPresenter?.deleteChapterComment(mBookId, mChapterId, mAdapter.data[it].replyId)
             }
             setOnReplyClickListener {
-
+                val user = Preference.getDeviceData<LoginInfo?>(Constant.LOGIN_INFO)
+                if (user!!.userId.isBlank()) {
+                    startActivity<LoginActivity>()
+                    return@setOnReplyClickListener
+                }
+                replyPosition == it
+                dialog.show("@${mAdapter.data[it].chapterCommentUser.userNickName}")
+            }
+            setOnLikeClickListener {
+                mPresenter?.agree(it)
             }
         }
         mAdapter.setHeaderView(mHeaderView)
@@ -132,7 +161,7 @@ class ChapterCommentActivity : BaseActivity<ChapterCommentPresenter>(), ChapterC
             val user = Preference.getDeviceData<LoginInfo?>(Constant.LOGIN_INFO)
             val isAuthor = if (mAuthorId == user?.userId) "1" else "0"
 
-            mPresenter?.chapterComment(mBookId, mChapterId, mVolumeId, content, isAuthor)
+            mPresenter?.chapterComment(mBookId, mChapterId, mVolumeId, content, mAuthorId, 0, isAuthor)
         }
     }
 

@@ -29,7 +29,9 @@ interface ChapterCommentContract {
     //Model层定义接口,外部只需关心Model返回的数据,无需关心内部细节,即是否使用缓存
     interface Model : IModel {
         fun getChapterComment(params: HashMap<String, Any?>): Observable<BaseResponse<MutableList<ChapterComment>>>
-        fun chapterComment(params: HashMap<String, Any?>)  :Observable<BaseResponse<Any>>
+        fun chapterComment(params: HashMap<String, Any?>): Observable<BaseResponse<Any>>
+        fun agree(commentId: String, type: Int): Observable<BaseResponse<Any>>
+        fun deleteChapterComment(params: HashMap<String, Any?>): Observable<BaseResponse<Any>>
     }
 
 }

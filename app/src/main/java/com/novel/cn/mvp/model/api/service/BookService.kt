@@ -221,6 +221,12 @@ interface BookService {
     @POST("novelOAService/novel/clickNum")
     fun clickNum(@Body params: HashMap<String, Any?>): Observable<BaseResponse<Any>>
 
+    /**
+     * 删除章节评论
+     */
+    @POST("novelOAService/chapterComment/deleteChapterComment")
+    fun deleteChapterComment(@Body params: HashMap<String, Any?>): Observable<BaseResponse<Any>>
+
 
     @POST("novelOAService/novelDetail/isChargeChapter")
     fun isChargeChapter(@Body param: HashMap<String, Any?>): Observable<BaseResponse<ChargeChapter>>
