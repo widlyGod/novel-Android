@@ -28,6 +28,7 @@ import kotlinx.android.synthetic.main.activity_chapter_comment.*
 import kotlinx.android.synthetic.main.include_title.*
 import kotlinx.android.synthetic.main.layout_chapter_comment_header.*
 import kotlinx.android.synthetic.main.layout_chapter_comment_header.view.*
+import kotlinx.android.synthetic.main.layout_unlogin_header.view.*
 import org.jetbrains.anko.startActivity
 import javax.inject.Inject
 
@@ -69,6 +70,10 @@ class ChapterCommentActivity : BaseActivity<ChapterCommentPresenter>(), ChapterC
 
     private val mHeaderView by lazy {
         LayoutInflater.from(this).inflate(R.layout.layout_chapter_comment_header, recyclerView, false)
+    }
+
+    private val mUnLoginHeaderView by lazy {
+        LayoutInflater.from(this).inflate(R.layout.layout_unlogin_header, recyclerView, false)
     }
 
     override fun setupActivityComponent(appComponent: AppComponent) {
@@ -133,36 +138,45 @@ class ChapterCommentActivity : BaseActivity<ChapterCommentPresenter>(), ChapterC
                 mPresenter?.agree(it)
             }
         }
-        mAdapter.setHeaderView(mHeaderView)
-        mAdapter.setBookDetail(book!!.novelInfo)
-        mPresenter?.getChapterComment(mBookId, mChapterId, true)
-        mHeaderView.et_content.textWatcher {
-            onTextChanged { charSequence, start, before, count ->
-                mHeaderView.tv_words.text = "${mHeaderView.et_content.text.length}/200"
+        if (user!!.sessionId.isBlank()){
+            mAdapter.setHeaderView(mUnLoginHeaderView)
+            mUnLoginHeaderView.tv_un_login.setOnClickListener {
+                startActivity<LoginActivity>()
+            }
+        } else{
+            mAdapter.setHeaderView(mHeaderView)
+            mHeaderView.et_content.textWatcher {
+                onTextChanged { charSequence, start, before, count ->
+                    mHeaderView.tv_words.text = "${mHeaderView.et_content.text.length}/200"
 
-                if (mHeaderView.et_content.text.isNotEmpty()) {
-                    mHeaderView.tv_release.delegate.backgroundColor = Color.parseColor("#5e8fca")
-                } else {
-                    mHeaderView.tv_release.delegate.backgroundColor = Color.parseColor("#c1c1c1")
+                    if (mHeaderView.et_content.text.isNotEmpty()) {
+                        mHeaderView.tv_release.delegate.backgroundColor = Color.parseColor("#5e8fca")
+                    } else {
+                        mHeaderView.tv_release.delegate.backgroundColor = Color.parseColor("#c1c1c1")
+                    }
                 }
             }
+
+            mHeaderView.tv_release.setOnClickListener {
+                if (user.sessionId.isBlank()) {
+                    startActivity<LoginActivity>()
+                    return@setOnClickListener
+                }
+                val content = mHeaderView.et_content.text.toString()
+                if (content.isEmpty()) {
+                    toast("内容不能为空！")
+                    return@setOnClickListener
+                }
+                val user = Preference.getDeviceData<LoginInfo?>(Constant.LOGIN_INFO)
+                val isAuthor = if (mAuthorId == user?.userId) "1" else "0"
+
+                mPresenter?.chapterComment(mBookId, mChapterId, mVolumeId, content, mAuthorId, 0, isAuthor)
+            }
         }
 
-        mHeaderView.tv_release.setOnClickListener {
-            if (user.sessionId.isBlank()) {
-                startActivity<LoginActivity>()
-                return@setOnClickListener
-            }
-            val content = mHeaderView.et_content.text.toString()
-            if (content.isEmpty()) {
-                toast("内容不能为空！")
-                return@setOnClickListener
-            }
-            val user = Preference.getDeviceData<LoginInfo?>(Constant.LOGIN_INFO)
-            val isAuthor = if (mAuthorId == user?.userId) "1" else "0"
+        mAdapter.setBookDetail(book!!.novelInfo)
+        mPresenter?.getChapterComment(mBookId, mChapterId, true)
 
-            mPresenter?.chapterComment(mBookId, mChapterId, mVolumeId, content, mAuthorId, 0, isAuthor)
-        }
     }
 
 

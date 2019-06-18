@@ -5,8 +5,6 @@
     android:orientation="vertical"
     android:layout_height="wrap_content">
 
-
-
         <com.flyco.roundview.RoundFrameLayout
             android:layout_width="match_parent"
             android:layout_height="102dp"
