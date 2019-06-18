@@ -36,6 +36,8 @@ constructor(model: ReadRecordContract.Model, rootView: ReadRecordContract.View) 
     fun getReadRecordList(pullToRefresh: Boolean) {
 
         if (pullToRefresh) mPageIndex = 1
+        else
+            mPageIndex++
 
         mModel.getReadRecordList(mPageIndex)
                 .subscribeOn(Schedulers.io())
