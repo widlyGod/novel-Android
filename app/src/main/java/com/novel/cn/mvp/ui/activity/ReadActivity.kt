@@ -399,7 +399,7 @@ class ReadActivity : BaseActivity<ReadPresenter>(), ReadContract.View, VolumeVie
             txt.chapterId = it.chapterId
             txt.title = it.chapterTitle
             if (mBook.novelInfo.isFreeLimit)
-                txt.isFree = false
+                txt.isFree = true
             else
                 txt.isFree = !it.isFree
             if (user.recodeCode == 101 || mBook.novelInfo.authorId == user.userId)

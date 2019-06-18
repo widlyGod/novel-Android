@@ -125,7 +125,7 @@ class BookshelfFragment : BaseLazyLoadFragment<BookshelfPresenter>(), BookshelfC
     }
 
     override fun getReadTimeSuccess(time: String) {
-        tv_read_time.text = "本周阅读时长${time}分钟"
+        tv_read_time.text = "本周阅读时长/分钟"
         tv_read_time_big.text = "$time"
     }
 

@@ -103,7 +103,7 @@ class RewardDialog(context: Context, private val view: ReadContract.View) : Base
 
                             } else {
                                 if (mUserAccountBean.recommendNumber < rewardNum)
-                                    recommendView!!.tv_user_recommend.text = "打赏账户超过账户余额"
+                                    recommendView!!.tv_user_recommend.text = "打赏数量超过账户余额"
                                 else {
                                     tv_reward_empty.visible(false)
                                     ll_reward_main.visible(true)
@@ -122,7 +122,7 @@ class RewardDialog(context: Context, private val view: ReadContract.View) : Base
 
                             } else {
                                 if (mUserAccountBean.monthRecommendNumber < rewardNum)
-                                    recommendView!!.tv_user_recommend.text = "打赏账户超过账户余额"
+                                    recommendView!!.tv_user_recommend.text = "打赏数量超过账户余额"
                                 else {
                                     tv_reward_empty.visible(false)
                                     ll_reward_main.visible(true)
@@ -141,7 +141,7 @@ class RewardDialog(context: Context, private val view: ReadContract.View) : Base
 
                             } else {
                                 if (mUserAccountBean.diamondNumber < rewardNum)
-                                    recommendView!!.tv_user_recommend.text = "打赏账户超过账户余额"
+                                    recommendView!!.tv_user_recommend.text = "打赏数量超过账户余额"
                                 else {
                                     tv_reward_empty.visible(false)
                                     ll_reward_main.visible(true)
@@ -217,7 +217,7 @@ class RewardDialog(context: Context, private val view: ReadContract.View) : Base
             when (mPosition) {
                 0 -> {
                     if (mUserAccountBean.recommendNumber < rewardNum)
-                        recommendView!!.tv_user_recommend.text = "打赏账户超过账户余额"
+                        recommendView!!.tv_user_recommend.text = "打赏数量超过账户余额"
                     else {
                         view.reward("recommend", rewardNum)
                         dismiss()
@@ -226,7 +226,7 @@ class RewardDialog(context: Context, private val view: ReadContract.View) : Base
 
                 1 -> {
                     if (mUserAccountBean.monthRecommendNumber < rewardNum)
-                        recommendView!!.tv_user_recommend.text = "打赏账户超过账户余额"
+                        recommendView!!.tv_user_recommend.text = "打赏数量超过账户余额"
                     else {
                         view.reward("monthRecommend", rewardNum)
                         dismiss()
@@ -234,7 +234,7 @@ class RewardDialog(context: Context, private val view: ReadContract.View) : Base
                 }
                 2 -> {
                     if (mUserAccountBean.diamondNumber < rewardNum)
-                        recommendView!!.tv_user_recommend.text = "打赏账户超过账户余额"
+                        recommendView!!.tv_user_recommend.text = "打赏数量超过账户余额"
                     else {
                         view.reward("diamond", rewardNum)
                         dismiss()
