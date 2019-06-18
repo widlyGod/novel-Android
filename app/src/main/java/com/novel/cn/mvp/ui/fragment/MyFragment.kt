@@ -15,6 +15,7 @@ import com.novel.cn.di.component.DaggerMyComponent
 import com.novel.cn.di.module.MyModule
 import com.novel.cn.mvp.contract.MyContract
 import com.novel.cn.mvp.model.entity.User
+import com.novel.cn.mvp.model.entity.VipInfo
 import com.novel.cn.mvp.presenter.MyPresenter
 import com.novel.cn.mvp.ui.activity.MessageActivity
 import com.novel.cn.mvp.ui.activity.SettingActivity
@@ -61,7 +62,11 @@ class MyFragment : BaseFragment<MyPresenter>(), MyContract.View {
             when (view) {
                 iv_setting -> activity?.startActivity<SettingActivity>()
                 fl_messsage -> activity?.startActivity<MessageActivity>()
-                iv_avatar -> mUser?.let { JumpManager.jumpUserInfo(activity, it) }
+                iv_avatar -> mUser?.let {
+                    if (it.vipInfo == null)
+                        it.vipInfo = VipInfo()
+                    JumpManager.jumpUserInfo(activity, it)
+                }
                 tv_recharge -> JumpManager.jumpRecharge(activity)
                 tv_my_account -> JumpManager.jumpMineAccount(activity)
             }
@@ -78,17 +83,29 @@ class MyFragment : BaseFragment<MyPresenter>(), MyContract.View {
     override fun showUserInfo(data: User) {
         mUser = data
         iv_avatar.loadImage(data.userPhoto)
-        iv_gender.setImageResource(if (data.userGender == 0) R.drawable.ic_male else R.drawable.ic_famale)
+        iv_gender.setImageResource(if (data.userGender == "0") R.drawable.ic_male else R.drawable.ic_famale)
         tv_read_count.text = "读过${data.readCount}本"
+        tv_read_time.text = "读过${data.readCount}本"
+        tv_thumbedNum.text = "被赞${data.thumbedNum}次"
+        if (data.vipInfo != null && data.vipInfo.vipLevel != 0) {
+            rtv_vip_level.text = "VIP${data.vipInfo.vipLevel}"
+            rtv_vip_level.visible(true)
+        } else
+            rtv_vip_level.visible(false)
 
         tv_meet_day.text = "${data.meetDays}天"
         tv_sign_day.text = "${data.signDays}天"
+        tv_thumbNum.text = "${data.thumbNum}个"
+        tv_commentNum.text = "${data.commentNum}条"
+        tv_user_level.text = "${data.grade}"
 
-        tv_month_ticket.text = data.monthTickets
-        tv_recommend_ticket.text = data.recommendTickets
+        tv_discount_num.text = "${data.discountCoupon}"
+        tv_month_ticket.text = "${data.monthRecommendNumber}"
+        tv_recommend_ticket.text = "${data.recommendNumber}"
+        tv_coupon.text = "${data.coupon}"
 
-        tv_msg.text = data.msgCount
-        tv_account.text = "余额\t\t\t${data.moneys}阅点"
+        tv_msg.text = "${data.msgCount}"
+        tv_account.text = "余额\t\t\t${data.goldNumber}阅点"
 
     }
 }

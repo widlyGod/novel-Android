@@ -25,12 +25,12 @@ interface UserInfoContract {
     interface View : IView {
         fun modifyName(name: String)
         fun modifySignature(name: String)
-        fun modifySuccess(user: User)
+        fun modifySuccess()
     }
 
     //Model层定义接口,外部只需关心Model返回的数据,无需关心内部细节,即是否使用缓存
     interface Model : IModel{
-        fun modifyUserInfo(params: HashMap<String, Any?>): Observable<BaseResponse<User>>
+        fun modifyUserInfo(params: HashMap<String, Any?>): Observable<BaseResponse<Any>>
         fun checkNickName(params: HashMap<String, String>): Observable<BaseResponse<Any>>
     }
 

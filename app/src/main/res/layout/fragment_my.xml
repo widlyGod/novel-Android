@@ -111,6 +111,7 @@
                             android:src="@drawable/ic_dianzan" />
 
                         <TextView
+                            android:id="@+id/tv_thumbNum"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_marginTop="10dp"
@@ -140,6 +141,7 @@
                             android:src="@drawable/ic_pl" />
 
                         <TextView
+                            android:id="@+id/tv_commentNum"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_marginTop="10dp"
@@ -236,6 +238,7 @@
                                 android:orientation="vertical">
 
                                 <TextView
+                                    android:id="@+id/tv_discount_num"
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
                                     android:text="0"
@@ -307,6 +310,7 @@
                                 android:orientation="vertical">
 
                                 <TextView
+                                    android:id="@+id/tv_coupon"
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
                                     android:text="0"

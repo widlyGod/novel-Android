@@ -38,7 +38,7 @@ constructor(repositoryManager: IRepositoryManager) : BaseModel(repositoryManager
     @Inject
     lateinit var mApplication: Application;
 
-    override fun modifyUserInfo(params: HashMap<String, Any?>): Observable<BaseResponse<User>> {
+    override fun modifyUserInfo(params: HashMap<String, Any?>): Observable<BaseResponse<Any>> {
         return mRepositoryManager.obtainRetrofitService(UserService::class.java).modifyUserInfo(params)
     }
     override fun checkNickName(params: HashMap<String, String>): Observable<BaseResponse<Any>> {

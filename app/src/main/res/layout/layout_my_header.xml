@@ -12,9 +12,9 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginRight="30dp"
-        android:visibility="gone"
         android:layout_marginBottom="5dp"
         android:src="@drawable/ic_setting"
+        android:visibility="gone"
         app:layout_constraintBottom_toTopOf="@+id/iv_avatar"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
@@ -24,11 +24,11 @@
         android:id="@+id/iv_back"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:visibility="gone"
         android:layout_marginBottom="5dp"
         android:src="@drawable/back"
-        app:layout_constraintLeft_toLeftOf="@+id/iv_avatar"
+        android:visibility="gone"
         app:layout_constraintBottom_toTopOf="@+id/iv_avatar"
+        app:layout_constraintLeft_toLeftOf="@+id/iv_avatar"
         app:layout_constraintTop_toTopOf="parent" />
 
 
@@ -53,16 +53,53 @@
         app:layout_constraintLeft_toRightOf="@+id/iv_avatar" />
 
 
-    <ImageView
-        android:id="@+id/iv_level"
+    <LinearLayout
+        android:id="@+id/ll_level"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_height="21dp"
         android:layout_marginLeft="10dp"
-        android:src="@drawable/ic_lv"
+        android:background="@drawable/ic_lv"
+        android:orientation="horizontal"
         app:layout_constraintBottom_toBottomOf="@+id/iv_avatar"
-        app:layout_constraintLeft_toRightOf="@+id/iv_gender" />
+        app:layout_constraintLeft_toRightOf="@+id/iv_gender">
+
+        <RelativeLayout
+            android:layout_width="24dp"
+            android:layout_height="match_parent">
+
+            <TextView
+                android:id="@+id/tv_user_level"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="@color/white"
+                android:textSize="8sp"
+                android:layout_centerInParent="true"
+                android:layout_centerVertical="true"
+                android:text="10"/>
+
+        </RelativeLayout>
+
+        <com.willy.ratingbar.BaseRatingBar
+            android:id="@+id/rating_star_bar"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            app:srb_isIndicator="true"
+            app:srb_drawableEmpty="@drawable/ic_rating_star_unselected"
+            app:srb_drawableFilled="@drawable/ic_rating_star_selected"
+            android:layout_gravity="center_vertical"
+            app:srb_numStars="5"
+            app:srb_rating="2.1"
+            app:srb_starHeight="6dp"
+            app:srb_starPadding="1dp"
+            app:srb_starWidth="6dp"
+            android:layout_marginRight="4dp"/>
+
+
+    </LinearLayout>
 
     <com.flyco.roundview.RoundTextView
+        android:id="@+id/rtv_vip_level"
         android:layout_width="wrap_content"
         android:layout_height="15dp"
         android:layout_marginLeft="10dp"
@@ -73,7 +110,7 @@
         android:textColor="@color/white"
         android:textSize="10sp"
         app:layout_constraintBottom_toBottomOf="@+id/iv_avatar"
-        app:layout_constraintLeft_toRightOf="@+id/iv_level"
+        app:layout_constraintLeft_toRightOf="@+id/ll_level"
         app:rv_backgroundColor="#f96572"
         app:rv_isRadiusHalfHeight="true" />
 
@@ -103,6 +140,7 @@
 
 
         <TextView
+            android:id="@+id/tv_read_time"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="阅读1时22分"
@@ -119,6 +157,7 @@
             android:textSize="10sp" />
 
         <TextView
+            android:id="@+id/tv_thumbedNum"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginLeft="10dp"

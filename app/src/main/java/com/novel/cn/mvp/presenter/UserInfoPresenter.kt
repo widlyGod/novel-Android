@@ -37,9 +37,9 @@ constructor(model: UserInfoContract.Model, rootView: UserInfoContract.View) :
     fun modifyUserInfo(params: HashMap<String, Any?>) {
         mModel.modifyUserInfo(params)
                 .applySchedulers(mRootView)
-                .subscribe(object : ErrorHandleSubscriber<BaseResponse<User>>(mErrorHandler) {
-                    override fun onNext(t: BaseResponse<User>) {
-                        mRootView.modifySuccess(t.data)
+                .subscribe(object : ErrorHandleSubscriber<BaseResponse<Any>>(mErrorHandler) {
+                    override fun onNext(t: BaseResponse<Any>) {
+                        mRootView.modifySuccess()
                     }
                 })
     }

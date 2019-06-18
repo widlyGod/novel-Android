@@ -43,7 +43,7 @@ import java.util.concurrent.TimeUnit
 
 class UserInfoActivity : BaseActivity<UserInfoPresenter>(), UserInfoContract.View {
 
-    override fun modifySuccess(user: User) {
+    override fun modifySuccess() {
         finish()
     }
 
@@ -65,7 +65,7 @@ class UserInfoActivity : BaseActivity<UserInfoPresenter>(), UserInfoContract.Vie
     private var userSignature = ""
 
     private val mGenderDialog by lazy {
-        UpdateGenderDialog(this, mUser?.userGender)
+        UpdateGenderDialog(this, mUser?.userGender?.toInt())
                 .apply {
                     setOnSelectGenderListener {
                         dismiss()
@@ -103,13 +103,13 @@ class UserInfoActivity : BaseActivity<UserInfoPresenter>(), UserInfoContract.Vie
 
     override fun initData(savedInstanceState: Bundle?) {
         toolbar_right_tv.setVisible(true)
-        userGender = mUser!!.userGender
+        userGender = mUser!!.userGender.toInt()
 
         mUser?.let {
             iv_avatar.loadImage(it.userPhoto)
-            tv_nickname.text = it.userName
-            tv_gender.text = if (it.userGender == 0) "男" else "女"
-            tv_intro.text = it.userIntro
+            tv_nickname.text = it.userNickName
+            tv_gender.text = if (it.userGender == "0") "男" else "女"
+            tv_intro.text = it.userIntroduction
         }
 
         cl_gender.setOnClickListener {
@@ -117,7 +117,7 @@ class UserInfoActivity : BaseActivity<UserInfoPresenter>(), UserInfoContract.Vie
         }
 
         toolbar_right_tv.clicks().throttleFirst(1, TimeUnit.SECONDS).subscribe {
-            if (distFileStr.isBlank() && userName.isBlank() && userSignature.isBlank() && userGender == mUser!!.userGender)
+            if (distFileStr.isBlank() && userName.isBlank() && userSignature.isBlank() && userGender == mUser!!.userGender.toInt())
                 finish()
             val params = HashMap<String, Any?>()
             params.put("userId", mUser?.userId)

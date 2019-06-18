@@ -178,10 +178,10 @@ class RechargeActivity : BaseActivity<RechargePresenter>(), RechargeContract.Vie
 
     override fun showUserInfo(data: User) {
         iv_avatar.loadImage(data.userPhoto)
-        iv_gender.setImageResource(if (data.userGender == 0) R.drawable.ic_male else R.drawable.ic_famale)
+        iv_gender.setImageResource(if (data.userGender == "0") R.drawable.ic_male else R.drawable.ic_famale)
         tv_read_count.text = "读过${data.readCount}本"
-        tv_account.text = data.userName
-        tv_blance.text = "${data.moneys}阅币"
+        tv_account.text = data.userNickName
+        tv_blance.text = "${data.goldNumber}阅币"
     }
 
     override fun showRechargeInfo(data: String, code: String) {

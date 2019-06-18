@@ -88,9 +88,7 @@ constructor(model: RegistContract.Model, rootView: RegistContract.View) :
         val params = HashMap<String, String>()
         params.put("keyword", email)
         mModel.sendCode(params)
-                .subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread())
-                .compose(RxLifecycleUtils.bindToLifecycle(mRootView))
+                .applySchedulers(mRootView)
                 .subscribe(object : ErrorHandleSubscriber<BaseResponse<Any>>(mErrorHandler) {
                     override fun onNext(t: BaseResponse<Any>) {
                         mRootView.sendSuccess()

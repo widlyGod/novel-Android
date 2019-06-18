@@ -84,14 +84,14 @@ interface UserService {
     /**
      * 获取用户信息
      */
-    @GET("novelOAService/mobile/personCenter")
+    @GET("novelAppService/personalCenter/personalInfo")
     fun getUserInfo(): Observable<BaseResponse<User>>
 
     /**
      * 用户信息修改
      */
     @POST("novelAppService/personalCenter/updatePersonInfo")
-    fun modifyUserInfo(@Body params: HashMap<String, Any?>): Observable<BaseResponse<User>>
+    fun modifyUserInfo(@Body params: HashMap<String, Any?>): Observable<BaseResponse<Any>>
 
     /**
      * 上传使用时长
