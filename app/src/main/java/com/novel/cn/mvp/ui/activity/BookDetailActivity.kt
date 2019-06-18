@@ -112,13 +112,13 @@ class BookDetailActivity : BaseActivity<BookDetailPresenter>(), BookDetailContra
         tv_review_count.text = data.comment.totalCount.toString()
         tv_add_bookself.text = if (data.novelInfo.isCollection) "已在书架" else "加入书架"
         mAdapter.setBookDetail(data.novelInfo)
-        mPresenter?.getCommentList(data.novelInfo.novelId,true)
+        mPresenter?.getCommentList(data.novelInfo.novelId, true)
 //        mAdapter.setNewData(data.comment.comments)
         mAdapter.apply {
             setEnableLoadMore(true)
             setLoadMoreView(CustomLoadMoreView())
             setOnLoadMoreListener({
-                mPresenter?.getCommentList(data.novelInfo.novelId,false)
+                mPresenter?.getCommentList(data.novelInfo.novelId, false)
             }, recyclerView)
         }
         mAdapter.setOnReplyClickListener { position ->
@@ -130,7 +130,10 @@ class BookDetailActivity : BaseActivity<BookDetailPresenter>(), BookDetailContra
             }
             isReply = true
             replyPosition = position
-            dialog.show("@${mAdapter.data[position].commentUser.userNickName}")
+            if (data.novelInfo.authorId == mAdapter.data[position].commentUser.userId)
+                dialog.show("@${data.novelInfo.novelAuthor}")
+            else
+                dialog.show("@${mAdapter.data[position].commentUser.userNickName}")
         }
 
         mAdapter.setOnItemClickListener { adapter, view, position ->

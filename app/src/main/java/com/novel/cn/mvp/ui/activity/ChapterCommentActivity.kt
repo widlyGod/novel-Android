@@ -132,18 +132,21 @@ class ChapterCommentActivity : BaseActivity<ChapterCommentPresenter>(), ChapterC
                     return@setOnReplyClickListener
                 }
                 replyPosition == it
-                dialog.show("@${mAdapter.data[it].chapterCommentUser.userNickName}")
+                if (mAuthorId == mAdapter.data[it].chapterCommentUser.userId)
+                    dialog.show("@${book!!.novelInfo.novelAuthor}")
+                else
+                    dialog.show("@${mAdapter.data[it].chapterCommentUser.userNickName}")
             }
             setOnLikeClickListener {
                 mPresenter?.agree(it)
             }
         }
-        if (user!!.sessionId.isBlank()){
+        if (user!!.sessionId.isBlank()) {
             mAdapter.setHeaderView(mUnLoginHeaderView)
             mUnLoginHeaderView.tv_un_login.setOnClickListener {
                 startActivity<LoginActivity>()
             }
-        } else{
+        } else {
             mAdapter.setHeaderView(mHeaderView)
             mHeaderView.et_content.textWatcher {
                 onTextChanged { charSequence, start, before, count ->

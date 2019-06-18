@@ -1,4 +1,3 @@
-
 package com.novel.cn.mvp.ui.activity
 
 import android.graphics.Color
@@ -122,7 +121,10 @@ class CommentActivity : BaseActivity<CommentPresenter>(), CommentContract.View {
                 }
                 isReply = true
                 replyPosition = position
-                dialog.show("@${mAdapter.data[position].commentUser.userNickName}")
+                if (book!!.novelInfo.authorId == mAdapter.data[position].commentUser.userId)
+                    dialog.show("@${book!!.novelInfo.novelAuthor}")
+                else
+                    dialog.show("@${mAdapter.data[position].commentUser.userNickName}")
             }
             setOnLikeClickListener {
                 val item = mAdapter.getItem(it) as Comment
