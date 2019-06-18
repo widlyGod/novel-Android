@@ -42,6 +42,7 @@ public class PageView extends View {
     private boolean canTouch = true;
     // 唤醒菜单的区域
     private RectF mCenterRect = null;
+    private RectF mLoveRect = null;
     private boolean isPrepare;
     // 动画类
     private PageAnimation mPageAnim;
@@ -231,76 +232,83 @@ public class PageView extends View {
                 break;
             case MotionEvent.ACTION_UP:
                 if (!isMove) {
-                    int a = 0;
-                    if (((ScrollPageAnim) mPageAnim).getmActiveViews().size() > 1) {
-                        a = y - (((ScrollPageAnim) mPageAnim).getmActiveViews().get(1).top);
+                    if (mLoveRect == null) {
+                        mLoveRect = new RectF((mViewWidth - mLoveBitmap) / 2, 0,
+                                (mViewWidth + mLoveBitmap) / 2, mViewHeight);
                     }
-                    int b = y - (((ScrollPageAnim) mPageAnim).getmActiveViews().get(0).top);
-                    if (a != 0 && b != 0) {
-                        LogUtils.warnInfo("////" + pageType + "====>" + a + "======>" + b + "----" + nowLove + "|||" + lastLove);
-                        switch (pageType) {
-                            case 0:
-                                if (a >= nowLove && a <= (nowLove + mLoveBitmap)) {
-                                    mTouchListener.reward();
-                                    return true;
-                                }
-                                break;
-                            case 1:
-                                if (b >= lastLove && b <= (lastLove + mLoveBitmap)) {
-                                    mTouchListener.reward();
-                                    return true;
-                                }
-                                break;
-                            case 2:
-                                if (b >= lastLove && b <= (lastLove + mLoveBitmap)) {
-                                    mTouchListener.reward();
-                                    return true;
-                                }
-                                if (a >= nowLove && a <= (nowLove + mLoveBitmap)) {
-                                    mTouchListener.reward();
-                                    return true;
-                                }
-                                break;
-                            case 3:
-                                if (lastLove == 0) {
-                                    if (b >= nowLove && b <= (nowLove + mLoveBitmap)) {
-                                        mTouchListener.reward();
-                                        return true;
-                                    }
-                                }
-                                if (nowLove == 0) {
-                                    if (b >= lastLove && b <= (lastLove + mLoveBitmap)) {
-                                        mTouchListener.reward();
-                                        return true;
-                                    }
-                                }
-                                if (lastPageType == 4 || (lastPageType == 1 && upupPageType != 3) || lastPageType == 2) {
-                                    if (b >= lastLove && b <= (lastLove + mLoveBitmap)) {
-                                        mTouchListener.reward();
-                                        return true;
-                                    }
-                                } else {
+                    if (mLoveRect.contains(x, y)) {
+                        int a = 0;
+                        if (((ScrollPageAnim) mPageAnim).getmActiveViews().size() > 1) {
+                            a = y - (((ScrollPageAnim) mPageAnim).getmActiveViews().get(1).top);
+                        }
+                        int b = y - (((ScrollPageAnim) mPageAnim).getmActiveViews().get(0).top);
+                        if (a != 0 && b != 0) {
+                            LogUtils.warnInfo("////" + pageType + "====>" + a + "======>" + b + "----" + nowLove + "|||" + lastLove);
+                            switch (pageType) {
+                                case 0:
                                     if (a >= nowLove && a <= (nowLove + mLoveBitmap)) {
                                         mTouchListener.reward();
                                         return true;
                                     }
-                                }
-                                if (lastPageType == 2 && upupPageType == 2) {
-                                    if (a >= lastLove && a <= (lastLove + mLoveBitmap)) {
+                                    break;
+                                case 1:
+                                    if (b >= lastLove && b <= (lastLove + mLoveBitmap)) {
                                         mTouchListener.reward();
                                         return true;
                                     }
-                                }
-                                break;
+                                    break;
+                                case 2:
+                                    if (b >= lastLove && b <= (lastLove + mLoveBitmap)) {
+                                        mTouchListener.reward();
+                                        return true;
+                                    }
+                                    if (a >= nowLove && a <= (nowLove + mLoveBitmap)) {
+                                        mTouchListener.reward();
+                                        return true;
+                                    }
+                                    break;
+                                case 3:
+                                    if (lastLove == 0) {
+                                        if (b >= nowLove && b <= (nowLove + mLoveBitmap)) {
+                                            mTouchListener.reward();
+                                            return true;
+                                        }
+                                    }
+                                    if (nowLove == 0) {
+                                        if (b >= lastLove && b <= (lastLove + mLoveBitmap)) {
+                                            mTouchListener.reward();
+                                            return true;
+                                        }
+                                    }
+                                    if (lastPageType == 4 || (lastPageType == 1 && upupPageType != 3) || lastPageType == 2) {
+                                        if (b >= lastLove && b <= (lastLove + mLoveBitmap)) {
+                                            mTouchListener.reward();
+                                            return true;
+                                        }
+                                    } else {
+                                        if (a >= nowLove && a <= (nowLove + mLoveBitmap)) {
+                                            mTouchListener.reward();
+                                            return true;
+                                        }
+                                    }
+                                    if (lastPageType == 2 && upupPageType == 2) {
+                                        if (a >= lastLove && a <= (lastLove + mLoveBitmap)) {
+                                            mTouchListener.reward();
+                                            return true;
+                                        }
+                                    }
+                                    break;
 
+                            }
+                        }
+                        if (a == 0 && b != 0 && nowLove != 0) {
+                            if (b >= nowLove && b <= (nowLove + mLoveBitmap)) {
+                                mTouchListener.reward();
+                                return true;
+                            }
                         }
                     }
-                    if (a == 0 && b != 0 && nowLove != 0) {
-                        if (b >= nowLove && b <= (nowLove + mLoveBitmap)) {
-                            mTouchListener.reward();
-                            return true;
-                        }
-                    }
+
                     //设置中间区域范围
                     if (mCenterRect == null) {
                         mCenterRect = new RectF(mViewWidth / 5, mViewHeight / 3,
