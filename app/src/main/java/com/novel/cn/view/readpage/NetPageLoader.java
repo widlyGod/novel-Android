@@ -72,13 +72,14 @@ public class NetPageLoader extends PageLoader {
      * @throws Exception
      */
     //判断编码格式方法
-    private static  String getFilecharset(File sourceFile) {
+    private static String getFilecharset(File sourceFile) {
         String charset = "GBK";
         byte[] first3Bytes = new byte[3];
         try {
             boolean checked = false;
             BufferedInputStream bis = new BufferedInputStream(new FileInputStream(sourceFile));
-            bis.mark(0);
+            int available = bis.available() + 1;
+            bis.mark(available);
             int read = bis.read(first3Bytes, 0, 3);
             if (read == -1) {
                 return charset; //文件编码为 ANSI
