@@ -8,6 +8,7 @@ import android.support.v7.widget.RecyclerView
 import android.view.View
 import com.alipay.sdk.app.EnvUtils
 import com.google.gson.Gson
+import com.jakewharton.rxbinding3.view.clicks
 import com.jess.arms.base.BaseActivity
 import com.jess.arms.di.component.AppComponent
 import com.jess.arms.utils.ArmsUtils
@@ -16,8 +17,10 @@ import com.novel.cn.BuildConfig
 import com.novel.cn.R
 import com.novel.cn.app.click
 import com.novel.cn.app.loadImage
+import com.novel.cn.app.visible
 import com.novel.cn.di.component.DaggerRechargeComponent
 import com.novel.cn.di.module.RechargeModule
+import com.novel.cn.ext.bindToLifecycle
 import com.novel.cn.mvp.contract.RechargeContract
 import com.novel.cn.mvp.model.entity.PayInfo
 import com.novel.cn.mvp.model.entity.User
@@ -39,6 +42,7 @@ import com.novel.cn.wxapi.WXPayEvent
 
 import org.greenrobot.eventbus.Subscribe
 import java.util.regex.Pattern
+import kotlinx.android.synthetic.main.include_title.toolbar_back as toolbar_back1
 
 
 class RechargeActivity : BaseActivity<RechargePresenter>(), RechargeContract.View {
@@ -65,8 +69,8 @@ class RechargeActivity : BaseActivity<RechargePresenter>(), RechargeContract.Vie
 
     override fun initStatusBar(savedInstanceState: Bundle?) {
         StatusBarUtils.darkMode(this)
+        StatusBarUtils.setMargin(this, toolbar_back)
         StatusBarUtils.setPaddingSmart(this, cl_top)
-        StatusBarUtils.setPaddingSmart(this, toolbar)
     }
 
 
@@ -76,8 +80,6 @@ class RechargeActivity : BaseActivity<RechargePresenter>(), RechargeContract.Vie
         EnvUtils.setEnv(EnvUtils.EnvEnum.SANDBOX)
 
         mPresenter?.getUserInfo()
-
-
         recyclerView.adapter = mAdapter
         recyclerView.isFocusableInTouchMode = false
         recyclerView.requestFocus()
@@ -174,14 +176,22 @@ class RechargeActivity : BaseActivity<RechargePresenter>(), RechargeContract.Vie
                 }
             }
         }
+        toolbar_back.clicks().subscribe{
+            finish()
+        }.bindToLifecycle(this)
     }
 
     override fun showUserInfo(data: User) {
         iv_avatar.loadImage(data.userPhoto)
         iv_gender.setImageResource(if (data.userGender == "0") R.drawable.ic_male else R.drawable.ic_famale)
         tv_read_count.text = "读过${data.readCount}本"
-        tv_account.text = data.userNickName
-        tv_blance.text = "${data.goldNumber}阅币"
+        tv_read_time.text = "读过${data.readCount}本"
+        tv_thumbedNum.text = "被赞${data.thumbedNum}次"
+        if (data.vipInfo != null && data.vipInfo.vipLevel != 0) {
+            rtv_vip_level.text = "VIP${data.vipInfo.vipLevel}"
+            rtv_vip_level.visible(true)
+        } else
+            rtv_vip_level.visible(false)
     }
 
     override fun showRechargeInfo(data: String, code: String) {
