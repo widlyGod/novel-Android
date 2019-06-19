@@ -127,6 +127,11 @@ class CommentActivity : BaseActivity<CommentPresenter>(), CommentContract.View {
                     dialog.show("@${mAdapter.data[position].commentUser.userNickName}")
             }
             setOnLikeClickListener {
+                val user = Preference.getDeviceData<LoginInfo?>(Constant.LOGIN_INFO)
+                if (user!!.userId.isBlank()) {
+                    startActivity<LoginActivity>()
+                    return@setOnLikeClickListener
+                }
                 val item = mAdapter.getItem(it) as Comment
                 mPresenter?.agree(it)
             }

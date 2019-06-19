@@ -85,6 +85,11 @@ class BookDetailActivity : BaseActivity<BookDetailPresenter>(), BookDetailContra
             //回复按钮点击
 
             setOnLikeClickListener {
+                val user = Preference.getDeviceData<LoginInfo?>(Constant.LOGIN_INFO)
+                if (user!!.userId.isBlank()) {
+                    startActivity<LoginActivity>()
+                    return@setOnLikeClickListener
+                }
                 mPresenter?.agree(it)
             }
             setOnDeleteClickListener {

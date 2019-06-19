@@ -138,6 +138,11 @@ class ChapterCommentActivity : BaseActivity<ChapterCommentPresenter>(), ChapterC
                     dialog.show("@${mAdapter.data[it].chapterCommentUser.userNickName}")
             }
             setOnLikeClickListener {
+                val user = Preference.getDeviceData<LoginInfo?>(Constant.LOGIN_INFO)
+                if (user!!.userId.isBlank()) {
+                    startActivity<LoginActivity>()
+                    return@setOnLikeClickListener
+                }
                 mPresenter?.agree(it)
             }
         }
