@@ -26,6 +26,7 @@ import kotlinx.android.synthetic.main.activity_category_list.*
 import kotlinx.android.synthetic.main.activity_category_list.recyclerView
 import kotlinx.android.synthetic.main.activity_category_list.refreshLayout
 import org.jetbrains.anko.startActivity
+import org.jetbrains.anko.toast
 import javax.inject.Inject
 
 
@@ -134,6 +135,7 @@ class CategoryListActivity : BaseActivity<CategoryListPresenter>(), CategoryList
 
     override fun conllectionSuccess(position: Int) {
         //收藏成功后，更新页面，并通知书架
+        toast("加入书架成功")
         val item = mAdapter.getItem(position)
         item?.let {
             it.isCollect = "true"

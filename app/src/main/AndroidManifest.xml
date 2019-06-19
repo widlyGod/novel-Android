@@ -20,7 +20,8 @@
     <uses-permission android:name="android.permission.FLASHLIGHT" />
     <uses-permission android:name="android.permission.RECORD_VIDEO" />
     <uses-permission android:name="android.permission.RECORD_AUDIO" />
-    <uses-permission android:name="android.permission.READ_LOGS"
+    <uses-permission
+        android:name="android.permission.READ_LOGS"
         tools:ignore="ProtectedPermissions" />
 
     <application
@@ -31,7 +32,10 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         tools:replace="android:name,android:theme">
-        <activity android:name=".mvp.ui.activity.MineAccountActivity"
+        <activity android:name=".mvp.ui.activity.MineBillActivity"
+            android:label="我的购买" />
+        <activity
+            android:name=".mvp.ui.activity.MineAccountActivity"
             android:label="我的账户" />
         <activity android:name=".mvp.ui.activity.CategoryListActivity" />
         <activity
@@ -130,7 +134,6 @@
             android:name=".mvp.ui.activity.ChapterCommentActivity"
             android:label="章节评论" />
         <activity android:name=".mvp.ui.activity.CropImageActivity" />
-
         <activity
             android:name="com.tencent.bugly.beta.ui.BetaActivity"
             android:configChanges="keyboardHidden|orientation|screenSize|locale"
@@ -145,7 +148,6 @@
                 android:name="android.support.FILE_PROVIDER_PATHS"
                 android:resource="@xml/file_paths_public" />
         </provider>
-
         <provider
             android:name=".utils.CFileProvider2"
             android:authorities="com.novel.cn.fileProvider"

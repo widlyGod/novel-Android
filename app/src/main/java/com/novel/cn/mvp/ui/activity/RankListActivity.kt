@@ -22,6 +22,7 @@ import com.novel.cn.view.CustomLoadMoreView
 import kotlinx.android.synthetic.main.activity_rank_list.*
 import kotlinx.android.synthetic.main.include_title.*
 import org.jetbrains.anko.startActivity
+import org.jetbrains.anko.toast
 import javax.inject.Inject
 
 
@@ -103,6 +104,7 @@ class RankListActivity : BaseActivity<RankListPresenter>(), RankListContract.Vie
 
     override fun conllectionSuccess(position: Int) {
         //收藏成功后，更新页面，并通知书架
+        toast("加入书架成功")
         val item = mAdapter.getItem(position)
         item?.let {
             it.isCollection = true
