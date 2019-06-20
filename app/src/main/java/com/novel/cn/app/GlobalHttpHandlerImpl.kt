@@ -1,6 +1,7 @@
 package com.novel.cn.app
 
 import android.content.Context
+import android.os.Build
 import android.text.TextUtils
 import com.google.gson.JsonObject
 
@@ -9,6 +10,13 @@ import com.jess.arms.http.log.RequestInterceptor
 import com.jess.arms.utils.ArmsUtils
 import com.novel.cn.mvp.model.entity.BaseResponse
 import okhttp3.*
+import org.apache.http.params.HttpProtocolParams.getUserAgent
+import android.webkit.WebSettings
+import android.os.Build.VERSION_CODES
+import android.os.Build.VERSION_CODES.JELLY_BEAN_MR1
+import android.os.Build.VERSION
+
+
 
 
 class GlobalHttpHandlerImpl(private val context: Context) : GlobalHttpHandler {
@@ -47,8 +55,36 @@ class GlobalHttpHandlerImpl(private val context: Context) : GlobalHttpHandler {
         newRequest.addHeader("Content-Type", "application/json; charset=UTF-8")
                 .addHeader("Accept", "application/json")
                 .addHeader("sessionId", Preference.getString(Constant.SESSION_ID))
-
+                .removeHeader("User-Agent").addHeader("User-Agent",
+                        getUserAgent())
         return newRequest.build()
+    }
+
+    private fun getUserAgent(): String {
+        var userAgent = ""
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN_MR1) {
+            try {
+                userAgent = WebSettings.getDefaultUserAgent(context)
+            } catch (e: Exception) {
+                userAgent = System.getProperty("http.agent")
+            }
+
+        } else {
+            userAgent = System.getProperty("http.agent")
+        }
+        val sb = StringBuffer()
+        var i = 0
+        val length = userAgent.length
+        while (i < length) {
+            val c = userAgent[i]
+            if (c <= '\u001f' || c >= '\u007f') {
+                sb.append(String.format("\\u%04x", c.toInt()))
+            } else {
+                sb.append(c)
+            }
+            i++
+        }
+        return sb.toString()
     }
 
 

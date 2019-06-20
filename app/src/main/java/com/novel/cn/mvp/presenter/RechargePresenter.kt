@@ -7,6 +7,7 @@ import com.jess.arms.di.scope.ActivityScope
 import com.jess.arms.mvp.BasePresenter
 import com.jess.arms.http.imageloader.ImageLoader
 import com.jess.arms.utils.RxLifecycleUtils
+import com.novel.cn.ext.applySchedulers
 import me.jessyan.rxerrorhandler.core.RxErrorHandler
 import javax.inject.Inject
 
@@ -62,9 +63,7 @@ constructor(model: RechargeContract.Model, rootView: RechargeContract.View) :
 
     fun getUserInfo() {
         mModel.getUserInfo()
-                .subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread())
-                .compose(RxLifecycleUtils.bindToLifecycle(mRootView))
+                .applySchedulers(mRootView)
                 .subscribe(object : ErrorHandleSubscriber<BaseResponse<User>>(mErrorHandler) {
                     override fun onNext(t: BaseResponse<User>) {
                         mRootView.showUserInfo(t.data)

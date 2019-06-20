@@ -2,17 +2,14 @@ package com.novel.cn.mvp.ui.activity
 
 import android.graphics.Rect
 import android.os.Bundle
-import android.support.v4.view.ViewPager
 import android.support.v7.widget.GridLayoutManager
 import android.support.v7.widget.RecyclerView
 import android.view.View
 import com.alipay.sdk.app.EnvUtils
-import com.google.gson.Gson
 import com.jakewharton.rxbinding3.view.clicks
 import com.jess.arms.base.BaseActivity
 import com.jess.arms.di.component.AppComponent
 import com.jess.arms.utils.ArmsUtils
-import com.jess.arms.utils.LogUtils
 import com.novel.cn.BuildConfig
 import com.novel.cn.R
 import com.novel.cn.app.click
@@ -22,7 +19,6 @@ import com.novel.cn.di.component.DaggerRechargeComponent
 import com.novel.cn.di.module.RechargeModule
 import com.novel.cn.ext.bindToLifecycle
 import com.novel.cn.mvp.contract.RechargeContract
-import com.novel.cn.mvp.model.entity.PayInfo
 import com.novel.cn.mvp.model.entity.User
 import com.novel.cn.mvp.presenter.RechargePresenter
 import com.novel.cn.mvp.ui.adapter.RechargeOptionAdapter
@@ -32,7 +28,6 @@ import com.novel.cn.utils.pay.Result
 import com.novel.cn.wxapi.WechatSdk
 import com.tencent.mm.opensdk.modelbase.BaseResp
 import kotlinx.android.synthetic.main.activity_recharge.*
-import kotlinx.android.synthetic.main.include_title.*
 import kotlinx.android.synthetic.main.layout_my_header.*
 import org.jetbrains.anko.toast
 import javax.inject.Inject
@@ -176,7 +171,7 @@ class RechargeActivity : BaseActivity<RechargePresenter>(), RechargeContract.Vie
                 }
             }
         }
-        toolbar_back.clicks().subscribe{
+        toolbar_back.clicks().subscribe {
             finish()
         }.bindToLifecycle(this)
     }
@@ -185,13 +180,20 @@ class RechargeActivity : BaseActivity<RechargePresenter>(), RechargeContract.Vie
         iv_avatar.loadImage(data.userPhoto)
         iv_gender.setImageResource(if (data.userGender == "0") R.drawable.ic_male else R.drawable.ic_famale)
         tv_read_count.text = "读过${data.readCount}本"
-        tv_read_time.text = "读过${data.readCount}本"
+        tv_read_time.text = "阅读${formatDateTime(data.readTime)}"
+        rating_star_bar.rating = data.gradeRate.toFloat() / 20
+        if (data.userIntroduction.isNotEmpty()) {
+            tv_edit.text = data.userIntroduction
+        } else
+            tv_edit.text = "暂无简介"
         tv_thumbedNum.text = "被赞${data.thumbedNum}次"
         if (data.vipInfo != null && data.vipInfo.vipLevel != 0) {
             rtv_vip_level.text = "VIP${data.vipInfo.vipLevel}"
             rtv_vip_level.visible(true)
         } else
             rtv_vip_level.visible(false)
+        tv_account.text = data.userNickName
+        tv_blance.text = "${data.goldNumber}阅读币"
     }
 
     override fun showRechargeInfo(data: String, code: String) {
@@ -211,6 +213,25 @@ class RechargeActivity : BaseActivity<RechargePresenter>(), RechargeContract.Vie
             })
         }
     }
+
+    private fun formatDateTime(mss: Int): String {
+        var Times = ""
+        var days = mss / (60 * 24)
+        var hours = (mss % (60 * 24)) / 60
+        var minutes = (mss % 60)
+        Times = if (days > 0) {
+            "${days}天${hours}小时${minutes}分钟"
+        } else if (hours > 0) {
+            "${hours}小时${minutes}分钟"
+        } else if (minutes > 0) {
+            "$${minutes}分钟"
+        } else {
+            "0分钟"
+        }
+        return Times
+
+    }
+
 
     @Subscribe
     fun payEvent(event: WXPayEvent) {

@@ -21,6 +21,8 @@ data class User(
         val monthRecommendNumber: Int,
         val msgCount: Int,
         val readCount: Int,
+        val readTime: Int,
+        val gradeRate: Int,
         val recommendNumber: Int,
         val signDays: Int,
         val thumbNum: Int,
@@ -41,6 +43,8 @@ data class User(
             source.readInt(),
             source.readInt(),
             source.readDouble(),
+            source.readInt(),
+            source.readInt(),
             source.readInt(),
             source.readInt(),
             source.readInt(),
@@ -73,6 +77,8 @@ data class User(
             writeInt(monthRecommendNumber)
             writeInt(msgCount)
             writeInt(readCount)
+            writeInt(readTime)
+            writeInt(gradeRate)
             writeInt(recommendNumber)
             writeInt(signDays)
             writeInt(thumbNum)

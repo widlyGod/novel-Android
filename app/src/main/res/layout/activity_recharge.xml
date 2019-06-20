@@ -97,7 +97,7 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_marginLeft="15dp"
-                            android:text="Danny"
+                            tools:text="Danny"
                             android:textColor="@color/color_333333"
                             android:textSize="13sp"
                             app:layout_constraintBaseline_toBaselineOf="@+id/tv_txt1"

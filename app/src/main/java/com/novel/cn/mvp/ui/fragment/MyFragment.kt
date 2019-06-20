@@ -85,14 +85,18 @@ class MyFragment : BaseFragment<MyPresenter>(), MyContract.View {
         iv_avatar.loadImage(data.userPhoto)
         iv_gender.setImageResource(if (data.userGender == "0") R.drawable.ic_male else R.drawable.ic_famale)
         tv_read_count.text = "读过${data.readCount}本"
-        tv_read_time.text = "读过${data.readCount}本"
+        tv_read_time.text = "阅读${formatDateTime(data.readTime)}"
+        rating_star_bar.rating = data.gradeRate.toFloat() / 20
         tv_thumbedNum.text = "被赞${data.thumbedNum}次"
         if (data.vipInfo != null && data.vipInfo.vipLevel != 0) {
             rtv_vip_level.text = "VIP${data.vipInfo.vipLevel}"
             rtv_vip_level.visible(true)
         } else
             rtv_vip_level.visible(false)
-
+        if (data.userIntroduction.isNotEmpty()) {
+            tv_edit.text = data.userIntroduction
+        } else
+            tv_edit.text = "暂无简介"
         tv_meet_day.text = "${data.meetDays}天"
         tv_sign_day.text = "${data.signDays}天"
         tv_thumbNum.text = "${data.thumbNum}个"
@@ -108,4 +112,23 @@ class MyFragment : BaseFragment<MyPresenter>(), MyContract.View {
         tv_account.text = "余额\t\t\t${data.goldNumber}阅点"
 
     }
+
+    private fun formatDateTime(mss: Int): String {
+        var DateTimes = ""
+        var days = mss / (60 * 24)
+        var hours = (mss % (60 * 24)) / 60
+        var minutes = (mss % 60)
+        DateTimes = if (days > 0) {
+            "${days}天${hours}小时${minutes}分钟"
+        } else if (hours > 0) {
+            "${hours}小时${minutes}分钟"
+        } else if (minutes > 0) {
+            "$${minutes}分钟"
+        } else {
+            "0分钟"
+        }
+        return DateTimes
+
+    }
+
 }

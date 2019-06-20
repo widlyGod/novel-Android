@@ -117,12 +117,14 @@
 
     <TextView
         android:id="@+id/tv_edit"
-        android:layout_width="wrap_content"
+        android:layout_width="120dp"
         android:layout_height="wrap_content"
         android:layout_below="@+id/iv_avatar"
         android:layout_alignLeft="@+id/iv_avatar"
+        android:ellipsize="end"
+        android:lines="1"
         android:layout_marginTop="13dp"
-        android:text="编辑个人资料"
+        android:text="暂无简介"
         android:textColor="@color/white"
         android:textSize="10sp"
         app:layout_constraintLeft_toLeftOf="@+id/iv_avatar"
