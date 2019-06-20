@@ -1521,7 +1521,7 @@ public abstract class PageLoader {
                 //重置Lines
                 lines.clear();
                 //当前章节的最后一页如果可以 draw一个100dp的
-                if (rHeight < mLoveBitmap.getHeight() + 10) {
+                if (rHeight < mLoveBitmap.getHeight() + 30) {
                     TxtPage txtPage = new TxtPage();
                     txtPage.position = pages.size();
                     txtPage.title = chapter.getTitle();
