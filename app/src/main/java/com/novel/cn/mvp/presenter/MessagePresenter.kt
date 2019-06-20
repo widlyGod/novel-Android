@@ -109,6 +109,10 @@ constructor(model: MessageContract.Model, rootView: MessageContract.View) :
         list.add("推荐票")
         list.add("钻石")
         list.add("月票")
+        list.add("阅读币")
+        list.add("章节评论")
+        list.add("章节回复")
+        list.add("权限管理")
         mFilterAdapter.setNewData(list)
     }
 }

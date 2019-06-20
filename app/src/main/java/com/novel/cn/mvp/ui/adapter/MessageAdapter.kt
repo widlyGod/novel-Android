@@ -4,6 +4,7 @@ import com.chad.library.adapter.base.BaseQuickAdapter
 import com.chad.library.adapter.base.BaseViewHolder
 import com.novel.cn.mvp.model.entity.Message
 import com.novel.cn.R
+import com.novel.cn.app.visible
 import kotlinx.android.synthetic.main.item_message.view.*
 
 class MessageAdapter : BaseQuickAdapter<Message, BaseViewHolder>(R.layout.item_message) {
@@ -34,7 +35,7 @@ class MessageAdapter : BaseQuickAdapter<Message, BaseViewHolder>(R.layout.item_m
         with(helper.itemView) {
             tv_title.setTextColor(map[item.typeNumber]?.toInt()!!)
             tv_title.text = item.typeName
-
+            iv_unread_message.visible(item.messageStatus == 0)
             tv_content.text = item.headContent
             tv_date.text = item.sortTime
         }
