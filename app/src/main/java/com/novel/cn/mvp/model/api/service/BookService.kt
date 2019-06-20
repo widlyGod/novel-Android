@@ -198,6 +198,12 @@ interface BookService {
     fun getUserAccountInfo(): Observable<BaseResponse<UserAccountBean>>
 
     /**
+     * 获取个人中心用户账户信息
+     */
+    @GET("novelAppService/personalCenter/myAccountInfo")
+    fun getMyAccountInfo(@Query("userId") userId: String): Observable<BaseResponse<MyAccountBean>>
+
+    /**
      * 获取阅读时间
      */
     @GET("novelUserService/personal/getWeeklyReadTime")

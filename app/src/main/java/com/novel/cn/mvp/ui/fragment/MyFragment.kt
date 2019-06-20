@@ -109,7 +109,7 @@ class MyFragment : BaseFragment<MyPresenter>(), MyContract.View {
         tv_coupon.text = "${data.coupon}"
 
         tv_msg.text = "${data.msgCount}"
-        tv_account.text = "余额\t\t\t${data.goldNumber}阅点"
+        tv_account.text = "余额\t\t\t${data.rechargeNumber}阅点 + ${data.rewardNumber}阅券"
 
     }
 

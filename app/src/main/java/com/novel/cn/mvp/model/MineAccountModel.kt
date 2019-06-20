@@ -6,11 +6,15 @@ import com.jess.arms.integration.IRepositoryManager
 import com.jess.arms.mvp.BaseModel
 
 import com.jess.arms.di.scope.ActivityScope
+import com.novel.cn.app.Constant
+import com.novel.cn.app.Preference
 import javax.inject.Inject
 
 import com.novel.cn.mvp.contract.MineAccountContract
 import com.novel.cn.mvp.model.api.service.BookService
 import com.novel.cn.mvp.model.entity.BaseResponse
+import com.novel.cn.mvp.model.entity.LoginInfo
+import com.novel.cn.mvp.model.entity.MyAccountBean
 import com.novel.cn.mvp.model.entity.UserAccountBean
 import io.reactivex.Observable
 
@@ -36,7 +40,8 @@ constructor(repositoryManager: IRepositoryManager) : BaseModel(repositoryManager
     @Inject
     lateinit var mApplication: Application;
 
-    override fun getUserAccountInfo(): Observable<BaseResponse<UserAccountBean>> {
-        return mRepositoryManager.obtainRetrofitService(BookService::class.java).getUserAccountInfo()
+    override fun getUserAccountInfo(): Observable<BaseResponse<MyAccountBean>> {
+        val user = Preference.getDeviceData<LoginInfo?>(Constant.LOGIN_INFO)
+        return mRepositoryManager.obtainRetrofitService(BookService::class.java).getMyAccountInfo(user!!.userId)
     }
 }

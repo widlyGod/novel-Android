@@ -13,6 +13,7 @@ import javax.inject.Inject
 
 import com.novel.cn.mvp.contract.MineAccountContract
 import com.novel.cn.mvp.model.entity.BaseResponse
+import com.novel.cn.mvp.model.entity.MyAccountBean
 import com.novel.cn.mvp.model.entity.UserAccountBean
 import me.jessyan.rxerrorhandler.handler.ErrorHandleSubscriber
 
@@ -47,8 +48,8 @@ constructor(model: MineAccountContract.Model, rootView: MineAccountContract.View
         mModel.getUserAccountInfo()
                 .applySchedulers(mRootView)
                 .compose(RxLifecycleUtils.bindToLifecycle(mRootView))
-                .subscribe(object : ErrorHandleSubscriber<BaseResponse<UserAccountBean>>(mErrorHandler) {
-                    override fun onNext(t: BaseResponse<UserAccountBean>) {
+                .subscribe(object : ErrorHandleSubscriber<BaseResponse<MyAccountBean>>(mErrorHandler) {
+                    override fun onNext(t: BaseResponse<MyAccountBean>) {
                         mRootView.getUserAccountInfoSuccess(t.data)
                     }
                 })

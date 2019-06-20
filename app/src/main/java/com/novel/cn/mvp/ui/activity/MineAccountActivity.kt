@@ -2,6 +2,7 @@ package com.novel.cn.mvp.ui.activity
 
 import android.content.Intent
 import android.os.Bundle
+import com.jakewharton.rxbinding3.view.clicks
 
 import com.jess.arms.base.BaseActivity
 import com.jess.arms.di.component.AppComponent
@@ -13,6 +14,9 @@ import com.novel.cn.mvp.contract.MineAccountContract
 import com.novel.cn.mvp.presenter.MineAccountPresenter
 
 import com.novel.cn.R
+import com.novel.cn.app.JumpManager
+import com.novel.cn.ext.bindToLifecycle
+import com.novel.cn.mvp.model.entity.MyAccountBean
 import com.novel.cn.mvp.model.entity.UserAccountBean
 import kotlinx.android.synthetic.main.activity_mine_account.*
 
@@ -58,13 +62,23 @@ class MineAccountActivity : BaseActivity<MineAccountPresenter>(), MineAccountCon
         return R.layout.activity_mine_account //如果你不需要框架帮你设置 setContentView(id) 需要自行设置,请返回 0
     }
 
-    override fun getUserAccountInfoSuccess(userAccountBean: UserAccountBean) {
-        tv_user_money.text = userAccountBean.goldNumber.toString()
+    override fun getUserAccountInfoSuccess(userAccountBean: MyAccountBean) {
+        tv_user_money.text = userAccountBean.recargaGoldNumber.ifEmpty { "0" }
+        tv_user_prendar.text = userAccountBean.prendarGoldNumber.ifEmpty { "0" }
+        tv_discount_num.text = userAccountBean.discountCoupon.ifEmpty { "0" }
+        tv_coupon_num.text = userAccountBean.coupon.ifEmpty { "0" }
+        tv_is_vip.text = if (userAccountBean.isVip == "1") "已开通" else "未开通"
+        tv_experience_num.text = userAccountBean.experienceCard.ifEmpty { "0" }
+        tv_recommended_num.text = userAccountBean.recommendedVotes.ifEmpty { "0" }
+        tv_monthly_num.text = userAccountBean.monthlyPass.ifEmpty { "0" }
     }
 
 
     override fun initData(savedInstanceState: Bundle?) {
         mPresenter?.getUserAccountInfo()
+        tv_recharge.clicks().subscribe {
+            JumpManager.jumpRecharge(this)
+        }.bindToLifecycle(this)
     }
 
 

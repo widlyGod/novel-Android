@@ -14,7 +14,9 @@ data class User(
         val coupon: Int,
         val diamondNumber: Int,
         val discountCoupon: Int,
-        val goldNumber: Int,
+        val goldNumber: String,
+        val rechargeNumber: String,
+        val rewardNumber: String,
         val grade: Int,
         val loginTime: Double,
         val meetDays: Int,
@@ -40,7 +42,9 @@ data class User(
             source.readInt(),
             source.readInt(),
             source.readInt(),
-            source.readInt(),
+            source.readString(),
+            source.readString(),
+            source.readString(),
             source.readInt(),
             source.readDouble(),
             source.readInt(),
@@ -70,7 +74,9 @@ data class User(
             writeInt(coupon)
             writeInt(diamondNumber)
             writeInt(discountCoupon)
-            writeInt(goldNumber)
+            writeString(goldNumber)
+            writeString(rechargeNumber)
+            writeString(rewardNumber)
             writeInt(grade)
             writeDouble(loginTime)
             writeInt(meetDays)
