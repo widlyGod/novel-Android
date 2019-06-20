@@ -29,6 +29,7 @@ interface MessageContract {
     //Model层定义接口,外部只需关心Model返回的数据,无需关心内部细节,即是否使用缓存
     interface Model : IModel {
         fun getMessageList(parms: HashMap<String, String>): Observable<BaseResponse<MessageBean>>
+        fun messageRead(): Observable<BaseResponse<Any>>
     }
 
 }

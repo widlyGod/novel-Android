@@ -43,6 +43,7 @@ constructor(model: MessageContract.Model, rootView: MessageContract.View) :
         params.put("pageNum", mPageIndex.toString())
         params.put("pageSize", Constant.PAGE_SIZE.toString())
         params.put("keyWord", keyword ?: "")
+        messageRead()
 
         mModel.getMessageList(params)
                 .subscribeOn(Schedulers.io())
@@ -74,6 +75,26 @@ constructor(model: MessageContract.Model, rootView: MessageContract.View) :
                     }
                 })
     }
+
+    fun messageRead() {
+
+        mModel.messageRead()
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .compose(RxLifecycleUtils.bindToLifecycle(mRootView))
+                .subscribe(object : ErrorHandleSubscriber<BaseResponse<Any>>(mErrorHandler) {
+                    override fun onNext(t: BaseResponse<Any>) {
+
+                    }
+
+                    override fun onError(t: Throwable) {
+                        super.onError(t)
+
+                    }
+                })
+    }
+
+
 
     fun getFilterList() {
         val list = ArrayList<String>()

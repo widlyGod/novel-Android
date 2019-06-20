@@ -82,6 +82,13 @@ interface UserService {
     fun getMessasgeList(@Body params: HashMap<String, String>): Observable<BaseResponse<MessageBean>>
 
     /**
+     * 我的消息
+     */
+
+    @POST("novelOAService/novelMessage/updateBatchMessageStatus")
+    fun messageRead(@Body params: HashMap<String, String>): Observable<BaseResponse<Any>>
+
+    /**
      * 获取用户信息
      */
     @GET("novelAppService/personalCenter/personalInfo")

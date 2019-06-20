@@ -32,7 +32,6 @@ class MessageModel
 @Inject
 constructor(repositoryManager: IRepositoryManager) : BaseModel(repositoryManager), MessageContract.Model {
 
-
     @Inject
     lateinit var mGson: Gson;
     @Inject
@@ -41,4 +40,12 @@ constructor(repositoryManager: IRepositoryManager) : BaseModel(repositoryManager
     override fun getMessageList(params: HashMap<String, String>): Observable<BaseResponse<MessageBean>> {
         return mRepositoryManager.obtainRetrofitService(UserService::class.java).getMessasgeList(params)
     }
+
+    override fun messageRead(): Observable<BaseResponse<Any>> {
+        val params = HashMap<String, String>()
+        params["keyWord"] = ""
+        return mRepositoryManager.obtainRetrofitService(UserService::class.java).messageRead(params)
+    }
+
+
 }
