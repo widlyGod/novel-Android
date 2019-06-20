@@ -11,10 +11,7 @@ import dagger.Provides
 import com.novel.cn.mvp.contract.MainContract
 import com.novel.cn.mvp.model.MainModel
 import com.novel.cn.mvp.model.entity.TabEntity
-import com.novel.cn.mvp.ui.fragment.BookStoreFragment
-import com.novel.cn.mvp.ui.fragment.BookshelfFragment
-import com.novel.cn.mvp.ui.fragment.DiscoveryFragment
-import com.novel.cn.mvp.ui.fragment.MyFragment
+import com.novel.cn.mvp.ui.fragment.*
 import java.util.ArrayList
 import javax.inject.Named
 
@@ -65,7 +62,7 @@ class MainModule(private val view: MainContract.View) {
     @ActivityScope
     @Provides
     @Named("NavFragment")
-    fun provideNavFragment():Array<Fragment> = arrayOf(BookshelfFragment.newInstance(), BookStoreFragment.newInstance(), DiscoveryFragment.newInstance(), MyFragment.newInstance())
+    fun provideNavFragment():Array<Fragment> = arrayOf(BookshelfFragment.newInstance(), BookStoreFragment.newInstance(), DiscoveryFragment.newInstance(), MyFragment.newInstance(), NoLoginFragment.newInstance())
 
 
 

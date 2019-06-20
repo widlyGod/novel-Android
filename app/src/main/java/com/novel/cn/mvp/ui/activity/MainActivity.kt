@@ -105,13 +105,19 @@ class MainActivity : BaseActivity<MainPresenter>(), MainContract.View {
      */
     private fun switchFragment(position: Int) {
         val user = Preference.getDeviceData<LoginInfo?>(Constant.LOGIN_INFO)
-        if ((position == 3 || position == 0) && user!!.userId.isBlank()) {
+        if (position == 0 && user!!.userId.isBlank()) {
             startActivity<LoginActivity>()
             tabLayout.currentTab = positionTab
             return
         }
+        if (position == 3 && user!!.userId.isBlank()) {
+            switchFragment(4)
+            tabLayout.currentTab = 3
+            return
+        }
         positionTab = position
-        tabLayout.currentTab = position
+        if (position != 4)
+            tabLayout.currentTab = position
         val fragment = mFragments[position]
         val transaction = supportFragmentManager.beginTransaction()
         if (fragment != mCurrentFragment) {
@@ -142,6 +148,6 @@ class MainActivity : BaseActivity<MainPresenter>(), MainContract.View {
         if (user!!.sessionId.isBlank())
             switchFragment(1)
         else
-            switchFragment(0)
+            switchFragment(event.index)
     }
 }
