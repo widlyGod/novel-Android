@@ -65,7 +65,7 @@ constructor(model: MineBillContract.Model, rootView: MineBillContract.View) :
                 .compose(RxLifecycleUtils.bindToLifecycle(mRootView))
                 .subscribe(object : ErrorHandleSubscriber<BaseResponse<MyBillBean>>(mErrorHandler) {
                     override fun onNext(t: BaseResponse<MyBillBean>) {
-                        mRootView.showStateView(if (t.data.myBuyOrders.isNotEmpty()) MultiStateView.VIEW_STATE_CONTENT else MultiStateView.VIEW_STATE_EMPTY)
+                        mRootView.showStateView(if (t.data.myOrders.isNotEmpty()) MultiStateView.VIEW_STATE_CONTENT else MultiStateView.VIEW_STATE_EMPTY)
                         mRootView.getMyBillSuccess(t.data)
                     }
 

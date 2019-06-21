@@ -57,7 +57,7 @@ ext {
             "roundview"                : "com.flyco.roundview:FlycoRoundView_Lib:1.1.4@aar",
             "tablayout"                : "com.flyco.tablayout:FlycoTabLayout_Lib:2.1.2@aar",
             "circleimageview"          : "de.hdodenhof:circleimageview:2.2.0",
-            "adapter"                  : "com.github.CymChad:BaseRecyclerViewAdapterHelper:2.9.40",
+            "adapter"                  : "com.github.CymChad:BaseRecyclerViewAdapterHelper:2.9.46",
             "refreshLayout"            : "com.scwang.smartrefresh:SmartRefreshLayout:1.1.0-alpha-7",
             "refreshLayout-header"     : "com.scwang.smartrefresh:SmartRefreshHeader:1.1.0-alpha-7",
             "multiStateView"           : "com.github.Kennyc1012:MultiStateView:1.3.2",

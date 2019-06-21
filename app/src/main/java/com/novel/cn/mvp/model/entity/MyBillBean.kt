@@ -2,7 +2,7 @@ package com.novel.cn.mvp.model.entity
 
 
 data class MyBillBean(
-        val myBuyOrders: List<MyBuyOrder>,
+        val myOrders: List<MyBuyOrder>,
         val sumExpenditure: String,
         val sumIncome: String
 )

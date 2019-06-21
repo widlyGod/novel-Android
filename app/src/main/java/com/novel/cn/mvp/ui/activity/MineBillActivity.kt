@@ -59,7 +59,9 @@ import javax.inject.Inject
 class MineBillActivity : BaseActivity<MineBillPresenter>(), MineBillContract.View {
 
     override fun getMyBillSuccess(myBillBean: MyBillBean) {
-        mAdapter.setNewData(myBillBean.myBuyOrders)
+        mAdapter.setNewData(myBillBean.myOrders)
+        tv_expend.text = "支出  ￥${myBillBean.sumExpenditure}"
+        tv_income.text = "收入  ￥${myBillBean.sumIncome}"
     }
 
     @Inject
