@@ -155,7 +155,7 @@ class ChapterCommentActivity : BaseActivity<ChapterCommentPresenter>(), ChapterC
             mAdapter.setHeaderView(mHeaderView)
             mHeaderView.et_content.textWatcher {
                 onTextChanged { charSequence, start, before, count ->
-                    mHeaderView.tv_words.text = "${mHeaderView.et_content.text.length}/200"
+                    mHeaderView.tv_words.text = "${mHeaderView.et_content.text.length}/50"
 
                     if (mHeaderView.et_content.text.isNotEmpty()) {
                         mHeaderView.tv_release.delegate.backgroundColor = Color.parseColor("#5e8fca")

@@ -89,6 +89,13 @@ interface UserService {
     fun messageRead(@Body params: HashMap<String, String>): Observable<BaseResponse<Any>>
 
     /**
+     * 我的购买
+     */
+
+    @POST("novelAppService/personalCenter/myBuy")
+    fun getMyBill(@Body params: HashMap<String, Any>): Observable<BaseResponse<MyBillBean>>
+
+    /**
      * 获取用户信息
      */
     @GET("novelAppService/personalCenter/personalInfo")

@@ -6,10 +6,22 @@ import com.jess.arms.integration.AppManager
 import com.jess.arms.di.scope.ActivityScope
 import com.jess.arms.mvp.BasePresenter
 import com.jess.arms.http.imageloader.ImageLoader
+import com.jess.arms.utils.RxLifecycleUtils
+import com.novel.cn.app.Constant
+import com.novel.cn.app.Preference
 import me.jessyan.rxerrorhandler.core.RxErrorHandler
 import javax.inject.Inject
 
 import com.novel.cn.mvp.contract.MineBillContract
+import com.novel.cn.mvp.model.entity.BaseResponse
+import com.novel.cn.mvp.model.entity.LoginInfo
+import com.novel.cn.mvp.model.entity.MessageBean
+import com.novel.cn.mvp.model.entity.MyBillBean
+import com.novel.cn.mvp.ui.adapter.MyBillAdapter
+import com.novel.cn.view.MultiStateView
+import io.reactivex.android.schedulers.AndroidSchedulers
+import io.reactivex.schedulers.Schedulers
+import me.jessyan.rxerrorhandler.handler.ErrorHandleSubscriber
 
 
 /**
@@ -37,6 +49,32 @@ constructor(model: MineBillContract.Model, rootView: MineBillContract.View) :
     lateinit var mImageLoader: ImageLoader
     @Inject
     lateinit var mAppManager: AppManager
+
+    fun getMyBill(startDate: String, endDate: String, type: Int) {
+
+        val user = Preference.getDeviceData<LoginInfo?>(Constant.LOGIN_INFO)
+        val params = HashMap<String, Any>()
+        params["startDate"] = startDate
+        params["endDate"] = endDate
+        params["type"] = type
+        params["userId"] = user!!.userId
+
+        mModel.getMyBill(params)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .compose(RxLifecycleUtils.bindToLifecycle(mRootView))
+                .subscribe(object : ErrorHandleSubscriber<BaseResponse<MyBillBean>>(mErrorHandler) {
+                    override fun onNext(t: BaseResponse<MyBillBean>) {
+                        mRootView.showStateView(if (t.data.myBuyOrders.isNotEmpty()) MultiStateView.VIEW_STATE_CONTENT else MultiStateView.VIEW_STATE_EMPTY)
+                        mRootView.getMyBillSuccess(t.data)
+                    }
+
+                    override fun onError(t: Throwable) {
+                        super.onError(t)
+                        mRootView.showStateView(MultiStateView.VIEW_STATE_ERROR)
+                    }
+                })
+    }
 
 
 }

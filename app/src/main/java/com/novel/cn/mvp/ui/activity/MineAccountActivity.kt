@@ -18,7 +18,10 @@ import com.novel.cn.app.JumpManager
 import com.novel.cn.ext.bindToLifecycle
 import com.novel.cn.mvp.model.entity.MyAccountBean
 import com.novel.cn.mvp.model.entity.UserAccountBean
+import com.novel.cn.utils.StatusBarUtils
 import kotlinx.android.synthetic.main.activity_mine_account.*
+import kotlinx.android.synthetic.main.include_title.*
+import org.jetbrains.anko.startActivity
 
 
 /**
@@ -73,11 +76,21 @@ class MineAccountActivity : BaseActivity<MineAccountPresenter>(), MineAccountCon
         tv_monthly_num.text = userAccountBean.monthlyPass.ifEmpty { "0" }
     }
 
+    override fun initStatusBar(savedInstanceState: Bundle?) {
+        //白底黑字
+        StatusBarUtils.darkMode(this)
+        //给toolbar加个上边距，避免顶上去
+        StatusBarUtils.setPaddingSmart(this, toolbar)
+    }
+
 
     override fun initData(savedInstanceState: Bundle?) {
         mPresenter?.getUserAccountInfo()
         tv_recharge.clicks().subscribe {
             JumpManager.jumpRecharge(this)
+        }.bindToLifecycle(this)
+        rl_mine_buy.clicks().subscribe {
+            startActivity<MineBillActivity>()
         }.bindToLifecycle(this)
     }
 

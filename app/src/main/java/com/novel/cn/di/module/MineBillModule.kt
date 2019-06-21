@@ -7,6 +7,8 @@ import dagger.Provides
 
 import com.novel.cn.mvp.contract.MineBillContract
 import com.novel.cn.mvp.model.MineBillModel
+import com.novel.cn.mvp.ui.adapter.MessageFilterAdapter
+import com.novel.cn.mvp.ui.adapter.MyBillAdapter
 
 
 /**
@@ -35,4 +37,8 @@ class MineBillModule(private val view: MineBillContract.View) {
     fun provideMineBillModel(model: MineBillModel): MineBillContract.Model {
         return model
     }
+
+    @ActivityScope
+    @Provides
+    fun provideMyBillAdapter() = MyBillAdapter()
 }

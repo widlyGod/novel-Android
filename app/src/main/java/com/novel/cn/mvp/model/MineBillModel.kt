@@ -9,6 +9,10 @@ import com.jess.arms.di.scope.ActivityScope
 import javax.inject.Inject
 
 import com.novel.cn.mvp.contract.MineBillContract
+import com.novel.cn.mvp.model.api.service.UserService
+import com.novel.cn.mvp.model.entity.BaseResponse
+import com.novel.cn.mvp.model.entity.MyBillBean
+import io.reactivex.Observable
 
 
 /**
@@ -27,12 +31,13 @@ import com.novel.cn.mvp.contract.MineBillContract
 class MineBillModel
 @Inject
 constructor(repositoryManager: IRepositoryManager) : BaseModel(repositoryManager), MineBillContract.Model {
+
     @Inject
     lateinit var mGson: Gson;
     @Inject
     lateinit var mApplication: Application;
 
-    override fun onDestroy() {
-        super.onDestroy();
+    override fun getMyBill(parms: HashMap<String, Any>): Observable<BaseResponse<MyBillBean>> {
+        return mRepositoryManager.obtainRetrofitService(UserService::class.java).getMyBill(parms)
     }
 }

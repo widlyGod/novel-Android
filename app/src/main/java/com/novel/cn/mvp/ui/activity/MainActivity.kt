@@ -113,6 +113,7 @@ class MainActivity : BaseActivity<MainPresenter>(), MainContract.View {
         if (position == 3 && user!!.userId.isBlank()) {
             switchFragment(4)
             tabLayout.currentTab = 3
+            positionTab = 3
             return
         }
         positionTab = position

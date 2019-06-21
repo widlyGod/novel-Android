@@ -32,7 +32,8 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         tools:replace="android:name,android:theme">
-        <activity android:name=".mvp.ui.activity.MineBillActivity"
+        <activity
+            android:name=".mvp.ui.activity.MineBillActivity"
             android:label="我的购买" />
         <activity
             android:name=".mvp.ui.activity.MineAccountActivity"
@@ -87,6 +88,7 @@
             android:name=".mvp.ui.activity.LoginActivity"
             android:label="登录"
             android:launchMode="singleTask" />
+        <activity android:name=".mvp.ui.activity.MineBillDateSelectActivity" />
         <activity
             android:name=".mvp.ui.activity.RegistActivity"
             android:label="注册" />
