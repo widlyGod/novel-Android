@@ -31,7 +31,7 @@ class UpdateGenderDialog(context: Context, var gender: Int? = 0) : BaseDialog<Up
             onSelectGenderListener?.invoke(gender!!)
         }
         iv_famale.setOnClickListener {
-            gender = 1
+            gender != 0
             it.isEnabled = false
             iv_male.isEnabled = true
             onSelectGenderListener?.invoke(gender!!)
