@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+    <item
+        android:id="@+id/action_bookstore"
+        android:icon="@drawable/ic_bookstore"
+        android:title="书架"
+        app:showAsAction="always" />
+    <item
+        android:id="@+id/action_bookshelf"
+        android:icon="@drawable/ic_bookshelf"
+        android:title="书架"
+        app:showAsAction="always" />
+</menu>

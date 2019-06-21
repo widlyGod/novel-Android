@@ -2,15 +2,18 @@ package com.novel.cn.mvp.ui.activity
 
 import android.graphics.Color
 import android.os.Bundle
-import android.view.Gravity
-import android.view.LayoutInflater
-import android.view.View
+import android.view.*
 import com.jakewharton.rxbinding3.view.clicks
 import com.jess.arms.base.BaseActivity
 import com.jess.arms.di.component.AppComponent
+import com.jess.arms.integration.AppManager
+import com.jess.arms.integration.EventBusManager
+import com.jess.arms.utils.IndexEvent
 import com.jess.arms.utils.LogUtils
 import com.novel.cn.R
+import com.novel.cn.app.Constant
 import com.novel.cn.app.JumpManager
+import com.novel.cn.app.Preference
 import com.novel.cn.db.DbManager
 import com.novel.cn.db.Readcord
 import com.novel.cn.di.component.DaggerContentsComponent
@@ -31,6 +34,7 @@ import kotlinx.android.synthetic.main.include_title.toolbar
 import kotlinx.android.synthetic.main.layout_foot_volume.view.*
 import kotlinx.android.synthetic.main.layout_header_volume.*
 import kotlinx.android.synthetic.main.layout_header_volume.view.*
+import org.jetbrains.anko.startActivity
 
 
 class ContentsActivity : BaseActivity<ContentsPresenter>(), ContentsContract.View, VolumeView {
@@ -95,7 +99,7 @@ class ContentsActivity : BaseActivity<ContentsPresenter>(), ContentsContract.Vie
         decoration.rightMargin = dp2px(15)
         recyclerView.addItemDecoration(decoration)
         mAdapter.setOnItemClickListener { _, _, position ->
-            if(mAdapter.data[position].isLocked){
+            if (mAdapter.data[position].isLocked) {
                 toast("该章节尚未发布")
                 return@setOnItemClickListener
             }
@@ -229,6 +233,24 @@ class ContentsActivity : BaseActivity<ContentsPresenter>(), ContentsContract.Vie
         mFootView.tv_page_chapter_num.text = "第${list[0].chapter}章 - 第${list[list.size - 1].chapter}章"
         recyclerView.layoutManager?.scrollToPosition(0)
         initPagePopup()
+    }
+
+    override fun onCreateOptionsMenu(menu: Menu?): Boolean {
+        menuInflater.inflate(R.menu.menu_contents, menu)
+        return true
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem?): Boolean {
+        val user = Preference.getDeviceData<LoginInfo?>(Constant.LOGIN_INFO)
+        if (user!!.sessionId.isNotEmpty()) {
+            when (item!!.itemId) {
+                R.id.action_bookstore -> EventBusManager.getInstance().post(IndexEvent().apply { index = 1 })
+                R.id.action_bookshelf -> EventBusManager.getInstance().post(IndexEvent())
+            }
+            AppManager.getAppManager().killAll(MainActivity::class.java)
+        } else
+            startActivity<LoginActivity>()
+        return super.onOptionsItemSelected(item)
     }
 
 }
