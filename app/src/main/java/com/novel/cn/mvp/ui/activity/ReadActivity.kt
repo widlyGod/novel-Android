@@ -89,6 +89,7 @@ class ReadActivity : BaseActivity<ReadPresenter>(), ReadContract.View, VolumeVie
 
     private var volumeList = mutableListOf<VolumeBean>()
 
+    var readPos = -1
 
     private val tipDialog by lazy {
         TipDialog.Builder(this)
@@ -118,6 +119,7 @@ class ReadActivity : BaseActivity<ReadPresenter>(), ReadContract.View, VolumeVie
 
 
     override fun initData(savedInstanceState: Bundle?) {
+        readPos = -1
         user = Preference.getDeviceData<LoginInfo?>(Constant.LOGIN_INFO)!!
         drawerLayout.setDrawerLockMode(DrawerLayout.LOCK_MODE_LOCKED_CLOSED)
         drawerLayout.isFocusableInTouchMode = false
@@ -226,7 +228,9 @@ class ReadActivity : BaseActivity<ReadPresenter>(), ReadContract.View, VolumeVie
                 if (tipDialog.isShowing) {
                     tipDialog.dismiss()
                 }
-                mPresenter?.updateRead(item.novelId, item.chapterId)
+                if (readPos != pos)
+                    mPresenter?.updateRead(item.novelId, item.chapterId)
+                readPos = pos
             }
 
             override fun requestChapters(requestChapters: MutableList<TxtChapter>?) {
