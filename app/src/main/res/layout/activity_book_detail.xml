@@ -8,8 +8,7 @@
     android:orientation="vertical">
 
     <include layout="@layout/include_title" />
-
-
+    
     <android.support.v7.widget.RecyclerView
         android:id="@+id/recyclerView"
         android:layout_width="match_parent"
@@ -17,7 +16,6 @@
         android:layout_weight="1"
         android:overScrollMode="never"
         app:layoutManager="android.support.v7.widget.LinearLayoutManager" />
-
 
     <View
         android:layout_width="match_parent"
