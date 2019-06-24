@@ -105,8 +105,8 @@ class CommentDetailActivity : BaseActivity<CommentDetailPresenter>(), CommentDet
 
         mComment?.let { it ->
             //初始化数据
-            val ss = SpannableString("共${it.counts}条")
-            ss.setSpan(ForegroundColorSpan(Color.parseColor("#EE4B1A")), 1, (1 + it.counts.toString().length), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE)
+            val ss = SpannableString("共${it.replyNumber}条")
+            ss.setSpan(ForegroundColorSpan(Color.parseColor("#EE4B1A")), 1, (1 + it.replyNumber.toString().length), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE)
             tv_count.text = ss
             iv_avatar.loadImage(it.commentUser.userPhoto)
             if (book?.novelInfo?.authorId == it.commentUser.userId) {
