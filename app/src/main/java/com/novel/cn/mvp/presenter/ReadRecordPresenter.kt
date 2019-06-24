@@ -16,6 +16,7 @@ import javax.inject.Inject
 
 import com.novel.cn.mvp.contract.ReadRecordContract
 import com.novel.cn.mvp.model.entity.*
+import com.novel.cn.view.MultiStateView
 import com.zchu.rxcache.data.CacheResult
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.schedulers.Schedulers
@@ -45,17 +46,24 @@ constructor(model: ReadRecordContract.Model, rootView: ReadRecordContract.View) 
                 .compose(RxLifecycleUtils.bindToLifecycle(mRootView))
                 .subscribe(object : ErrorHandleSubscriber<BaseResponse<Pagination<Book>>>(mErrorHandler) {
                     override fun onNext(t: BaseResponse<Pagination<Book>>) {
-                        //判断是否还有下一页
-                        val noMore = mPageIndex * Constant.PAGE_SIZE >= t.data.total
-                        mRootView.showReadRecordList(pullToRefresh, t.data.book)
-                        mRootView.complete(pullToRefresh)
-                        if (noMore)
-                            mRootView.noMore()
+                        if (t.data.total == 0) {
+                            mRootView.showState(MultiStateView.VIEW_STATE_EMPTY)
+                        } else {
+                            mRootView.showState(MultiStateView.VIEW_STATE_CONTENT)
+                            //判断是否还有下一页
+                            val noMore = mPageIndex * Constant.PAGE_SIZE >= t.data.total
+                            mRootView.showReadRecordList(pullToRefresh, t.data.book)
+                            mRootView.complete(pullToRefresh)
+                            if (noMore)
+                                mRootView.noMore()
+                        }
                     }
 
                     override fun onError(t: Throwable) {
                         super.onError(t)
                         mRootView.complete(pullToRefresh)
+                        if (pullToRefresh)
+                            mRootView.showState(MultiStateView.VIEW_STATE_ERROR)
                     }
                 })
     }

@@ -82,6 +82,9 @@ class ReadRecordActivity : BaseActivity<ReadRecordPresenter>(), ReadRecordContra
         JumpManager.jumpRead(this, novelInfoBean)
     }
 
+    override fun showState(state: Int) {
+        multiStateView.viewState = state
+    }
 
     override fun onOptionsItemSelected(item: MenuItem?): Boolean {
         ConfirmDialog(this) {
