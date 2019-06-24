@@ -330,7 +330,7 @@ class ReadActivity : BaseActivity<ReadPresenter>(), ReadContract.View, VolumeVie
         header.setOnClickListener {
             mPopup.showAsDropDown(it, dp2px(20), 0)
         }
-        header.iv_rank_type.clicks().subscribe {
+        iv_rank_type.clicks().subscribe {
             var list = volumeList[nowVolumePosition].calalogue
             var calalogue = mutableListOf<Calalogue>()
             isSequence = if (isSequence) {
@@ -346,14 +346,15 @@ class ReadActivity : BaseActivity<ReadPresenter>(), ReadContract.View, VolumeVie
             }
             if (selectedVolumePosition == nowVolumePosition)
                 mAdapter.setCurrentPosition(mAdapter.data.size - 1 - mAdapter.getCurrentPosition())
-            header.iv_rank_type.setImageDrawable(if (isSequence) {
+            iv_rank_type.setImageDrawable(if (isSequence) {
                 getCompactDrawable(R.drawable.ic_rank_down)
             } else getCompactDrawable(R.drawable.ic_rank_up))
         }.bindToLifecycle(this)
 
 //        ll_info.setBackgroundColor(ContextCompat.getColor(this, ReadSettingManager.getInstance().pageStyle.bgColor))
         mAdapter.removeAllHeaderView()
-        mAdapter.setHeaderView(header)
+        if (list.size > 1)
+            mAdapter.setHeaderView(header)
         volumeList.clear()
         volumeList.addAll(list)
         mPopup.setData(list)

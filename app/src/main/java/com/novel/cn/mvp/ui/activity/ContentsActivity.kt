@@ -85,7 +85,7 @@ class ContentsActivity : BaseActivity<ContentsPresenter>(), ContentsContract.Vie
         mAdapter.bindToRecyclerView(recyclerView)
         mHeaderView = LayoutInflater.from(this).inflate(R.layout.layout_header_volume, recyclerView, false)
         mFootView = LayoutInflater.from(this).inflate(R.layout.layout_foot_volume, recyclerView, false)
-        mAdapter.addHeaderView(mHeaderView)
+
         mAdapter.addFooterView(mFootView)
         mHeaderView.setOnClickListener {
             mPopup.showAsDropDown(it, dp2px(20), 0)
@@ -111,7 +111,7 @@ class ContentsActivity : BaseActivity<ContentsPresenter>(), ContentsContract.Vie
             JumpManager.jumpRead(this, mBook)
             finish()
         }
-        mHeaderView.iv_rank_type.clicks().subscribe {
+        iv_rank_type.clicks().subscribe {
             var list = volumeList[selectedVolumePosition].calalogue
             isSequence = if (isSequence) {
                 calalogue.clear()
@@ -127,7 +127,7 @@ class ContentsActivity : BaseActivity<ContentsPresenter>(), ContentsContract.Vie
                 true
             }
             setCurrentPositionShow()
-            mHeaderView.iv_rank_type.setImageDrawable(if (isSequence) {
+            iv_rank_type.setImageDrawable(if (isSequence) {
                 getCompactDrawable(R.drawable.ic_rank_down)
             } else getCompactDrawable(R.drawable.ic_rank_up))
         }.bindToLifecycle(this)
@@ -179,14 +179,12 @@ class ContentsActivity : BaseActivity<ContentsPresenter>(), ContentsContract.Vie
 //        mAdapter.setNewData(data.list)
     }
 
-    override fun showState(state: Int) {
-        multiStateView.viewState = state
-    }
-
     override fun showCalalogueInfo(list: ArrayList<VolumeBean>) {
         volumeList.clear()
         volumeList.addAll(list)
         mPopup.setData(volumeList)
+        if (list.size > 1)
+            mAdapter.addHeaderView(mHeaderView)
         if (volumeList.size > 0) {
             chooseVolume(0)
         }
@@ -194,7 +192,7 @@ class ContentsActivity : BaseActivity<ContentsPresenter>(), ContentsContract.Vie
 
     private fun chooseVolume(position: Int) {
         isSequence = true
-        mHeaderView.iv_rank_type.setImageDrawable(if (isSequence) {
+        iv_rank_type.setImageDrawable(if (isSequence) {
             getCompactDrawable(R.drawable.ic_rank_down)
         } else getCompactDrawable(R.drawable.ic_rank_up))
 

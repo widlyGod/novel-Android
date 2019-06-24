@@ -24,7 +24,6 @@ interface ContentsContract {
     interface View : IView {
         fun showVolume(data: MutableList<Volume>?)
         fun showChapterList(volume: String?, data: ChapterBean)
-        fun showState(state: Int)
         fun showCalalogueInfo(list: ArrayList<VolumeBean>)
         fun selectPage(page: Int)
     }

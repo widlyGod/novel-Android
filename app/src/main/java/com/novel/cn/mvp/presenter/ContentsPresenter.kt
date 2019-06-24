@@ -28,52 +28,52 @@ constructor(model: ContentsContract.Model, rootView: ContentsContract.View) :
     lateinit var mErrorHandler: RxErrorHandler
 
 
-    fun getVolumeList(bookId: String?) {
-        mModel.getVolumeList(bookId)
-                .subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread())
-                .compose(RxLifecycleUtils.bindToLifecycle(mRootView))
-                .subscribe(object : ErrorHandleSubscriber<BaseResponse<MutableList<Volume>?>>(mErrorHandler) {
-                    override fun onNext(t: BaseResponse<MutableList<Volume>?>) {
-                        if (!t.data.isNullOrEmpty()) {
-                            mRootView.showVolume(t.data)
-                            getChapterList(bookId, t.data[0].volume)
-                        } else {
-                            mRootView.showState(MultiStateView.VIEW_STATE_EMPTY)
-                        }
-
-                    }
-
-                    override fun onError(t: Throwable) {
-                        super.onError(t)
-                        mRootView.showState(MultiStateView.VIEW_STATE_ERROR)
-                    }
-                })
-    }
-
-    fun getChapterList(bookId: String?, volume: String?) {
-        val params = HashMap<String, Any?>()
-        params["novelId"] = bookId
-        params["volume"] = volume
-        params["sort"] = "ASC"
-
-        mModel.getChapterList(params)
-                .subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread())
-                .compose(RxLifecycleUtils.bindToLifecycle(mRootView))
-                .subscribe(object : ErrorHandleSubscriber<BaseResponse<ChapterBean>>(mErrorHandler) {
-                    override fun onNext(t: BaseResponse<ChapterBean>) {
-                        mRootView.showState(MultiStateView.VIEW_STATE_CONTENT)
-                        mRootView.showChapterList(volume, t.data)
-
-                    }
-
-                    override fun onError(t: Throwable) {
-                        super.onError(t)
-                        mRootView.showState(MultiStateView.VIEW_STATE_ERROR)
-                    }
-                })
-    }
+//    fun getVolumeList(bookId: String?) {
+//        mModel.getVolumeList(bookId)
+//                .subscribeOn(Schedulers.io())
+//                .observeOn(AndroidSchedulers.mainThread())
+//                .compose(RxLifecycleUtils.bindToLifecycle(mRootView))
+//                .subscribe(object : ErrorHandleSubscriber<BaseResponse<MutableList<Volume>?>>(mErrorHandler) {
+//                    override fun onNext(t: BaseResponse<MutableList<Volume>?>) {
+//                        if (!t.data.isNullOrEmpty()) {
+//                            mRootView.showVolume(t.data)
+//                            getChapterList(bookId, t.data[0].volume)
+//                        } else {
+//                            mRootView.showState(MultiStateView.VIEW_STATE_EMPTY)
+//                        }
+//
+//                    }
+//
+//                    override fun onError(t: Throwable) {
+//                        super.onError(t)
+//                        mRootView.showState(MultiStateView.VIEW_STATE_ERROR)
+//                    }
+//                })
+//    }
+//
+//    fun getChapterList(bookId: String?, volume: String?) {
+//        val params = HashMap<String, Any?>()
+//        params["novelId"] = bookId
+//        params["volume"] = volume
+//        params["sort"] = "ASC"
+//
+//        mModel.getChapterList(params)
+//                .subscribeOn(Schedulers.io())
+//                .observeOn(AndroidSchedulers.mainThread())
+//                .compose(RxLifecycleUtils.bindToLifecycle(mRootView))
+//                .subscribe(object : ErrorHandleSubscriber<BaseResponse<ChapterBean>>(mErrorHandler) {
+//                    override fun onNext(t: BaseResponse<ChapterBean>) {
+//                        mRootView.showState(MultiStateView.VIEW_STATE_CONTENT)
+//                        mRootView.showChapterList(volume, t.data)
+//
+//                    }
+//
+//                    override fun onError(t: Throwable) {
+//                        super.onError(t)
+//                        mRootView.showState(MultiStateView.VIEW_STATE_ERROR)
+//                    }
+//                })
+//    }
 
     fun getCatalogue(novelId: String) {
         mModel.getCalalogue(novelId)
@@ -82,7 +82,6 @@ constructor(model: ContentsContract.Model, rootView: ContentsContract.View) :
                 .compose(RxLifecycleUtils.bindToLifecycle(mRootView))
                 .subscribe(object : ErrorHandleSubscriber<CacheResult<CalalogueVo>>(mErrorHandler) {
                     override fun onNext(t: CacheResult<CalalogueVo>) {
-                        mRootView.showState(MultiStateView.VIEW_STATE_CONTENT)
                         val list = ArrayList<VolumeBean>()
                         t.data.catalogue.groupBy { it.volumeId }
                                 .forEach {
