@@ -135,7 +135,6 @@ class CategoryListActivity : BaseActivity<CategoryListPresenter>(), CategoryList
 
     override fun conllectionSuccess(position: Int) {
         //收藏成功后，更新页面，并通知书架
-        toast("加入书架成功")
         val item = mAdapter.getItem(position)
         item?.let {
             it.isCollect = "true"

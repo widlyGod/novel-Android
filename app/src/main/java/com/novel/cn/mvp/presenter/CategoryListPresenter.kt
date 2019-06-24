@@ -10,6 +10,7 @@ import com.jess.arms.utils.RxLifecycleUtils
 import com.novel.cn.app.Constant
 import com.novel.cn.app.isNullOrEmpty
 import com.novel.cn.ext.applySchedulers
+import com.novel.cn.ext.toast
 import me.jessyan.rxerrorhandler.core.RxErrorHandler
 import javax.inject.Inject
 
@@ -22,6 +23,7 @@ import com.novel.cn.view.MultiStateView
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.schedulers.Schedulers
 import me.jessyan.rxerrorhandler.handler.ErrorHandleSubscriber
+import org.jetbrains.anko.toast
 
 
 /**
@@ -112,6 +114,13 @@ constructor(model: CategoryListContract.Model, rootView: CategoryListContract.Vi
                 .applySchedulers(mRootView)
                 .subscribe(object : ErrorHandleSubscriber<BaseResponse<Any>>(mErrorHandler) {
                     override fun onNext(t: BaseResponse<Any>) {
+                        toast("加入书架成功")
+                        mRootView.conllectionSuccess(it)
+                    }
+
+                    override fun onError(t: Throwable) {
+                        super.onError(t)
+                        toast(t.message)
                         mRootView.conllectionSuccess(it)
                     }
                 })

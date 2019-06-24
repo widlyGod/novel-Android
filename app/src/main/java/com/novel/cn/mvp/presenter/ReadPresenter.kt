@@ -102,6 +102,12 @@ constructor(model: ReadContract.Model, rootView: ReadContract.View) :
                     override fun onNext(t: BaseResponse<Any>) {
                         mRootView.collectionSuccess()
                     }
+
+                    override fun onError(t: Throwable) {
+                        super.onError(t)
+                        toast(t.message)
+                        mRootView.collectionSuccess()
+                    }
                 })
     }
 

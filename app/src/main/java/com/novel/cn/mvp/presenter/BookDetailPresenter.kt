@@ -62,6 +62,8 @@ constructor(model: BookDetailContract.Model, rootView: BookDetailContract.View) 
 
                     override fun onError(t: Throwable) {
                         super.onError(t)
+                        toast(t.message)
+                        mRootView.conllectionSuccess()
                     }
                 })
     }
