@@ -14,9 +14,9 @@ class MyBillAdapter : BaseQuickAdapter<MyBuyOrder, BaseViewHolder>(R.layout.item
     @SuppressLint("SimpleDateFormat")
     override fun convert(helper: BaseViewHolder, item: MyBuyOrder) {
         with(helper.itemView) {
-            tv_name.text = if (item.rechargeCode == 0) "微信" else "支付宝"
+            tv_name.text = if (item.membershipRecord == "0") "阅读币" else "VIP"
             tv_date.text = TimeUtils.millis2String(item.rechargeTime, SimpleDateFormat("yyyy-MM-dd HH:mm"))
-            tv_price.text = item.rechargeAmount
+            tv_price.text = "${if (item.plusMinus == "0") "-" else "+" }${item.rechargeAmount}"
         }
     }
 

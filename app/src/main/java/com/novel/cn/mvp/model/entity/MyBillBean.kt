@@ -11,5 +11,6 @@ data class MyBuyOrder(
         val membershipRecord: String,
         val rechargeAmount: String,
         val rechargeCode: Int,
-        val rechargeTime: Long
+        val rechargeTime: Long,
+        val plusMinus:String
 )
