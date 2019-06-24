@@ -3,6 +3,7 @@ package com.novel.cn.mvp.contract
 import com.jess.arms.mvp.IView
 import com.jess.arms.mvp.IModel
 import com.novel.cn.mvp.model.entity.BaseResponse
+import com.novel.cn.mvp.model.entity.BookInfo
 import com.novel.cn.mvp.model.entity.ChapterComment
 import io.reactivex.Observable
 
@@ -24,6 +25,7 @@ interface ChapterCommentContract {
     interface View : IView {
         fun releaseCommentSuccess()
         fun showCount(counts: Int)
+        fun getHotSearchSuccess(list:List<BookInfo>)
     }
 
     //Model层定义接口,外部只需关心Model返回的数据,无需关心内部细节,即是否使用缓存
@@ -32,6 +34,7 @@ interface ChapterCommentContract {
         fun chapterComment(params: HashMap<String, Any?>): Observable<BaseResponse<Any>>
         fun agree(commentId: String, type: Int): Observable<BaseResponse<Any>>
         fun deleteChapterComment(params: HashMap<String, Any?>): Observable<BaseResponse<Any>>
+        fun getHotSearch(): Observable<BaseResponse<List<BookInfo>>>
     }
 
 }

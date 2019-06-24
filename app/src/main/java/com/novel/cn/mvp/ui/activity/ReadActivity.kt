@@ -150,8 +150,8 @@ class ReadActivity : BaseActivity<ReadPresenter>(), ReadContract.View, VolumeVie
             }
             if (!isCollect)
                 mPresenter?.addCollection(mBook.novelInfo.novelId)
-            else
-                mPresenter?.cancelCollection(mBook.novelInfo.novelId)
+//            else
+//                mPresenter?.cancelCollection(mBook.novelInfo.novelId)
         }
 
         readView.setTouchListener(object : PageView.TouchListener {

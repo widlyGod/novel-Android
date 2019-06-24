@@ -11,16 +11,21 @@ import com.flyco.tablayout.listener.CustomTabEntity
 import com.flyco.tablayout.listener.OnTabSelectListener
 import com.jess.arms.base.BaseFragment
 import com.jess.arms.di.component.AppComponent
+import com.jess.arms.utils.IndexEvent
 import com.novel.cn.R
+import com.novel.cn.app.Constant
+import com.novel.cn.app.Preference
 import com.novel.cn.di.component.DaggerBookStoreComponent
 import com.novel.cn.di.module.BookStoreModule
 import com.novel.cn.eventbus.SwitchFragmentEvent
 import com.novel.cn.mvp.contract.BookStoreContract
+import com.novel.cn.mvp.model.entity.LoginInfo
 import com.novel.cn.mvp.presenter.BookStorePresenter
 import com.novel.cn.mvp.ui.activity.MainActivity
 import com.novel.cn.utils.StatusBarUtils
 import kotlinx.android.synthetic.main.fragment_book_store.*
 import org.greenrobot.eventbus.Subscribe
+import org.greenrobot.eventbus.ThreadMode
 import javax.inject.Inject
 import javax.inject.Named
 
@@ -103,16 +108,22 @@ class BookStoreFragment : BaseFragment<BookStorePresenter>(), BookStoreContract.
         val transaction = childFragmentManager.beginTransaction()
         if (fragment != mCurrentFragment) {
             if (mCurrentFragment == null) {
-                transaction.add(R.id.fl_content, fragment).commit()
+                transaction.add(R.id.fl_content, fragment).commitAllowingStateLoss()
             } else if (!fragment.isAdded) {
-                transaction.hide(mCurrentFragment!!).add(R.id.fl_content, fragment).commit()
+                transaction.hide(mCurrentFragment!!).add(R.id.fl_content, fragment).commitAllowingStateLoss()
             } else {
-                transaction.hide(mCurrentFragment!!).show(fragment).commit()
+                transaction.hide(mCurrentFragment!!).show(fragment).commitAllowingStateLoss()
             }
             mCurrentFragment = fragment
         }
     }
 
     override fun childFragmentManager(): FragmentManager = childFragmentManager
+
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    fun onIndexChange(event: IndexEvent) {
+        if (event.index == 1)
+            switchFragment(0)
+    }
 
 }

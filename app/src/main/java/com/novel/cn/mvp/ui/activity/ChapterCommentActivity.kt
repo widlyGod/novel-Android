@@ -4,18 +4,25 @@ import android.graphics.Color
 import android.os.Bundle
 import android.text.Html
 import android.view.LayoutInflater
+import android.view.Menu
+import android.view.MenuItem
 import com.jess.arms.base.BaseActivity
 import com.jess.arms.di.component.AppComponent
+import com.jess.arms.integration.AppManager
+import com.jess.arms.integration.EventBusManager
 import com.jess.arms.utils.ArmsUtils
 import com.jess.arms.utils.DeviceUtils
+import com.jess.arms.utils.IndexEvent
 import com.novel.cn.R
 import com.novel.cn.app.Constant
+import com.novel.cn.app.JumpManager
 import com.novel.cn.app.Preference
 import com.novel.cn.di.component.DaggerChapterCommentComponent
 import com.novel.cn.di.module.ChapterCommentModule
 import com.novel.cn.ext.textWatcher
 import com.novel.cn.ext.toast
 import com.novel.cn.mvp.contract.ChapterCommentContract
+import com.novel.cn.mvp.model.entity.BookInfo
 import com.novel.cn.mvp.model.entity.LoginInfo
 import com.novel.cn.mvp.model.entity.NovelInfoBean
 import com.novel.cn.mvp.presenter.ChapterCommentPresenter
@@ -34,6 +41,12 @@ import javax.inject.Inject
 
 
 class ChapterCommentActivity : BaseActivity<ChapterCommentPresenter>(), ChapterCommentContract.View {
+
+
+    override fun getHotSearchSuccess(list: List<BookInfo>) {
+        hotNovels.addAll(list)
+        JumpManager.jumpSearch(this, hotNovels, 0)
+    }
 
     private val mChapterId by lazy { intent.getStringExtra("chapterId") }
 
@@ -67,6 +80,7 @@ class ChapterCommentActivity : BaseActivity<ChapterCommentPresenter>(), ChapterC
     lateinit var mAdapter: ChapterCommentAdapter
 
     private lateinit var user: LoginInfo
+    private var hotNovels = mutableListOf<BookInfo>()
 
     private val mHeaderView by lazy {
         LayoutInflater.from(this).inflate(R.layout.layout_chapter_comment_header, recyclerView, false)
@@ -185,6 +199,32 @@ class ChapterCommentActivity : BaseActivity<ChapterCommentPresenter>(), ChapterC
         mAdapter.setBookDetail(book!!.novelInfo)
         mPresenter?.getChapterComment(mBookId, mChapterId, true)
 
+    }
+
+    override fun onCreateOptionsMenu(menu: Menu?): Boolean {
+        menuInflater.inflate(R.menu.menu_chapter_comment, menu)
+        return true
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem?): Boolean {
+        val user = Preference.getDeviceData<LoginInfo?>(Constant.LOGIN_INFO)
+        if (user!!.sessionId.isNotEmpty()) {
+            when (item!!.itemId) {
+                R.id.action_search -> {
+                    if(hotNovels.isEmpty()){
+                        mPresenter?.getHotSearch()
+                    }else
+                        JumpManager.jumpSearch(this, hotNovels, 0)
+                }
+                R.id.action_bookstore -> {
+                    EventBusManager.getInstance().post(IndexEvent().apply { index = 1 })
+                    AppManager.getAppManager().killAll(MainActivity::class.java)
+                }
+            }
+
+        } else
+            startActivity<LoginActivity>()
+        return super.onOptionsItemSelected(item)
     }
 
 

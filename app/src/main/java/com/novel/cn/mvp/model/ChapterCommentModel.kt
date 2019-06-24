@@ -12,6 +12,7 @@ import javax.inject.Inject
 import com.novel.cn.mvp.contract.ChapterCommentContract
 import com.novel.cn.mvp.model.api.service.BookService
 import com.novel.cn.mvp.model.entity.BaseResponse
+import com.novel.cn.mvp.model.entity.BookInfo
 import com.novel.cn.mvp.model.entity.ChapterComment
 import io.reactivex.Observable
 
@@ -36,4 +37,7 @@ constructor(repositoryManager: IRepositoryManager) : BaseModel(repositoryManager
         return mRepositoryManager.obtainRetrofitService(BookService::class.java).agree(commentId,type)
     }
 
+    override fun getHotSearch(): Observable<BaseResponse<List<BookInfo>>> {
+        return mRepositoryManager.obtainRetrofitService(BookService::class.java).getHotSearch()
+    }
 }

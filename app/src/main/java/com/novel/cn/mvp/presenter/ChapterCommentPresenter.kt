@@ -10,6 +10,7 @@ import javax.inject.Inject
 
 import com.novel.cn.mvp.contract.ChapterCommentContract
 import com.novel.cn.mvp.model.entity.BaseResponse
+import com.novel.cn.mvp.model.entity.BookInfo
 import com.novel.cn.mvp.model.entity.ChapterComment
 import com.novel.cn.mvp.model.entity.Comment
 import com.novel.cn.mvp.ui.adapter.ChapterCommentAdapter
@@ -60,6 +61,16 @@ constructor(model: ChapterCommentContract.Model, rootView: ChapterCommentContrac
                     override fun onError(t: Throwable) {
                         super.onError(t)
                         mAdapter.loadMoreComplete()
+                    }
+                })
+    }
+
+    fun getHotSearch(){
+        mModel.getHotSearch()
+                .applySchedulers(mRootView)
+                .subscribe(object : ErrorHandleSubscriber<BaseResponse<List<BookInfo>>>(mErrorHandler) {
+                    override fun onNext(t: BaseResponse<List<BookInfo>>) {
+                        mRootView.getHotSearchSuccess(t.data)
                     }
                 })
     }

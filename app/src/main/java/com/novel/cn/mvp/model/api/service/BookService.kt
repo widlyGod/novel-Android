@@ -143,6 +143,13 @@ interface BookService {
     fun agree(@Query("commentId") commentId: String,@Query("type") type: Int): Observable<BaseResponse<Any>>
 
     /**
+     * 获取热门搜索
+     */
+    @GET("novelUserService/channelLabelNovelManage/selectHot")
+    fun getHotSearch(): Observable<BaseResponse<List<BookInfo>>>
+
+
+    /**
      * 发布评论
      */
     @POST("novelOAService/comment/saveComment")
