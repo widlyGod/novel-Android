@@ -1,26 +1,20 @@
 package com.novel.cn.mvp.ui.activity
 
-import android.content.Intent
 import android.os.Bundle
-
 import com.jess.arms.base.BaseActivity
 import com.jess.arms.di.component.AppComponent
-import com.jess.arms.integration.AppManager
 import com.jess.arms.integration.EventBusManager
-import com.jess.arms.utils.ArmsUtils
 import com.jess.arms.utils.LoginEvent
 import com.novel.cn.BuildConfig
-
-import com.novel.cn.di.component.DaggerSettingComponent
-import com.novel.cn.di.module.SettingModule
-import com.novel.cn.mvp.contract.SettingContract
-import com.novel.cn.mvp.presenter.SettingPresenter
-
 import com.novel.cn.R
 import com.novel.cn.app.Constant
 import com.novel.cn.app.Preference
 import com.novel.cn.app.click
+import com.novel.cn.di.component.DaggerSettingComponent
+import com.novel.cn.di.module.SettingModule
+import com.novel.cn.mvp.contract.SettingContract
 import com.novel.cn.mvp.model.entity.LoginInfo
+import com.novel.cn.mvp.presenter.SettingPresenter
 import com.novel.cn.utils.CacheDataManager
 import com.novel.cn.utils.StatusBarUtils
 import com.tencent.bugly.beta.Beta
@@ -69,7 +63,7 @@ class SettingActivity : BaseActivity<SettingPresenter>(), SettingContract.View {
 //                    startActivity<MainActivity>()
 //                    AppManager.getAppManager().killAll(MainActivity::class.java)
                 }
-                tv_about -> startActivity<LoginActivity>()
+                tv_about -> WebActivity.actionStart(this,"http://59.110.124.41/app/aboutUs.html")
                 fl_cache -> {
                     CacheDataManager.clearAllCache(this)
                     tv_cache.text = CacheDataManager.getTotalCacheSize(this)

@@ -104,8 +104,13 @@ class MyFragment : BaseFragment<MyPresenter>(), MyContract.View {
         tv_month_ticket.text = "${data.monthRecommendNumber}"
         tv_recommend_ticket.text = "${data.recommendNumber}"
         tv_coupon.text = "${data.coupon}"
+        if (data.msgCount > 0) {
+            tv_msg.visible(false)
+        } else {
+            tv_msg.visible(true)
+            tv_msg.text = "${data.msgCount}"
+        }
 
-        tv_msg.text = "${data.msgCount}"
         tv_account.text = "余额\t\t\t${data.rechargeNumber}阅点 + ${data.rewardNumber}阅券"
 
     }

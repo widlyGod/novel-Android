@@ -83,7 +83,11 @@
         <meta-data
             android:name="com.novel.cn.app.GlobalConfiguration"
             android:value="ConfigModule" />
-
+        <activity
+            android:name=".mvp.ui.activity.WebActivity"
+            android:configChanges="orientation|screenSize|keyboardHidden"
+            android:screenOrientation="portrait"
+            android:label="关于我们" />
         <activity
             android:name=".mvp.ui.activity.LoginActivity"
             android:label="登录"
