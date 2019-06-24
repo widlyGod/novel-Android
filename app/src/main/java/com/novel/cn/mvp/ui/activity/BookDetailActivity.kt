@@ -1,7 +1,9 @@
 package com.novel.cn.mvp.ui.activity
 
 import android.os.Bundle
+import android.support.v4.widget.NestedScrollView
 import android.view.Gravity
+import android.view.LayoutInflater
 import android.view.Menu
 import android.view.MenuItem
 import com.jess.arms.base.BaseActivity
@@ -27,14 +29,16 @@ import com.novel.cn.mvp.ui.adapter.BookCommentAdapter
 import com.novel.cn.mvp.ui.dialog.CommentDialog
 import com.novel.cn.utils.StatusBarUtils
 import com.novel.cn.view.CustomLoadMoreView
+import com.novel.cn.view.MultiStateView
 import com.novel.cn.view.decoration.LinearItemDecoration
 import kotlinx.android.synthetic.main.activity_book_detail.*
-import kotlinx.android.synthetic.main.activity_book_detail.multiStateView
 import kotlinx.android.synthetic.main.activity_book_detail.recyclerView
 import kotlinx.android.synthetic.main.activity_book_detail.tv_comment
 import kotlinx.android.synthetic.main.activity_comment.*
 import kotlinx.android.synthetic.main.activity_message.*
 import kotlinx.android.synthetic.main.include_title.*
+import kotlinx.android.synthetic.main.layout_header_book_detail.view.*
+import kotlinx.android.synthetic.main.layout_menu_chapter.*
 import org.greenrobot.eventbus.Subscribe
 import org.jetbrains.anko.startActivity
 import javax.inject.Inject
@@ -101,20 +105,24 @@ class BookDetailActivity : BaseActivity<BookDetailPresenter>(), BookDetailContra
         decoration.leftMargin = ArmsUtils.dip2px(this, 18f)
         decoration.rightMargin = ArmsUtils.dip2px(this, 18f)
         recyclerView.addItemDecoration(decoration)
-
+        mAdapter.addHeaderView(header)
         mPresenter?.getBookDetail(bookId)
     }
 
+    val header by lazy { LayoutInflater.from(this).inflate(R.layout.layout_header_book_detail, recyclerView, false) }
+    val footerEmpty by lazy { LayoutInflater.from(this).inflate(R.layout.layout_empty, recyclerView, false) }
+    val footerError by lazy { LayoutInflater.from(this).inflate(R.layout.layout_error, recyclerView, false) }
+
     override fun showBookDetail(data: NovelInfoBean) {
-        tv_book_name.text = data.novelInfo.novelTitle
-        iv_book_image.loadImage(data.novelInfo.novelPhoto)
-        tv_author.text = data.novelInfo.novelAuthor
-        tv_words.text = "${data.novelInfo.novelWords}字"
-        tv_click_num.text = "${data.novelInfo.clickNum}次点击"
-        expandable_text.text = data.novelInfo.novelIntro
-        expand_text_view.setText(data.novelInfo.novelIntro)
-        tv_chapter.text = "更新至${data.novelInfo.chapterCount}章"
-        tv_review_count.text = data.comment.totalCount.toString()
+        header.tv_book_name.text = data.novelInfo.novelTitle
+        header.iv_book_image.loadImage(data.novelInfo.novelPhoto)
+        header.tv_author.text = data.novelInfo.novelAuthor
+        header.tv_words.text = "${data.novelInfo.novelWords}字"
+        header.tv_click_num.text = "${data.novelInfo.clickNum}次点击"
+        header.expandable_text.text = data.novelInfo.novelIntro
+        header.expand_text_view.setText(data.novelInfo.novelIntro)
+        header.tv_chapter.text = "更新至${data.novelInfo.chapterCount}章"
+        header.tv_review_count.text = data.comment.totalCount.toString()
         tv_add_bookself.text = if (data.novelInfo.isCollection) "已在书架" else "加入书架"
         mAdapter.setBookDetail(data.novelInfo)
         mPresenter?.getCommentList(data.novelInfo.novelId, true)
@@ -146,10 +154,10 @@ class BookDetailActivity : BaseActivity<BookDetailPresenter>(), BookDetailContra
             JumpManager.toCommentDetail(this@BookDetailActivity, mAdapter.getItem(position), data)
         }
 
-        click(tv_read, tv_add_bookself, ll_comment, tv_comment, fl_contents) {
+        click(tv_read, tv_add_bookself, header.ll_comment, tv_comment, header.fl_contents) {
             val user = Preference.getDeviceData<LoginInfo?>(Constant.LOGIN_INFO)
             when (it) {
-                ll_comment -> JumpManager.toCommentList(this, data)
+                header.ll_comment -> JumpManager.toCommentList(this, data)
                 tv_comment -> {
                     if (user!!.userId.isBlank()) {
                         startActivity<LoginActivity>()
@@ -170,7 +178,7 @@ class BookDetailActivity : BaseActivity<BookDetailPresenter>(), BookDetailContra
                         mPresenter?.addCollection(data.novelInfo.novelId)
                     }
                 }
-                fl_contents -> JumpManager.jumpContents(this, data)
+                header.fl_contents -> JumpManager.jumpContents(this, data)
             }
         }
         dialog.setOnReleaseClickListener {
@@ -213,7 +221,11 @@ class BookDetailActivity : BaseActivity<BookDetailPresenter>(), BookDetailContra
     }
 
     override fun showState(state: Int) {
-        multiStateView.viewState = state
+        if(state== MultiStateView.VIEW_STATE_EMPTY){
+            mAdapter.addFooterView(footerEmpty)
+        }else if(state== MultiStateView.VIEW_STATE_ERROR){
+            mAdapter.addFooterView(footerError)
+        }
     }
 
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
