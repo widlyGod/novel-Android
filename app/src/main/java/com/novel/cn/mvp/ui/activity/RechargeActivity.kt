@@ -13,6 +13,7 @@ import com.jess.arms.utils.ArmsUtils
 import com.novel.cn.BuildConfig
 import com.novel.cn.R
 import com.novel.cn.app.click
+import com.novel.cn.app.loadHeadImage
 import com.novel.cn.app.loadImage
 import com.novel.cn.app.visible
 import com.novel.cn.di.component.DaggerRechargeComponent
@@ -177,7 +178,7 @@ class RechargeActivity : BaseActivity<RechargePresenter>(), RechargeContract.Vie
     }
 
     override fun showUserInfo(data: User) {
-        iv_avatar.loadImage(data.userPhoto)
+        iv_avatar.loadHeadImage(data.userPhoto)
         iv_gender.setImageResource(if (data.userGender == "0") R.drawable.ic_male else R.drawable.ic_famale)
         tv_read_count.text = "读过${data.readCount}本"
         tv_read_time.text = "阅读${formatDateTime(data.readTime)}"

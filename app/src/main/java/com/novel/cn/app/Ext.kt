@@ -44,6 +44,10 @@ fun ImageView.loadImage(url: Any?) {
     loadImage(url, R.drawable.img_default_book_txt, R.drawable.img_default_book_txt)
 }
 
+fun ImageView.loadHeadImage(url: Any?) {
+    loadImage(url, R.drawable.img_default_user_head, R.drawable.img_default_user_head)
+}
+
 fun Context.loadImage(config: ImageConfig) {
     ArmsUtils.obtainAppComponentFromContext(this)
             .imageLoader()

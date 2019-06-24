@@ -5,10 +5,7 @@ import com.chad.library.adapter.base.BaseQuickAdapter
 import com.chad.library.adapter.base.BaseViewHolder
 import com.jess.arms.utils.ArmsUtils.startActivity
 import com.novel.cn.R
-import com.novel.cn.app.Constant
-import com.novel.cn.app.Preference
-import com.novel.cn.app.loadImage
-import com.novel.cn.app.visible
+import com.novel.cn.app.*
 import com.novel.cn.mvp.model.entity.BookDetail
 import com.novel.cn.mvp.model.entity.ChapterComment
 import com.novel.cn.mvp.model.entity.LoginInfo
@@ -68,7 +65,7 @@ class ChapterCommentAdapter : BaseQuickAdapter<ChapterComment, BaseViewHolder>(R
     override fun convert(helper: BaseViewHolder, item: ChapterComment) {
 
         with(helper.itemView) {
-            iv_avatar.loadImage(item.chapterCommentUser.userPhoto)
+            iv_avatar.loadHeadImage(item.chapterCommentUser.userPhoto)
 
             tv_time.text = TimeUtils.millis2String(item.replyTime, SimpleDateFormat("yyyy-MM-dd HH:mm"))
             if (item.remindUser != null && item.remindUser.userNickName.isNotEmpty()) {

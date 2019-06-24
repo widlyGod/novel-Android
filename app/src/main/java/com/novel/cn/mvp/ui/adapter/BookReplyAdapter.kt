@@ -3,10 +3,7 @@ package com.novel.cn.mvp.ui.adapter
 import com.chad.library.adapter.base.BaseQuickAdapter
 import com.chad.library.adapter.base.BaseViewHolder
 import com.novel.cn.R
-import com.novel.cn.app.Constant
-import com.novel.cn.app.Preference
-import com.novel.cn.app.loadImage
-import com.novel.cn.app.visible
+import com.novel.cn.app.*
 import com.novel.cn.mvp.model.entity.BookDetail
 import com.novel.cn.mvp.model.entity.LoginInfo
 import com.novel.cn.mvp.model.entity.Reply
@@ -59,7 +56,7 @@ class BookReplyAdapter : BaseQuickAdapter<Reply, BaseViewHolder>(R.layout.item_r
     override fun convert(helper: BaseViewHolder, item: Reply) {
 
         with(helper.itemView) {
-            iv_avatar.loadImage(item.replyUser.userPhoto)
+            iv_avatar.loadHeadImage(item.replyUser.userPhoto)
 
             tv_time.text = TimeUtils.millis2String(item.replyTime, SimpleDateFormat("yyyy-MM-dd HH:mm"))
             tv_content.text = item.content

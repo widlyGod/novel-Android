@@ -3,10 +3,7 @@ package com.novel.cn.mvp.ui.adapter
 import com.chad.library.adapter.base.BaseQuickAdapter
 import com.chad.library.adapter.base.BaseViewHolder
 import com.novel.cn.R
-import com.novel.cn.app.Constant
-import com.novel.cn.app.Preference
-import com.novel.cn.app.loadImage
-import com.novel.cn.app.visible
+import com.novel.cn.app.*
 import com.novel.cn.mvp.model.entity.BookDetail
 import com.novel.cn.mvp.model.entity.Comment
 import com.novel.cn.mvp.model.entity.LoginInfo
@@ -63,7 +60,7 @@ class BookCommentAdapter : BaseQuickAdapter<Comment, BaseViewHolder>(R.layout.it
     override fun convert(helper: BaseViewHolder, item: Comment) {
 
         with(helper.itemView) {
-            iv_avatar.loadImage(item.commentUser.userPhoto)
+            iv_avatar.loadHeadImage(item.commentUser.userPhoto)
 
 
             tv_time.text = TimeUtils.millis2String(item.commentTime, SimpleDateFormat("yyyy-MM-dd HH:mm"))

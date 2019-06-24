@@ -9,10 +9,7 @@ import com.jess.arms.base.BaseActivity
 import com.jess.arms.di.component.AppComponent
 import com.jess.arms.utils.ArmsUtils
 import com.novel.cn.R
-import com.novel.cn.app.Constant
-import com.novel.cn.app.Preference
-import com.novel.cn.app.loadImage
-import com.novel.cn.app.visible
+import com.novel.cn.app.*
 import com.novel.cn.di.component.DaggerCommentDetailComponent
 import com.novel.cn.di.module.CommentDetailModule
 import com.novel.cn.ext.toast
@@ -108,7 +105,7 @@ class CommentDetailActivity : BaseActivity<CommentDetailPresenter>(), CommentDet
             val ss = SpannableString("共${it.replyNumber}条")
             ss.setSpan(ForegroundColorSpan(Color.parseColor("#EE4B1A")), 1, (1 + it.replyNumber.toString().length), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE)
             tv_count.text = ss
-            iv_avatar.loadImage(it.commentUser.userPhoto)
+            iv_avatar.loadHeadImage(it.commentUser.userPhoto)
             if (book?.novelInfo?.authorId == it.commentUser.userId) {
                 tv_isAuthor.visible(true)
                 tv_nickname.text = book?.novelInfo?.novelAuthor

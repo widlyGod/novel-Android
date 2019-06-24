@@ -18,6 +18,7 @@ import com.novel.cn.mvp.contract.UserInfoContract
 import com.novel.cn.mvp.presenter.UserInfoPresenter
 
 import com.novel.cn.R
+import com.novel.cn.app.loadHeadImage
 import com.novel.cn.app.loadImage
 import com.novel.cn.mvp.model.entity.User
 import com.novel.cn.mvp.ui.dialog.ModifyNamePopup
@@ -108,7 +109,7 @@ class UserInfoActivity : BaseActivity<UserInfoPresenter>(), UserInfoContract.Vie
         userGender = mUser!!.userGender.toInt()
 
         mUser?.let {
-            iv_avatar.loadImage(it.userPhoto)
+            iv_avatar.loadHeadImage(it.userPhoto)
             tv_nickname.text = it.userNickName
             tv_gender.text = if (it.userGender == "0") "男" else "女"
             tv_intro.text = it.userIntroduction
@@ -200,7 +201,7 @@ class UserInfoActivity : BaseActivity<UserInfoPresenter>(), UserInfoContract.Vie
                     var file = File(cacheDir, "${System.currentTimeMillis()}.jpg")
                     // 压缩图片
                     file = ImageUtil.compress(this, saveUriStr, file).blockingGet()
-                    iv_avatar.loadImage(file)
+                    iv_avatar.loadHeadImage(file)
                     distFileStr = file.absolutePath
 
                 }
