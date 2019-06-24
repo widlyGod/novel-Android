@@ -176,6 +176,7 @@
             android:layout_height="wrap_content"
             android:text="萨达所"
             android:layout_marginEnd="35dp"
+            android:layout_marginStart="20dp"
             android:gravity="right"
             android:textColor="@color/color_333333"
             app:layout_constraintStart_toEndOf="@+id/tv_intro_title"

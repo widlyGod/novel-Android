@@ -6,6 +6,7 @@ import android.content.pm.ActivityInfo
 import android.net.Uri
 import android.os.Bundle
 import android.util.Base64
+import android.view.Gravity
 import com.jakewharton.rxbinding3.view.clicks
 
 import com.jess.arms.base.BaseActivity
@@ -55,6 +56,7 @@ class UserInfoActivity : BaseActivity<UserInfoPresenter>(), UserInfoContract.Vie
     override fun modifySignature(name: String) {
         userSignature = name
         tv_intro.text = name
+        aligning()
     }
 
     private val mUser by lazy { intent.getParcelableExtra<User?>("user") }
@@ -112,6 +114,8 @@ class UserInfoActivity : BaseActivity<UserInfoPresenter>(), UserInfoContract.Vie
             tv_intro.text = it.userIntroduction
         }
 
+        aligning()
+
         cl_gender.setOnClickListener {
             mGenderDialog.show()
         }
@@ -161,6 +165,17 @@ class UserInfoActivity : BaseActivity<UserInfoPresenter>(), UserInfoContract.Vie
             }
         }.bindToLifecycle(this)
 
+    }
+
+    fun aligning(){
+        tv_intro.post {
+            if (tv_intro.lineCount > 1)
+            //多余一行左对齐
+                tv_intro.gravity = Gravity.LEFT
+            else
+            //一行右对齐
+                tv_intro.gravity = Gravity.RIGHT
+        }
     }
 
 
