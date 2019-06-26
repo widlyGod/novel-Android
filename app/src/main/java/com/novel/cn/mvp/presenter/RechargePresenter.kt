@@ -42,9 +42,7 @@ constructor(model: RechargeContract.Model, rootView: RechargeContract.View) :
 
     fun recharge(code: String, money: String) {
         mModel.recharge(code,money)
-                .subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread())
-                .compose(RxLifecycleUtils.bindToLifecycle(mRootView))
+                .applySchedulers(mRootView)
                 .subscribe(object : ErrorHandleSubscriber<BaseResponse<PayInfoBean>>(mErrorHandler) {
                     override fun onNext(t: BaseResponse<PayInfoBean>) {
                         val data = mGson.toJson(t.data.payCode)

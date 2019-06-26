@@ -32,6 +32,7 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         tools:replace="android:name,android:theme">
+        <activity android:name=".mvp.ui.activity.VipActivity"></activity>
         <activity
             android:name=".mvp.ui.activity.MineBillActivity"
             android:label="我的购买" />
@@ -83,11 +84,11 @@
         <meta-data
             android:name="com.novel.cn.app.GlobalConfiguration"
             android:value="ConfigModule" />
+
         <activity
             android:name=".mvp.ui.activity.WebActivity"
             android:configChanges="orientation|screenSize|keyboardHidden"
-            android:screenOrientation="portrait"
-            android:label="关于我们" />
+            android:screenOrientation="portrait" />
         <activity
             android:name=".mvp.ui.activity.LoginActivity"
             android:label="登录"

@@ -108,6 +108,18 @@ interface UserService {
     fun modifyUserInfo(@Body params: HashMap<String, Any?>): Observable<BaseResponse<Any>>
 
     /**
+     * 获取用户优惠券
+     */
+    @POST("novelAppService/coupon/selectCoupon")
+    fun getUserCoupon(@Body params: HashMap<String, String>): Observable<BaseResponse<List<CouponBean>>>
+
+    /**
+     * 充值vip
+     */
+    @POST("novelAppService/vip/becomeVip")
+    fun vipPay(@Body params: HashMap<String, String>): Observable<BaseResponse<PayInfoBean>>
+
+    /**
      * 上传使用时长
      */
     @GET("novelAppService/personalCenter/updateLoginTime")

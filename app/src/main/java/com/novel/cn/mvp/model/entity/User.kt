@@ -102,15 +102,15 @@ data class User(
 }
 
 @Parcelize
-class VipInfo(val autoRenew: Int = 0, val createTime: Int= 0, val expireTime: Int= 0, val isVip: Int= 0, val userId: Int= 0, val vipLevel: Int= 0, val vipTime: Int= 0, val vipType: Int= 0) : Parcelable {
+class VipInfo(val autoRenew: Int = 0, val createTime: Long = 0, val expireTime: Long = 0, val isVip: Int = 0, val userId: Int = 0, val vipLevel: Int = 0, val vipTime: Long = 0, val vipType: Int = 0) : Parcelable {
     constructor(source: Parcel) : this(
             source.readInt(),
+            source.readLong(),
+            source.readLong(),
             source.readInt(),
             source.readInt(),
             source.readInt(),
-            source.readInt(),
-            source.readInt(),
-            source.readInt(),
+            source.readLong(),
             source.readInt()
     )
 
@@ -119,12 +119,12 @@ class VipInfo(val autoRenew: Int = 0, val createTime: Int= 0, val expireTime: In
     companion object : Parceler<VipInfo> {
         override fun VipInfo.write(dest: Parcel, flags: Int) = with(dest) {
             writeInt(autoRenew)
-            writeInt(createTime)
-            writeInt(expireTime)
+            writeLong(createTime)
+            writeLong(expireTime)
             writeInt(isVip)
             writeInt(userId)
             writeInt(vipLevel)
-            writeInt(vipTime)
+            writeLong(vipTime)
             writeInt(vipType)
         }
 

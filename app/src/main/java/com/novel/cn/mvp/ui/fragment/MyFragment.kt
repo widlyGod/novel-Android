@@ -16,6 +16,7 @@ import com.novel.cn.mvp.model.entity.VipInfo
 import com.novel.cn.mvp.presenter.MyPresenter
 import com.novel.cn.mvp.ui.activity.MessageActivity
 import com.novel.cn.mvp.ui.activity.SettingActivity
+import com.novel.cn.mvp.ui.activity.VipActivity
 import com.novel.cn.utils.StatusBarUtils
 import kotlinx.android.synthetic.main.fragment_my.*
 import kotlinx.android.synthetic.main.layout_my_header.*
@@ -55,7 +56,7 @@ class MyFragment : BaseFragment<MyPresenter>(), MyContract.View {
     override fun initData(savedInstanceState: Bundle?) {
         iv_setting.visible(true)
 
-        click(iv_setting, fl_messsage, iv_avatar, tv_recharge, tv_my_account) { view ->
+        click(iv_setting, fl_messsage, iv_avatar, tv_recharge, tv_my_account, tv_vip) { view ->
             when (view) {
                 iv_setting -> activity?.startActivity<SettingActivity>()
                 fl_messsage -> activity?.startActivity<MessageActivity>()
@@ -66,6 +67,11 @@ class MyFragment : BaseFragment<MyPresenter>(), MyContract.View {
                 }
                 tv_recharge -> JumpManager.jumpRecharge(activity)
                 tv_my_account -> JumpManager.jumpMineAccount(activity)
+                tv_vip -> mUser?.let {
+                    if (it.vipInfo == null)
+                        it.vipInfo = VipInfo()
+                    JumpManager.jumpVipInfo(activity, it)
+                }
             }
         }
 

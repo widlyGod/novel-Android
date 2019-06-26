@@ -2,7 +2,6 @@ package com.novel.cn.utils.pay
 
 import android.app.Activity
 import com.alipay.sdk.app.PayTask
-import com.jess.arms.utils.LogUtils
 
 object Alipay {
     interface OnResult {

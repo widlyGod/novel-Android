@@ -1,6 +1,7 @@
 package com.novel.cn.mvp.ui.activity
 
 import android.content.Context
+import android.graphics.Typeface
 import android.os.Bundle
 import com.jakewharton.rxbinding3.view.clicks
 import com.jess.arms.base.BaseActivity
@@ -109,6 +110,13 @@ class WebActivity : BaseActivity<NothingPresenter>() {
                 progress_bar.setVisible() // 开始加载网页时显示进度条
                 progress_bar.progress = newProgress // 设置进度值
             }
+        }
+
+        override fun onReceivedTitle(p0: WebView?, p1: String?) {
+            super.onReceivedTitle(p0, p1)
+            toolbar_title.text = title
+            toolbar_title.typeface = Typeface.createFromAsset(assets, "fonts/FZQKBYSJW.TTF")
+
         }
     }
 }

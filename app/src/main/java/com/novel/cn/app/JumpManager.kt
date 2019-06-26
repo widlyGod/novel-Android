@@ -78,6 +78,13 @@ object JumpManager {
     }
 
     /**
+     * 跳转到我的账户
+     */
+    fun jumpVipInfo(context: Context?,user: User) {
+        context?.startActivity<VipActivity>("user" to user)
+    }
+
+    /**
      * 跳转到充值页面
      */
     fun jumpRecharge(context: Context?) {
