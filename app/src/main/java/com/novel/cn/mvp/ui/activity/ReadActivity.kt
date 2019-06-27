@@ -211,7 +211,7 @@ class ReadActivity : BaseActivity<ReadPresenter>(), ReadContract.View, VolumeVie
                 if (!tipDialog.isShowing) {
                     tipDialog.show()
                 }
-                mPresenter?.isChargeChapter(mBook.novelInfo.novelId, volumeList[nowVolumePosition].calalogue[mCurChapterPos].volumeId, volumeList[nowVolumePosition].calalogue[mCurChapterPos].chapterId, txtChapter, mCurChapterPos)
+                mPresenter?.isChargeChapter(mBook.novelInfo.novelId, chapterList[mCurChapterPos].volumeId, chapterList[mCurChapterPos].chapterId, txtChapter, mCurChapterPos)
             }
 
             override fun onChapterChange(pos: Int) {
@@ -231,7 +231,6 @@ class ReadActivity : BaseActivity<ReadPresenter>(), ReadContract.View, VolumeVie
                         break
                     }
                 }
-                selectedVolumePosition
                 var postion = 0
                 if (isSequence)
                     postion = i
@@ -421,6 +420,7 @@ class ReadActivity : BaseActivity<ReadPresenter>(), ReadContract.View, VolumeVie
 
                 txt.bookId = mBook.novelInfo.novelId
                 txt.chapterId = it.chapterId
+                txt.volumeId = it.volumeId
                 txt.chapter = it.chapter
                 txt.title = it.chapterTitle
                 if (mBook.novelInfo.isFreeLimit)

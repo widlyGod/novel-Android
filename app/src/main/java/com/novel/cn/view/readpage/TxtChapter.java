@@ -18,6 +18,8 @@ public class TxtChapter{
 
     int chapter;
 
+    String volumeId;
+
     //章节内容在文章中的起始位置(本地)
     long start;
     //章节内容在文章中的终止位置(本地)
@@ -138,6 +140,14 @@ public class TxtChapter{
 
     public void setChapter(int chapter) {
         this.chapter = chapter;
+    }
+
+    public String getVolumeId() {
+        return volumeId;
+    }
+
+    public void setVolumeId(String volumeId) {
+        this.volumeId = volumeId;
     }
 
     @Override
