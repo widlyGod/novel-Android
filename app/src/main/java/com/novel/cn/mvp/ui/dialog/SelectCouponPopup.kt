@@ -11,11 +11,12 @@ import com.novel.cn.ext.clicks
 import com.novel.cn.mvp.contract.VipContract
 import com.novel.cn.mvp.model.entity.CouponBean
 import com.novel.cn.mvp.ui.adapter.SelectCouponAdapter
+import com.novel.cn.view.SelectCoupon
 import kotlinx.android.synthetic.main.pop_select_coupon.view.*
 import razerdp.basepopup.BasePopupWindow
 
 @SuppressLint("CheckResult")
-class SelectCouponPopup(context: Context, list: List<CouponBean>, view: VipContract.View) : BasePopupWindow(context) {
+class SelectCouponPopup(context: Context, list: List<CouponBean>, view: SelectCoupon) : BasePopupWindow(context) {
 
     private val mSelectCouponAdapter by lazy { SelectCouponAdapter() }
     private var selectedCouponId: String = ""

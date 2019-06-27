@@ -10,13 +10,13 @@ import kotlinx.android.synthetic.main.item_recharge_opstion.view.*
 class RechargeOptionAdapter : BaseQuickAdapter<Recharge, BaseViewHolder>(R.layout.item_recharge_opstion) {
 
     init {
-        setOnItemClickListener { adapter, view, position ->
-            selectedPosition = position
-            notifyDataSetChanged()
-        }
+//        setOnItemClickListener { adapter, view, position ->
+//            selectedPosition = position
+//            notifyDataSetChanged()
+//        }
     }
 
-    private var selectedPosition = 0
+    private var selectedPosition = -1
 
     override fun convert(helper: BaseViewHolder, item: Recharge) {
         helper.itemView.isSelected = selectedPosition == helper.adapterPosition
@@ -26,8 +26,15 @@ class RechargeOptionAdapter : BaseQuickAdapter<Recharge, BaseViewHolder>(R.layou
         helper.itemView.tv_quan.text = if (item.quan.isEmpty()) "" else "+${item.quan}阅读券"
     }
 
-    fun getSelectedItem(): Recharge {
-        return data[selectedPosition]
+    fun getSelectedItem(): String {
+        if (selectedPosition >= 0)
+            return data[selectedPosition].price
+        else
+            return ""
     }
 
+    fun setSelectedItem(position: Int) {
+        selectedPosition = position
+        notifyDataSetChanged()
+    }
 }

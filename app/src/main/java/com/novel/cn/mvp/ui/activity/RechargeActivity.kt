@@ -4,6 +4,8 @@ import android.graphics.Rect
 import android.os.Bundle
 import android.support.v7.widget.GridLayoutManager
 import android.support.v7.widget.RecyclerView
+import android.text.InputFilter
+import android.text.Spanned
 import android.view.View
 import com.alipay.sdk.app.EnvUtils
 import com.jakewharton.rxbinding3.view.clicks
@@ -14,11 +16,11 @@ import com.novel.cn.BuildConfig
 import com.novel.cn.R
 import com.novel.cn.app.click
 import com.novel.cn.app.loadHeadImage
-import com.novel.cn.app.loadImage
 import com.novel.cn.app.visible
 import com.novel.cn.di.component.DaggerRechargeComponent
 import com.novel.cn.di.module.RechargeModule
 import com.novel.cn.ext.bindToLifecycle
+import com.novel.cn.ext.clicks
 import com.novel.cn.mvp.contract.RechargeContract
 import com.novel.cn.mvp.model.entity.User
 import com.novel.cn.mvp.presenter.RechargePresenter
@@ -33,21 +35,26 @@ import kotlinx.android.synthetic.main.layout_my_header.*
 import org.jetbrains.anko.toast
 import javax.inject.Inject
 import com.novel.cn.ext.textWatcher
+import com.novel.cn.mvp.model.entity.CouponBean
 import com.novel.cn.mvp.model.entity.Recharge
+import com.novel.cn.mvp.ui.dialog.SelectCouponPopup
+import com.novel.cn.view.SelectCoupon
 import com.novel.cn.wxapi.WXPayEvent
 
 import org.greenrobot.eventbus.Subscribe
+import razerdp.basepopup.BasePopupWindow
 import java.util.regex.Pattern
 import kotlinx.android.synthetic.main.include_title.toolbar_back as toolbar_back1
 
 
-class RechargeActivity : BaseActivity<RechargePresenter>(), RechargeContract.View {
-
+class RechargeActivity : BaseActivity<RechargePresenter>(), RechargeContract.View, SelectCoupon {
 
     @Inject
     lateinit var mAdapter: RechargeOptionAdapter
 
     private val mWechatSdk by lazy { WechatSdk(this, BuildConfig.APP_ID_WECHAT); }
+    private lateinit var mSelectCouponPopup: SelectCouponPopup
+    private var payMoney = ""
 
     override fun setupActivityComponent(appComponent: AppComponent) {
         DaggerRechargeComponent //如找不到该类,请编译一下项目
@@ -135,6 +142,13 @@ class RechargeActivity : BaseActivity<RechargePresenter>(), RechargeContract.Vie
         list.add(Recharge("49.9", "5000", "99"))
         list.add(Recharge("99.9", "10000", "299"))
         mAdapter.setNewData(list)
+        mAdapter.clicks().subscribe {
+            mAdapter.setSelectedItem(it.second)
+            hideSoftKeyboard()
+            et_money.setText("")
+            tv_money_all.text = "(共${mAdapter.getSelectedItem()}元)"
+            rfl_done.delegate.backgroundColor = -0xa17036
+        }.bindToLifecycle(this)
 
         click(iv_back, tv_wechat_pay, tv_alipay, tv_recharge) {
             when (it) {
@@ -148,27 +162,75 @@ class RechargeActivity : BaseActivity<RechargePresenter>(), RechargeContract.Vie
                     tv_wechat_pay.isEnabled = true
                 }
                 tv_recharge -> {
-                    var money = et_money.text.toString()
+                    var money = et_money.text.toString().trim()
                     if (!money.isEmpty()) {
                         val pattern = Pattern.compile("^-?\\d+(\\.\\d+)?$")
                         if (!pattern.matcher(money).matches()) {
                             toast("输入的格式不正确")
                         }
                     } else {
-                        money = mAdapter.getSelectedItem().price
+                        money = mAdapter.getSelectedItem()
                     }
-                    val code = if (!tv_wechat_pay.isEnabled) "0" else "1"
-                    mPresenter?.recharge(code, money)
+                    if (money.isEmpty()) {
+                        toast("请选择充值金额")
+                        return@click
+                    } else if (money.toFloat() <= 9.8F) {
+                        toast("最低充值9.9元")
+                        return@click
+                    }
+                    payMoney = money
+                    mPresenter?.getUserCoupon(payMoney)
                 }
             }
         }
+        val lengthier = object : InputFilter {
+            override fun filter(source: CharSequence, start: Int, end: Int,
+                                dest: Spanned, dstart: Int, dend: Int): CharSequence? {
+                // 删除等特殊字符，直接返回
+                if ("" == source.toString()) {
+                    return null
+                }
+                val dValue = dest.toString()
+                val splitArray = dValue.split("\\.".toRegex()).dropLastWhile { it.isEmpty() }.toTypedArray()
+                if (splitArray.size > 1) {
+                    val dotValue = splitArray[1]
+                    val diff = dotValue.length + 1 - 1
+                    if (diff > 0) {
+                        return source.subSequence(start, end - diff)
+                    }
+                }
+                return null
+            }
+        }
+        et_money.filters = arrayOf<InputFilter>(lengthier)
+
         et_money.textWatcher {
             onTextChanged { charSequence, start, before, count ->
                 val text = et_money.text.toString()
                 if (text == ".") {
-                    et_money.text = null
+                    et_money.setText("")
                 } else {
-                    tv_money.text = "(共${text}元)"
+                    tv_money_all.text = "(共${text}元)"
+                }
+                if (text.isNotEmpty())
+                    mAdapter.setSelectedItem(-1)
+                else {
+                    tv_money_all.text = "(共0.0元)"
+                }
+                if (text.isEmpty() || text.toFloat() <= 9.8F) {
+                    tv_input_money_hint.text = "最底9.9元"
+                    tv_money_all.text = ""
+                    rfl_done.delegate.backgroundColor = -0x323233
+                } else {
+                    rfl_done.delegate.backgroundColor = -0xa17036
+                    when (text) {
+                        "9.9" -> tv_input_money_hint.text = "1000阅读币"
+                        "29.9" -> tv_input_money_hint.text = "3000阅读币+66阅读券"
+                        "49.9" -> tv_input_money_hint.text = "5000阅读币+99阅读券"
+                        "99.9" -> tv_input_money_hint.text = "10000阅读币+299阅读券"
+                        else -> tv_input_money_hint.text = "${(text.toFloat() * 100).toInt()}阅读币"
+                    }
+
                 }
             }
         }
@@ -214,6 +276,25 @@ class RechargeActivity : BaseActivity<RechargePresenter>(), RechargeContract.Vie
             })
         }
     }
+
+    override fun selectCoupon(couponId: String) {
+        val code = if (!tv_wechat_pay.isEnabled) "0" else "1"
+        mPresenter?.recharge(code, payMoney, couponId)
+    }
+
+    override fun getUserCouponSuccess(list: List<CouponBean>) {
+        var couponList = mutableListOf<CouponBean>()
+        couponList.add(CouponBean())
+        couponList.addAll(list)
+
+        mSelectCouponPopup = SelectCouponPopup(this, couponList, this)
+        mSelectCouponPopup.onBeforeShowCallback = BasePopupWindow.OnBeforeShowCallback { popupRootView, anchorView, hasShowAnima ->
+            mSelectCouponPopup.setBlurBackgroundEnable(true)
+            true
+        }
+        mSelectCouponPopup.showPopupWindow()
+    }
+
 
     private fun formatDateTime(mss: Int): String {
         var Times = ""

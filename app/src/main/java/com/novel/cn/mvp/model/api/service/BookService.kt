@@ -247,8 +247,8 @@ interface BookService {
     @GET("novelOAService/mobile/getChapter")
     fun getChapterInfo(@Query("chapterId") link: String?): Observable<BaseResponse<ChapterInfoBean>>
 
-    @POST("novelOAService/upayCenter/upayCenterRecharge")
-    fun recharge(@Body code: HashMap<String, Any>): Observable<BaseResponse<PayInfoBean>>
+    @POST("novelAppService/account/recharge")
+    fun recharge(@Body code: HashMap<String, String>): Observable<BaseResponse<PayInfoBean>>
 
     @POST("novelOAService/chapterComment/saveChapterComment")
     fun chapterComment(@Body params: HashMap<String, Any?>): Observable<BaseResponse<Any>>

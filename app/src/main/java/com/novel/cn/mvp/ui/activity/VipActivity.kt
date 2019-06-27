@@ -30,6 +30,7 @@ import com.novel.cn.mvp.ui.fragment.VipPowerFragment
 import com.novel.cn.utils.StatusBarUtils
 import com.novel.cn.utils.pay.Alipay
 import com.novel.cn.utils.pay.Result
+import com.novel.cn.view.SelectCoupon
 import com.novel.cn.wxapi.WechatSdk
 import com.tencent.mm.opensdk.modelbase.BaseResp
 import kotlinx.android.synthetic.main.activity_vip.*
@@ -71,7 +72,7 @@ import razerdp.blur.PopupBlurOption
  * }
  * }
  */
-class VipActivity : BaseActivity<VipPresenter>(), VipContract.View {
+class VipActivity : BaseActivity<VipPresenter>(), VipContract.View, SelectCoupon {
 
     private val mUser by lazy { intent.getParcelableExtra<User?>("user") }
 

@@ -5,7 +5,9 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/white"
-    android:orientation="vertical">
+    android:orientation="vertical"
+    android:focusable="true"
+    android:focusableInTouchMode="true">
 
     <ImageView
         android:id="@+id/bg"
@@ -226,6 +228,7 @@
                             android:id="@+id/et_money"
                             android:layout_width="match_parent"
                             android:layout_height="match_parent"
+                            android:layout_weight="1"
                             android:layout_marginLeft="7dp"
                             android:background="@null"
                             android:gravity="center_vertical"
@@ -235,26 +238,35 @@
                             android:textColorHint="#c6c5c5"
                             android:textSize="14sp" />
 
+                        <TextView
+                            android:id="@+id/tv_input_money_hint"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:textSize="13sp"
+                            android:textColor="#999999"
+                            android:text="最底9.9元"/>
+
                     </com.flyco.roundview.RoundLinearLayout>
                 </LinearLayout>
 
                 <com.flyco.roundview.RoundFrameLayout
+                    android:id="@+id/rfl_done"
                     android:layout_width="match_parent"
                     android:layout_height="45dp"
                     android:layout_marginLeft="18dp"
                     android:layout_marginTop="10dp"
                     android:layout_marginRight="18dp"
                     android:layout_marginBottom="20dp"
-                    app:rv_backgroundColor="#5e8fca"
+                    app:rv_backgroundColor="#cdcdcd"
                     app:rv_isRadiusHalfHeight="true">
 
                     <TextView
-                        android:id="@+id/tv_money"
+                        android:id="@+id/tv_money_all"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_gravity="right|center_vertical"
                         android:layout_marginRight="28dp"
-                        android:text="(共0.0元)"
+                        android:text=""
                         android:textColor="@color/white" />
 
                     <TextView

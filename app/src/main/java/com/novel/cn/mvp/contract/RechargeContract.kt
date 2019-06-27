@@ -3,6 +3,7 @@ package com.novel.cn.mvp.contract
 import com.jess.arms.mvp.IView
 import com.jess.arms.mvp.IModel
 import com.novel.cn.mvp.model.entity.BaseResponse
+import com.novel.cn.mvp.model.entity.CouponBean
 import com.novel.cn.mvp.model.entity.PayInfoBean
 import com.novel.cn.mvp.model.entity.User
 import io.reactivex.Observable
@@ -25,12 +26,14 @@ interface RechargeContract {
     interface View : IView {
         fun showRechargeInfo(data: String, code: String)
         fun showUserInfo(data: User)
+        fun getUserCouponSuccess(list: List<CouponBean>)
     }
 
     //Model层定义接口,外部只需关心Model返回的数据,无需关心内部细节,即是否使用缓存
     interface Model : IModel {
-        fun recharge(code: String, money: String):Observable<BaseResponse<PayInfoBean>>
+        fun recharge(params: HashMap<String, String>): Observable<BaseResponse<PayInfoBean>>
         fun getUserInfo(): Observable<BaseResponse<User>>
+        fun getUserCoupon(params: HashMap<String, String>): Observable<BaseResponse<List<CouponBean>>>
     }
 
 }

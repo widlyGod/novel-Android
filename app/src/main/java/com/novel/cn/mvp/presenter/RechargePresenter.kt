@@ -13,6 +13,7 @@ import javax.inject.Inject
 
 import com.novel.cn.mvp.contract.RechargeContract
 import com.novel.cn.mvp.model.entity.BaseResponse
+import com.novel.cn.mvp.model.entity.CouponBean
 import com.novel.cn.mvp.model.entity.PayInfoBean
 import com.novel.cn.mvp.model.entity.User
 import io.reactivex.android.schedulers.AndroidSchedulers
@@ -34,22 +35,25 @@ constructor(model: RechargeContract.Model, rootView: RechargeContract.View) :
     @Inject
     lateinit var mGson: Gson
 
-
-
-    override fun onDestroy() {
-        super.onDestroy();
-    }
-
-    fun recharge(code: String, money: String) {
-        mModel.recharge(code,money)
+    fun recharge(code: String, orderAmount: String, couponId: String) {
+        val params = HashMap<String, String>()
+        params["rechargeCode"] = code
+        params["requestCode"] = "3"
+        params["orderAmount"] = orderAmount
+        if (couponId.isEmpty())
+            params["useCoupon"] = "0"
+        else
+            params["useCoupon"] = "1"
+        params["couponId"] = couponId
+        mModel.recharge(params)
                 .applySchedulers(mRootView)
                 .subscribe(object : ErrorHandleSubscriber<BaseResponse<PayInfoBean>>(mErrorHandler) {
                     override fun onNext(t: BaseResponse<PayInfoBean>) {
                         val data = mGson.toJson(t.data.payCode)
-                        if(code == "1"){
-                            mRootView.showRechargeInfo(t.data.payCode.toString(),code)
-                        }else{
-                            mRootView.showRechargeInfo(data,code)
+                        if (code == "1") {
+                            mRootView.showRechargeInfo(t.data.payCode.toString(), code)
+                        } else {
+                            mRootView.showRechargeInfo(data, code)
                         }
                     }
 
@@ -65,6 +69,22 @@ constructor(model: RechargeContract.Model, rootView: RechargeContract.View) :
                 .subscribe(object : ErrorHandleSubscriber<BaseResponse<User>>(mErrorHandler) {
                     override fun onNext(t: BaseResponse<User>) {
                         mRootView.showUserInfo(t.data)
+                    }
+                })
+    }
+
+    fun getUserCoupon(money: String) {
+        val params = HashMap<String, String>()
+        params["selectType"] = "1"
+        params["orderAmount"] = money
+        mModel.getUserCoupon(params)
+                .applySchedulers(mRootView)
+                .subscribe(object : ErrorHandleSubscriber<BaseResponse<List<CouponBean>>>(mErrorHandler) {
+                    override fun onNext(t: BaseResponse<List<CouponBean>>) {
+                        if (t.data != null)
+                            mRootView.getUserCouponSuccess(t.data)
+                        else
+                            mRootView.getUserCouponSuccess(mutableListOf<CouponBean>())
                     }
                 })
     }
