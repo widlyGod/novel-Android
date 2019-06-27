@@ -45,16 +45,18 @@ class MineBillDateSelectActivity : BaseActivity<NothingPresenter>() {
     private var isSelectEndDate = false
     private var isSelectMonth = false
     private var selectMonth = ""
+    private val sdf = SimpleDateFormat("yyyy-MM-dd")
+    private val form = SimpleDateFormat("yyyy-MM")
+    private val calendar = Calendar.getInstance()
 
     override fun initData(savedInstanceState: Bundle?) {
-        val sdf = SimpleDateFormat("yyyy-MM-dd")
-        val form = SimpleDateFormat("yyyy-MM")
-        val calendar = Calendar.getInstance()
         val today = calendar.time
         startDate = sdf.format(today)
         endDate = sdf.format(today)
         selectMonth = form.format(today)
         datePicker.setOffset(5)
+
+
 
         val date = sdf.parse(startDate)
         datePicker.setUseWeight(true)
@@ -218,6 +220,46 @@ class MineBillDateSelectActivity : BaseActivity<NothingPresenter>() {
                 }
             }
         }.bindToLifecycle(this)
+        initDate()
+    }
+
+    fun initDate(){
+        if (intent.getIntExtra("type", 0) == 0) {
+            selectMonth = intent.getStringExtra("startDate")
+            isDay = false
+            changeDayOrMonth(isDay)
+            tv_select_month.text = selectMonth
+            var nowCalendar = Calendar.getInstance()
+            nowCalendar.time = form.parse(selectMonth)
+            isSelectMonth = true
+            monthPicker.setSelectedItem(nowCalendar.get(Calendar.YEAR), nowCalendar.get(Calendar.MONTH) + 1)
+            wheelview_container.removeAllViews()
+            wheelview_container.addView(monthPicker.contentView)
+            tv_select_month.setTextColor(Color.parseColor("#1b94f2"))
+            line_star_date_month.setBackgroundColor(Color.parseColor("#1b94f2"))
+        } else {
+            startDate = intent.getStringExtra("startDate")
+            endDate = intent.getStringExtra("endDate")
+            isDay = true
+            changeDayOrMonth(isDay)
+            isSelectStartDate = true
+            tv_start_date.text = startDate
+            tv_end_date.text = endDate
+            wheelview_container.removeAllViews()
+            var startCalendar = Calendar.getInstance()
+            var nowCalendar = Calendar.getInstance()
+            startCalendar.time = sdf.parse(endDate)
+            nowCalendar.time = sdf.parse(startDate)
+            datePicker.setRangeStart(calendar.get(Calendar.YEAR) - 10, calendar.get(Calendar.MONTH) + 1, calendar.get(Calendar.DAY_OF_MONTH))
+            datePicker.setRangeEnd(startCalendar.get(Calendar.YEAR), startCalendar.get(Calendar.MONTH) + 1, startCalendar.get(Calendar.DAY_OF_MONTH))
+            datePicker.setSelectedItem(nowCalendar.get(Calendar.YEAR), nowCalendar.get(Calendar.MONTH) + 1, nowCalendar.get(Calendar.DAY_OF_MONTH))
+            wheelview_container.addView(datePicker.contentView)
+            isStartDate = true
+            tv_start_date.setTextColor(Color.parseColor("#1b94f2"))
+            line_start_date.setBackgroundColor(Color.parseColor("#1b94f2"))
+            tv_end_date.setTextColor(Color.parseColor("#999999"))
+            line_end_date.setBackgroundColor(Color.parseColor("#dbdbdb"))
+        }
     }
 
     private fun changeDayOrMonth(isDay: Boolean) {

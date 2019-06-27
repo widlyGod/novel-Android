@@ -102,6 +102,9 @@ class MineBillActivity : BaseActivity<MineBillPresenter>(), MineBillContract.Vie
         rv_select_date.clicks().subscribe {
             val intent = Intent()
             intent.setClass(this, MineBillDateSelectActivity::class.java)
+            intent.putExtra("type", type)
+            intent.putExtra("startDate", startDate)
+            intent.putExtra("endDate", endDate)
             startActivityForResult(intent, 0x01)
         }.bindToLifecycle(this)
         mPresenter?.getMyBill(startDate, endDate, type)
