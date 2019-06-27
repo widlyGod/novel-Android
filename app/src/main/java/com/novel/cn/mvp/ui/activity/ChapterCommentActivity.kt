@@ -145,7 +145,7 @@ class ChapterCommentActivity : BaseActivity<ChapterCommentPresenter>(), ChapterC
                     startActivity<LoginActivity>()
                     return@setOnReplyClickListener
                 }
-                replyPosition == it
+                replyPosition = it
                 if (mAuthorId == mAdapter.data[it].chapterCommentUser.userId)
                     dialog.show("@${book!!.novelInfo.novelAuthor}")
                 else
