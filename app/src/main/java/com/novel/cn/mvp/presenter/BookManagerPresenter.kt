@@ -13,6 +13,7 @@ import com.novel.cn.mvp.model.entity.BaseResponse
 import com.novel.cn.mvp.model.entity.Book
 import com.novel.cn.mvp.model.entity.Pagination
 import com.novel.cn.mvp.ui.adapter.BookManagerAdapter
+import com.novel.cn.view.MultiStateView
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.schedulers.Schedulers
 import me.jessyan.rxerrorhandler.handler.ErrorHandleSubscriber
@@ -45,9 +46,9 @@ constructor(model: BookManagerContract.Model, rootView: BookManagerContract.View
                     override fun onNext(t: BaseResponse<Pagination<Book>>) {
                         //判断是否还有下一页
                         val noMore = mPageIndex * Constant.PAGE_SIZE >= t.data.total
-
+                        mRootView.showStateView(if (t.data.total > 0) MultiStateView.VIEW_STATE_CONTENT else MultiStateView.VIEW_STATE_EMPTY)
                         if (pullToRefresh) {
-                            mAdapter.replaceData(t.data.book)
+                            mAdapter.setNewData(t.data.book)
                         } else {
                             mAdapter.addData(t.data.book)
                             if (!noMore)
@@ -63,6 +64,7 @@ constructor(model: BookManagerContract.Model, rootView: BookManagerContract.View
                     override fun onError(t: Throwable) {
                         super.onError(t)
                         mAdapter.loadMoreComplete()
+                        mRootView.showStateView(MultiStateView.VIEW_STATE_ERROR)
                     }
                 })
     }

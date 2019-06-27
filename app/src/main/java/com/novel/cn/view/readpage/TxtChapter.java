@@ -16,6 +16,8 @@ public class TxtChapter{
 
     String chapterId;
 
+    int chapter;
+
     //章节内容在文章中的起始位置(本地)
     long start;
     //章节内容在文章中的终止位置(本地)
@@ -128,6 +130,14 @@ public class TxtChapter{
 
     public void setEnd(long end) {
         this.end = end;
+    }
+
+    public int getChapter() {
+        return chapter;
+    }
+
+    public void setChapter(int chapter) {
+        this.chapter = chapter;
     }
 
     @Override

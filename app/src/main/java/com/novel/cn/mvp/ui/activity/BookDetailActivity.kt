@@ -105,7 +105,7 @@ class BookDetailActivity : BaseActivity<BookDetailPresenter>(), BookDetailContra
         decoration.leftMargin = ArmsUtils.dip2px(this, 18f)
         decoration.rightMargin = ArmsUtils.dip2px(this, 18f)
         recyclerView.addItemDecoration(decoration)
-        mAdapter.addHeaderView(header)
+        mAdapter.setHeaderView(header)
         mPresenter?.getBookDetail(bookId)
     }
 
@@ -125,7 +125,6 @@ class BookDetailActivity : BaseActivity<BookDetailPresenter>(), BookDetailContra
         header.tv_review_count.text = data.comment.totalCount.toString()
         tv_add_bookself.text = if (data.novelInfo.isCollection) "已在书架" else "加入书架"
         mAdapter.setBookDetail(data.novelInfo)
-        mPresenter?.getCommentList(data.novelInfo.novelId, true)
 //        mAdapter.setNewData(data.comment.comments)
         mAdapter.apply {
             setEnableLoadMore(true)
@@ -198,6 +197,7 @@ class BookDetailActivity : BaseActivity<BookDetailPresenter>(), BookDetailContra
                 toast("请先登录")
             }
         }
+        mPresenter?.getCommentList(data.novelInfo.novelId, true)
     }
 
     override fun commentSuccess(message: String) {
@@ -222,9 +222,9 @@ class BookDetailActivity : BaseActivity<BookDetailPresenter>(), BookDetailContra
 
     override fun showState(state: Int) {
         if(state== MultiStateView.VIEW_STATE_EMPTY){
-            mAdapter.addFooterView(footerEmpty)
+            mAdapter.setFooterView(footerEmpty)
         }else if(state== MultiStateView.VIEW_STATE_ERROR){
-            mAdapter.addFooterView(footerError)
+            mAdapter.setFooterView(footerError)
         }
     }
 

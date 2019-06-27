@@ -52,9 +52,7 @@ constructor(model: BookDetailContract.Model, rootView: BookDetailContract.View) 
         params["novel_id"] = novelId
 
         mModel.addConllection(params)
-                .subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread())
-                .compose(RxLifecycleUtils.bindToLifecycle(mRootView))
+                .applySchedulers(mRootView)
                 .subscribe(object : ErrorHandleSubscriber<BaseResponse<Any>>(mErrorHandler) {
                     override fun onNext(t: BaseResponse<Any>) {
                         mRootView.conllectionSuccess()
@@ -71,9 +69,7 @@ constructor(model: BookDetailContract.Model, rootView: BookDetailContract.View) 
     fun agree(position: Int) {
         val item = mAdapter.getItem(position) as Comment
         mModel.agree(item.commentId,0)
-                .subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread())
-                .compose(RxLifecycleUtils.bindToLifecycle(mRootView))
+                .applySchedulers(mRootView)
                 .subscribe(object : ErrorHandleSubscriber<BaseResponse<Any>>(mErrorHandler) {
                     override fun onNext(t: BaseResponse<Any>) {
                         item.isThumbed = true

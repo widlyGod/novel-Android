@@ -132,10 +132,14 @@ class ReadActivity : BaseActivity<ReadPresenter>(), ReadContract.View, VolumeVie
                 toast("该章节尚未发布")
                 return@setOnItemClickListener
             }
+            var bookPosition = 0
+            for (i in 0 until nowVolumePosition) {
+                bookPosition += volumeList[i].calalogue.size
+            }
             if (isSequence)
-                mPageLoader.skipToChapter(position)
+                mPageLoader.skipToChapter(bookPosition + position)
             else
-                mPageLoader.skipToChapter(mAdapter.data.size - 1 - position)
+                mPageLoader.skipToChapter(bookPosition + mAdapter.data.size - 1 - position)
 
             drawerLayout.closeDrawer(Gravity.LEFT)
         }
@@ -211,25 +215,39 @@ class ReadActivity : BaseActivity<ReadPresenter>(), ReadContract.View, VolumeVie
             }
 
             override fun onChapterChange(pos: Int) {
-                volumeIdId = volumeList[nowVolumePosition].calalogue[pos].volumeId
+                volumeIdId = chapterList[pos].bookId
                 seekbar.progress = pos
-                selectedVolumePosition = nowVolumePosition
+                volumeList.forEach {
+
+                    it.calalogue.size
+                }
+                var i = 0
+                var size = 0
+                for (a in 0 until volumeList.size) {
+                    i = pos - size
+                    size += volumeList[a].calalogue.size
+                    if (size > pos) {
+                        selectedVolumePosition = a
+                        break
+                    }
+                }
+                selectedVolumePosition
                 var postion = 0
                 if (isSequence)
-                    postion = pos
+                    postion = i
                 else
-                    postion = mAdapter.data.size - 1 - pos
+                    postion = mAdapter.data.size - 1 - i
                 mAdapter.setCurrentPosition(postion)
-                val item = mAdapter.getItem(postion) as Calalogue
-                tv_chapter_name.text = "${item.chapter}：${item.chapterTitle}"
-                tv_chapter_info.text = "${item.chapter}章节/${mAdapter.data.size}章节"
-                toolbar_title.text = "第${item.chapter}章 ${item.chapterTitle}"
+
+                tv_chapter_name.text = "${chapterList[pos].chapter}：${chapterList[pos].title}"
+                tv_chapter_info.text = "${pos + 1}章节/${chapterList.size}章节"
+                toolbar_title.text = "第${chapterList[pos].chapter}章 ${chapterList[pos].title}"
 
                 if (tipDialog.isShowing) {
                     tipDialog.dismiss()
                 }
                 if (readPos != pos)
-                    mPresenter?.updateRead(item.novelId, item.chapterId)
+                    mPresenter?.updateRead(mBook.novelInfo.novelId, chapterList[pos].chapterId)
                 readPos = pos
             }
 
@@ -344,8 +362,6 @@ class ReadActivity : BaseActivity<ReadPresenter>(), ReadContract.View, VolumeVie
                 mAdapter.setNewData(calalogue)
                 true
             }
-            if (selectedVolumePosition == nowVolumePosition)
-                mAdapter.setCurrentPosition(mAdapter.data.size - 1 - mAdapter.getCurrentPosition())
             iv_rank_type.setImageDrawable(if (isSequence) {
                 getCompactDrawable(R.drawable.ic_rank_down)
             } else getCompactDrawable(R.drawable.ic_rank_up))
@@ -365,10 +381,13 @@ class ReadActivity : BaseActivity<ReadPresenter>(), ReadContract.View, VolumeVie
             }
             chooseVolume(mBookRecord.volumePos)
         }
+
     }
 
     var nowVolumePosition = 0//当前目录展示的券
     var selectedVolumePosition = 0//已选择章节的券
+
+    private val chapterList = ArrayList<TxtChapter>()
 
     private fun chooseVolume(position: Int) {
         nowVolumePosition = position
@@ -380,7 +399,6 @@ class ReadActivity : BaseActivity<ReadPresenter>(), ReadContract.View, VolumeVie
             header.tv_count.text = "共${data.calalogue.size}章"
         }
 
-        seekbar.max = data.calalogue.size - 1
 
         var list = data.calalogue
         var calalogue = mutableListOf<Calalogue>()
@@ -396,25 +414,30 @@ class ReadActivity : BaseActivity<ReadPresenter>(), ReadContract.View, VolumeVie
             true
         }
         mAdapter.setNewData(calalogue)
-        val chapterList = ArrayList<TxtChapter>(data.calalogue.size)
-        data.calalogue.forEach {
-            val txt = TxtChapter()
 
-            txt.bookId = mBook.novelInfo.novelId
-            txt.chapterId = it.chapterId
-            txt.title = it.chapterTitle
-            if (mBook.novelInfo.isFreeLimit)
-                txt.isFree = true
-            else
-                txt.isFree = !it.isFree
-            if (user.recodeCode != 100 || mBook.novelInfo.authorId == user.userId)
-                txt.isFree = true
-            txt.isLocked = it.isLocked
-            txt.filePath = it.filePath
-            txt.words = it.words
-            txt.money = it.money
-            chapterList.add(txt)
+        volumeList.forEach { vol ->
+            vol.calalogue.forEach {
+                val txt = TxtChapter()
+
+                txt.bookId = mBook.novelInfo.novelId
+                txt.chapterId = it.chapterId
+                txt.chapter = it.chapter
+                txt.title = it.chapterTitle
+                if (mBook.novelInfo.isFreeLimit)
+                    txt.isFree = true
+                else
+                    txt.isFree = !it.isFree
+                if (user.recodeCode != 100 || mBook.novelInfo.authorId == user.userId)
+                    txt.isFree = true
+                txt.isLocked = it.isLocked
+                txt.filePath = it.filePath
+                txt.words = it.words
+                txt.money = it.money
+                chapterList.add(txt)
+            }
         }
+        seekbar.max = chapterList.size - 1
+
         mPageLoader.setChapterList(chapterList)
     }
 

@@ -22,6 +22,7 @@ import com.novel.cn.view.CustomLoadMoreView
 import com.jess.arms.utils.TipDialog
 import com.novel.cn.ext.toast
 import com.novel.cn.mvp.ui.dialog.ConfirmDialog
+import com.novel.cn.view.MultiStateView
 import kotlinx.android.synthetic.main.activity_book_manager.*
 import javax.inject.Inject
 
@@ -126,7 +127,13 @@ class BookManagerActivity : BaseActivity<BookManagerPresenter>(), BookManagerCon
      */
     override fun deleteSuccess() {
         mAdapter.cleanCheck()
+        if (mAdapter.data.isEmpty())
+            showStateView(MultiStateView.VIEW_STATE_EMPTY)
         EventBusManager.getInstance().post(BookshelfEvent())
+    }
+
+    override fun showStateView(state: Int) {
+        stateView.viewState = state
     }
 
     override fun moveSuccess() {
