@@ -379,7 +379,33 @@ class ReadActivity : BaseActivity<ReadPresenter>(), ReadContract.View, VolumeVie
                 mBookRecord = Readcord()
             }
             chooseVolume(mBookRecord.volumePos)
+            volumeList.forEach { vol ->
+                vol.calalogue.forEach {
+                    val txt = TxtChapter()
+
+                    txt.bookId = mBook.novelInfo.novelId
+                    txt.chapterId = it.chapterId
+                    txt.volumeId = it.volumeId
+                    txt.chapter = it.chapter
+                    txt.title = it.chapterTitle
+                    if (mBook.novelInfo.isFreeLimit)
+                        txt.isFree = true
+                    else
+                        txt.isFree = !it.isFree
+                    if (user.recodeCode != 100 || mBook.novelInfo.authorId == user.userId)
+                        txt.isFree = true
+                    txt.isLocked = it.isLocked
+                    txt.filePath = it.filePath
+                    txt.words = it.words
+                    txt.money = it.money
+                    chapterList.add(txt)
+                }
+            }
+            seekbar.max = chapterList.size - 1
+
+            mPageLoader.setChapterList(chapterList)
         }
+
 
     }
 
@@ -414,31 +440,6 @@ class ReadActivity : BaseActivity<ReadPresenter>(), ReadContract.View, VolumeVie
         }
         mAdapter.setNewData(calalogue)
 
-        volumeList.forEach { vol ->
-            vol.calalogue.forEach {
-                val txt = TxtChapter()
-
-                txt.bookId = mBook.novelInfo.novelId
-                txt.chapterId = it.chapterId
-                txt.volumeId = it.volumeId
-                txt.chapter = it.chapter
-                txt.title = it.chapterTitle
-                if (mBook.novelInfo.isFreeLimit)
-                    txt.isFree = true
-                else
-                    txt.isFree = !it.isFree
-                if (user.recodeCode != 100 || mBook.novelInfo.authorId == user.userId)
-                    txt.isFree = true
-                txt.isLocked = it.isLocked
-                txt.filePath = it.filePath
-                txt.words = it.words
-                txt.money = it.money
-                chapterList.add(txt)
-            }
-        }
-        seekbar.max = chapterList.size - 1
-
-        mPageLoader.setChapterList(chapterList)
     }
 
     override fun selectVolume(position: Int) {

@@ -81,7 +81,7 @@ public class DateTimePicker extends WheelPicker {
     private int startHour, startMinute = 0;
     private int endHour, endMinute = 59;
     private int textSize = WheelView.TEXT_SIZE;
-    private boolean resetWhileWheel = true;
+    private boolean resetWhileWheel = false;
 
     @IntDef(value = {NONE, YEAR_MONTH_DAY, YEAR_MONTH, MONTH_DAY})
     @Retention(RetentionPolicy.SOURCE)
