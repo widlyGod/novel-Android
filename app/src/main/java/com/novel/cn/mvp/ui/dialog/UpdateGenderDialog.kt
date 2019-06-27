@@ -25,19 +25,18 @@ class UpdateGenderDialog(context: Context, var gender: Int? = 0) : BaseDialog<Up
     override fun setUiBeforShow() {
 
         iv_male.setOnClickListener {
-            gender = 0
             it.isEnabled = false
             iv_famale.isEnabled = true
-            onSelectGenderListener?.invoke(gender!!)
+            onSelectGenderListener?.invoke(0)
         }
         iv_famale.setOnClickListener {
-            gender != 0
             it.isEnabled = false
             iv_male.isEnabled = true
-            onSelectGenderListener?.invoke(gender!!)
+            onSelectGenderListener?.invoke(1)
         }
 
         iv_male.isEnabled = gender != 0
+        iv_famale.isEnabled = gender == 0
     }
 
 }
