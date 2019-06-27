@@ -37,6 +37,10 @@ class ModifyNamePopup(context: Context, private val userInfoContractView: UserIn
         return getTranslateVerticalAnimation(0f, 1f, 350)
     }
 
+    fun setUserName(name:String){
+        contentView.ed_input.setText(name)
+    }
+
     @SuppressLint("CheckResult")
     private fun bindView() {
         var maxLen = 20

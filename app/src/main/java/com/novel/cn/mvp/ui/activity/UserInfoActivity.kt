@@ -111,8 +111,10 @@ class UserInfoActivity : BaseActivity<UserInfoPresenter>(), UserInfoContract.Vie
         mUser?.let {
             iv_avatar.loadHeadImage(it.userPhoto)
             tv_nickname.text = it.userNickName
+            mModifyNamePopup.setUserName(it.userNickName)
             tv_gender.text = if (it.userGender == "0") "男" else "女"
             tv_intro.text = it.userIntroduction
+            mModifySignaturePopup.setSignature(it.userIntroduction)
         }
 
         aligning()

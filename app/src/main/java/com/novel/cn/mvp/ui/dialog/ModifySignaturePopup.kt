@@ -36,6 +36,10 @@ class ModifySignaturePopup(context: Context, private val userInfoContractView: U
         return getTranslateVerticalAnimation(0f, 1f, 350)
     }
 
+    fun setSignature(signature:String){
+        contentView.ed_input.setText(signature)
+    }
+
     @SuppressLint("CheckResult")
     private fun bindView() {
         contentView.ed_input.filters = arrayOf(object : InputFilter.LengthFilter(200) {})
