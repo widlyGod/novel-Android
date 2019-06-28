@@ -3,6 +3,7 @@ package com.novel.cn.mvp.ui.activity
 import android.graphics.Typeface
 import android.os.Bundle
 import android.support.v4.app.Fragment
+import android.widget.Toast
 import com.flyco.tablayout.listener.CustomTabEntity
 import com.flyco.tablayout.listener.OnTabSelectListener
 import com.jess.arms.base.BaseActivity
@@ -14,16 +15,22 @@ import com.novel.cn.app.Constant
 import com.novel.cn.app.Preference
 import com.novel.cn.di.component.DaggerMainComponent
 import com.novel.cn.di.module.MainModule
+import com.novel.cn.ext.bindToLifecycle
+import com.novel.cn.ext.observeOnMain
+import com.novel.cn.ext.subscribeOnIO
+import com.novel.cn.ext.toast
 import com.novel.cn.mvp.contract.MainContract
 import com.novel.cn.mvp.model.entity.LoginInfo
 import com.novel.cn.mvp.presenter.MainPresenter
 import com.novel.cn.mvp.ui.fragment.MyFragment
 import com.novel.cn.utils.StatusBarUtils
+import io.reactivex.Single
 import kotlinx.android.synthetic.main.activity_main.*
 import org.greenrobot.eventbus.Subscribe
 import org.greenrobot.eventbus.ThreadMode
 import org.jetbrains.anko.startActivity
 import java.util.*
+import java.util.concurrent.TimeUnit
 import javax.inject.Inject
 import javax.inject.Named
 
@@ -150,5 +157,27 @@ class MainActivity : BaseActivity<MainPresenter>(), MainContract.View {
             switchFragment(1)
         else
             switchFragment(event.index)
+    }
+
+    private var isQuit = false
+
+    fun handleBackPressed() {
+        if (!isQuit) {
+            toast("再点一次退出")
+            isQuit = true
+            // 两次按下返回间隔超时后isQuit变成false
+            Single.just(isQuit)
+                    .subscribeOnIO()
+                    .delay(2000, TimeUnit.MILLISECONDS)
+                    .observeOnMain()
+                    .subscribe { _ -> isQuit = false }
+                    .bindToLifecycle(this)
+        }else {
+            super.onBackPressed()
+        }
+    }
+
+    override fun onBackPressed() {
+        handleBackPressed()
     }
 }
