@@ -226,10 +226,10 @@ class WechatSdk(internal var mContext: Activity, internal var mAppId: String) : 
         }
 
         val ret = api.sendReq(req)
-        if (ret) {
-            if (!loading.isShowing)
-                loading.show()
-        }
+//        if (ret) {
+//            if (!loading.isShowing)
+//                loading.show()
+//        }
     }
 
     fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent) {
@@ -267,7 +267,7 @@ class WechatSdk(internal var mContext: Activity, internal var mAppId: String) : 
 
         LogUtils.warnInfo("======>>>t " + resp.transaction + ", type = " + resp.type + ", errCode = " + resp.errCode + ", err = " + resp.errStr)
 
-        loading.dismiss()
+//        loading.dismiss()
 
         when (resp.type) {
             ConstantsAPI.COMMAND_SENDAUTH -> onAuthResult(resp)

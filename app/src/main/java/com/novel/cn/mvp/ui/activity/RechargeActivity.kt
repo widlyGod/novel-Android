@@ -37,6 +37,7 @@ import javax.inject.Inject
 import com.novel.cn.ext.textWatcher
 import com.novel.cn.mvp.model.entity.CouponBean
 import com.novel.cn.mvp.model.entity.Recharge
+import com.novel.cn.mvp.ui.dialog.RechargeDialog
 import com.novel.cn.mvp.ui.dialog.SelectCouponPopup
 import com.novel.cn.view.SelectCoupon
 import com.novel.cn.wxapi.WXPayEvent
@@ -258,10 +259,10 @@ class RechargeActivity : BaseActivity<RechargePresenter>(), RechargeContract.Vie
         tv_account.text = data.userNickName
         tv_blance.text = "${data.goldNumber}阅读币"
 
-        if(data.vipInfo==null||data.vipInfo.isVip==0){
+        if (data.vipInfo == null || data.vipInfo.isVip == 0) {
             vip_dredge.visible(true)
             rl_vip_info.visible(false)
-        }else{
+        } else {
             vip_dredge.visible(false)
             rl_vip_info.visible(true)
             tv_vip_no.text = "NO.${data.vipInfo.userId}"
@@ -272,14 +273,22 @@ class RechargeActivity : BaseActivity<RechargePresenter>(), RechargeContract.Vie
         if (code == "0") {
             mWechatSdk.pay(data, object : WechatSdk.OnResult<BaseResp> {
                 override fun onResult(info: BaseResp) {
-                    finish()
+                    if (info.errCode == BaseResp.ErrCode.ERR_OK) {
+                        RechargeDialog(this@RechargeActivity, "支付成功").show()
+                        mPresenter?.getUserInfo()
+                    } else {
+                        RechargeDialog(this@RechargeActivity, "支付失败").show()
+                    }
                 }
             })
         } else {
             Alipay.pay(this, data, object : Alipay.OnResult {
                 override fun onResult(result: Result) {
                     if (result.isSuccess || result.isPending) {
-                        toast("支付成功")
+                        RechargeDialog(this@RechargeActivity, "支付成功").show()
+                        mPresenter?.getUserInfo()
+                    } else {
+                        RechargeDialog(this@RechargeActivity, "支付失败").show()
                     }
                 }
             })
@@ -293,7 +302,7 @@ class RechargeActivity : BaseActivity<RechargePresenter>(), RechargeContract.Vie
 
     override fun getUserCouponSuccess(list: List<CouponBean>) {
         var couponList = mutableListOf<CouponBean>()
-        couponList.add(CouponBean())
+        couponList.add(CouponBean(isSelect = true))
         couponList.addAll(list)
 
         mSelectCouponPopup = SelectCouponPopup(this, couponList, this)

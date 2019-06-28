@@ -6,6 +6,7 @@ import android.os.Bundle
 import android.support.v4.app.Fragment
 import android.support.v4.app.FragmentPagerAdapter
 import android.view.View
+import com.alipay.sdk.app.EnvUtils
 
 import com.jess.arms.base.BaseActivity
 import com.jess.arms.di.component.AppComponent
@@ -123,6 +124,9 @@ class VipActivity : BaseActivity<VipPresenter>(), VipContract.View, SelectCoupon
     }
 
     override fun initData(savedInstanceState: Bundle?) {
+        //支付宝沙盒环境
+        EnvUtils.setEnv(EnvUtils.EnvEnum.SANDBOX)
+
         initViewPager()
         iv_avatar.loadHeadImage(mUser?.userPhoto)
         tv_user_name.text = mUser?.userNickName
@@ -189,7 +193,10 @@ class VipActivity : BaseActivity<VipPresenter>(), VipContract.View, SelectCoupon
         if (code == "0") {
             mWechatSdk.pay(data, object : WechatSdk.OnResult<BaseResp> {
                 override fun onResult(info: BaseResp) {
-                    finish()
+                    if (info.errCode == BaseResp.ErrCode.ERR_OK) {
+                        toast("支付成功")
+                        finish()
+                    }
                 }
             })
         } else {
@@ -197,6 +204,7 @@ class VipActivity : BaseActivity<VipPresenter>(), VipContract.View, SelectCoupon
                 override fun onResult(result: Result) {
                     if (result.isSuccess || result.isPending) {
                         toast("支付成功")
+                        finish()
                     }
                 }
             })

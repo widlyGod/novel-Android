@@ -22,7 +22,6 @@ fun click(vararg views: View, method: (view: View) -> Unit) {
 }
 
 
-
 fun Any?.isNull(): Boolean {
     return this == null
 }

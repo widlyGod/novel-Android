@@ -63,7 +63,8 @@ class ChapterCommentAdapter : BaseQuickAdapter<ChapterComment, BaseViewHolder>(R
 
     @SuppressLint("SetTextI18n")
     override fun convert(helper: BaseViewHolder, item: ChapterComment) {
-
+        if (item.chapterCommentUser == null)
+            return
         with(helper.itemView) {
             iv_avatar.loadHeadImage(item.chapterCommentUser.userPhoto)
 
