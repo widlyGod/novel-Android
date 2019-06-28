@@ -1,6 +1,7 @@
 package com.novel.cn.mvp.ui.activity
 
 import android.content.Intent
+import android.graphics.Color
 import android.os.Bundle
 import android.support.v4.app.Fragment
 import android.support.v4.app.FragmentPagerAdapter
@@ -133,6 +134,8 @@ class VipActivity : BaseActivity<VipPresenter>(), VipContract.View, SelectCoupon
             vip_monthly_title.visible(false)
             iv_vip_text.visible(true)
             ll_vip_card_main.background = getCompactDrawable(R.drawable.ic_vip_card_gold_bg)
+            tv_economize.setTextColor(Color.parseColor("#b7890c"))
+            tv_user_name.setTextColor(Color.parseColor("#b7890c"))
         }
         click(rl_monthly_recharge, rl_quarter_recharge, rl_year_recharge, tv_call_service, tv_frequently_asked_questions, tv_select_coupon, rl_wechat_pay, rl_alipay_pay, tv_vip_done) { view ->
             when (view) {

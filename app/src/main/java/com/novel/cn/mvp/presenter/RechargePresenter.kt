@@ -38,7 +38,7 @@ constructor(model: RechargeContract.Model, rootView: RechargeContract.View) :
     fun recharge(code: String, orderAmount: String, couponId: String) {
         val params = HashMap<String, String>()
         params["rechargeCode"] = code
-        params["requestCode"] = "3"
+        params["requestCode"] = "2"
         params["orderAmount"] = orderAmount
         if (couponId.isEmpty())
             params["useCoupon"] = "0"

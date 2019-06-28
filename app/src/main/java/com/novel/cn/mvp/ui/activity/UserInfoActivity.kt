@@ -3,6 +3,7 @@ package com.novel.cn.mvp.ui.activity
 import android.app.Activity
 import android.content.Intent
 import android.content.pm.ActivityInfo
+import android.graphics.Color
 import android.net.Uri
 import android.os.Bundle
 import android.util.Base64
@@ -52,12 +53,14 @@ class UserInfoActivity : BaseActivity<UserInfoPresenter>(), UserInfoContract.Vie
     override fun modifyName(name: String) {
         userName = name
         tv_nickname.text = name
+        toolbar_right_tv.setTextColor(Color.parseColor("#222222"))
     }
 
     override fun modifySignature(name: String) {
         userSignature = name
         tv_intro.text = name
         aligning()
+        toolbar_right_tv.setTextColor(Color.parseColor("#222222"))
     }
 
     private val mUser by lazy { intent.getParcelableExtra<User?>("user") }
@@ -75,6 +78,7 @@ class UserInfoActivity : BaseActivity<UserInfoPresenter>(), UserInfoContract.Vie
                         this@UserInfoActivity.userGender = it
                         //这里有个坑，使用activity控件必须要activity实例点出来，如果不加activity实例，默认是使用dialog的（即使dialog没有这个控件）
                         this@UserInfoActivity.tv_gender.text = if (it == 0) "男" else "女"
+                        this@UserInfoActivity.toolbar_right_tv.setTextColor(Color.parseColor("#222222"))
                     }
                 }
     }
@@ -170,7 +174,7 @@ class UserInfoActivity : BaseActivity<UserInfoPresenter>(), UserInfoContract.Vie
 
     }
 
-    fun aligning(){
+    fun aligning() {
         tv_intro.post {
             if (tv_intro.lineCount > 1)
             //多余一行左对齐
@@ -180,7 +184,6 @@ class UserInfoActivity : BaseActivity<UserInfoPresenter>(), UserInfoContract.Vie
                 tv_intro.gravity = Gravity.RIGHT
         }
     }
-
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
@@ -205,7 +208,7 @@ class UserInfoActivity : BaseActivity<UserInfoPresenter>(), UserInfoContract.Vie
                     file = ImageUtil.compress(this, saveUriStr, file).blockingGet()
                     iv_avatar.loadHeadImage(file)
                     distFileStr = file.absolutePath
-
+                    toolbar_right_tv.setTextColor(Color.parseColor("#222222"))
                 }
         }
     }

@@ -70,7 +70,7 @@ constructor(model: VipContract.Model, rootView: VipContract.View) :
         params["vipType"] = "$vipType"
         params["autoRenew"] = "0"
         params["rechargeCode"] = code
-        params["requestCode"] = "3"
+        params["requestCode"] = "2"
         if (couponId.isEmpty())
             params["useCoupon"] = "0"
         else

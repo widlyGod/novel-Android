@@ -77,7 +77,8 @@ constructor(model: NoLoginContract.Model, rootView: NoLoginContract.View) :
                     val unionid = wechat.db.get("unionid")
                     params.put("openId", unionid)
                 } else {
-                    params.put("openId", db.userId)
+                    val unionid = ShareSDK.getPlatform(QQ.NAME).db.get("unionid")
+                    params.put("openId", unionid)
                 }
 
 

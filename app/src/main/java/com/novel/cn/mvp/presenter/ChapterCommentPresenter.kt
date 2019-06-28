@@ -38,7 +38,9 @@ constructor(model: ChapterCommentContract.Model, rootView: ChapterCommentContrac
         params["pageNum"] = mPageIndex
         params["pageSize"] = Constant.PAGE_SIZE
         mModel.getChapterComment(params)
-                .applySchedulers(mRootView)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .compose(RxLifecycleUtils.bindToLifecycle(mRootView))
                 .subscribe(object : ErrorHandleSubscriber<BaseResponse<MutableList<ChapterComment>>>(mErrorHandler) {
                     override fun onNext(t: BaseResponse<MutableList<ChapterComment>>) {
                         mRootView.showCount(t.basePage.counts)
@@ -60,7 +62,7 @@ constructor(model: ChapterCommentContract.Model, rootView: ChapterCommentContrac
 
                     override fun onError(t: Throwable) {
                         super.onError(t)
-                        mAdapter.loadMoreComplete()
+                        mAdapter.loadMoreFail()
                     }
                 })
     }

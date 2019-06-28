@@ -194,7 +194,7 @@ class RechargeActivity : BaseActivity<RechargePresenter>(), RechargeContract.Vie
                 val splitArray = dValue.split("\\.".toRegex()).dropLastWhile { it.isEmpty() }.toTypedArray()
                 if (splitArray.size > 1) {
                     val dotValue = splitArray[1]
-                    val diff = dotValue.length + 1 - 1
+                    val diff = dotValue.length + 1 - 2
                     if (diff > 0) {
                         return source.subSequence(start, end - diff)
                     }
@@ -257,6 +257,15 @@ class RechargeActivity : BaseActivity<RechargePresenter>(), RechargeContract.Vie
             rtv_vip_level.visible(false)
         tv_account.text = data.userNickName
         tv_blance.text = "${data.goldNumber}阅读币"
+
+        if(data.vipInfo==null||data.vipInfo.isVip==0){
+            vip_dredge.visible(true)
+            rl_vip_info.visible(false)
+        }else{
+            vip_dredge.visible(false)
+            rl_vip_info.visible(true)
+            tv_vip_no.text = "NO.${data.vipInfo.userId}"
+        }
     }
 
     override fun showRechargeInfo(data: String, code: String) {

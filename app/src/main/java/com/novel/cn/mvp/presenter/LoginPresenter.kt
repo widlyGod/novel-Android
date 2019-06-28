@@ -101,6 +101,7 @@ constructor(model: LoginContract.Model, rootView: LoginContract.View) :
                 params.put("gender", gender)
                 params.put("channelId", "-1")
                 params.put("photo", db.userIcon)
+                LogUtils.warnInfo(type)
                 if (type == Wechat.NAME) {
                     val wechat = ShareSDK.getPlatform(Wechat.NAME)
                     val unionid = wechat.db.get("unionid")
@@ -109,6 +110,7 @@ constructor(model: LoginContract.Model, rootView: LoginContract.View) :
                     val unionid = ShareSDK.getPlatform(QQ.NAME).db.get("unionid")
                     val openId = ShareSDK.getPlatform(QQ.NAME).db.userId
                     params.put("openId", unionid)
+                    LogUtils.warnInfo("///----$unionid========$openId")
                 } else {
                     params.put("openId", db.userId)
                 }

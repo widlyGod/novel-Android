@@ -90,6 +90,8 @@ class ChapterCommentAdapter : BaseQuickAdapter<ChapterComment, BaseViewHolder>(R
                         text = item.chapterCommentUser.levelName
                     }
                 }
+                if (item.chapterCommentUser.levelName.isEmpty())
+                    tv_level.visible(false)
             }
 
             tv_reply_num.setOnClickListener {

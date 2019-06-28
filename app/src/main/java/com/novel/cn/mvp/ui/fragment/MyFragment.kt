@@ -56,7 +56,7 @@ class MyFragment : BaseFragment<MyPresenter>(), MyContract.View {
     override fun initData(savedInstanceState: Bundle?) {
         iv_setting.visible(true)
 
-        click(iv_setting, fl_messsage, iv_avatar, tv_recharge, tv_my_account, tv_vip) { view ->
+        click(iv_setting, fl_messsage, iv_avatar, tv_recharge, tv_my_account, rrl_vip) { view ->
             when (view) {
                 iv_setting -> activity?.startActivity<SettingActivity>()
                 fl_messsage -> activity?.startActivity<MessageActivity>()
@@ -67,7 +67,7 @@ class MyFragment : BaseFragment<MyPresenter>(), MyContract.View {
                 }
                 tv_recharge -> JumpManager.jumpRecharge(activity)
                 tv_my_account -> JumpManager.jumpMineAccount(activity)
-                tv_vip -> mUser?.let {
+                rrl_vip -> mUser?.let {
                     if (it.vipInfo == null)
                         it.vipInfo = VipInfo()
                     JumpManager.jumpVipInfo(activity, it)
@@ -119,6 +119,14 @@ class MyFragment : BaseFragment<MyPresenter>(), MyContract.View {
 
         tv_account.text = "余额\t\t\t${data.rechargeNumber}阅点 + ${data.rewardNumber}阅券"
 
+        if (data.vipInfo == null || data.vipInfo.isVip == 0) {
+            vip_dredge.visible(true)
+            rl_vip_info.visible(false)
+        } else {
+            vip_dredge.visible(false)
+            rl_vip_info.visible(true)
+            tv_vip_no.text = "NO.${data.vipInfo.userId}"
+        }
     }
 
     private fun formatDateTime(mss: Int): String {

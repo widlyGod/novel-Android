@@ -161,7 +161,7 @@ class MainActivity : BaseActivity<MainPresenter>(), MainContract.View {
 
     private var isQuit = false
 
-    fun handleBackPressed() {
+    private fun handleBackPressed() {
         if (!isQuit) {
             toast("再点一次退出")
             isQuit = true
