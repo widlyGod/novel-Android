@@ -10,6 +10,7 @@ import com.jess.arms.utils.ArmsUtils
 import com.jess.arms.utils.RxLifecycleUtils
 import com.novel.cn.app.ApiException
 import com.novel.cn.ext.applySchedulers
+import com.novel.cn.ext.toast
 import me.jessyan.rxerrorhandler.core.RxErrorHandler
 import javax.inject.Inject
 
@@ -54,6 +55,7 @@ constructor(model: RegistContract.Model, rootView: RegistContract.View) :
                     override fun onError(t: Throwable) {
                         //全局处理异常 super.onError(t)默认实现，和下面代码同理
                         mErrorHandler.handlerFactory.handleError(t)
+                        toast(t.message)
 //                        super.onError(t)
                     }
                 })
@@ -96,6 +98,7 @@ constructor(model: RegistContract.Model, rootView: RegistContract.View) :
 
                     override fun onError(t: Throwable) {
                         super.onError(t)
+                        toast(t.message)
                     }
                 })
     }

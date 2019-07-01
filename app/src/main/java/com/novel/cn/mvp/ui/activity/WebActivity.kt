@@ -40,6 +40,7 @@ class WebActivity : BaseActivity<NothingPresenter>() {
     }
 
     private var mUrl = ""
+    private var mTitle = ""
 
     override fun initStatusBar(savedInstanceState: Bundle?) {
         //白底黑字
@@ -75,6 +76,7 @@ class WebActivity : BaseActivity<NothingPresenter>() {
         intent?.apply {
             mUrl = getStringExtra(KEY_URL) ?: ""
         }
+
     }
 
     override fun onBackPressed() {
@@ -114,7 +116,7 @@ class WebActivity : BaseActivity<NothingPresenter>() {
 
         override fun onReceivedTitle(p0: WebView?, p1: String?) {
             super.onReceivedTitle(p0, p1)
-            toolbar_title.text = title
+            toolbar_title.text = p1
             toolbar_title.typeface = Typeface.createFromAsset(assets, "fonts/FZQKBYSJW.TTF")
 
         }

@@ -110,7 +110,7 @@ class RegistActivity : BaseActivity<RegistPresenter>(), RegistContract.View, Log
             }
         }
 
-        click(tv_regist, tv_get_email_code, iv_qq, iv_wechat, iv_weibo, iv_check, iv_eyes, iv_eyes2) {
+        click(tv_regist, tv_get_email_code, iv_qq, iv_wechat, iv_weibo, iv_check, iv_eyes, iv_eyes2, tv_register_agreement) {
             when (it) {
                 tv_regist -> {
                     if (et_nickname.text.toString().trim().isBlank()) {
@@ -131,6 +131,7 @@ class RegistActivity : BaseActivity<RegistPresenter>(), RegistContract.View, Log
                 }
                 iv_eyes -> hidePasswordTransformation(it, et_password)
                 iv_eyes2 -> hidePasswordTransformation(it, et_password2)
+                tv_register_agreement -> WebActivity.actionStart(this, "http://59.110.124.41/agreement")
             }
         }
     }

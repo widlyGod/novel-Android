@@ -29,6 +29,8 @@
         android:layout_gravity="center"
         android:textColor="#333333"
         android:textSize="18sp"
+        android:maxLines="1"
+        android:ellipsize="end"
         tools:text="TITLE" />
 
     <TextView
