@@ -77,16 +77,15 @@ constructor(model: CategoryListContract.Model, rootView: CategoryListContract.Vi
                             mRootView.showState(MultiStateView.VIEW_STATE_EMPTY)
                         } else {
                             mRootView.showState(MultiStateView.VIEW_STATE_CONTENT)
-                            mRootView.showState(MultiStateView.VIEW_STATE_CONTENT)
                             //判断是否还有下一页
                             val noMore = mPageIndex * Constant.PAGE_SIZE >= t.data.total
                             if (pullToRefresh) {
                                 mAdapter.setNewData(list)
                                 mRootView.refreshComplete()
                             } else {
+                                mAdapter.addData(list!!)
                                 if (!noMore)
-                                    mAdapter.addData(list!!)
-                                mAdapter.loadMoreComplete()
+                                    mAdapter.loadMoreComplete()
                             }
                             if (noMore)
                                 mAdapter.loadMoreEnd()
