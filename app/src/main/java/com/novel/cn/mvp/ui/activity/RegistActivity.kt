@@ -97,6 +97,19 @@ class RegistActivity : BaseActivity<RegistPresenter>(), RegistContract.View, Log
             }
         }
 
+        et_email.setOnFocusChangeListener { _, hasFocus ->
+            if (!hasFocus) {
+                if (et_email.text.toString().trim().isBlank()) {
+                    tv_tip.text = "请输入邮箱"
+                } else {
+                    if (!PartsUtil.isEmail(et_email.text.toString().trim())) {
+                        tv_tip.text = "邮箱格式不正确"
+                    } else
+                        tv_tip.text = ""
+                }
+            }
+        }
+
         click(tv_regist, tv_get_email_code, iv_qq, iv_wechat, iv_weibo, iv_check, iv_eyes, iv_eyes2) {
             when (it) {
                 tv_regist -> {
@@ -149,6 +162,11 @@ class RegistActivity : BaseActivity<RegistPresenter>(), RegistContract.View, Log
      */
     private fun sendCode() {
         val email = et_email.text.toString()
+        if (!PartsUtil.isEmail(email)) {
+            tv_tip.text = "邮箱格式不正确"
+            return
+        } else
+            tv_tip.text = ""
         mPresenter?.sendCode(email)
 
     }
