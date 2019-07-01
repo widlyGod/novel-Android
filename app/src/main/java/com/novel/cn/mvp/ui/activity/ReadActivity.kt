@@ -383,12 +383,14 @@ class ReadActivity : BaseActivity<ReadPresenter>(), ReadContract.View, VolumeVie
         volumeList.clear()
         volumeList.addAll(list)
         mPopup.setData(list)
+
         if (volumeList.size > 0) {
             var mBookRecord = DbManager.getReadcord(mBook.novelInfo.novelId)
             if (mBookRecord == null) {
                 mBookRecord = Readcord()
             }
             chooseVolume(mBookRecord.volumePos)
+            mPopup.setCurrentPosition(mBookRecord.volumePos)
             volumeList.forEach { vol ->
                 vol.calalogue.forEach {
                     val txt = TxtChapter()

@@ -47,6 +47,10 @@ class VolumePopup(context: Context, private val readContractView: VolumeView) : 
         this.listener = listener
     }
 
+    fun setCurrentPosition(position: Int) {
+        mAdapter.setCurrentPosition(position)
+    }
+
     init {
         height = context.dp2px(163)
         width = context.dp2px(152)

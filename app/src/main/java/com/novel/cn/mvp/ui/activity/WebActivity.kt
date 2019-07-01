@@ -40,7 +40,6 @@ class WebActivity : BaseActivity<NothingPresenter>() {
     }
 
     private var mUrl = ""
-    private var mTitle = ""
 
     override fun initStatusBar(savedInstanceState: Bundle?) {
         //白底黑字
