@@ -120,10 +120,10 @@ class BookStoreFragment : BaseFragment<BookStorePresenter>(), BookStoreContract.
 
     override fun childFragmentManager(): FragmentManager = childFragmentManager
 
-    @Subscribe(threadMode = ThreadMode.MAIN)
-    fun onIndexChange(event: IndexEvent) {
-        if (event.index == 1)
-            switchFragment(0)
-    }
+//    @Subscribe(threadMode = ThreadMode.MAIN)
+//    fun onIndexChange(event: IndexEvent) {
+//        if (event.index == 1)
+//            switchFragment(0)
+//    }
 
 }

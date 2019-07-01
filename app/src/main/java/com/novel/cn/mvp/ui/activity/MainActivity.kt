@@ -145,7 +145,7 @@ class MainActivity : BaseActivity<MainPresenter>(), MainContract.View {
     override fun onLoginChange(event: LoginEvent) {
         val user = Preference.getDeviceData<LoginInfo?>(Constant.LOGIN_INFO)
         if (user!!.sessionId.isBlank())
-            switchFragment(1)
+            switchFragment(4)
         else
             switchFragment(0)
     }
