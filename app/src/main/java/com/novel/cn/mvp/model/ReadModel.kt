@@ -10,6 +10,7 @@ import javax.inject.Inject
 
 import com.novel.cn.mvp.contract.ReadContract
 import com.novel.cn.mvp.model.api.service.BookService
+import com.novel.cn.mvp.model.api.service.UserService
 import com.novel.cn.mvp.model.entity.*
 import com.zchu.rxcache.data.CacheResult
 import com.zchu.rxcache.kotlin.rxCache
@@ -90,6 +91,11 @@ constructor(repositoryManager: IRepositoryManager) : BaseModel(repositoryManager
     override fun clickNum(params: HashMap<String, Any?>): Observable<BaseResponse<Any>> {
         return mRepositoryManager.obtainRetrofitService(BookService::class.java).clickNum(params)
     }
+
+    override fun getUserInfo(): Observable<BaseResponse<User>> {
+        return mRepositoryManager.obtainRetrofitService(UserService::class.java).getUserInfo()
+    }
+
 
     @Inject
     lateinit var mGson: Gson;

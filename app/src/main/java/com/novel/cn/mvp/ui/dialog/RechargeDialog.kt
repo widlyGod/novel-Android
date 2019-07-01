@@ -4,10 +4,7 @@ import android.content.Context
 import android.os.Bundle
 import android.view.View
 import com.flyco.dialog.widget.base.BaseDialog
-import com.jakewharton.rxbinding3.widget.textChanges
 import com.novel.cn.R
-import com.novel.cn.ext.toast
-import kotlinx.android.synthetic.main.dialog_comment.*
 import kotlinx.android.synthetic.main.dialog_recharge.*
 
 class RechargeDialog(context: Context, val content: String) : BaseDialog<RechargeDialog>(context) {

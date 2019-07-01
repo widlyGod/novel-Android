@@ -35,6 +35,7 @@ import kotlinx.android.synthetic.main.activity_chapter_comment.*
 import kotlinx.android.synthetic.main.include_title.*
 import kotlinx.android.synthetic.main.layout_chapter_comment_header.*
 import kotlinx.android.synthetic.main.layout_chapter_comment_header.view.*
+import kotlinx.android.synthetic.main.layout_unlogin_header.*
 import kotlinx.android.synthetic.main.layout_unlogin_header.view.*
 import org.jetbrains.anko.startActivity
 import javax.inject.Inject
@@ -112,7 +113,12 @@ class ChapterCommentActivity : BaseActivity<ChapterCommentPresenter>(), ChapterC
     }
 
     override fun showCount(counts: Int) {
-        tv_count.text = Html.fromHtml("共<font color='#ea4b1a'>$counts</font>条")
+        if (user.userId.isBlank()) {
+            if (tv_count != null)
+                tv_count.text = Html.fromHtml("共<font color='#ea4b1a'>$counts</font>条")
+        } else
+            if (tv_counts != null)
+                tv_counts.text = Html.fromHtml("共<font color='#ea4b1a'>$counts</font>条")
     }
 
     override fun initStatusBar(savedInstanceState: Bundle?) {
@@ -129,7 +135,7 @@ class ChapterCommentActivity : BaseActivity<ChapterCommentPresenter>(), ChapterC
         decoration.rightMargin = ArmsUtils.dip2px(this, 18f)
         recyclerView.addItemDecoration(decoration)
 
-        recyclerView.adapter = mAdapter
+        recyclerView.adapter = mAdapter.apply { data.clear() }
         mAdapter.apply {
             setEnableLoadMore(true)
             setLoadMoreView(CustomLoadMoreView())
@@ -140,8 +146,7 @@ class ChapterCommentActivity : BaseActivity<ChapterCommentPresenter>(), ChapterC
                 mPresenter?.deleteChapterComment(mBookId, mChapterId, mAdapter.data[it].replyId)
             }
             setOnReplyClickListener {
-                val user = Preference.getDeviceData<LoginInfo?>(Constant.LOGIN_INFO)
-                if (user!!.userId.isBlank()) {
+                if (user.userId.isBlank()) {
                     startActivity<LoginActivity>()
                     return@setOnReplyClickListener
                 }
@@ -211,9 +216,9 @@ class ChapterCommentActivity : BaseActivity<ChapterCommentPresenter>(), ChapterC
         if (user!!.sessionId.isNotEmpty()) {
             when (item!!.itemId) {
                 R.id.action_search -> {
-                    if(hotNovels.isEmpty()){
+                    if (hotNovels.isEmpty()) {
                         mPresenter?.getHotSearch()
-                    }else
+                    } else
                         JumpManager.jumpSearch(this, hotNovels, 0)
                 }
                 R.id.action_bookstore -> {

@@ -176,6 +176,7 @@ constructor(model: ReadContract.Model, rootView: ReadContract.View) :
 
 
                     }
+
                     override fun onError(t: Throwable) {
                         super.onError(t)
                     }
@@ -308,5 +309,18 @@ constructor(model: ReadContract.Model, rootView: ReadContract.View) :
                 })
     }
 
+    fun getUserInfo() {
+        mModel.getUserInfo()
+                .applySchedulers(mRootView)
+                .subscribe(object : ErrorHandleSubscriber<BaseResponse<User>>(mErrorHandler) {
+                    override fun onNext(t: BaseResponse<User>) {
+                        mRootView.showUserInfo(t.data)
+                    }
+
+                    override fun onError(t: Throwable) {
+                        mRootView.showUserInfo(null)
+                    }
+                })
+    }
 
 }

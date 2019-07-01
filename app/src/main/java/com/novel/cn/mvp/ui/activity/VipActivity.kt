@@ -27,6 +27,7 @@ import com.novel.cn.ext.getCompactDrawable
 import com.novel.cn.mvp.model.entity.CouponBean
 import com.novel.cn.mvp.model.entity.User
 import com.novel.cn.mvp.model.entity.VipInfo
+import com.novel.cn.mvp.ui.dialog.EconomizeDialog
 import com.novel.cn.mvp.ui.dialog.SelectCouponPopup
 import com.novel.cn.mvp.ui.fragment.VipPowerFragment
 import com.novel.cn.utils.StatusBarUtils
@@ -141,7 +142,7 @@ class VipActivity : BaseActivity<VipPresenter>(), VipContract.View, SelectCoupon
             tv_economize.setTextColor(Color.parseColor("#b7890c"))
             tv_user_name.setTextColor(Color.parseColor("#b7890c"))
         }
-        click(rl_monthly_recharge, rl_quarter_recharge, rl_year_recharge, tv_call_service, tv_frequently_asked_questions, tv_select_coupon, rl_wechat_pay, rl_alipay_pay, tv_vip_done) { view ->
+        click(rl_monthly_recharge, rl_quarter_recharge, rl_year_recharge, tv_call_service, tv_frequently_asked_questions, tv_select_coupon, rl_wechat_pay, rl_alipay_pay, tv_vip_done,tv_economize) { view ->
             when (view) {
                 rl_monthly_recharge -> selectRechargeVipType(0)
                 rl_quarter_recharge -> selectRechargeVipType(1)
@@ -166,6 +167,7 @@ class VipActivity : BaseActivity<VipPresenter>(), VipContract.View, SelectCoupon
                         mPresenter?.vipPay(rechargeVipType, "$payType", selectedCouponId)
                     }
                 }
+                tv_economize -> EconomizeDialog(this).show()
             }
         }
     }

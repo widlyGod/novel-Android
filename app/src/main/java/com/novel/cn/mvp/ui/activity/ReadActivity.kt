@@ -77,6 +77,8 @@ class ReadActivity : BaseActivity<ReadPresenter>(), ReadContract.View, VolumeVie
 
     private lateinit var user: LoginInfo
 
+    private var mUser: User? = null
+
     private val mPageLoader by lazy { readView.getPageLoader(mBook.novelInfo.novelId) }
 
     private val mAdapter by lazy { ChapterAdapter() }
@@ -267,7 +269,8 @@ class ReadActivity : BaseActivity<ReadPresenter>(), ReadContract.View, VolumeVie
         })
         refreshNightMode()
 //        mPresenter?.getVolumeList(mBook.novelInfo.novelId)
-        mPresenter?.getCatalogue(mBook.novelInfo.novelId)
+
+        mPresenter?.getUserInfo()
         mPresenter?.clickNum(mBook.novelInfo.novelId)
         seekbar.setOnSeekBarChangeListener(object : SeekBar.OnSeekBarChangeListener {
             override fun onStopTrackingTouch(seekBar: SeekBar?) {
@@ -332,10 +335,15 @@ class ReadActivity : BaseActivity<ReadPresenter>(), ReadContract.View, VolumeVie
         }
     }
 
+    override fun showUserInfo(data: User?) {
+        mUser = data
+        mPresenter?.getCatalogue(mBook.novelInfo.novelId)
+    }
+
+
     override fun reward(operation: String, number: Int) {
         mPresenter?.reward(mBook.novelInfo.novelId, operation, number)
     }
-
 
     override fun getUserAccountInfoSuccess(userAccountBean: UserAccountBean) {
         mRewardDialog.show()

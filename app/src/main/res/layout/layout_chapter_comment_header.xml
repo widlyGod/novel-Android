@@ -78,7 +78,7 @@
                 android:textSize="15sp" />
 
             <TextView
-                android:id="@+id/tv_count"
+                android:id="@+id/tv_counts"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="5dp"

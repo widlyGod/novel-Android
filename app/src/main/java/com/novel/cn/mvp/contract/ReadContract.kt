@@ -36,6 +36,7 @@ interface ReadContract {
         fun showCalalogueInfo(list: ArrayList<VolumeBean>)
         fun getUserAccountInfoSuccess(userAccountBean: UserAccountBean)
         fun reward(operation: String, number: Int)
+        fun showUserInfo(data: User?)
 //        fun subscribeSuccess()
     }
 
@@ -56,6 +57,7 @@ interface ReadContract {
         fun reward(params: HashMap<String, Any?>): Observable<BaseResponse<Any>>
         fun addAutoSubscribe(list: ArrayList<String>): Observable<BaseResponse<Any>>
         fun clickNum(params: HashMap<String, Any?>): Observable<BaseResponse<Any>>
+        fun getUserInfo():Observable<BaseResponse<User>>
     }
 
 }
