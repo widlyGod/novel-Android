@@ -183,7 +183,7 @@ class BookDetailActivity : BaseActivity<BookDetailPresenter>(), BookDetailContra
         dialog.setOnReleaseClickListener {
             val user = Preference.getDeviceData<LoginInfo?>(Constant.LOGIN_INFO)
             if (!user?.userId.isNullOrEmpty()) {
-                val isAuthor = if (user?.userId == data.novelInfo.authorId) "1" else "0"
+                val isAuthor = if (user?.userId == data.novelInfo.authorId) "0" else "1"
                 if (isReply) {
                     mPresenter?.reply(mAdapter.data[replyPosition].commentId, it, user!!.userId, 0, isAuthor)
                 } else {

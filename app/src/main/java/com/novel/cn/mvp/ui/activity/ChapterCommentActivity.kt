@@ -63,7 +63,7 @@ class ChapterCommentActivity : BaseActivity<ChapterCommentPresenter>(), ChapterC
         dialog.setOnReleaseClickListener {
             val user = Preference.getDeviceData<LoginInfo?>(Constant.LOGIN_INFO)
             if (!user?.userId.isNullOrEmpty()) {
-                val isAuthor = if (user?.userId == book?.novelInfo?.authorId) "1" else "0"
+                val isAuthor = if (user?.userId == book?.novelInfo?.authorId) "0" else "1"
                 mPresenter?.chapterComment(mBookId, mChapterId, mVolumeId, it, mAdapter.data[replyPosition].chapterCommentUser.userId, 1, isAuthor)
                 if (dialog.isShowing)
                     dialog.dismiss()
@@ -195,7 +195,7 @@ class ChapterCommentActivity : BaseActivity<ChapterCommentPresenter>(), ChapterC
                     return@setOnClickListener
                 }
                 val user = Preference.getDeviceData<LoginInfo?>(Constant.LOGIN_INFO)
-                val isAuthor = if (mAuthorId == user?.userId) "1" else "0"
+                val isAuthor = if (mAuthorId == user?.userId) "0" else "1"
 
                 mPresenter?.chapterComment(mBookId, mChapterId, mVolumeId, content, mAuthorId, 0, isAuthor)
             }
