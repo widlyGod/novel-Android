@@ -8,6 +8,7 @@ import com.novel.cn.R
 import com.novel.cn.app.visible
 import com.novel.cn.mvp.model.entity.Calalogue
 import com.novel.cn.mvp.model.entity.ChapterInfo
+import com.novel.cn.utils.ChineseNumUtill
 import kotlinx.android.synthetic.main.item_chapter.view.*
 
 class ChapterAdapter : BaseQuickAdapter<Calalogue, BaseViewHolder>(R.layout.item_chapter) {
@@ -18,7 +19,7 @@ class ChapterAdapter : BaseQuickAdapter<Calalogue, BaseViewHolder>(R.layout.item
 
     override fun convert(helper: BaseViewHolder, item: Calalogue) {
         with(helper.itemView) {
-            tv_chapter.text = "第${item.chapter}章${item.chapterTitle}"
+            tv_chapter.text = "第${ChineseNumUtill.numberToChinese(item.chapter)}章${item.chapterTitle}"
             //添加了个头部，所以要减去
             if (isCurrentPositionShow) {
                 val isCurrentChapter = currentPosition == helper.layoutPosition - headerLayoutCount
