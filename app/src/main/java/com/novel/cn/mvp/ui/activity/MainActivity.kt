@@ -192,6 +192,8 @@ class MainActivity : BaseActivity<MainPresenter>(), MainContract.View {
         }
         if (requestCode == 0x01) {
             val essFileList = data!!.getParcelableArrayListExtra<EssFile>(Const.EXTRA_RESULT_SELECTION)
+            if (essFileList.isEmpty())
+                return
             val builder = StringBuilder()
             for (file in essFileList) {
                 builder.append(file.mimeType).append(" | ").append(file.name).append("\n\n")

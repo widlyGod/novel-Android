@@ -240,6 +240,7 @@ public class SelectFileByBrowserActivity extends AppCompatActivity
                 //选中某文件后，判断是否单选
                 if (SelectOptions.getInstance().isSingle) {
                     Intent result = new Intent();
+                    mSelectedFileList.add(item);
                     result.putParcelableArrayListExtra(Const.EXTRA_RESULT_SELECTION, mSelectedFileList);
                     setResult(RESULT_OK, result);
                     super.onBackPressed();
