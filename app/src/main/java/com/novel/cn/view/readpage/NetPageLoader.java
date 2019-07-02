@@ -22,7 +22,7 @@ public class NetPageLoader extends PageLoader {
     private static final String TAG = "PageFactory";
 
     public NetPageLoader(PageView pageView, String bookId) {
-        super(pageView, bookId);
+        super(pageView, bookId,false);
     }
 
     private int size = 4;

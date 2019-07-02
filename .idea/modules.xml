@@ -8,6 +8,7 @@
       <module fileurl="file://$PROJECT_DIR$/arms/arms.iml" filepath="$PROJECT_DIR$/arms/arms.iml" />
       <module fileurl="file://$PROJECT_DIR$/arms-imageloader-glide/arms-imageloader-glide.iml" filepath="$PROJECT_DIR$/arms-imageloader-glide/arms-imageloader-glide.iml" />
       <module fileurl="file://$PROJECT_DIR$/dsbridge/dsbridge.iml" filepath="$PROJECT_DIR$/dsbridge/dsbridge.iml" />
+      <module fileurl="file://$PROJECT_DIR$/filepicker/filepicker.iml" filepath="$PROJECT_DIR$/filepicker/filepicker.iml" />
       <module fileurl="file://$PROJECT_DIR$/novel-Android.iml" filepath="$PROJECT_DIR$/novel-Android.iml" />
       <module fileurl="file://$PROJECT_DIR$/rxcache/rxcache.iml" filepath="$PROJECT_DIR$/rxcache/rxcache.iml" />
       <module fileurl="file://$PROJECT_DIR$/rxcache-kotlin/rxcache-kotlin.iml" filepath="$PROJECT_DIR$/rxcache-kotlin/rxcache-kotlin.iml" />

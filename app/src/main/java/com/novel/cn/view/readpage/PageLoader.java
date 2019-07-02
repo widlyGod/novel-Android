@@ -152,8 +152,11 @@ public abstract class PageLoader {
 
     private Rect mSrc;
 
+    private boolean isLocal;
+
     /*****************************init params*******************************/
-    public PageLoader(PageView pageView, String bookId) {
+    public PageLoader(PageView pageView, String bookId, Boolean isLocal) {
+        this.isLocal = isLocal;
         mPageView = pageView;
         mBookId = bookId;
         mContext = pageView.getContext();
@@ -691,7 +694,7 @@ public abstract class PageLoader {
         if (txtChapter.isLocked) {
             mStatus = STATUS_FINISH;
             mPageChangeListener.locked(txtChapter, mCurChapterPos);
-            return ;
+            return;
         }
         if (!txtChapter.isFree) {
             mStatus = STATUS_LOADING;
@@ -1000,6 +1003,9 @@ public abstract class PageLoader {
                     top += interval;
                 }
             }
+
+            if (isLocal)
+                return;
 
             if (mCurPage.position == 0) {
                 lastpage.reward(1, top);

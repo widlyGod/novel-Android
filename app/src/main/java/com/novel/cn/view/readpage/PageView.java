@@ -438,14 +438,24 @@ public class PageView extends View {
      *
      * @return
      */
-    public PageLoader getPageLoader(String bookId) {
+    public PageLoader getPageLoader(String bookId, Boolean isLocal) {
         // 判是否已经存在
         if (mPageLoader != null) {
             return mPageLoader;
         }
         // 根据书籍类型，获取具体的加载器
 
-        mPageLoader = new NetPageLoader(this, bookId);
+        if (isLocal) {
+            mPageLoader = new LocalPageLoader(this, bookId);
+            if (mViewWidth != 0 || mViewHeight != 0) {
+                // 初始化 PageLoader 的屏幕大小
+                mPageLoader.prepareDisplay(mViewWidth, mViewHeight);
+            }
+            return mPageLoader;
+        } else {
+            mPageLoader = new NetPageLoader(this, bookId);
+        }
+
 
         mPageLoader.setLastpage(new PageLoader.Lastpage() {
             @Override

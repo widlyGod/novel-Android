@@ -1,9 +1,13 @@
 package com.novel.cn.mvp.ui.activity
 
+import android.app.Activity
+import android.content.Intent
 import android.graphics.Typeface
 import android.os.Bundle
 import android.support.v4.app.Fragment
 import android.widget.Toast
+import com.ess.filepicker.model.EssFile
+import com.ess.filepicker.util.Const
 import com.flyco.tablayout.listener.CustomTabEntity
 import com.flyco.tablayout.listener.OnTabSelectListener
 import com.jess.arms.base.BaseActivity
@@ -172,12 +176,27 @@ class MainActivity : BaseActivity<MainPresenter>(), MainContract.View {
                     .observeOnMain()
                     .subscribe { _ -> isQuit = false }
                     .bindToLifecycle(this)
-        }else {
+        } else {
             super.onBackPressed()
         }
     }
 
     override fun onBackPressed() {
         handleBackPressed()
+    }
+
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+        if (resultCode != Activity.RESULT_OK) {
+            return
+        }
+        if (requestCode == 0x01) {
+            val essFileList = data!!.getParcelableArrayListExtra<EssFile>(Const.EXTRA_RESULT_SELECTION)
+            val builder = StringBuilder()
+            for (file in essFileList) {
+                builder.append(file.mimeType).append(" | ").append(file.name).append("\n\n")
+            }
+            startActivity<LocalReadActivity>("essFile" to essFileList[0])
+        }
     }
 }

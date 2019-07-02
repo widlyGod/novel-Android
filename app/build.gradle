@@ -200,4 +200,5 @@ dependencies {
     implementation "com.android.support:support-annotations:28.0.0"
     implementation "com.github.hackware1993:MagicIndicator:1.6.0"
     implementation project(':dsbridge')
+    implementation  project(':filepicker')
 }

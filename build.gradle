@@ -14,6 +14,7 @@ buildscript {
         classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlin_version"
         classpath 'com.mob.sdk:MobSDK:+'
         classpath 'org.greenrobot:greendao-gradle-plugin:3.2.2'
+        classpath 'com.novoda:bintray-release:0.8.0'
     }
 }
 
@@ -33,4 +34,14 @@ allprojects {
 
 task clean(type: Delete) {
     delete rootProject.buildDir
+}
+
+ext {
+    userOrg = 'libo'
+    groupId = 'cn.imlibo'
+    uploadName = 'FilePicker'
+    publishVersion = 'v0.0.5_alpha'
+    desc = 'Android文件选择器、图片选择器、MIMEType分类选择器'
+    website = 'https://github.com/imLibo/FilePicker'
+    licences = ['MIT']
 }

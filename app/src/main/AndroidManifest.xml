@@ -94,6 +94,7 @@
             android:label="登录"
             android:launchMode="singleTask" />
         <activity android:name=".mvp.ui.activity.MineBillDateSelectActivity" />
+        <activity android:name=".mvp.ui.activity.LocalReadActivity" />
         <activity
             android:name=".mvp.ui.activity.RegistActivity"
             android:label="注册" />

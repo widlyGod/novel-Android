@@ -79,7 +79,7 @@ class ReadActivity : BaseActivity<ReadPresenter>(), ReadContract.View, VolumeVie
 
     private var mUser: User? = null
 
-    private val mPageLoader by lazy { readView.getPageLoader(mBook.novelInfo.novelId) }
+    private val mPageLoader by lazy { readView.getPageLoader(mBook.novelInfo.novelId,false) }
 
     private val mAdapter by lazy { ChapterAdapter() }
 
