@@ -6,11 +6,13 @@ import android.view.View
 import android.view.ViewGroup
 import com.jess.arms.base.BaseFragment
 import com.jess.arms.di.component.AppComponent
+import com.jess.arms.utils.IndexEvent
 import com.novel.cn.R
 import com.novel.cn.app.*
 import com.novel.cn.di.component.DaggerMyComponent
 import com.novel.cn.di.module.MyModule
 import com.novel.cn.mvp.contract.MyContract
+import com.novel.cn.mvp.model.entity.LoginInfo
 import com.novel.cn.mvp.model.entity.User
 import com.novel.cn.mvp.model.entity.VipInfo
 import com.novel.cn.mvp.presenter.MyPresenter
@@ -20,6 +22,8 @@ import com.novel.cn.mvp.ui.activity.VipActivity
 import com.novel.cn.utils.StatusBarUtils
 import kotlinx.android.synthetic.main.fragment_my.*
 import kotlinx.android.synthetic.main.layout_my_header.*
+import org.greenrobot.eventbus.Subscribe
+import org.greenrobot.eventbus.ThreadMode
 import org.jetbrains.anko.startActivity
 
 
@@ -145,6 +149,12 @@ class MyFragment : BaseFragment<MyPresenter>(), MyContract.View {
         }
         return DateTimes
 
+    }
+
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    fun onIndexChange(event: IndexEvent) {
+        if (event.index == 3)
+            mPresenter?.getUserInfo()
     }
 
 }
