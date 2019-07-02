@@ -7,11 +7,13 @@ import android.text.Spanned
 import android.text.style.ForegroundColorSpan
 import com.jess.arms.base.BaseActivity
 import com.jess.arms.di.component.AppComponent
+import com.jess.arms.integration.EventBusManager
 import com.jess.arms.utils.ArmsUtils
 import com.novel.cn.R
 import com.novel.cn.app.*
 import com.novel.cn.di.component.DaggerCommentDetailComponent
 import com.novel.cn.di.module.CommentDetailModule
+import com.novel.cn.eventbus.BookCommentEvent
 import com.novel.cn.ext.toast
 import com.novel.cn.mvp.contract.CommentDetailContract
 import com.novel.cn.mvp.model.entity.Comment
@@ -98,13 +100,17 @@ class CommentDetailActivity : BaseActivity<CommentDetailPresenter>(), CommentDet
         StatusBarUtils.setPaddingSmart(this, toolbar)
     }
 
+    override fun replyNum(num: Int) {
+        val ss = SpannableString("共${num}条")
+        ss.setSpan(ForegroundColorSpan(Color.parseColor("#EE4B1A")), 1, (1 + num.toString().length), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE)
+        tv_count.text = ss
+    }
+
     override fun initData(savedInstanceState: Bundle?) {
 
         mComment?.let { it ->
             //初始化数据
-            val ss = SpannableString("共${it.replyNumber}条")
-            ss.setSpan(ForegroundColorSpan(Color.parseColor("#EE4B1A")), 1, (1 + it.replyNumber.toString().length), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE)
-            tv_count.text = ss
+
             iv_avatar.loadHeadImage(it.commentUser.userPhoto)
             if (book?.novelInfo?.authorId == it.commentUser.userId) {
                 tv_isAuthor.visible(true)
@@ -174,6 +180,7 @@ class CommentDetailActivity : BaseActivity<CommentDetailPresenter>(), CommentDet
     override fun replySuccess(message: String) {
 //        toast(message)
         mPresenter?.getReplyList(mComment.commentId, true)
+        EventBusManager.getInstance().post(BookCommentEvent())
     }
 
     override fun showState(state: Int) {

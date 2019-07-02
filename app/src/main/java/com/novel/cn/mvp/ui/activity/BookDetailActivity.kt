@@ -94,10 +94,10 @@ class BookDetailActivity : BaseActivity<BookDetailPresenter>(), BookDetailContra
                     startActivity<LoginActivity>()
                     return@setOnLikeClickListener
                 }
-                mPresenter?.agree(it)
+                mPresenter?.agree(it - 1)
             }
             setOnDeleteClickListener {
-                mPresenter?.deleteComment(it)
+                mPresenter?.deleteComment(it - 1)
             }
         }
         val decoration = LinearItemDecoration()
@@ -141,11 +141,11 @@ class BookDetailActivity : BaseActivity<BookDetailPresenter>(), BookDetailContra
                 return@setOnReplyClickListener
             }
             isReply = true
-            replyPosition = position
-            if (data.novelInfo.authorId == mAdapter.data[position].commentUser.userId)
+            replyPosition = position - 1
+                if (data.novelInfo.authorId == mAdapter.data[replyPosition].commentUser.userId)
                 dialog.show("@${data.novelInfo.novelAuthor}")
             else
-                dialog.show("@${mAdapter.data[position].commentUser.userNickName}")
+                dialog.show("@${mAdapter.data[replyPosition].commentUser.userNickName}")
         }
 
         mAdapter.setOnItemClickListener { adapter, view, position ->
@@ -221,10 +221,12 @@ class BookDetailActivity : BaseActivity<BookDetailPresenter>(), BookDetailContra
     }
 
     override fun showState(state: Int) {
-        if(state== MultiStateView.VIEW_STATE_EMPTY){
+        if (state == MultiStateView.VIEW_STATE_EMPTY) {
             mAdapter.setFooterView(footerEmpty)
-        }else if(state== MultiStateView.VIEW_STATE_ERROR){
+        } else if (state == MultiStateView.VIEW_STATE_ERROR) {
             mAdapter.setFooterView(footerError)
+        } else if (state == MultiStateView.VIEW_STATE_CONTENT) {
+            mAdapter.removeAllFooterView()
         }
     }
 

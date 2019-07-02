@@ -68,13 +68,13 @@ constructor(model: BookDetailContract.Model, rootView: BookDetailContract.View) 
 
     fun agree(position: Int) {
         val item = mAdapter.getItem(position) as Comment
-        mModel.agree(item.commentId,0)
+        mModel.agree(item.commentId, 0)
                 .applySchedulers(mRootView)
                 .subscribe(object : ErrorHandleSubscriber<BaseResponse<Any>>(mErrorHandler) {
                     override fun onNext(t: BaseResponse<Any>) {
                         item.isThumbed = true
                         item.thumbUpNumber++
-                        mAdapter.notifyItemChanged(position)
+                        mAdapter.notifyItemChanged(position + 1)
                     }
                 })
     }
@@ -143,6 +143,8 @@ constructor(model: BookDetailContract.Model, rootView: BookDetailContract.View) 
                 .subscribe(object : ErrorHandleSubscriber<BaseResponse<MutableList<Comment>>>(mErrorHandler) {
                     override fun onNext(t: BaseResponse<MutableList<Comment>>) {
                         if (t.basePage.counts == 0) {
+                            mAdapter.data.clear()
+                            mAdapter.notifyDataSetChanged()
                             mRootView.showState(MultiStateView.VIEW_STATE_EMPTY)
                         } else {
                             mRootView.showState(MultiStateView.VIEW_STATE_CONTENT)

@@ -52,7 +52,7 @@ constructor(model: CommentDetailContract.Model, rootView: CommentDetailContract.
                 .compose(RxLifecycleUtils.bindToLifecycle(mRootView))
                 .subscribe(object : ErrorHandleSubscriber<BaseResponse<MutableList<Reply>>>(mErrorHandler) {
                     override fun onNext(t: BaseResponse<MutableList<Reply>>) {
-
+                        mRootView.replyNum(t.basePage.counts)
                         if (t.basePage.counts == 0) {
                             mRootView.showState(MultiStateView.VIEW_STATE_EMPTY)
                             return
@@ -78,6 +78,7 @@ constructor(model: CommentDetailContract.Model, rootView: CommentDetailContract.
                         if (mAdapter.itemCount == 0) {
                             mRootView.showState(MultiStateView.VIEW_STATE_CONTENT)
                         }
+                        mRootView.replyNum(0)
                     }
 
                 })

@@ -39,7 +39,6 @@ constructor(repositoryManager: IRepositoryManager) : BaseModel(repositoryManager
         private val CACHE_TIMEOUT = TimeUnit.DAYS.toMillis(1)
     }
 
-    val user = Preference.getDeviceData<LoginInfo?>(Constant.LOGIN_INFO)
     override fun validateSignIn(): Observable<BaseResponse<SignIn>> {
         return mRepositoryManager.obtainRetrofitService(UserService::class.java).validateSignIn()
     }
@@ -60,7 +59,7 @@ constructor(repositoryManager: IRepositoryManager) : BaseModel(repositoryManager
     }
 
     override fun getReadTime(): Observable<BaseResponse<ReadTimeBean>> {
-
+        val user = Preference.getDeviceData<LoginInfo?>(Constant.LOGIN_INFO)
         return mRepositoryManager.obtainRetrofitService(BookService::class.java).getReadTime(user!!.userId)
     }
 
