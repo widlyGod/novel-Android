@@ -60,10 +60,10 @@ constructor(model: CategoryListContract.Model, rootView: CategoryListContract.Vi
     fun getCategoryList(novelTypeId: Int, parentId: Int, pullToRefresh: Boolean) {
         if (pullToRefresh) mPageIndex = 1
 
-        val params = HashMap<String, String>()
+        val params = HashMap<String, Any>()
         params.put("pageNum", mPageIndex.toString())
         params.put("pageSize", Constant.PAGE_SIZE.toString())
-        params.put("novelTypeId", novelTypeId.toString())
+        params.put("novelTypeId", mutableListOf<Int>().apply { add(novelTypeId) })
         params.put("parentId", parentId.toString())
 
         mModel.getCategoryList(params)

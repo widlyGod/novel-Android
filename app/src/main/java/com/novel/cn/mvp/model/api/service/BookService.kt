@@ -90,7 +90,7 @@ interface BookService {
      * 筛选小说
      */
     @POST("novelOAService/novelFilter/getNovels")
-    fun getNovels(@Body params: HashMap<String, String>): Observable<BaseResponse<CategoryBean>>
+    fun getNovels(@Body params: HashMap<String, Any>): Observable<BaseResponse<CategoryBean>>
 
 
     /*

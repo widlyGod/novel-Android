@@ -34,7 +34,7 @@ class CategoryListModel
 constructor(repositoryManager: IRepositoryManager) : BaseModel(repositoryManager), CategoryListContract.Model {
 
 
-    override fun getCategoryList(params: HashMap<String, String>): Observable<BaseResponse<CategoryBean>> {
+    override fun getCategoryList(params: HashMap<String, Any>): Observable<BaseResponse<CategoryBean>> {
         return  mRepositoryManager.obtainRetrofitService(BookService::class.java).getNovels(params)
     }
 
