@@ -70,7 +70,10 @@ class MineAccountActivity : BaseActivity<MineAccountPresenter>(), MineAccountCon
         tv_user_prendar.text = userAccountBean.prendarGoldNumber.ifEmpty { "0" }
         tv_discount_num.text = userAccountBean.discountCoupon.ifEmpty { "0" }
         tv_coupon_num.text = userAccountBean.coupon.ifEmpty { "0" }
-        tv_is_vip.text = if (userAccountBean.isVip == "1") "已开通" else "未开通"
+        if (userAccountBean.isVip == "1") {
+            tv_is_vip.text = "${userAccountBean.expireTime}到期"
+            monthly_payment.text = "续费"
+        } else tv_is_vip.text = "未开通"
         tv_experience_num.text = userAccountBean.experienceCard.ifEmpty { "0" }
         tv_recommended_num.text = userAccountBean.recommendedVotes.ifEmpty { "0" }
         tv_monthly_num.text = userAccountBean.monthlyPass.ifEmpty { "0" }
