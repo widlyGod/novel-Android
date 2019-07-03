@@ -57,7 +57,7 @@ class CommentDetailActivity : BaseActivity<CommentDetailPresenter>(), CommentDet
         }
         dialog
     }
- 
+
     enum class LEVEL private constructor(val startValue: Int, val endValue: Int, val color: Long, val text: String) {
 
         LEVEL_1(1, 499, 0xFFF4B2BD, "见习"),

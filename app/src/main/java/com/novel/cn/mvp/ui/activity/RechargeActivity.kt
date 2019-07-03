@@ -14,6 +14,7 @@ import com.jess.arms.di.component.AppComponent
 import com.jess.arms.utils.ArmsUtils
 import com.novel.cn.BuildConfig
 import com.novel.cn.R
+import com.novel.cn.app.JumpManager
 import com.novel.cn.app.click
 import com.novel.cn.app.loadHeadImage
 import com.novel.cn.app.visible
@@ -37,6 +38,7 @@ import javax.inject.Inject
 import com.novel.cn.ext.textWatcher
 import com.novel.cn.mvp.model.entity.CouponBean
 import com.novel.cn.mvp.model.entity.Recharge
+import com.novel.cn.mvp.model.entity.VipInfo
 import com.novel.cn.mvp.ui.dialog.RechargeDialog
 import com.novel.cn.mvp.ui.dialog.SelectCouponPopup
 import com.novel.cn.view.SelectCoupon
@@ -56,6 +58,7 @@ class RechargeActivity : BaseActivity<RechargePresenter>(), RechargeContract.Vie
     private val mWechatSdk by lazy { WechatSdk(this, BuildConfig.APP_ID_WECHAT); }
     private lateinit var mSelectCouponPopup: SelectCouponPopup
     private var payMoney = ""
+    private var mUser: User? = null
 
     override fun setupActivityComponent(appComponent: AppComponent) {
         DaggerRechargeComponent //如找不到该类,请编译一下项目
@@ -151,7 +154,7 @@ class RechargeActivity : BaseActivity<RechargePresenter>(), RechargeContract.Vie
             rfl_done.delegate.backgroundColor = -0xa17036
         }.bindToLifecycle(this)
 
-        click(iv_back, tv_wechat_pay, tv_alipay, tv_recharge) {
+        click(iv_back, tv_wechat_pay, tv_alipay, tv_recharge, rrl_vip) {
             when (it) {
                 iv_back -> finish()
                 tv_wechat_pay -> {
@@ -181,6 +184,11 @@ class RechargeActivity : BaseActivity<RechargePresenter>(), RechargeContract.Vie
                     }
                     payMoney = money
                     mPresenter?.getUserCoupon(payMoney)
+                }
+                rrl_vip -> mUser?.let {
+                    if (it.vipInfo == null)
+                        it.vipInfo = VipInfo()
+                    JumpManager.jumpVipInfo(this, it)
                 }
             }
         }
@@ -241,6 +249,7 @@ class RechargeActivity : BaseActivity<RechargePresenter>(), RechargeContract.Vie
     }
 
     override fun showUserInfo(data: User) {
+        mUser = data
         iv_avatar.loadHeadImage(data.userPhoto)
         iv_gender.setImageResource(if (data.userGender == "0") R.drawable.ic_male else R.drawable.ic_famale)
         tv_read_count.text = "读过${data.readCount}本"
