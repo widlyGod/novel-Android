@@ -2,6 +2,7 @@ package com.novel.cn.mvp.ui.dialog
 
 import android.annotation.SuppressLint
 import android.content.Context
+import android.graphics.Color
 import android.os.Bundle
 import android.view.View
 import com.flyco.dialog.widget.base.BottomBaseDialog
@@ -40,6 +41,10 @@ class CommentDialog(context: Context) : BottomBaseDialog<CommentDialog>(context)
         }
         et_content.textChanges().subscribe{
             tv_text_num.text = "${et_content.text.toString().length}/50"
+            if(it.isNotEmpty())
+                tv_release.setTextColor(Color.parseColor("#000000"))
+            else
+                tv_release.setTextColor(Color.parseColor("#999999"))
         }
     }
 

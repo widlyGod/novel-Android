@@ -48,7 +48,7 @@ class CommentDetailActivity : BaseActivity<CommentDetailPresenter>(), CommentDet
         dialog.setOnReleaseClickListener {
             val user = Preference.getDeviceData<LoginInfo?>(Constant.LOGIN_INFO)
             if (!user?.userId.isNullOrEmpty()) {
-                val isAuthor = if (user?.userId == mComment?.commentUser?.userId && mComment.isAuthor) "1" else "0"
+                val isAuthor = if (mComment.isAuthor) "0" else "1"
                 mPresenter?.reply(mComment.commentId, it, mComment.commentUser.userId, 0, isAuthor)
                 dialog.dismiss()
             } else {
@@ -57,7 +57,7 @@ class CommentDetailActivity : BaseActivity<CommentDetailPresenter>(), CommentDet
         }
         dialog
     }
-
+ 
     enum class LEVEL private constructor(val startValue: Int, val endValue: Int, val color: Long, val text: String) {
 
         LEVEL_1(1, 499, 0xFFF4B2BD, "见习"),
