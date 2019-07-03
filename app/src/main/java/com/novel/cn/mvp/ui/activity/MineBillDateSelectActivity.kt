@@ -197,7 +197,7 @@ class MineBillDateSelectActivity : BaseActivity<NothingPresenter>() {
         }.bindToLifecycle(this)
         tv_done.clicks().subscribe {
             if (isDay) {
-                if (isSelectStartDate && isSelectEndDate) {
+                if (isSelectStartDate || isSelectEndDate) {
                     var intent = Intent()
                     intent.putExtra("startDate", startDate)
                     intent.putExtra("endDate", endDate)

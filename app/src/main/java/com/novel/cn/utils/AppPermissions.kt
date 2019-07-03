@@ -47,7 +47,7 @@ object AppPermissions {
                                     .delay(1, TimeUnit.SECONDS)
                                     .applySchedulers(view)
                                     .subscribe({
-                                        requestCameraPermission(rxPermissions, view, settingRequestCode, tips, call)
+//                                        requestCameraPermission(rxPermissions, view, settingRequestCode, tips, call)
                                     }, {}).bindToLifecycle(view)
                         }
                         else -> {
@@ -68,15 +68,15 @@ object AppPermissions {
                 }.bindToLifecycle(view)
     }
 
-    fun requestLocationPermission(rxPermissions: RxPermissions, view: IView, settingRequestCode: Int = 9999, call: (() -> Unit)? = null) {
+    fun requestReadPermission(rxPermissions: RxPermissions, view: IView, settingRequestCode: Int = 9999, call: (() -> Unit)? = null) {
         val isActivity = view is Activity
         if (!isActivity && view !is Fragment) {
             view.showMessage("view必须继承activity或fragment")
             return
         }
         rxPermissions.requestEachCombined(
-                Manifest.permission.ACCESS_FINE_LOCATION,
-                Manifest.permission.ACCESS_COARSE_LOCATION
+                Manifest.permission.READ_EXTERNAL_STORAGE,
+                Manifest.permission.WRITE_EXTERNAL_STORAGE
         ).observeOnMain()
                 .subscribe { permission ->
                     when {
@@ -84,12 +84,12 @@ object AppPermissions {
                             call?.invoke()
                         }
                         permission.shouldShowRequestPermissionRationale -> {
-                            view.showMessage("为了您更好的使用请打开定位权限")
+                            view.showMessage("请打开储存访问权限")
                             Single.just(Unit) // 避免看不到提示消息
                                     .delay(1, TimeUnit.SECONDS)
                                     .applySchedulers(view)
                                     .subscribe({
-                                        requestLocationPermission(rxPermissions, view, settingRequestCode, call)
+
                                     }, {}).bindToLifecycle(view)
                         }
                         else -> {
@@ -100,7 +100,7 @@ object AppPermissions {
                             }
                             builder
                                     .setTitle("权限设置")
-                                    .setRationale("为了您更好的使用请打开定位权限。\n打开app设置界面勾选定位权限")
+                                    .setRationale("请打开储存访问权限")
                                     .setRequestCode(settingRequestCode)
                                     .setThemeResId(R.style.Base_Theme_AppCompat_Light_Dialog)
                                     .build()

@@ -1,10 +1,12 @@
 package com.novel.cn.mvp.ui.fragment
 
+import android.app.Activity
 import android.content.Context
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import com.ess.filepicker.FilePicker
 import com.jess.arms.base.BaseLazyLoadFragment
 import com.jess.arms.di.component.AppComponent
 import com.jess.arms.utils.IndexEvent
@@ -28,8 +30,10 @@ import com.novel.cn.mvp.ui.activity.LoginActivity
 import com.novel.cn.mvp.ui.adapter.BookshelfAdapter
 import com.novel.cn.mvp.ui.dialog.MorePopup
 import com.novel.cn.mvp.ui.dialog.SignInDialog
+import com.novel.cn.utils.AppPermissions
 import com.novel.cn.utils.StatusBarUtils
 import com.novel.cn.view.CustomLoadMoreView
+import com.tbruyelle.rxpermissions2.RxPermissions
 import kotlinx.android.synthetic.main.fragment_bookshelf.*
 import org.greenrobot.eventbus.Subscribe
 import org.greenrobot.eventbus.ThreadMode
@@ -52,6 +56,7 @@ class BookshelfFragment : BaseLazyLoadFragment<BookshelfPresenter>(), BookshelfC
     @Inject
     lateinit var mAdapter: BookshelfAdapter
 
+    private val mRxPermissions by lazy { RxPermissions(this) }
 
     companion object {
         fun newInstance(): BookshelfFragment {
@@ -106,6 +111,16 @@ class BookshelfFragment : BaseLazyLoadFragment<BookshelfPresenter>(), BookshelfC
         refreshLayout.setOnRefreshListener { onRefresh() }
 
         onRefresh()
+        mMorePopup.setOnLocalClickListener {
+            AppPermissions.requestReadPermission(mRxPermissions, this) {
+                FilePicker.from(context as Activity)
+                        .chooseForBrowser()
+                        .setMaxCount(1)
+                        .setFileTypes("txt")
+                        .requestCode(0x01)
+                        .start()
+            }
+        }
         iv_more.setOnClickListener {
             mMorePopup.showAsDropDown(it, 0, 0)
         }
