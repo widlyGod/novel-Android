@@ -178,7 +178,7 @@ class RechargeActivity : BaseActivity<RechargePresenter>(), RechargeContract.Vie
                     if (money.isEmpty()) {
                         toast("请选择充值金额")
                         return@click
-                    } else if (money.toFloat() <= 9.8F) {
+                    } else if (money.toFloat() < 9.9F) {
                         toast("最低充值9.9元")
                         return@click
                     }
@@ -226,7 +226,7 @@ class RechargeActivity : BaseActivity<RechargePresenter>(), RechargeContract.Vie
                 else {
                     tv_money_all.text = "(共0.0元)"
                 }
-                if (text.isEmpty() || text.toFloat() <= 9.8F) {
+                if (text.isEmpty() || text.toFloat() < 9.9F) {
                     tv_input_money_hint.text = "最底9.9元"
                     tv_money_all.text = ""
                     rfl_done.delegate.backgroundColor = -0x323233
@@ -278,15 +278,19 @@ class RechargeActivity : BaseActivity<RechargePresenter>(), RechargeContract.Vie
         }
     }
 
+    override fun dialogDismiss() {
+        mPresenter?.getUserInfo()
+    }
+
     override fun showRechargeInfo(data: String, code: String) {
         if (code == "0") {
             mWechatSdk.pay(data, object : WechatSdk.OnResult<BaseResp> {
                 override fun onResult(info: BaseResp) {
                     if (info.errCode == BaseResp.ErrCode.ERR_OK) {
-                        RechargeDialog(this@RechargeActivity, "支付成功").show()
-                        mPresenter?.getUserInfo()
+                        RechargeDialog(this@RechargeActivity, "支付成功", this@RechargeActivity).show()
+
                     } else {
-                        RechargeDialog(this@RechargeActivity, "支付失败").show()
+                        RechargeDialog(this@RechargeActivity, "支付失败", this@RechargeActivity).show()
                     }
                 }
             })
@@ -294,10 +298,10 @@ class RechargeActivity : BaseActivity<RechargePresenter>(), RechargeContract.Vie
             Alipay.pay(this, data, object : Alipay.OnResult {
                 override fun onResult(result: Result) {
                     if (result.isSuccess || result.isPending) {
-                        RechargeDialog(this@RechargeActivity, "支付成功").show()
+                        RechargeDialog(this@RechargeActivity, "支付成功", this@RechargeActivity).show()
                         mPresenter?.getUserInfo()
                     } else {
-                        RechargeDialog(this@RechargeActivity, "支付失败").show()
+                        RechargeDialog(this@RechargeActivity, "支付失败", this@RechargeActivity).show()
                     }
                 }
             })

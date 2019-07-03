@@ -5,9 +5,10 @@ import android.os.Bundle
 import android.view.View
 import com.flyco.dialog.widget.base.BaseDialog
 import com.novel.cn.R
+import com.novel.cn.mvp.contract.RechargeContract
 import kotlinx.android.synthetic.main.dialog_recharge.*
 
-class RechargeDialog(context: Context, val content: String) : BaseDialog<RechargeDialog>(context) {
+class RechargeDialog(context: Context, val content: String, var view: RechargeContract.View) : BaseDialog<RechargeDialog>(context) {
 
     override fun setUiBeforShow() {
 
@@ -21,7 +22,10 @@ class RechargeDialog(context: Context, val content: String) : BaseDialog<Recharg
         super.onCreate(savedInstanceState)
 
         setCanceledOnTouchOutside(false)
-        rl_dg_main.setOnClickListener { dismiss() }
+        rl_dg_main.setOnClickListener {
+            dismiss()
+            view.dialogDismiss()
+        }
 
         tv_content.text = content
     }

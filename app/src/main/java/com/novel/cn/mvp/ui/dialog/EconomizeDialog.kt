@@ -9,7 +9,7 @@ import com.novel.cn.mvp.model.entity.EconomizeBean
 import com.novel.cn.mvp.ui.adapter.EconomizeAdapter
 import kotlinx.android.synthetic.main.dialog_economize.*
 
-class EconomizeDialog(context: Context) : BaseDialog<RechargeDialog>(context) {
+class EconomizeDialog(context: Context) : BaseDialog<EconomizeDialog>(context) {
 
     private val mAdapter by lazy { EconomizeAdapter() }
 

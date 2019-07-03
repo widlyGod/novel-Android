@@ -18,6 +18,7 @@ import com.novel.cn.mvp.presenter.NothingPresenter
 import com.novel.cn.utils.StatusBarUtils
 import com.tencent.smtt.sdk.WebChromeClient
 import com.tencent.smtt.sdk.WebView
+import com.tencent.smtt.sdk.WebViewClient
 import kotlinx.android.synthetic.main.activity_crop_image.*
 import kotlinx.android.synthetic.main.activity_crop_image.toolbar_back
 import kotlinx.android.synthetic.main.activity_web.*
@@ -57,6 +58,7 @@ class WebActivity : BaseActivity<NothingPresenter>() {
         DWebView.setWebContentsDebuggingEnabled(BuildConfig.LOG_DEBUG)
         web_view.apply {
             webChromeClient = MyWebChromeClient()
+            webViewClient = MyWebViewClient()
             loadUrl(mUrl)
 //            loadUrl("file:///android_asset/js-call-native.html")
         }
@@ -118,6 +120,14 @@ class WebActivity : BaseActivity<NothingPresenter>() {
             toolbar_title.text = p1
             toolbar_title.typeface = Typeface.createFromAsset(assets, "fonts/FZQKBYSJW.TTF")
 
+        }
+    }
+
+    inner class MyWebViewClient : WebViewClient() {
+
+        override fun shouldOverrideUrlLoading(view: WebView, url: String?): Boolean {
+            view.loadUrl(url)
+            return true
         }
     }
 }

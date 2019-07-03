@@ -361,6 +361,7 @@
                         android:paddingLeft="4dp"
                         android:paddingRight="4dp"
                         android:text="0"
+                        android:visibility="gone"
                         android:textColor="@color/white"
                         android:textSize="11sp"
                         app:mv_backgroundColor="#ee333c"

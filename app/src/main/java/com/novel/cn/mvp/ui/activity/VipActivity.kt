@@ -147,7 +147,7 @@ class VipActivity : BaseActivity<VipPresenter>(), VipContract.View, SelectCoupon
                 rl_monthly_recharge -> selectRechargeVipType(0)
                 rl_quarter_recharge -> selectRechargeVipType(1)
                 rl_year_recharge -> selectRechargeVipType(2)
-                tv_call_service -> WebActivity.actionStart(this, "http://59.110.124.41/app/vip.html")
+                tv_call_service -> WebActivity.actionStart(this, "http://59.110.124.41/app/callCenter.html")
                 tv_frequently_asked_questions -> WebActivity.actionStart(this, "http://59.110.124.41/app/helpCenter.html")
                 tv_select_coupon -> mPresenter?.getUserCoupon()
                 rl_wechat_pay -> {
