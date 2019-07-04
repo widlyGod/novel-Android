@@ -149,6 +149,8 @@ class CommentDetailActivity : BaseActivity<CommentDetailPresenter>(), CommentDet
                     }
                 }
             }
+            if (it.commentUser.levelName.isEmpty())
+                tv_level.visible(false)
 
             val decoration = LinearItemDecoration()
             //分割线与左右两边的间距

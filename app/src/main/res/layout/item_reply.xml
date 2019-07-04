@@ -57,7 +57,7 @@
         android:gravity="center"
         android:paddingLeft="3dp"
         android:paddingRight="4dp"
-        android:text="书迷"
+        tools:text="书迷"
         android:textColor="@color/white"
         android:textSize="10sp"
         app:layout_constraintEnd_toEndOf="@+id/iv_avatar"

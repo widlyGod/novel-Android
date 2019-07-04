@@ -9,6 +9,7 @@ import com.novel.cn.mvp.model.entity.LoginInfo
 import com.novel.cn.mvp.model.entity.Reply
 import com.novel.cn.utils.TimeUtils
 import kotlinx.android.synthetic.main.item_comment.view.*
+import kotlinx.android.synthetic.main.item_reply.*
 import kotlinx.android.synthetic.main.item_reply.view.*
 import kotlinx.android.synthetic.main.item_reply.view.iv_avatar
 import kotlinx.android.synthetic.main.item_reply.view.tv_content
@@ -81,6 +82,8 @@ class BookReplyAdapter : BaseQuickAdapter<Reply, BaseViewHolder>(R.layout.item_r
                     }
                 }
             }
+            if (item.replyUser.levelName.isEmpty())
+                tv_level.visible(false)
             val user = Preference.getDeviceData<LoginInfo?>(Constant.LOGIN_INFO)
             if (user?.userId == item.replyUser.userId) {
                 tv_delete.visible(true)
