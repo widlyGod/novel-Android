@@ -227,7 +227,7 @@ class RechargeActivity : BaseActivity<RechargePresenter>(), RechargeContract.Vie
                     tv_money_all.text = "(共0.0元)"
                 }
                 if (text.isEmpty() || text.toFloat() < 9.9F) {
-                    tv_input_money_hint.text = "最底9.9元"
+                    tv_input_money_hint.text = "最低9.9元"
                     tv_money_all.text = ""
                     rfl_done.delegate.backgroundColor = -0x323233
                 } else {
@@ -288,7 +288,6 @@ class RechargeActivity : BaseActivity<RechargePresenter>(), RechargeContract.Vie
                 override fun onResult(info: BaseResp) {
                     if (info.errCode == BaseResp.ErrCode.ERR_OK) {
                         RechargeDialog(this@RechargeActivity, "支付成功", this@RechargeActivity).show()
-
                     } else {
                         RechargeDialog(this@RechargeActivity, "支付失败", this@RechargeActivity).show()
                     }
@@ -299,7 +298,6 @@ class RechargeActivity : BaseActivity<RechargePresenter>(), RechargeContract.Vie
                 override fun onResult(result: Result) {
                     if (result.isSuccess || result.isPending) {
                         RechargeDialog(this@RechargeActivity, "支付成功", this@RechargeActivity).show()
-                        mPresenter?.getUserInfo()
                     } else {
                         RechargeDialog(this@RechargeActivity, "支付失败", this@RechargeActivity).show()
                     }
