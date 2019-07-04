@@ -121,7 +121,6 @@ class ReadActivity : BaseActivity<ReadPresenter>(), ReadContract.View, VolumeVie
 
 
     override fun initData(savedInstanceState: Bundle?) {
-        readPos = -1
         user = Preference.getDeviceData<LoginInfo?>(Constant.LOGIN_INFO)!!
         drawerLayout.setDrawerLockMode(DrawerLayout.LOCK_MODE_LOCKED_CLOSED)
         drawerLayout.isFocusableInTouchMode = false
