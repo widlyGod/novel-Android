@@ -30,6 +30,7 @@ import com.novel.cn.mvp.presenter.BookshelfPresenter
 import com.novel.cn.mvp.ui.activity.LocalReadActivity
 import com.novel.cn.mvp.ui.activity.LoginActivity
 import com.novel.cn.mvp.ui.adapter.BookshelfAdapter
+import com.novel.cn.mvp.ui.dialog.ConfirmDialog
 import com.novel.cn.mvp.ui.dialog.MorePopup
 import com.novel.cn.mvp.ui.dialog.SignInDialog
 import com.novel.cn.utils.AppPermissions
@@ -101,7 +102,13 @@ class BookshelfFragment : BaseLazyLoadFragment<BookshelfPresenter>(), BookshelfC
                 if (mAdapter.getItem(position)!!.isLocal) {
                     val file = File(mAdapter.getItem(position)!!.mFilePath)
                     if (!file.exists()) {
-                        toast("该书籍文件不存在")
+                        ConfirmDialog(context) {
+                            onConfirm = {
+                                DbManager.deleteFile(mAdapter.getItem(position)!!.mFilePath)
+                                mPresenter?.getBookshelfList(true)
+                                dismiss()
+                            }
+                        }.show("该书籍文件不存在，是否删除本书？")
                     } else
                         context.startActivity<LocalReadActivity>("Book" to mAdapter.getItem(position))
                     return@setOnItemClickListener
