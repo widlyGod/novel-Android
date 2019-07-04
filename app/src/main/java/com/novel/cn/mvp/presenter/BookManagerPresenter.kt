@@ -64,7 +64,7 @@ constructor(model: BookManagerContract.Model, rootView: BookManagerContract.View
                             }
                         }
                         val noMore = mPageIndex * Constant.PAGE_SIZE >= t.data.total
-                        mRootView.showStateView(if (t.data.total > 0 && localList.isNotEmpty()) MultiStateView.VIEW_STATE_CONTENT else MultiStateView.VIEW_STATE_EMPTY)
+                        mRootView.showStateView(if (t.data.total > 0 || localList.isNotEmpty()) MultiStateView.VIEW_STATE_CONTENT else MultiStateView.VIEW_STATE_EMPTY)
                         if (pullToRefresh) {
                             mAdapter.addData(t.data.book)
                         } else {
