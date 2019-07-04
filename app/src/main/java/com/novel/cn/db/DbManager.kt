@@ -64,10 +64,29 @@ object DbManager {
         if (data == null) {
             daoSession.readcordDao.save(mBookRecord)
         } else {
-            daoSession.readcordDao.update(mBookRecord)
+
         }
 
     }
 
+    fun saveFile(localFile: LocalFile) {
+        val data = daoSession.localFileDao.queryBuilder().where(LocalFileDao.Properties.MFilePath.eq(localFile.mFilePath)).limit(1).unique()
+        if (data == null) {
+            daoSession.localFileDao.save(localFile)
+        } else {
+            daoSession.localFileDao.update(localFile)
+        }
+    }
+
+    fun deleteFile(localFilePath: String) {
+        val data = daoSession.localFileDao.queryBuilder().where(LocalFileDao.Properties.MFilePath.eq(localFilePath)).limit(1).unique()
+        if (data != null) {
+            daoSession.localFileDao.delete(data)
+        }
+    }
+
+    fun getAllFile(): MutableList<LocalFile> = daoSession.localFileDao.queryBuilder()
+            .orderDesc(LocalFileDao.Properties.Id)
+            .list()
 
 }

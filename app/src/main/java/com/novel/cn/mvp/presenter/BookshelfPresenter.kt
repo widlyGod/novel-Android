@@ -45,13 +45,26 @@ constructor(model: BookshelfContract.Model, rootView: BookshelfContract.View) :
                 .compose(RxLifecycleUtils.bindToLifecycle(mRootView))
                 .subscribe(object : ErrorHandleSubscriber<CacheResult<Pagination<Book>>>(mErrorHandler) {
                     override fun onNext(t: CacheResult<Pagination<Book>>) {
-                        if (t.data.total == 0) {
+                        val bookList = ArrayList<Book>()
+                        val localList = DbManager.getAllFile()
+                        if (pullToRefresh && localList.isNotEmpty()) {
+                            localList.forEach {
+                                bookList.add(Book().apply {
+                                    isLocal = true
+                                    mFilePath = it.mFilePath
+                                    novelTitle = it.mFileName
+                                    novelId = it.mFilePath
+                                })
+                            }
+                        }
+                        if (t.data.total == 0 && localList.isNullOrEmpty()) {
                             mRootView.showState(MultiStateView.VIEW_STATE_EMPTY)
                         } else {
+                            bookList.addAll(t.data.book)
                             mRootView.showState(MultiStateView.VIEW_STATE_CONTENT)
                             //判断是否还有下一页
                             val noMore = mPageIndex * Constant.PAGE_SIZE >= t.data.total
-                            mRootView.showBookshelfList(pullToRefresh, t.data.book)
+                            mRootView.showBookshelfList(pullToRefresh, bookList)
                             mRootView.complete(pullToRefresh)
                             if (noMore)
                                 mRootView.noMore()
@@ -63,8 +76,23 @@ constructor(model: BookshelfContract.Model, rootView: BookshelfContract.View) :
                     override fun onError(t: Throwable) {
                         super.onError(t)
                         mRootView.complete(pullToRefresh)
-                        if (pullToRefresh)
-                            mRootView.showState(MultiStateView.VIEW_STATE_ERROR)
+                        val localList = DbManager.getAllFile()
+                        val bookList = ArrayList<Book>()
+                        if (pullToRefresh) {
+                            if (localList.isNotEmpty()) {
+                                localList.forEach {
+                                    bookList.add(Book().apply {
+                                        isLocal = true
+                                        mFilePath = it.mFilePath
+                                        novelTitle = it.mFileName
+                                    })
+                                }
+                                mRootView.showState(MultiStateView.VIEW_STATE_CONTENT)
+                                mRootView.showBookshelfList(pullToRefresh, bookList)
+                            } else {
+                                mRootView.showState(MultiStateView.VIEW_STATE_ERROR)
+                            }
+                        }
                     }
                 })
 

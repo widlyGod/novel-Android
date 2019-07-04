@@ -12,13 +12,17 @@ import com.flyco.tablayout.listener.CustomTabEntity
 import com.flyco.tablayout.listener.OnTabSelectListener
 import com.jess.arms.base.BaseActivity
 import com.jess.arms.di.component.AppComponent
+import com.jess.arms.integration.EventBusManager
 import com.jess.arms.utils.IndexEvent
 import com.jess.arms.utils.LoginEvent
 import com.novel.cn.R
 import com.novel.cn.app.Constant
 import com.novel.cn.app.Preference
+import com.novel.cn.db.DbManager
+import com.novel.cn.db.LocalFile
 import com.novel.cn.di.component.DaggerMainComponent
 import com.novel.cn.di.module.MainModule
+import com.novel.cn.eventbus.BookshelfEvent
 import com.novel.cn.ext.bindToLifecycle
 import com.novel.cn.ext.observeOnMain
 import com.novel.cn.ext.subscribeOnIO
@@ -194,11 +198,13 @@ class MainActivity : BaseActivity<MainPresenter>(), MainContract.View {
             val essFileList = data!!.getParcelableArrayListExtra<EssFile>(Const.EXTRA_RESULT_SELECTION)
             if (essFileList.isEmpty())
                 return
-            val builder = StringBuilder()
-            for (file in essFileList) {
-                builder.append(file.mimeType).append(" | ").append(file.name).append("\n\n")
+            essFileList.forEach {
+                DbManager.saveFile(LocalFile().apply {
+                    mFilePath = it.absolutePath
+                    mFileName = it.name
+                })
             }
-            startActivity<LocalReadActivity>("essFile" to essFileList[0])
+            EventBusManager.getInstance().post(BookshelfEvent())
         }
     }
 }

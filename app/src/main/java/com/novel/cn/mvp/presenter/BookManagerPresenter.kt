@@ -4,6 +4,7 @@ import com.jess.arms.di.scope.ActivityScope
 import com.jess.arms.mvp.BasePresenter
 import com.jess.arms.utils.RxLifecycleUtils
 import com.novel.cn.app.Constant
+import com.novel.cn.db.DbManager
 import com.novel.cn.ext.applySchedulers
 import me.jessyan.rxerrorhandler.core.RxErrorHandler
 import javax.inject.Inject
@@ -45,10 +46,27 @@ constructor(model: BookManagerContract.Model, rootView: BookManagerContract.View
                 .subscribe(object : ErrorHandleSubscriber<BaseResponse<Pagination<Book>>>(mErrorHandler) {
                     override fun onNext(t: BaseResponse<Pagination<Book>>) {
                         //判断是否还有下一页
-                        val noMore = mPageIndex * Constant.PAGE_SIZE >= t.data.total
-                        mRootView.showStateView(if (t.data.total > 0) MultiStateView.VIEW_STATE_CONTENT else MultiStateView.VIEW_STATE_EMPTY)
+                        val localList = DbManager.getAllFile()
+                        val bookList = ArrayList<Book>()
                         if (pullToRefresh) {
-                            mAdapter.setNewData(t.data.book)
+                            mAdapter.data.clear()
+                            mAdapter.notifyDataSetChanged()
+                            if (localList.isNotEmpty()) {
+                                localList.forEach {
+                                    bookList.add(Book().apply {
+                                        isLocal = true
+                                        mFilePath = it.mFilePath
+                                        novelTitle = it.mFileName
+                                        novelId = it.mFilePath
+                                    })
+                                }
+                                mAdapter.addData(bookList)
+                            }
+                        }
+                        val noMore = mPageIndex * Constant.PAGE_SIZE >= t.data.total
+                        mRootView.showStateView(if (t.data.total > 0 && localList.isNotEmpty()) MultiStateView.VIEW_STATE_CONTENT else MultiStateView.VIEW_STATE_EMPTY)
+                        if (pullToRefresh) {
+                            mAdapter.addData(t.data.book)
                         } else {
                             mAdapter.addData(t.data.book)
                             if (!noMore)
@@ -64,14 +82,37 @@ constructor(model: BookManagerContract.Model, rootView: BookManagerContract.View
                     override fun onError(t: Throwable) {
                         super.onError(t)
                         mAdapter.loadMoreComplete()
-                        mRootView.showStateView(MultiStateView.VIEW_STATE_ERROR)
+                        val localList = DbManager.getAllFile()
+                        val bookList = ArrayList<Book>()
+                        if (pullToRefresh) {
+                            if (localList.isNotEmpty()) {
+                                mRootView.showStateView(MultiStateView.VIEW_STATE_CONTENT)
+                                localList.forEach {
+                                    bookList.add(Book().apply {
+                                        isLocal = true
+                                        mFilePath = it.mFilePath
+                                        novelTitle = it.mFileName
+                                        novelId = it.mFilePath
+                                    })
+                                }
+                                mAdapter.setNewData(bookList)
+                            } else
+                                mRootView.showStateView(MultiStateView.VIEW_STATE_ERROR)
+                        }
                     }
                 })
     }
 
     fun deleteBook(checkList: LinkedList<String>, type: Int) {
-//        val params = HashMap<String, LinkedList<String>>()
-//        params.put("novelIds",checkList)
+        val localList = DbManager.getAllFile()
+        if (localList.isNotEmpty()) {
+            localList.forEach { local ->
+                checkList.forEach {
+                    if (local.mFilePath == it)
+                        DbManager.deleteFile(it)
+                }
+            }
+        }
         mModel.deleteBook(checkList, type)
                 .applySchedulers(mRootView)
                 .subscribe(object : ErrorHandleSubscriber<BaseResponse<Any>>(mErrorHandler) {

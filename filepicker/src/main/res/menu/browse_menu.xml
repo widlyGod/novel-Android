@@ -5,7 +5,7 @@
     <item
         android:id="@+id/browser_select_count"
         android:orderInCategory="100"
-        android:title="选中(0)"
+        android:title="完成(0)"
         app:showAsAction="always"/>
 
     <item

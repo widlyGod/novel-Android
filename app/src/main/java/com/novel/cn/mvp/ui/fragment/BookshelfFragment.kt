@@ -20,12 +20,14 @@ import com.novel.cn.db.DbManager
 import com.novel.cn.di.component.DaggerBookshelfComponent
 import com.novel.cn.di.module.BookshelfModule
 import com.novel.cn.eventbus.BookshelfEvent
+import com.novel.cn.ext.toast
 import com.novel.cn.mvp.contract.BookshelfContract
 import com.novel.cn.mvp.model.entity.Book
 import com.novel.cn.mvp.model.entity.SignIn
 import com.novel.cn.mvp.model.entity.LoginInfo
 import com.novel.cn.mvp.model.entity.NovelInfoBean
 import com.novel.cn.mvp.presenter.BookshelfPresenter
+import com.novel.cn.mvp.ui.activity.LocalReadActivity
 import com.novel.cn.mvp.ui.activity.LoginActivity
 import com.novel.cn.mvp.ui.adapter.BookshelfAdapter
 import com.novel.cn.mvp.ui.dialog.MorePopup
@@ -33,11 +35,13 @@ import com.novel.cn.mvp.ui.dialog.SignInDialog
 import com.novel.cn.utils.AppPermissions
 import com.novel.cn.utils.StatusBarUtils
 import com.novel.cn.view.CustomLoadMoreView
+import com.novel.cn.view.readpage.CacheManager
 import com.tbruyelle.rxpermissions2.RxPermissions
 import kotlinx.android.synthetic.main.fragment_bookshelf.*
 import org.greenrobot.eventbus.Subscribe
 import org.greenrobot.eventbus.ThreadMode
 import org.jetbrains.anko.startActivity
+import java.io.File
 import javax.inject.Inject
 
 
@@ -93,7 +97,15 @@ class BookshelfFragment : BaseLazyLoadFragment<BookshelfPresenter>(), BookshelfC
             setOnLoadMoreListener({
                 mPresenter?.getBookshelfList(false)
             }, recyclerView)
-            setOnItemClickListener { adapter, view, position ->
+            setOnItemClickListener { _, _, position ->
+                if (mAdapter.getItem(position)!!.isLocal) {
+                    val file = File(mAdapter.getItem(position)!!.mFilePath)
+                    if (!file.exists()) {
+                        toast("该书籍文件不存在")
+                    } else
+                        context.startActivity<LocalReadActivity>("Book" to mAdapter.getItem(position))
+                    return@setOnItemClickListener
+                }
                 val mBookRecord = DbManager.getReadcord(mAdapter.getItem(position)?.novelId)!!
                 if (mBookRecord.bookId != null) {
                     mPresenter?.getBookDetail(mAdapter.getItem(position)?.novelId!!, "", true)
@@ -115,7 +127,7 @@ class BookshelfFragment : BaseLazyLoadFragment<BookshelfPresenter>(), BookshelfC
             AppPermissions.requestReadPermission(mRxPermissions, this) {
                 FilePicker.from(context as Activity)
                         .chooseForBrowser()
-                        .setMaxCount(1)
+                        .setMaxCount(5)
                         .setFileTypes("txt")
                         .requestCode(0x01)
                         .start()
@@ -148,6 +160,7 @@ class BookshelfFragment : BaseLazyLoadFragment<BookshelfPresenter>(), BookshelfC
     private fun onRefresh() {
         mPresenter?.validateSignIn()
         mPresenter?.getReadTime()
+
         mPresenter?.getBookshelfList(true)
     }
 
@@ -215,5 +228,6 @@ class BookshelfFragment : BaseLazyLoadFragment<BookshelfPresenter>(), BookshelfC
     fun onIndexChange(event: IndexEvent) {
         onRefresh()
     }
+
 
 }

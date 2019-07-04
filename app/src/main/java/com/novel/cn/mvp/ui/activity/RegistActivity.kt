@@ -131,7 +131,7 @@ class RegistActivity : BaseActivity<RegistPresenter>(), RegistContract.View, Log
                 }
                 iv_eyes -> hidePasswordTransformation(it, et_password)
                 iv_eyes2 -> hidePasswordTransformation(it, et_password2)
-                tv_register_agreement -> WebActivity.actionStart(this, "http://59.110.124.41/agreement")
+                tv_register_agreement -> WebActivity.actionStart(this, "http://59.110.124.41/app/agreement.html")
             }
         }
     }

@@ -15,15 +15,16 @@ data class Book(
         val newChapterTitle: String = "",
         val newIsFree: Int = 0,
         val newMoney: String = "",
-        val novelId: String = "",
+        var novelId: String = "",
         val novelPoto: String = "",
-        val novelTitle: String = "",
+        var novelTitle: String = "",
         val readChapterId: String = "",
         val readMoney: String = "",
         val noReadNum: Int = 0,
         val readTime: Long = 0,
         val orderNum: Int = 0,
-        var isLocal: Boolean = false
+        var isLocal: Boolean = false,
+        var mFilePath: String = ""
 ) : MultiItemEntity, Parcelable {
     override fun getItemType(): Int {
         return BookChannelAdapter.TYPE_BOOKS

@@ -11,6 +11,7 @@ import com.novel.cn.R
 import com.novel.cn.app.click
 import com.novel.cn.app.isVisible
 import com.novel.cn.app.visible
+import com.novel.cn.mvp.model.entity.Book
 import com.novel.cn.mvp.presenter.NothingPresenter
 import com.novel.cn.mvp.ui.dialog.ReadSettingDialog
 import com.novel.cn.utils.StatusBarUtils
@@ -26,9 +27,9 @@ import kotlinx.android.synthetic.main.activity_read.*
 
 class LocalReadActivity : BaseActivity<NothingPresenter>() {
 
-    private val essFile by lazy { intent.getParcelableExtra<EssFile>("essFile") }
+    private val book by lazy { intent.getParcelableExtra<Book>("Book") }
 
-    private val mPageLoader by lazy { readView.getPageLoader(essFile.absolutePath, true) }
+    private val mPageLoader by lazy { readView.getPageLoader(book.mFilePath, true) }
 
     private val mSettingDialog by lazy {
         ReadSettingDialog(this).apply {
@@ -71,9 +72,9 @@ class LocalReadActivity : BaseActivity<NothingPresenter>() {
     override fun initData(savedInstanceState: Bundle?) {
         val chapterList = ArrayList<TxtChapter>()
         chapterList.add(TxtChapter().apply {
-            bookId = essFile.absolutePath
-            title = essFile.name
-            filePath = essFile.absolutePath
+            bookId = book.mFilePath
+            title = book.novelTitle
+            filePath = book.mFilePath
         })
         mPageLoader.setChapterList(chapterList)
         mPageLoader.setOnPageChangeListener(object : PageLoader.OnPageChangeListener {
@@ -140,7 +141,7 @@ class LocalReadActivity : BaseActivity<NothingPresenter>() {
             }
         })
         refreshNightMode()
-        toolbar_title.text = essFile.name
+        toolbar_title.text = book.novelTitle
         click(tv_setting, iv_night_mode) {
             when (it) {
                 tv_setting -> {
