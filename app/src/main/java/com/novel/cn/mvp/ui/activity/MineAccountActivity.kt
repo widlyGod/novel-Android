@@ -17,6 +17,7 @@ import com.novel.cn.R
 import com.novel.cn.app.JumpManager
 import com.novel.cn.ext.bindToLifecycle
 import com.novel.cn.mvp.model.entity.MyAccountBean
+import com.novel.cn.mvp.model.entity.User
 import com.novel.cn.mvp.model.entity.UserAccountBean
 import com.novel.cn.utils.StatusBarUtils
 import kotlinx.android.synthetic.main.activity_mine_account.*
@@ -50,6 +51,8 @@ import org.jetbrains.anko.startActivity
  * }
  */
 class MineAccountActivity : BaseActivity<MineAccountPresenter>(), MineAccountContract.View {
+
+    private val mUser by lazy { intent.getParcelableExtra<User?>("user") }
 
     override fun setupActivityComponent(appComponent: AppComponent) {
         DaggerMineAccountComponent //如找不到该类,请编译一下项目
@@ -94,6 +97,9 @@ class MineAccountActivity : BaseActivity<MineAccountPresenter>(), MineAccountCon
         }.bindToLifecycle(this)
         rl_mine_buy.clicks().subscribe {
             startActivity<MineBillActivity>()
+        }.bindToLifecycle(this)
+        monthly_payment.clicks().subscribe {
+            JumpManager.jumpVipInfo(this, mUser!!)
         }.bindToLifecycle(this)
     }
 

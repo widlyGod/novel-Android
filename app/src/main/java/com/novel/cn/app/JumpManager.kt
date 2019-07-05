@@ -73,8 +73,8 @@ object JumpManager {
     /**
      * 跳转到我的账户
      */
-    fun jumpMineAccount(context: Context?) {
-        context?.startActivity<MineAccountActivity>()
+    fun jumpMineAccount(context: Context?,user: User) {
+        context?.startActivity<MineAccountActivity>("user" to user)
     }
 
     /**

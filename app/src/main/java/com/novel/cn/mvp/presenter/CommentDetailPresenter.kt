@@ -39,13 +39,14 @@ constructor(model: CommentDetailContract.Model, rootView: CommentDetailContract.
     private var mPageIndex = 1
 
 
-    fun getReplyList(commentId: String, pullToRefresh: Boolean) {
+    fun getReplyList(commentId: String, novelId: String, pullToRefresh: Boolean) {
         if (pullToRefresh) mPageIndex = 1
 
         val params = HashMap<String, Any>()
         params["pageNum"] = mPageIndex
         params["pageSize"] = Constant.PAGE_SIZE
         params["commentId"] = commentId
+        params["novelId"] = novelId
         mModel.getReplyList(params)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())

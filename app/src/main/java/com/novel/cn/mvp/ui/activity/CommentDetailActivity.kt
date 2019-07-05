@@ -167,21 +167,21 @@ class CommentDetailActivity : BaseActivity<CommentDetailPresenter>(), CommentDet
                     mPresenter?.deleteComment(it)
                 }
                 setOnLoadMoreListener({
-                    mPresenter?.getReplyList(it.commentId, false)
+                    mPresenter?.getReplyList(it.commentId, book!!.novelInfo.novelId,false)
                 }, recyclerView)
             }
             tv_comment.setOnClickListener { mDialog.show() }
-            mPresenter?.getReplyList(it.commentId, true)
+            mPresenter?.getReplyList(it.commentId, book!!.novelInfo.novelId,true)
         }
     }
 
     override fun deleteCommentSuccess() {
-        mPresenter?.getReplyList(mComment.commentId, true)
+        mPresenter?.getReplyList(mComment.commentId, book!!.novelInfo.novelId,true)
     }
 
     override fun replySuccess(message: String) {
 //        toast(message)
-        mPresenter?.getReplyList(mComment.commentId, true)
+        mPresenter?.getReplyList(mComment.commentId, book!!.novelInfo.novelId,true)
         EventBusManager.getInstance().post(BookCommentEvent())
     }
 
