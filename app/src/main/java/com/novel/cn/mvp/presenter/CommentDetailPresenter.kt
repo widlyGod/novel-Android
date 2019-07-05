@@ -1,28 +1,22 @@
 package com.novel.cn.mvp.presenter
 
-import android.app.Application
-
-import com.jess.arms.integration.AppManager
 import com.jess.arms.di.scope.ActivityScope
-import com.jess.arms.mvp.BasePresenter
-import com.jess.arms.http.imageloader.ImageLoader
 import com.jess.arms.integration.EventBusManager
+import com.jess.arms.mvp.BasePresenter
 import com.jess.arms.utils.RxLifecycleUtils
 import com.novel.cn.app.Constant
 import com.novel.cn.eventbus.BookCommentEvent
 import com.novel.cn.ext.applySchedulers
-import me.jessyan.rxerrorhandler.core.RxErrorHandler
-import javax.inject.Inject
-
 import com.novel.cn.mvp.contract.CommentDetailContract
 import com.novel.cn.mvp.model.entity.BaseResponse
-import com.novel.cn.mvp.model.entity.Comment
 import com.novel.cn.mvp.model.entity.Reply
 import com.novel.cn.mvp.ui.adapter.BookReplyAdapter
 import com.novel.cn.view.MultiStateView
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.schedulers.Schedulers
+import me.jessyan.rxerrorhandler.core.RxErrorHandler
 import me.jessyan.rxerrorhandler.handler.ErrorHandleSubscriber
+import javax.inject.Inject
 
 
 @ActivityScope

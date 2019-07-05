@@ -30,6 +30,7 @@ import com.novel.cn.view.decoration.LinearItemDecoration
 import kotlinx.android.synthetic.main.activity_comment_detail.*
 import kotlinx.android.synthetic.main.include_title.*
 import kotlinx.android.synthetic.main.item_reply.*
+import org.jetbrains.anko.startActivity
 import java.text.SimpleDateFormat
 import javax.inject.Inject
 
@@ -167,21 +168,28 @@ class CommentDetailActivity : BaseActivity<CommentDetailPresenter>(), CommentDet
                     mPresenter?.deleteComment(it)
                 }
                 setOnLoadMoreListener({
-                    mPresenter?.getReplyList(it.commentId, book!!.novelInfo.novelId,false)
+                    mPresenter?.getReplyList(it.commentId, book!!.novelInfo.novelId, false)
                 }, recyclerView)
             }
-            tv_comment.setOnClickListener { mDialog.show() }
-            mPresenter?.getReplyList(it.commentId, book!!.novelInfo.novelId,true)
+            tv_comment.setOnClickListener {
+                val user = Preference.getDeviceData<LoginInfo?>(Constant.LOGIN_INFO)
+                if (user!!.userId.isBlank()) {
+                    startActivity<LoginActivity>()
+                    return@setOnClickListener
+                }
+                mDialog.show()
+            }
+            mPresenter?.getReplyList(it.commentId, book!!.novelInfo.novelId, true)
         }
     }
 
     override fun deleteCommentSuccess() {
-        mPresenter?.getReplyList(mComment.commentId, book!!.novelInfo.novelId,true)
+        mPresenter?.getReplyList(mComment.commentId, book!!.novelInfo.novelId, true)
     }
 
     override fun replySuccess(message: String) {
 //        toast(message)
-        mPresenter?.getReplyList(mComment.commentId, book!!.novelInfo.novelId,true)
+        mPresenter?.getReplyList(mComment.commentId, book!!.novelInfo.novelId, true)
         EventBusManager.getInstance().post(BookCommentEvent())
     }
 

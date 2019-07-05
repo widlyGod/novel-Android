@@ -14,6 +14,7 @@ import com.jakewharton.rxbinding3.view.clicks
 import com.jess.arms.base.BaseActivity
 import com.jess.arms.di.component.AppComponent
 import com.jess.arms.integration.EventBusManager
+import com.jess.arms.utils.LogUtils
 import com.jess.arms.utils.TipDialog
 import com.jess.arms.utils.TipDialog.Builder.ICON_TYPE_LOADING
 import com.novel.cn.R
@@ -556,6 +557,7 @@ class ReadActivity : BaseActivity<ReadPresenter>(), ReadContract.View, VolumeVie
 
     override fun loadChapterSuccess() {
         if (mPageLoader.pageStatus == PageLoader.STATUS_LOADING) {
+            LogUtils.warnInfo("33333")
             mPageLoader.openChapter()
         }
     }
