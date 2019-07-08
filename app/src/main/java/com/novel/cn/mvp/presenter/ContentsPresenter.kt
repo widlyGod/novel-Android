@@ -7,6 +7,7 @@ import com.jess.arms.di.scope.ActivityScope
 import com.jess.arms.mvp.BasePresenter
 import com.jess.arms.http.imageloader.ImageLoader
 import com.jess.arms.utils.RxLifecycleUtils
+import com.novel.cn.ext.applySchedulers
 import me.jessyan.rxerrorhandler.core.RxErrorHandler
 import javax.inject.Inject
 
@@ -77,9 +78,7 @@ constructor(model: ContentsContract.Model, rootView: ContentsContract.View) :
 
     fun getCatalogue(novelId: String) {
         mModel.getCalalogue(novelId)
-                .subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread())
-                .compose(RxLifecycleUtils.bindToLifecycle(mRootView))
+                .applySchedulers(mRootView)
                 .subscribe(object : ErrorHandleSubscriber<CacheResult<CalalogueVo>>(mErrorHandler) {
                     override fun onNext(t: CacheResult<CalalogueVo>) {
                         val list = ArrayList<VolumeBean>()

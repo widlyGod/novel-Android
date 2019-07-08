@@ -201,6 +201,7 @@ class ReadActivity : BaseActivity<ReadPresenter>(), ReadContract.View, VolumeVie
 
             override fun locked(txtChapter: TxtChapter, mCurChapterPos: Int) {
                 toast("章节《${txtChapter.title}》未解锁")
+                seekbar.progress = readPos
             }
 
             override fun noFree(txtChapter: TxtChapter, mCurChapterPos: Int) {

@@ -1,8 +1,6 @@
 package com.novel.cn.mvp.ui.activity
 
 import android.os.Bundle
-import android.support.v4.widget.NestedScrollView
-import android.view.Gravity
 import android.view.LayoutInflater
 import android.view.Menu
 import android.view.MenuItem
@@ -12,7 +10,6 @@ import com.jess.arms.integration.AppManager
 import com.jess.arms.integration.EventBusManager
 import com.jess.arms.utils.ArmsUtils
 import com.jess.arms.utils.IndexEvent
-import com.jess.arms.utils.LoginEvent
 import com.novel.cn.R
 import com.novel.cn.app.*
 import com.novel.cn.di.component.DaggerBookDetailComponent
@@ -21,7 +18,6 @@ import com.novel.cn.eventbus.BookCommentEvent
 import com.novel.cn.eventbus.BookshelfEvent
 import com.novel.cn.ext.toast
 import com.novel.cn.mvp.contract.BookDetailContract
-import com.novel.cn.mvp.model.entity.Comment
 import com.novel.cn.mvp.model.entity.LoginInfo
 import com.novel.cn.mvp.model.entity.NovelInfoBean
 import com.novel.cn.mvp.presenter.BookDetailPresenter
@@ -32,13 +28,8 @@ import com.novel.cn.view.CustomLoadMoreView
 import com.novel.cn.view.MultiStateView
 import com.novel.cn.view.decoration.LinearItemDecoration
 import kotlinx.android.synthetic.main.activity_book_detail.*
-import kotlinx.android.synthetic.main.activity_book_detail.recyclerView
-import kotlinx.android.synthetic.main.activity_book_detail.tv_comment
-import kotlinx.android.synthetic.main.activity_comment.*
-import kotlinx.android.synthetic.main.activity_message.*
 import kotlinx.android.synthetic.main.include_title.*
 import kotlinx.android.synthetic.main.layout_header_book_detail.view.*
-import kotlinx.android.synthetic.main.layout_menu_chapter.*
 import org.greenrobot.eventbus.Subscribe
 import org.jetbrains.anko.startActivity
 import javax.inject.Inject
