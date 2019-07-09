@@ -108,7 +108,10 @@ class ContentsActivity : BaseActivity<ContentsPresenter>(), ContentsContract.Vie
             for (i in 0 until selectedVolumePosition) {
                 volumePos += volumeList[i].calalogue.size
             }
-            mBookRecord.chapter = position + page * 100 + volumePos
+            if (isSequence)
+                mBookRecord.chapter = position + page * 100 + volumePos
+            else
+                mBookRecord.chapter = volumeList[selectedVolumePosition].calalogue.size - (position + page * 100) + volumePos - 1
             mBookRecord.volumePos = selectedVolumePosition
             mBookRecord.pagePos = 0
             DbManager.saveRecord(mBookRecord)

@@ -12,6 +12,7 @@ import com.jess.arms.base.BaseActivity
 import com.jess.arms.di.component.AppComponent
 import com.jess.arms.utils.ArmsUtils
 import com.jess.arms.utils.DeviceUtils
+import com.jess.arms.utils.LoginEvent
 import com.novel.cn.R
 import com.novel.cn.app.JumpManager
 import com.novel.cn.app.visible
@@ -33,6 +34,8 @@ import kotlinx.android.synthetic.main.activity_search.multiStateView
 import kotlinx.android.synthetic.main.activity_search.recyclerView
 import kotlinx.android.synthetic.main.activity_search.refreshLayout
 import kotlinx.android.synthetic.main.fragment_bookshelf.*
+import org.greenrobot.eventbus.Subscribe
+import org.greenrobot.eventbus.ThreadMode
 import javax.inject.Inject
 
 
@@ -125,7 +128,6 @@ class SearchActivity : BaseActivity<SearchPresenter>(), SearchContract.View {
 
         rlv_search_result.adapter = mSearchResultAdapter
         mSearchResultAdapter.apply {
-            setEnableLoadMore(true)
             setLoadMoreView(CustomLoadMoreView())
             setOnLoadMoreListener({
                 mPresenter?.getSearchResult(searchWord, false, type = type)
@@ -204,5 +206,8 @@ class SearchActivity : BaseActivity<SearchPresenter>(), SearchContract.View {
             mSearchResultAdapter.addData(searchInfos)
     }
 
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    override fun onLoginChange(event: LoginEvent) {
+    }
 
 }

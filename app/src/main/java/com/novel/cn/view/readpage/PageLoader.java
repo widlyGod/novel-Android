@@ -154,6 +154,10 @@ public abstract class PageLoader {
 
     private boolean isLocal;
 
+    public void setmCurChapterPos(int mCurChapterPos) {
+        this.mCurChapterPos = mCurChapterPos;
+    }
+
     /*****************************init params*******************************/
     public PageLoader(PageView pageView, String bookId, Boolean isLocal) {
         this.isLocal = isLocal;

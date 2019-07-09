@@ -80,7 +80,7 @@ class ReadActivity : BaseActivity<ReadPresenter>(), ReadContract.View, VolumeVie
 
     private var mUser: User? = null
 
-    private val mPageLoader by lazy { readView.getPageLoader(mBook.novelInfo.novelId,false) }
+    private val mPageLoader by lazy { readView.getPageLoader(mBook.novelInfo.novelId, false) }
 
     private val mAdapter by lazy { ChapterAdapter() }
 
@@ -202,6 +202,7 @@ class ReadActivity : BaseActivity<ReadPresenter>(), ReadContract.View, VolumeVie
             override fun locked(txtChapter: TxtChapter, mCurChapterPos: Int) {
                 toast("章节《${txtChapter.title}》未解锁")
                 seekbar.progress = readPos
+                mPageLoader.setmCurChapterPos(readPos)
             }
 
             override fun noFree(txtChapter: TxtChapter, mCurChapterPos: Int) {
@@ -405,7 +406,7 @@ class ReadActivity : BaseActivity<ReadPresenter>(), ReadContract.View, VolumeVie
                         txt.isFree = true
                     else
                         txt.isFree = !it.isFree
-                    if (user.recodeCode != 100 || mBook.novelInfo.authorId == user.userId)
+                    if ((user.recodeCode != 100 && user.recodeCode != 0) || mBook.novelInfo.authorId == user.userId)
                         txt.isFree = true
                     txt.isLocked = it.isLocked
                     txt.filePath = it.filePath
