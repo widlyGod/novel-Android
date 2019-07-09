@@ -731,6 +731,10 @@ public abstract class PageLoader {
         mPageView.drawCurPage(false);
     }
 
+    public void setChapterOpen(boolean chapterOpen) {
+        isChapterOpen = chapterOpen;
+    }
+
     public void chapterError() {
         //加载错误
         mStatus = STATUS_ERROR;

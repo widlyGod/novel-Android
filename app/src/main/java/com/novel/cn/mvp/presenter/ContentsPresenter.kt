@@ -90,6 +90,10 @@ constructor(model: ContentsContract.Model, rootView: ContentsContract.View) :
                                 }
                         mRootView.showCalalogueInfo(list)
                     }
+
+                    override fun onError(t: Throwable) {
+                        super.onError(t)
+                    }
                 })
     }
 }

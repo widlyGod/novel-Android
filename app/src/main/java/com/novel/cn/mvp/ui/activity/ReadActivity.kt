@@ -147,7 +147,7 @@ class ReadActivity : BaseActivity<ReadPresenter>(), ReadContract.View, VolumeVie
         }
         isCollect = mBook.novelInfo.isCollection
         refreshCollectState()
-
+        mPageLoader.isChapterOpen = false
 
         tv_collect.setOnClickListener {
             if (user!!.sessionId.isBlank()) {

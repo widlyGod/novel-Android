@@ -26,9 +26,25 @@
             android:layout_height="wrap_content"
             android:layout_below="@+id/tv_catalog_title"
             android:layout_alignParentRight="true"
-            android:padding="15dp"
             android:background="@color/white"
+            android:padding="15dp"
             android:src="@drawable/ic_rank_down" />
+
+
+        <RelativeLayout
+            android:id="@+id/rl_loading"
+            android:layout_width="120dp"
+            android:layout_height="56dp"
+            android:layout_centerInParent="true"
+            android:background="@drawable/ui_tip_dialog_bg">
+
+            <com.jess.arms.utils.LoadingView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerInParent="true" />
+
+        </RelativeLayout>
+
 
     </RelativeLayout>
 

@@ -14,6 +14,7 @@ import com.novel.cn.R
 import com.novel.cn.app.Constant
 import com.novel.cn.app.JumpManager
 import com.novel.cn.app.Preference
+import com.novel.cn.app.visible
 import com.novel.cn.db.DbManager
 import com.novel.cn.db.Readcord
 import com.novel.cn.di.component.DaggerContentsComponent
@@ -28,11 +29,9 @@ import com.novel.cn.mvp.ui.dialog.VolumePopup
 import com.novel.cn.utils.StatusBarUtils
 import com.novel.cn.view.VolumeView
 import com.novel.cn.view.decoration.LinearItemDecoration
-import com.novel.cn.view.readpage.TxtChapter
 import kotlinx.android.synthetic.main.activity_contents.*
 import kotlinx.android.synthetic.main.include_title.toolbar
 import kotlinx.android.synthetic.main.layout_foot_volume.view.*
-import kotlinx.android.synthetic.main.layout_header_volume.*
 import kotlinx.android.synthetic.main.layout_header_volume.view.*
 import org.jetbrains.anko.startActivity
 
@@ -258,4 +257,11 @@ class ContentsActivity : BaseActivity<ContentsPresenter>(), ContentsContract.Vie
         return super.onOptionsItemSelected(item)
     }
 
+    override fun showLoading() {
+        rl_loading.visible(true)
+    }
+
+    override fun hideLoading() {
+        rl_loading.visible(false)
+    }
 }
