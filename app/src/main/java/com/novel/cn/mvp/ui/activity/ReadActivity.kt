@@ -122,7 +122,7 @@ class ReadActivity : BaseActivity<ReadPresenter>(), ReadContract.View, VolumeVie
 
 
     override fun initData(savedInstanceState: Bundle?) {
-        user = Preference.getDeviceData<LoginInfo?>(Constant.LOGIN_INFO)!!
+        user = Preference.getDeviceData(Constant.LOGIN_INFO)!!
         drawerLayout.setDrawerLockMode(DrawerLayout.LOCK_MODE_LOCKED_CLOSED)
         drawerLayout.isFocusableInTouchMode = false
 //        mAdapter.bindToRecyclerView(recyclerView)
@@ -393,6 +393,7 @@ class ReadActivity : BaseActivity<ReadPresenter>(), ReadContract.View, VolumeVie
             }
             chooseVolume(mBookRecord.volumePos)
             mPopup.setCurrentPosition(mBookRecord.volumePos)
+            chapterList.clear()
             volumeList.forEach { vol ->
                 vol.calalogue.forEach {
                     val txt = TxtChapter()
@@ -402,12 +403,14 @@ class ReadActivity : BaseActivity<ReadPresenter>(), ReadContract.View, VolumeVie
                     txt.volumeId = it.volumeId
                     txt.chapter = it.chapter
                     txt.title = it.chapterTitle
-                    if (mBook.novelInfo.isFreeLimit)
-                        txt.isFree = true
-                    else
-                        txt.isFree = !it.isFree
                     if ((user.recodeCode != 100 && user.recodeCode != 0) || mBook.novelInfo.authorId == user.userId)
                         txt.isFree = true
+                    else {
+                        if (mBook.novelInfo.isFreeLimit)
+                            txt.isFree = true
+                        else
+                            txt.isFree = !it.isFree
+                    }
                     txt.isLocked = it.isLocked
                     txt.filePath = it.filePath
                     txt.words = it.words
