@@ -104,7 +104,11 @@ class ContentsActivity : BaseActivity<ContentsPresenter>(), ContentsContract.Vie
                 return@setOnItemClickListener
             }
             mBookRecord.bookId = mBook.novelInfo.novelId
-            mBookRecord.chapter = position + page * 100
+            var volumePos = 0
+            for (i in 0 until selectedVolumePosition) {
+                volumePos += volumeList[i].calalogue.size
+            }
+            mBookRecord.chapter = position + page * 100 + volumePos
             mBookRecord.volumePos = selectedVolumePosition
             mBookRecord.pagePos = 0
             DbManager.saveRecord(mBookRecord)
