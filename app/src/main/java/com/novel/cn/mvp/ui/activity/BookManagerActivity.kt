@@ -93,6 +93,9 @@ class BookManagerActivity : BaseActivity<BookManagerPresenter>(), BookManagerCon
                     mPresenter?.moveBook(map)
                 }
 
+                override fun onMove(recyclerView: RecyclerView, source: RecyclerView.ViewHolder, target: RecyclerView.ViewHolder): Boolean {
+                    return super.onMove(recyclerView, source, target) && !mAdapter.data[target.adapterPosition].isLocal
+                }
             }
             val itemTouchHelper = ItemTouchHelper(callBack)
 

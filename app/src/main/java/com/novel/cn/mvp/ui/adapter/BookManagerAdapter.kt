@@ -66,7 +66,7 @@ class BookManagerAdapter : BaseItemDraggableAdapter<Book, BaseViewHolder>(R.layo
             data.forEach {
                 mCheckList.add(it.novelId)
             }
-        }else{
+        } else {
             mCheckList.clear()
         }
         notifyDataSetChanged()
@@ -86,5 +86,12 @@ class BookManagerAdapter : BaseItemDraggableAdapter<Book, BaseViewHolder>(R.layo
         mCheckList.clear()
         notifyDataSetChanged()
         this.onCheckChange?.invoke(mCheckList.size)
+    }
+
+    override fun onBindViewHolder(holder: BaseViewHolder, position: Int) {
+        super.onBindViewHolder(holder, position)
+        if (mData.size > position && mData[position].isLocal) { // 添加按钮，取消长按事件
+            holder.itemView.setOnLongClickListener(null)
+        }
     }
 }

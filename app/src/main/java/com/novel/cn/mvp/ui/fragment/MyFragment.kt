@@ -70,7 +70,11 @@ class MyFragment : BaseFragment<MyPresenter>(), MyContract.View {
                     JumpManager.jumpUserInfo(activity, it)
                 }
                 tv_recharge -> JumpManager.jumpRecharge(activity)
-                tv_my_account -> JumpManager.jumpMineAccount(activity, mUser!!)
+                tv_my_account -> mUser?.let {
+                    if (it.vipInfo == null)
+                        it.vipInfo = VipInfo()
+                    JumpManager.jumpMineAccount(activity, it)
+                }
                 rrl_vip -> mUser?.let {
                     if (it.vipInfo == null)
                         it.vipInfo = VipInfo()
@@ -129,7 +133,7 @@ class MyFragment : BaseFragment<MyPresenter>(), MyContract.View {
         } else {
             vip_dredge.visible(false)
             rl_vip_info.visible(true)
-            tv_vip_no.text = "NO.${data.vipInfo.userId}"
+            tv_vip_no.text = "NO.${data.vipInfo.vipNo}"
         }
     }
 

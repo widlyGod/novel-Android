@@ -274,7 +274,7 @@ class RechargeActivity : BaseActivity<RechargePresenter>(), RechargeContract.Vie
         } else {
             vip_dredge.visible(false)
             rl_vip_info.visible(true)
-            tv_vip_no.text = "NO.${data.vipInfo.userId}"
+            tv_vip_no.text = "NO.${data.vipInfo.vipNo}"
         }
     }
 

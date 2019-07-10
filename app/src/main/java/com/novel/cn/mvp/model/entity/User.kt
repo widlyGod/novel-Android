@@ -102,7 +102,7 @@ data class User(
 }
 
 @Parcelize
-class VipInfo(val autoRenew: Int = 0, val createTime: Long = 0, val expireTime: Long = 0, val isVip: Int = 0, val userId: Int = 0, val vipLevel: Int = 0, val vipTime: Long = 0, val vipType: Int = 0) : Parcelable {
+class VipInfo(val autoRenew: Int = 0, val createTime: Long = 0, val expireTime: Long = 0, val isVip: Int = 0, val userId: Int = 0, val vipLevel: Int = 0, val vipTime: Long = 0, val vipType: Int = 0, val vipNo: String = "") : Parcelable {
     constructor(source: Parcel) : this(
             source.readInt(),
             source.readLong(),
@@ -111,7 +111,8 @@ class VipInfo(val autoRenew: Int = 0, val createTime: Long = 0, val expireTime: 
             source.readInt(),
             source.readInt(),
             source.readLong(),
-            source.readInt()
+            source.readInt(),
+            source.readString()
     )
 
     override fun describeContents() = 0
@@ -126,6 +127,7 @@ class VipInfo(val autoRenew: Int = 0, val createTime: Long = 0, val expireTime: 
             writeInt(vipLevel)
             writeLong(vipTime)
             writeInt(vipType)
+            writeString(vipNo)
         }
 
         override fun create(source: Parcel): VipInfo = VipInfo(source)

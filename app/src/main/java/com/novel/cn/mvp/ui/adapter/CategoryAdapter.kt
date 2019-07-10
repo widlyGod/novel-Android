@@ -44,7 +44,7 @@ class CategoryAdapter : BaseMultiItemQuickAdapter<MultiItemEntity, BaseViewHolde
             }
             TYPE_CHILD -> {
                 item as CategoryChildren
-                itemView.iv_icon.loadImage(item.typeImage)
+                itemView.iv_icon.loadImage(item.typeImage,R.drawable.ic_book_category_default,R.drawable.ic_book_category_default)
                 itemView.tv_category_name.text = item.typeName
                 itemView.setOnClickListener { JumpManager.toCategoryList(mContext, item.id, item.parentId, item.typeName) }
             }
