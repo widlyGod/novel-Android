@@ -49,6 +49,15 @@
                         android:src="@drawable/back" />
                 </RelativeLayout>
 
+                <ImageView
+                    android:id="@+id/iv_book_store"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:src="@drawable/ic_book_store_white"
+                    android:layout_alignParentRight="true"
+                    android:paddingLeft="18dp"
+                    android:paddingRight="18dp"/>
+
             </RelativeLayout>
 
             <LinearLayout

@@ -11,7 +11,10 @@ import com.alipay.sdk.app.EnvUtils
 import com.jakewharton.rxbinding3.view.clicks
 import com.jess.arms.base.BaseActivity
 import com.jess.arms.di.component.AppComponent
+import com.jess.arms.integration.AppManager
+import com.jess.arms.integration.EventBusManager
 import com.jess.arms.utils.ArmsUtils
+import com.jess.arms.utils.IndexEvent
 import com.novel.cn.BuildConfig
 import com.novel.cn.R
 import com.novel.cn.app.JumpManager
@@ -77,6 +80,7 @@ class RechargeActivity : BaseActivity<RechargePresenter>(), RechargeContract.Vie
     override fun initStatusBar(savedInstanceState: Bundle?) {
         StatusBarUtils.darkMode(this)
         StatusBarUtils.setMargin(this, toolbar_back)
+        StatusBarUtils.setMargin(this, iv_book_store)
         StatusBarUtils.setPaddingSmart(this, cl_top)
     }
 
@@ -154,7 +158,7 @@ class RechargeActivity : BaseActivity<RechargePresenter>(), RechargeContract.Vie
             rfl_done.delegate.backgroundColor = -0xa17036
         }.bindToLifecycle(this)
 
-        click(iv_back, tv_wechat_pay, tv_alipay, tv_recharge, rrl_vip) {
+        click(iv_back, tv_wechat_pay, tv_alipay, tv_recharge, rrl_vip, iv_book_store) {
             when (it) {
                 iv_back -> finish()
                 tv_wechat_pay -> {
@@ -189,6 +193,10 @@ class RechargeActivity : BaseActivity<RechargePresenter>(), RechargeContract.Vie
                     if (it.vipInfo == null)
                         it.vipInfo = VipInfo()
                     JumpManager.jumpVipInfo(this, it)
+                }
+                iv_book_store -> {
+                    EventBusManager.getInstance().post(IndexEvent().apply { index = 1 })
+                    AppManager.getAppManager().killAll(MainActivity::class.java)
                 }
             }
         }

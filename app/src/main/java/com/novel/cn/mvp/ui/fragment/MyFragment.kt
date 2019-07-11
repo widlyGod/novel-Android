@@ -147,7 +147,7 @@ class MyFragment : BaseFragment<MyPresenter>(), MyContract.View {
         } else if (hours > 0) {
             "${hours}小时${minutes}分钟"
         } else if (minutes > 0) {
-            "$${minutes}分钟"
+            "${minutes}分钟"
         } else {
             "0分钟"
         }
