@@ -334,10 +334,6 @@ public class ScrollPageAnim extends PageAnimation {
                 // 删除检测器
                 mVelocity.recycle();
                 mVelocity = null;
-                int bottomEdge = 0;
-                if (mActiveViews.size() > 1)
-                    bottomEdge = mActiveViews.get(1).top;
-                LogUtils.warnInfo(mActiveViews.size() + "////" + mScrapViews.size());
                 break;
 
             case MotionEvent.ACTION_CANCEL:

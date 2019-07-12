@@ -2,6 +2,7 @@ package com.novel.cn.view.readpage;
 
 
 import com.jess.arms.utils.LogUtils;
+import com.novel.cn.app.utils.RxUtils;
 import com.novel.cn.utils.StringUtils;
 
 import java.io.BufferedInputStream;
@@ -60,7 +61,7 @@ public class LocalPageLoader extends PageLoader {
     private Disposable mChapterDisp = null;
 
     public LocalPageLoader(PageView pageView, String bookId) {
-        super(pageView, bookId,true);
+        super(pageView, bookId, true);
         mStatus = STATUS_PARING;
     }
 
@@ -215,6 +216,7 @@ public class LocalPageLoader extends PageLoader {
                         }
                         TxtChapter chapter = new TxtChapter();
                         chapter.title = "第" + blockPos + "章" + "(" + chapterPos + ")";
+//                        chapter.title = chapterPos + "";
                         chapter.start = curOffset + chapterOffset + 1;
                         chapter.end = curOffset + end;
                         chapters.add(chapter);
@@ -225,6 +227,7 @@ public class LocalPageLoader extends PageLoader {
                     } else {
                         TxtChapter chapter = new TxtChapter();
                         chapter.title = "第" + blockPos + "章" + "(" + chapterPos + ")";
+//                        chapter.title = chapterPos + "";
                         chapter.start = curOffset + chapterOffset + 1;
                         chapter.end = curOffset + length;
                         chapters.add(chapter);
@@ -326,44 +329,44 @@ public class LocalPageLoader extends PageLoader {
         mBookFile = new File(chapterList.get(0).filePath);
         //获取文件编码
         mCharset = FileUtils.getCharset(mBookFile.getAbsolutePath());
-        mChapterList = chapterList;
-        isChapterListPrepare = true;
+//        mChapterList = chapterList;
+//        isChapterListPrepare = true;
         String lastModified = StringUtils.dateConvert(mBookFile.lastModified(), "yyyy-MM-dd'T'HH:mm:ss");
 
         // 判断文件是否已经加载过，并具有缓存
 
 
-            // 加载并显示当前章节
-            openChapter();
-
-            return;
-        }
+        // 加载并显示当前章节
+//            openChapter();
+//
+//            return;
+//        }
 
         // 通过RxJava异步处理分章事件
-//        Single.create(new SingleOnSubscribe<Void>() {
-//            @Override
-//            public void subscribe(SingleEmitter<Void> e) throws Exception {
-//                loadChapters();
-//                e.onSuccess(new Void());
-//            }
-//        }).compose(RxUtils::toSimpleSingle)
-//                .subscribe(new SingleObserver<Void>() {
-//                    @Override
-//                    public void onSubscribe(Disposable d) {
-//                        mChapterDisp = d;
-//                    }
-//
-//                    @Override
-//                    public void onSuccess(Void value) {
-//                        mChapterDisp = null;
-//                        isChapterListPrepare = true;
-//
-//                        // 提示目录加载完成
-//                        if (mPageChangeListener != null) {
-//                            mPageChangeListener.onCategoryFinish(mChapterList);
-//                        }
-//
-//                        // 存储章节到数据库
+        Single.create(new SingleOnSubscribe<Void>() {
+            @Override
+            public void subscribe(SingleEmitter<Void> e) throws Exception {
+                loadChapters();
+                e.onSuccess(new Void());
+            }
+        }).compose(RxUtils::toSimpleSingle)
+                .subscribe(new SingleObserver<Void>() {
+                    @Override
+                    public void onSubscribe(Disposable d) {
+                        mChapterDisp = d;
+                    }
+
+                    @Override
+                    public void onSuccess(Void value) {
+                        mChapterDisp = null;
+                        isChapterListPrepare = true;
+
+                        // 提示目录加载完成
+                        if (mPageChangeListener != null) {
+                            mPageChangeListener.onCategoryFinish(mChapterList);
+                        }
+
+                        // 存储章节到数据库
 //                        List<BookChapterBean> bookChapterBeanList = new ArrayList<>();
 //                        for (int i = 0; i < mChapterList.size(); ++i) {
 //                            TxtChapter chapter = mChapterList.get(i);
@@ -381,35 +384,26 @@ public class LocalPageLoader extends PageLoader {
 //
 //                        BookRepository.getInstance().saveBookChaptersWithAsync(bookChapterBeanList);
 //                        BookRepository.getInstance().saveCollBook(mCollBook);
-//
-//                        // 加载并显示当前章节
-//                        openChapter();
-//                    }
-//
-//                    @Override
-//                    public void onError(Throwable e) {
-//                        chapterError();
-//                        LogUtils.d(TAG, "file load error:" + e.toString());
-//                    }
-//                });
-//    }
+
+                        // 加载并显示当前章节
+                        openChapter();
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+                        chapterError();
+                        LogUtils.debugInfo(TAG, "file load error:" + e.toString());
+                    }
+                });
+    }
 
     @Override
     protected BufferedReader getChapterReader(TxtChapter chapter) throws Exception {
         //从文件中获取数据
-//        byte[] content = getChapterContent(chapter);
-//        ByteArrayInputStream bais = new ByteArrayInputStream(content);
-//        BufferedReader br = new BufferedReader(new InputStreamReader(bais, mCharset.getName()));
-//        return br;
-        File file = new File(chapter.filePath);
-        if (!file.exists()) {
-            return null;
-        }
-        Reader reader = new FileReader(file);
-
-        InputStreamReader isr = new InputStreamReader(new FileInputStream(file), getFilecharset(file));
-        BufferedReader read = new BufferedReader(isr);
-        return new BufferedReader(read);
+        byte[] content = getChapterContent(chapter);
+        ByteArrayInputStream bais = new ByteArrayInputStream(content);
+        BufferedReader br = new BufferedReader(new InputStreamReader(bais, mCharset.getName()));
+        return br;
     }
 
     //判断编码格式方法

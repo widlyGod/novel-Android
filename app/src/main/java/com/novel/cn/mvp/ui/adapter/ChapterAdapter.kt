@@ -19,7 +19,11 @@ class ChapterAdapter : BaseQuickAdapter<Calalogue, BaseViewHolder>(R.layout.item
 
     override fun convert(helper: BaseViewHolder, item: Calalogue) {
         with(helper.itemView) {
-            tv_chapter.text = "第${ChineseNumUtill.numberToChinese(item.chapter)}章${item.chapterTitle}"
+            if (item.isLocal) {
+                tv_chapter.text = "${item.chapterTitle}"
+            } else {
+                tv_chapter.text = "第${ChineseNumUtill.numberToChinese(item.chapter)}章${item.chapterTitle}"
+            }
             //添加了个头部，所以要减去
             if (isCurrentPositionShow) {
                 val isCurrentChapter = currentPosition == helper.layoutPosition - headerLayoutCount
@@ -42,7 +46,7 @@ class ChapterAdapter : BaseQuickAdapter<Calalogue, BaseViewHolder>(R.layout.item
 //        recyclerView.layoutManager?.scrollToPosition(position)
     }
 
-    fun getCurrentPosition():Int = currentPosition
+    fun getCurrentPosition(): Int = currentPosition
 
     fun isCurrentPositionShow(isShow: Boolean) {
         isCurrentPositionShow = isShow

@@ -376,6 +376,7 @@ class ReadActivity : BaseActivity<ReadPresenter>(), ReadContract.View, VolumeVie
             iv_rank_type.setImageDrawable(if (isSequence) {
                 getCompactDrawable(R.drawable.ic_rank_down)
             } else getCompactDrawable(R.drawable.ic_rank_up))
+            mAdapter.setCurrentPosition(mAdapter.data.size - 1 -  mAdapter.getCurrentPosition())
         }.bindToLifecycle(this)
 
 //        ll_info.setBackgroundColor(ContextCompat.getColor(this, ReadSettingManager.getInstance().pageStyle.bgColor))

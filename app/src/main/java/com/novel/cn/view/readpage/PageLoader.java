@@ -936,7 +936,7 @@ public abstract class PageLoader {
                     tip = "正在拼命加载中...";
                     break;
                 case STATUS_ERROR:
-                    tip = "加载失败(点击边缘重试)";
+                    tip = "加载失败";
                     break;
                 case STATUS_EMPTY:
                     tip = "文章内容为空";
@@ -958,7 +958,7 @@ public abstract class PageLoader {
             float textWidth = mTextPaint.measureText(tip);
             float pivotX = (mDisplayWidth - textWidth) / 2;
             float pivotY = (mDisplayHeight - textHeight) / 2;
-//            canvas.drawText(tip, pivotX, pivotY, mTextPaint);
+            canvas.drawText(tip, pivotX, pivotY, mTextPaint);
         } else {
             float top;
 
