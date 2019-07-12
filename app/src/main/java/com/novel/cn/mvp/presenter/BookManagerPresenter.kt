@@ -81,7 +81,6 @@ constructor(model: BookManagerContract.Model, rootView: BookManagerContract.View
 
                     override fun onError(t: Throwable) {
                         super.onError(t)
-                        mAdapter.loadMoreComplete()
                         val localList = DbManager.getAllFile()
                         val bookList = ArrayList<Book>()
                         if (pullToRefresh) {
@@ -99,6 +98,7 @@ constructor(model: BookManagerContract.Model, rootView: BookManagerContract.View
                             } else
                                 mRootView.showStateView(MultiStateView.VIEW_STATE_ERROR)
                         }
+                        mAdapter.loadMoreFail()
                     }
                 })
     }

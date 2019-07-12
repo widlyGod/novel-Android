@@ -17,6 +17,7 @@ package com.novel.cn.app
 
 import android.app.Application
 import android.content.Context
+import com.didichuxing.doraemonkit.DoraemonKit
 
 import com.jess.arms.base.delegate.AppLifecycles
 import com.jess.arms.integration.cache.IntelligentCache
@@ -82,6 +83,7 @@ class AppLifecyclesImpl : AppLifecycles {
         ArmsUtils.obtainAppComponentFromContext(application).extras()
                 .put(IntelligentCache.getKeyOfKeep(RefWatcher::class.java.name), if (BuildConfig.USE_CANARY) LeakCanary.install(application) else RefWatcher.DISABLED)
         Bugly.init(application, "289ea54a9a", false)
+        DoraemonKit.install(application)
     }
 
     override fun onTerminate(application: Application) {
