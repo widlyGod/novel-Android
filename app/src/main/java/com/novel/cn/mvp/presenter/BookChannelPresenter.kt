@@ -36,6 +36,7 @@ constructor(model: BookChannelContract.Model, rootView: BookChannelContract.View
 
 
     fun getChannel(type: Int) {
+        mRootView.changeState(MultiStateView.VIEW_STATE_LOADING)
         mModel.getChannelData(type)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())

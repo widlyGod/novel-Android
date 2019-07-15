@@ -4,15 +4,22 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import com.jakewharton.rxbinding3.view.clicks
 import com.jess.arms.base.BaseFragment
 import com.jess.arms.di.component.AppComponent
+import com.jess.arms.utils.LogUtils
 import com.novel.cn.R
 import com.novel.cn.di.component.DaggerBookChannelComponent
 import com.novel.cn.di.module.BookChannelModule
+import com.novel.cn.ext.bindToLifecycle
 import com.novel.cn.mvp.contract.BookChannelContract
 import com.novel.cn.mvp.presenter.BookChannelPresenter
 import com.novel.cn.mvp.ui.adapter.BookChannelAdapter
+import com.novel.cn.view.MultiStateView
 import kotlinx.android.synthetic.main.fragment_book_channel.*
+import kotlinx.android.synthetic.main.fragment_book_channel.multiStateView
+import kotlinx.android.synthetic.main.fragment_book_channel.recyclerView
+import kotlinx.android.synthetic.main.fragment_ranking.*
 import org.greenrobot.eventbus.Subscribe
 import javax.inject.Inject
 
@@ -54,14 +61,25 @@ class BookChannelFragment : BaseFragment<BookChannelPresenter>(), BookChannelCon
         return inflater.inflate(R.layout.fragment_book_channel, container, false)
     }
 
+    var type = 0
+
     override fun initData(savedInstanceState: Bundle?) {
-        val type = arguments?.get("TYPE") as Int
+        type = arguments?.get("TYPE") as Int
         recyclerView.adapter = mAdapter.also { it.type = type }
         mPresenter?.getChannel(type)
     }
 
+
+
     override fun changeState(state: Int) {
         multiStateView.viewState = state
+        if (state == MultiStateView.VIEW_STATE_ERROR) {
+            multiStateView.clicks().subscribe {
+                mPresenter?.getChannel(type)
+            }.bindToLifecycle(this)
+        } else {
+            multiStateView.setOnClickListener(null)
+        }
     }
 
 }

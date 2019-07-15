@@ -27,6 +27,7 @@ constructor(model: CategoryContract.Model, rootView: CategoryContract.View) :
     lateinit var mAdapter: CategoryAdapter
 
     fun getCategory() {
+        mRootView.showState(MultiStateView.VIEW_STATE_LOADING)
         mModel.getCategory()
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())

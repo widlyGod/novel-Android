@@ -1,25 +1,18 @@
 package com.novel.cn.mvp.presenter
 
-import android.app.Application
-
-import com.jess.arms.integration.AppManager
 import com.jess.arms.di.scope.FragmentScope
 import com.jess.arms.mvp.BasePresenter
-import com.jess.arms.http.imageloader.ImageLoader
 import com.jess.arms.utils.RxLifecycleUtils
-import me.jessyan.rxerrorhandler.core.RxErrorHandler
-import javax.inject.Inject
-
 import com.novel.cn.mvp.contract.RankingContract
 import com.novel.cn.mvp.model.entity.BaseResponse
 import com.novel.cn.mvp.model.entity.RankBean
-import com.novel.cn.mvp.model.entity.RankResult
 import com.novel.cn.mvp.ui.adapter.RankAdapter
 import com.novel.cn.view.MultiStateView
-import io.reactivex.Observable
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.schedulers.Schedulers
+import me.jessyan.rxerrorhandler.core.RxErrorHandler
 import me.jessyan.rxerrorhandler.handler.ErrorHandleSubscriber
+import javax.inject.Inject
 
 
 @FragmentScope
@@ -34,6 +27,7 @@ constructor(model: RankingContract.Model, rootView: RankingContract.View) :
 
 
     fun getRankList() {
+        mRootView.showState(MultiStateView.VIEW_STATE_LOADING)
         mModel.getRank()
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
