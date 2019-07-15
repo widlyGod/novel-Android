@@ -29,6 +29,7 @@ import com.novel.cn.mvp.model.entity.User
 import com.novel.cn.mvp.model.entity.VipInfo
 import com.novel.cn.mvp.ui.dialog.EconomizeDialog
 import com.novel.cn.mvp.ui.dialog.SelectCouponPopup
+import com.novel.cn.mvp.ui.dialog.VipTimeoutDialog
 import com.novel.cn.mvp.ui.fragment.VipPowerFragment
 import com.novel.cn.utils.StatusBarUtils
 import com.novel.cn.utils.pay.Alipay
@@ -78,6 +79,7 @@ import razerdp.blur.PopupBlurOption
 class VipActivity : BaseActivity<VipPresenter>(), VipContract.View, SelectCoupon {
 
     private val mUser by lazy { intent.getParcelableExtra<User?>("user") }
+    private val isTime by lazy { intent.getBooleanExtra("isTime",false) }
 
     private val mWechatSdk by lazy { WechatSdk(this, BuildConfig.APP_ID_WECHAT); }
 
@@ -127,7 +129,8 @@ class VipActivity : BaseActivity<VipPresenter>(), VipContract.View, SelectCoupon
     override fun initData(savedInstanceState: Bundle?) {
         //支付宝沙盒环境
         EnvUtils.setEnv(EnvUtils.EnvEnum.SANDBOX)
-
+        if(isTime)
+            VipTimeoutDialog(this).show()
         initViewPager()
         iv_avatar.loadHeadImage(mUser?.userPhoto)
         tv_user_name.text = mUser?.userNickName

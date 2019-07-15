@@ -5,6 +5,8 @@ apply plugin: 'kotlin-android-extensions'
 apply plugin: 'kotlin-kapt'
 apply from: '../mobsdk.gradle'
 
+apply plugin: 'com.android.application'
+apply plugin: 'com.didiglobal.booster'
 
 
 

@@ -1,9 +1,11 @@
 package com.novel.cn.mvp.ui.fragment
 
+import android.graphics.Color
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import com.jakewharton.rxbinding3.view.clicks
 import com.jess.arms.base.BaseFragment
 import com.jess.arms.di.component.AppComponent
 import com.jess.arms.utils.IndexEvent
@@ -11,6 +13,7 @@ import com.novel.cn.R
 import com.novel.cn.app.*
 import com.novel.cn.di.component.DaggerMyComponent
 import com.novel.cn.di.module.MyModule
+import com.novel.cn.ext.bindToLifecycle
 import com.novel.cn.mvp.contract.MyContract
 import com.novel.cn.mvp.model.entity.LoginInfo
 import com.novel.cn.mvp.model.entity.User
@@ -101,9 +104,27 @@ class MyFragment : BaseFragment<MyPresenter>(), MyContract.View {
         tv_thumbedNum.text = "被赞${data.thumbedNum}次"
         if (data.vipInfo != null && data.vipInfo.vipLevel != 0) {
             rtv_vip_level.text = "VIP${data.vipInfo.vipLevel}"
-            rtv_vip_level.visible(true)
-        } else
-            rtv_vip_level.visible(false)
+            rtv_vip_level.clicks().subscribe {
+                mUser?.let {
+                    if (it.vipInfo == null)
+                        it.vipInfo = VipInfo()
+                    JumpManager.jumpVipInfo(activity, it, true)
+                }
+            }.bindToLifecycle(this)
+        } else {
+            rtv_vip_level.text = "登记"
+            rtv_vip_level.clicks().subscribe {
+                mUser?.let {
+                    if (it.vipInfo == null)
+                        it.vipInfo = VipInfo()
+                    JumpManager.jumpVipInfo(activity, it)
+                }
+            }.bindToLifecycle(this)
+        }
+        if (data.vipInfo != null && data.vipInfo.isVip == 1)
+            rtv_vip_level.delegate.backgroundColor = Color.parseColor("#f96572")
+        else
+            rtv_vip_level.delegate.backgroundColor = Color.parseColor("#999999")
         if (data.userIntroduction.isNotEmpty()) {
             tv_edit.text = data.userIntroduction
         } else

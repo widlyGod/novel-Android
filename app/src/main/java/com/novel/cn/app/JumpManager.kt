@@ -73,15 +73,15 @@ object JumpManager {
     /**
      * 跳转到我的账户
      */
-    fun jumpMineAccount(context: Context?,user: User) {
+    fun jumpMineAccount(context: Context?, user: User) {
         context?.startActivity<MineAccountActivity>("user" to user)
     }
 
     /**
      * 跳转到我的账户
      */
-    fun jumpVipInfo(context: Context?,user: User) {
-        context?.startActivity<VipActivity>("user" to user)
+    fun jumpVipInfo(context: Context?, user: User, isTime: Boolean = false) {
+        context?.startActivity<VipActivity>("user" to user, "isTime" to isTime)
     }
 
     /**
