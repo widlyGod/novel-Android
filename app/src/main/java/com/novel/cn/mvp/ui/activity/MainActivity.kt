@@ -18,6 +18,7 @@ import com.jess.arms.utils.LoginEvent
 import com.novel.cn.R
 import com.novel.cn.app.Constant
 import com.novel.cn.app.Preference
+import com.novel.cn.app.isNull
 import com.novel.cn.db.DbManager
 import com.novel.cn.db.LocalFile
 import com.novel.cn.di.component.DaggerMainComponent
@@ -74,13 +75,13 @@ class MainActivity : BaseActivity<MainPresenter>(), MainContract.View {
 
     override fun initData(savedInstanceState: Bundle?) {
         val user = Preference.getDeviceData<LoginInfo?>(Constant.LOGIN_INFO)
-        if (user!!.sessionId.isNotBlank()) {
+        if (!user.isNull() && user!!.sessionId.isNotBlank()) {
             mPresenter?.uploadUseTime()
             mPresenter?.uploadReadTime()
         }
         setupPages()
 
-        if (user!!.sessionId.isBlank())
+        if (user.isNull() || user!!.sessionId.isBlank())
             switchFragment(1)
         else
             switchFragment(0)
@@ -120,12 +121,12 @@ class MainActivity : BaseActivity<MainPresenter>(), MainContract.View {
      */
     private fun switchFragment(position: Int) {
         val user = Preference.getDeviceData<LoginInfo?>(Constant.LOGIN_INFO)
-        if (position == 0 && user!!.userId.isBlank()) {
+        if (position == 0 && (user.isNull() || user!!.userId.isBlank())) {
             startActivity<LoginActivity>()
             tabLayout.currentTab = positionTab
             return
         }
-        if (position == 3 && user!!.userId.isBlank()) {
+        if (position == 3 && (user.isNull() || user!!.userId.isBlank())) {
             switchFragment(4)
             tabLayout.currentTab = 3
             positionTab = 3
@@ -152,7 +153,7 @@ class MainActivity : BaseActivity<MainPresenter>(), MainContract.View {
     @Subscribe(threadMode = ThreadMode.MAIN)
     override fun onLoginChange(event: LoginEvent) {
         val user = Preference.getDeviceData<LoginInfo?>(Constant.LOGIN_INFO)
-        if (user!!.sessionId.isBlank())
+        if (user.isNull() || user!!.sessionId.isBlank())
             switchFragment(3)
         else
             switchFragment(0)
@@ -161,7 +162,7 @@ class MainActivity : BaseActivity<MainPresenter>(), MainContract.View {
     @Subscribe(threadMode = ThreadMode.MAIN)
     fun onIndexChange(event: IndexEvent) {
         val user = Preference.getDeviceData<LoginInfo?>(Constant.LOGIN_INFO)
-        if (user!!.sessionId.isBlank())
+        if (user.isNull() || user!!.sessionId.isBlank())
             switchFragment(1)
         else
             switchFragment(event.index)

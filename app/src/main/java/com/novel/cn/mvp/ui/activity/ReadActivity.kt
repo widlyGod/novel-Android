@@ -150,7 +150,7 @@ class ReadActivity : BaseActivity<ReadPresenter>(), ReadContract.View, VolumeVie
         mPageLoader.isChapterOpen = false
 
         tv_collect.setOnClickListener {
-            if (user!!.sessionId.isBlank()) {
+            if (user.isNull()||user!!.sessionId.isBlank()) {
                 startActivity<LoginActivity>()
                 return@setOnClickListener
             }
@@ -186,7 +186,7 @@ class ReadActivity : BaseActivity<ReadPresenter>(), ReadContract.View, VolumeVie
             }
 
             override fun reward() {
-                if (user!!.sessionId.isBlank()) {
+                if (user.isNull()||user!!.sessionId.isBlank()) {
                     startActivity<LoginActivity>()
                     return
                 }
@@ -206,7 +206,7 @@ class ReadActivity : BaseActivity<ReadPresenter>(), ReadContract.View, VolumeVie
             }
 
             override fun noFree(txtChapter: TxtChapter, mCurChapterPos: Int) {
-                if (user!!.sessionId.isBlank()) {
+                if (user.isNull()||user!!.sessionId.isBlank()) {
                     val intent = Intent()
                     intent.setClass(this@ReadActivity, LoginActivity::class.java)
                     startActivityForResult(intent, 1)
@@ -296,7 +296,7 @@ class ReadActivity : BaseActivity<ReadPresenter>(), ReadContract.View, VolumeVie
                 tv_zhifu, tv_prev, tv_contents, tv_next, ll_info, iv_reward, tv_chapter_comment) {
             when (it) {
                 iv_reward -> {
-                    if (user!!.sessionId.isBlank()) {
+                    if (user.isNull()||user!!.sessionId.isBlank()) {
                         startActivity<LoginActivity>()
                         return@click
                     }

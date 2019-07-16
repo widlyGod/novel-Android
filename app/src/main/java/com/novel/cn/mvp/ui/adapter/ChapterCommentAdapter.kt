@@ -97,7 +97,7 @@ class ChapterCommentAdapter : BaseQuickAdapter<ChapterComment, BaseViewHolder>(R
 
             tv_reply_num.setOnClickListener {
                 val user = Preference.getDeviceData<LoginInfo?>(Constant.LOGIN_INFO)!!
-                if (user.sessionId.isBlank()) {
+                if (user.isNull()||user.sessionId.isBlank()) {
                     context.startActivity<LoginActivity>()
                     return@setOnClickListener
                 }

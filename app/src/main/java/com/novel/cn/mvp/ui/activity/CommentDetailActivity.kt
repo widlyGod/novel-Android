@@ -173,7 +173,7 @@ class CommentDetailActivity : BaseActivity<CommentDetailPresenter>(), CommentDet
             }
             tv_comment.setOnClickListener {
                 val user = Preference.getDeviceData<LoginInfo?>(Constant.LOGIN_INFO)
-                if (user!!.userId.isBlank()) {
+                if (user.isNull()||user!!.userId.isBlank()) {
                     startActivity<LoginActivity>()
                     return@setOnClickListener
                 }

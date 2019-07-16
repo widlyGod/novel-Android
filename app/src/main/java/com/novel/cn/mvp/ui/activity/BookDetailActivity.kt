@@ -81,7 +81,7 @@ class BookDetailActivity : BaseActivity<BookDetailPresenter>(), BookDetailContra
 
             setOnLikeClickListener {
                 val user = Preference.getDeviceData<LoginInfo?>(Constant.LOGIN_INFO)
-                if (user!!.userId.isBlank()) {
+                if (user.isNull()||user!!.userId.isBlank()) {
                     startActivity<LoginActivity>()
                     return@setOnLikeClickListener
                 }
@@ -127,7 +127,7 @@ class BookDetailActivity : BaseActivity<BookDetailPresenter>(), BookDetailContra
         mAdapter.setOnReplyClickListener { position ->
             //            JumpManager.toCommentDetail(this@BookDetailActivity, mAdapter.getItem(position), data)
             val user = Preference.getDeviceData<LoginInfo?>(Constant.LOGIN_INFO)
-            if (user!!.userId.isBlank()) {
+            if (user.isNull()||user!!.userId.isBlank()) {
                 startActivity<LoginActivity>()
                 return@setOnReplyClickListener
             }
@@ -149,7 +149,7 @@ class BookDetailActivity : BaseActivity<BookDetailPresenter>(), BookDetailContra
             when (it) {
                 header.ll_comment -> JumpManager.toCommentList(this, data)
                 tv_comment -> {
-                    if (user!!.userId.isBlank()) {
+                    if (user.isNull()||user!!.userId.isBlank()) {
                         startActivity<LoginActivity>()
                         return@click
                     }
@@ -158,7 +158,7 @@ class BookDetailActivity : BaseActivity<BookDetailPresenter>(), BookDetailContra
                 }
                 tv_read -> JumpManager.jumpRead(this, data)
                 tv_add_bookself -> {
-                    if (user!!.userId.isBlank()) {
+                    if (user.isNull()||user!!.userId.isBlank()) {
                         startActivity<LoginActivity>()
                         return@click
                     }

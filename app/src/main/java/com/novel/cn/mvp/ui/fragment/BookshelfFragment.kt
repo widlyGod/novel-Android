@@ -16,6 +16,7 @@ import com.novel.cn.R
 import com.novel.cn.app.Constant
 import com.novel.cn.app.JumpManager
 import com.novel.cn.app.Preference
+import com.novel.cn.app.isNull
 import com.novel.cn.db.DbManager
 import com.novel.cn.di.component.DaggerBookshelfComponent
 import com.novel.cn.di.module.BookshelfModule
@@ -143,12 +144,12 @@ class BookshelfFragment : BaseLazyLoadFragment<BookshelfPresenter>(), BookshelfC
         iv_more.setOnClickListener {
             mMorePopup.showAsDropDown(it, 0, 0)
         }
-        if (user!!.sessionId.isBlank()) {
+        if (user.isNull()||user!!.sessionId.isBlank()) {
             tv_read_time.text = ""
             tv_read_time_big.text = ""
         }
         tv_signIn.setOnClickListener {
-            if (user!!.sessionId.isBlank()) {
+            if (user.isNull()||user!!.sessionId.isBlank()) {
                 context.startActivity<LoginActivity>()
                 return@setOnClickListener
             }

@@ -104,13 +104,14 @@ class MyFragment : BaseFragment<MyPresenter>(), MyContract.View {
         tv_thumbedNum.text = "被赞${data.thumbedNum}次"
         if (data.vipInfo != null && data.vipInfo.vipLevel != 0) {
             rtv_vip_level.text = "VIP${data.vipInfo.vipLevel}"
-            rtv_vip_level.clicks().subscribe {
-                mUser?.let {
-                    if (it.vipInfo == null)
-                        it.vipInfo = VipInfo()
-                    JumpManager.jumpVipInfo(activity, it, true)
-                }
-            }.bindToLifecycle(this)
+            if (data.vipInfo.isVip == 0)
+                rtv_vip_level.clicks().subscribe {
+                    mUser?.let {
+                        if (it.vipInfo == null)
+                            it.vipInfo = VipInfo()
+                        JumpManager.jumpVipInfo(activity, it, true)
+                    }
+                }.bindToLifecycle(this)
         } else {
             rtv_vip_level.text = "登记"
             rtv_vip_level.clicks().subscribe {

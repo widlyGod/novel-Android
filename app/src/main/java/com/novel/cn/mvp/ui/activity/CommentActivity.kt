@@ -13,10 +13,7 @@ import com.jess.arms.di.component.AppComponent
 import com.jess.arms.integration.EventBusManager
 import com.jess.arms.utils.ArmsUtils
 import com.novel.cn.R
-import com.novel.cn.app.Constant
-import com.novel.cn.app.JumpManager
-import com.novel.cn.app.Preference
-import com.novel.cn.app.visible
+import com.novel.cn.app.*
 import com.novel.cn.di.component.DaggerCommentComponent
 import com.novel.cn.di.module.CommentModule
 import com.novel.cn.eventbus.BookCommentEvent
@@ -115,7 +112,7 @@ class CommentActivity : BaseActivity<CommentPresenter>(), CommentContract.View {
             setOnReplyClickListener { position ->
                 //                JumpManager.toCommentDetail(this@CommentActivity, this.getItem(position), book!!)
                 val user = Preference.getDeviceData<LoginInfo?>(Constant.LOGIN_INFO)
-                if (user!!.userId.isBlank()) {
+                if (user.isNull()||user!!.userId.isBlank()) {
                     startActivity<LoginActivity>()
                     return@setOnReplyClickListener
                 }
@@ -128,7 +125,7 @@ class CommentActivity : BaseActivity<CommentPresenter>(), CommentContract.View {
             }
             setOnLikeClickListener {
                 val user = Preference.getDeviceData<LoginInfo?>(Constant.LOGIN_INFO)
-                if (user!!.userId.isBlank()) {
+                if (user.isNull()||user!!.userId.isBlank()) {
                     startActivity<LoginActivity>()
                     return@setOnLikeClickListener
                 }

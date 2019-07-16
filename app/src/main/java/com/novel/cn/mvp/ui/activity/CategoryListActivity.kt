@@ -9,6 +9,7 @@ import com.novel.cn.R
 import com.novel.cn.app.Constant
 import com.novel.cn.app.JumpManager
 import com.novel.cn.app.Preference
+import com.novel.cn.app.isNull
 import com.novel.cn.di.component.DaggerCategoryListComponent
 import com.novel.cn.di.module.CategoryListModule
 import com.novel.cn.eventbus.BookshelfEvent
@@ -107,7 +108,7 @@ class CategoryListActivity : BaseActivity<CategoryListPresenter>(), CategoryList
             //收藏按钮点击
             setOnConllectClickListener {
                 val user = Preference.getDeviceData<LoginInfo?>(Constant.LOGIN_INFO)
-                if (user!!.sessionId.isBlank()) {
+                if (user.isNull()||user!!.sessionId.isBlank()) {
                     startActivity<LoginActivity>()
                     return@setOnConllectClickListener
                 } else {

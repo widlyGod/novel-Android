@@ -6,6 +6,7 @@ import com.jess.arms.utils.LogUtils
 import com.jess.arms.utils.RxLifecycleUtils
 import com.novel.cn.app.Constant
 import com.novel.cn.app.Preference
+import com.novel.cn.app.isNull
 import com.novel.cn.db.DbManager
 import com.novel.cn.ext.applySchedulers
 import com.novel.cn.mvp.contract.BookshelfContract
@@ -33,7 +34,7 @@ constructor(model: BookshelfContract.Model, rootView: BookshelfContract.View) :
 
     fun getBookshelfList(pullToRefresh: Boolean) {
         val user = Preference.getDeviceData<LoginInfo?>(Constant.LOGIN_INFO)
-        if (user!!.userId.isBlank()) {
+        if (user.isNull()||user!!.userId.isBlank()) {
             mRootView.showState(MultiStateView.VIEW_STATE_ERROR)
             return
         }

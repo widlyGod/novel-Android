@@ -9,6 +9,7 @@ import com.novel.cn.R
 import com.novel.cn.app.Constant
 import com.novel.cn.app.JumpManager
 import com.novel.cn.app.Preference
+import com.novel.cn.app.isNull
 import com.novel.cn.di.component.DaggerRankListComponent
 import com.novel.cn.di.module.RankListModule
 import com.novel.cn.eventbus.BookshelfEvent
@@ -76,7 +77,7 @@ class RankListActivity : BaseActivity<RankListPresenter>(), RankListContract.Vie
             //收藏按钮点击
             setOnConllectClickListener {
                 val user = Preference.getDeviceData<LoginInfo?>(Constant.LOGIN_INFO)
-                if(user!!.sessionId.isBlank()){
+                if(user.isNull()||user!!.sessionId.isBlank()){
                     startActivity<LoginActivity>()
                     return@setOnConllectClickListener
                 }else{

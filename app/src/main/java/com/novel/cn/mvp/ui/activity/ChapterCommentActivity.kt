@@ -17,6 +17,7 @@ import com.novel.cn.R
 import com.novel.cn.app.Constant
 import com.novel.cn.app.JumpManager
 import com.novel.cn.app.Preference
+import com.novel.cn.app.isNull
 import com.novel.cn.di.component.DaggerChapterCommentComponent
 import com.novel.cn.di.module.ChapterCommentModule
 import com.novel.cn.ext.textWatcher
@@ -113,7 +114,7 @@ class ChapterCommentActivity : BaseActivity<ChapterCommentPresenter>(), ChapterC
     }
 
     override fun showCount(counts: Int) {
-        if (user.userId.isBlank()) {
+        if (user.isNull()||user.userId.isBlank()) {
             if (tv_count != null)
                 tv_count.text = Html.fromHtml("共<font color='#ea4b1a'>$counts</font>条")
         } else
@@ -146,7 +147,7 @@ class ChapterCommentActivity : BaseActivity<ChapterCommentPresenter>(), ChapterC
                 mPresenter?.deleteChapterComment(mBookId, mChapterId, mAdapter.data[it].replyId)
             }
             setOnReplyClickListener {
-                if (user.userId.isBlank()) {
+                if (user.isNull()||user.userId.isBlank()) {
                     startActivity<LoginActivity>()
                     return@setOnReplyClickListener
                 }
@@ -158,14 +159,14 @@ class ChapterCommentActivity : BaseActivity<ChapterCommentPresenter>(), ChapterC
             }
             setOnLikeClickListener {
                 val user = Preference.getDeviceData<LoginInfo?>(Constant.LOGIN_INFO)
-                if (user!!.userId.isBlank()) {
+                if (user.isNull()||user!!.userId.isBlank()) {
                     startActivity<LoginActivity>()
                     return@setOnLikeClickListener
                 }
                 mPresenter?.agree(it)
             }
         }
-        if (user!!.sessionId.isBlank()) {
+        if (user.isNull()||user!!.sessionId.isBlank()) {
             mAdapter.setHeaderView(mUnLoginHeaderView)
             mUnLoginHeaderView.tv_un_login.setOnClickListener {
                 startActivity<LoginActivity>()
@@ -185,7 +186,7 @@ class ChapterCommentActivity : BaseActivity<ChapterCommentPresenter>(), ChapterC
             }
 
             mHeaderView.tv_release.setOnClickListener {
-                if (user.sessionId.isBlank()) {
+                if (user.isNull()||user.sessionId.isBlank()) {
                     startActivity<LoginActivity>()
                     return@setOnClickListener
                 }
