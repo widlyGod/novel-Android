@@ -1,5 +1,6 @@
 package com.novel.cn.mvp.ui.activity
 
+import android.graphics.Color
 import android.graphics.Rect
 import android.os.Bundle
 import android.support.v7.widget.GridLayoutManager
@@ -17,10 +18,7 @@ import com.jess.arms.utils.ArmsUtils
 import com.jess.arms.utils.IndexEvent
 import com.novel.cn.BuildConfig
 import com.novel.cn.R
-import com.novel.cn.app.JumpManager
-import com.novel.cn.app.click
-import com.novel.cn.app.loadHeadImage
-import com.novel.cn.app.visible
+import com.novel.cn.app.*
 import com.novel.cn.di.component.DaggerRechargeComponent
 import com.novel.cn.di.module.RechargeModule
 import com.novel.cn.ext.bindToLifecycle
@@ -263,16 +261,32 @@ class RechargeActivity : BaseActivity<RechargePresenter>(), RechargeContract.Vie
         tv_read_count.text = "读过${data.readCount}本"
         tv_read_time.text = "阅读${formatDateTime(data.readTime)}"
         rating_star_bar.rating = data.gradeRate.toFloat() / 20
+        tv_user_level.text = "${data.grade}"
         if (data.userIntroduction.isNotEmpty()) {
             tv_edit.text = data.userIntroduction
         } else
             tv_edit.text = "暂无简介"
         tv_thumbedNum.text = "被赞${data.thumbedNum}次"
-        if (data.vipInfo != null && data.vipInfo.vipLevel != 0) {
-            rtv_vip_level.text = "VIP${data.vipInfo.vipLevel}"
-            rtv_vip_level.visible(true)
-        } else
+        if (data.vipInfo.isNull() || data.vipInfo.vipLevel <= 0) {
             rtv_vip_level.visible(false)
+        } else if (data.vipInfo.isVip == 0) {
+            rtv_vip_level.visible(true)
+            rtv_vip_level.delegate.backgroundColor = Color.parseColor("#999999")
+            rtv_vip_level.text = "登记"
+            rtv_vip_level.clicks().subscribe {
+                mUser?.let {
+                    if (it.vipInfo == null)
+                        it.vipInfo = VipInfo()
+                    JumpManager.jumpVipInfo(this, it, true)
+                }
+            }.bindToLifecycle(this)
+        } else {
+            rtv_vip_level.visible(true)
+            rtv_vip_level.delegate.backgroundColor = Color.parseColor("#f96572")
+            rtv_vip_level.text = "VIP${data.vipInfo.vipLevel}"
+            rtv_vip_level.setOnClickListener(null)
+        }
+
         tv_account.text = data.userNickName
         tv_blance.text = "${data.goldNumber}阅读币"
 
@@ -343,7 +357,7 @@ class RechargeActivity : BaseActivity<RechargePresenter>(), RechargeContract.Vie
         } else if (hours > 0) {
             "${hours}小时${minutes}分钟"
         } else if (minutes > 0) {
-            "$${minutes}分钟"
+            "${minutes}分钟"
         } else {
             "0分钟"
         }

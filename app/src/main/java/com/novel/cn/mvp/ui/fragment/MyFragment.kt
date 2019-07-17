@@ -102,30 +102,26 @@ class MyFragment : BaseFragment<MyPresenter>(), MyContract.View {
         tv_read_time.text = "阅读${formatDateTime(data.readTime)}"
         rating_star_bar.rating = data.gradeRate.toFloat() / 20
         tv_thumbedNum.text = "被赞${data.thumbedNum}次"
-        if (data.vipInfo != null && data.vipInfo.vipLevel != 0) {
-            rtv_vip_level.text = "VIP${data.vipInfo.vipLevel}"
-            if (data.vipInfo.isVip == 0)
-                rtv_vip_level.clicks().subscribe {
-                    mUser?.let {
-                        if (it.vipInfo == null)
-                            it.vipInfo = VipInfo()
-                        JumpManager.jumpVipInfo(activity, it, true)
-                    }
-                }.bindToLifecycle(this)
-        } else {
+        if (data.vipInfo.isNull() || data.vipInfo.vipLevel <= 0) {
+            rtv_vip_level.visible(false)
+        } else if (data.vipInfo.isVip == 0) {
+            rtv_vip_level.visible(true)
+            rtv_vip_level.delegate.backgroundColor = Color.parseColor("#999999")
             rtv_vip_level.text = "登记"
             rtv_vip_level.clicks().subscribe {
                 mUser?.let {
                     if (it.vipInfo == null)
                         it.vipInfo = VipInfo()
-                    JumpManager.jumpVipInfo(activity, it)
+                    JumpManager.jumpVipInfo(activity, it, true)
                 }
             }.bindToLifecycle(this)
-        }
-        if (data.vipInfo != null && data.vipInfo.isVip == 1)
+        } else {
+            rtv_vip_level.visible(true)
+            rtv_vip_level.text = "VIP${data.vipInfo.vipLevel}"
+            rtv_vip_level.setOnClickListener(null)
             rtv_vip_level.delegate.backgroundColor = Color.parseColor("#f96572")
-        else
-            rtv_vip_level.delegate.backgroundColor = Color.parseColor("#999999")
+        }
+
         if (data.userIntroduction.isNotEmpty()) {
             tv_edit.text = data.userIntroduction
         } else
