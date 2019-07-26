@@ -11,6 +11,8 @@ import javax.inject.Inject
 import com.novel.cn.mvp.contract.PublishContract
 import com.novel.cn.mvp.model.api.service.BookService
 import com.novel.cn.mvp.model.entity.BaseResponse
+import com.novel.cn.mvp.model.entity.BookInfo
+import com.novel.cn.mvp.model.entity.Novel
 import io.reactivex.Observable
 import okhttp3.MediaType
 import okhttp3.MultipartBody
@@ -35,7 +37,6 @@ class PublishModel
 @Inject
 constructor(repositoryManager: IRepositoryManager) : BaseModel(repositoryManager), PublishContract.Model {
 
-
     @Inject
     lateinit var mGson: Gson;
     @Inject
@@ -46,7 +47,12 @@ constructor(repositoryManager: IRepositoryManager) : BaseModel(repositoryManager
         return mRepositoryManager.obtainRetrofitService(BookService::class.java).publishMoment(fliesPath)
     }
 
-    private fun toRequestBody(value: String): RequestBody {
-        return RequestBody.create(MediaType.parse("text/plain"), value)
+    override fun getHotSearch(): Observable<BaseResponse<List<BookInfo>>> {
+        return mRepositoryManager.obtainRetrofitService(BookService::class.java).getHotSearch()
     }
+
+    override fun getMomentNovel(novelId: String): Observable<BaseResponse<Novel>> {
+        return mRepositoryManager.obtainRetrofitService(BookService::class.java).getMomentNovel(novelId)
+    }
+
 }

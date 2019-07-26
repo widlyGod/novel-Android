@@ -27,8 +27,8 @@ object JumpManager {
     /**
      * 跳转到搜索页面
      */
-    fun jumpSearch(context: Context?, hotNovels: List<BookInfo>, type: Int) {
-        context?.startActivity<SearchActivity>("hotNovels" to hotNovels, "type" to type)
+    fun jumpSearch(context: Context?, hotNovels: List<BookInfo>, type: Int, isAddBookComment: Boolean = false) {
+        context?.startActivity<SearchActivity>("hotNovels" to hotNovels, "type" to type, "isAddBookComment" to isAddBookComment)
     }
 
     /**
@@ -114,7 +114,7 @@ object JumpManager {
     /**
      * 跳转圈子发布
      */
-    fun toPublish(context: Context?, type:Int) {
+    fun toPublish(context: Context?, type: Int) {
         context?.startActivity<PublishActivity>("type" to type)
     }
 }

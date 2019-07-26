@@ -32,9 +32,9 @@ class CircleAdapter : BaseQuickAdapter<Circle, BaseViewHolder>(R.layout.item_cir
                 2 ->{
                     rl_book_detail.visible(true)
                     nineGrid.visible(false)
-                    iv_book_image.loadImage(item.novelInfo.novelPhoto)
-                    tv_book_name.text = item.novelInfo.novelTitle
-                    tv_book_detail.text = "书评${item.novelInfo.commentNum}  书友${item.novelInfo.readNum}  周排名${item.novelInfo.weeklyRank}"
+                    iv_book_image.loadImage(item?.novelInfo?.novelPhoto)
+                    tv_book_name.text = item?.novelInfo?.novelTitle
+                    tv_book_detail.text = "书评${item?.novelInfo?.commentNum}  书友${item?.novelInfo?.readNum}  周排名${item?.novelInfo?.weeklyRank}"
                 }
                 0->{
                     rl_book_detail.visible(false)

@@ -44,7 +44,7 @@ data class Circle(
 data class Novel(
         val commentNum: String,
         val novelId: String,
-        val novelPhoto: String,
+        val novelPhoto: String = "",
         val novelTitle: String,
         val readNum: String,
         val weeklyRank: String

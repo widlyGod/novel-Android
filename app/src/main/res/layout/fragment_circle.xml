@@ -14,6 +14,7 @@
         app:msv_emptyView="@layout/layout_empty"
         app:msv_empty_text="暂无数据"
         app:msv_errorView="@layout/layout_error"
+        app:msv_error_text="点击重试"
         app:msv_loadingView="@layout/layout_loading">
 
         <com.scwang.smartrefresh.layout.SmartRefreshLayout

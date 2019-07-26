@@ -15,7 +15,11 @@ import com.jakewharton.rxbinding3.view.clicks
 
 import com.jess.arms.base.BaseActivity
 import com.jess.arms.di.component.AppComponent
+import com.jess.arms.integration.EventBusManager
 import com.jess.arms.utils.ArmsUtils
+import com.jess.arms.utils.BookEvent
+import com.jess.arms.utils.CircleEvent
+import com.jess.arms.utils.IndexEvent
 
 import com.novel.cn.di.component.DaggerPublishComponent
 import com.novel.cn.di.module.PublishModule
@@ -23,10 +27,14 @@ import com.novel.cn.mvp.contract.PublishContract
 import com.novel.cn.mvp.presenter.PublishPresenter
 
 import com.novel.cn.R
+import com.novel.cn.app.JumpManager
+import com.novel.cn.app.loadImage
 import com.novel.cn.app.visible
 import com.novel.cn.ext.bindToLifecycle
 import com.novel.cn.ext.clicks
 import com.novel.cn.ext.toast
+import com.novel.cn.mvp.model.entity.BookInfo
+import com.novel.cn.mvp.model.entity.Novel
 import com.novel.cn.mvp.ui.adapter.PublicCircleImageAdapter
 import com.novel.cn.utils.AppPermissions
 import com.novel.cn.utils.Glide4Engine
@@ -35,8 +43,11 @@ import com.tbruyelle.rxpermissions2.RxPermissions
 import com.zhihu.matisse.Matisse
 import com.zhihu.matisse.MimeType
 import kotlinx.android.synthetic.main.activity_publish.*
+import kotlinx.android.synthetic.main.item_circle.view.*
 import net.yslibrary.android.keyboardvisibilityevent.KeyboardVisibilityEvent
 import net.yslibrary.android.keyboardvisibilityevent.Unregistrar
+import org.greenrobot.eventbus.Subscribe
+import org.greenrobot.eventbus.ThreadMode
 import java.io.File
 import java.util.concurrent.TimeUnit
 
@@ -68,7 +79,6 @@ import java.util.concurrent.TimeUnit
  */
 class PublishActivity : BaseActivity<PublishPresenter>(), PublishContract.View {
 
-
     companion object {
         private const val MAX_IMAGE_COUNT = 9
     }
@@ -83,6 +93,8 @@ class PublishActivity : BaseActivity<PublishPresenter>(), PublishContract.View {
     private var emojiShow = false
     private lateinit var mUnregistrar: Unregistrar
     private var showEmoji = false
+    private var hotNovels = mutableListOf<BookInfo>()
+    private var novelId = ""
 
     override fun setupActivityComponent(appComponent: AppComponent) {
         DaggerPublishComponent //如找不到该类,请编译一下项目
@@ -99,6 +111,7 @@ class PublishActivity : BaseActivity<PublishPresenter>(), PublishContract.View {
     }
 
     override fun publicSuccess() {
+        EventBusManager.getInstance().post(CircleEvent())
         finish()
     }
 
@@ -106,7 +119,23 @@ class PublishActivity : BaseActivity<PublishPresenter>(), PublishContract.View {
         intent?.apply {
             publicType = getIntExtra("type", 0)
         }
-
+        when (publicType) {
+            0 -> {
+                rv_images.visible(false)
+                iv_add_book_comment.visible(false)
+                rl_book_detail.visible(false)
+            }
+            1 -> {
+                rv_images.visible(true)
+                iv_add_book_comment.visible(false)
+                rl_book_detail.visible(false)
+            }
+            2 -> {
+                rv_images.visible(false)
+                iv_add_book_comment.visible(true)
+                rl_book_detail.visible(false)
+            }
+        }
     }
 
     override fun initData(savedInstanceState: Bundle?) {
@@ -136,19 +165,21 @@ class PublishActivity : BaseActivity<PublishPresenter>(), PublishContract.View {
             if (publicType == 1 && mImageList.size <= 1) {
                 toast("请添加图片")
                 return@subscribe
+            } else if (publicType == 2 && novelId.isBlank()) {
+                toast("请添加书籍")
+                return@subscribe
             }
-            mPresenter?.public(publicType, et_title.text.toString(), et_main.text.toString(), "", mImageList)
+            mPresenter?.public(publicType, et_title.text.toString(), et_main.text.toString(), "", mImageList, novelId)
         }.bindToLifecycle(this)
         iv_emoji.clicks().subscribe {
-            if (!emojiShow){
-                if(KeyboardVisibilityEvent.isKeyboardVisible(this)){
+            if (!emojiShow) {
+                if (KeyboardVisibilityEvent.isKeyboardVisible(this)) {
                     showEmoji = true
                     hideSoftKeyboard()
-                }else{
+                } else {
                     showEmojiKeyboard()
                 }
-            }
-            else
+            } else
                 showSoftKeyboard()
         }.bindToLifecycle(this)
         et_main.setOnFocusChangeListener { _, hasFocus ->
@@ -164,11 +195,22 @@ class PublishActivity : BaseActivity<PublishPresenter>(), PublishContract.View {
         tv_cancel.clicks().subscribe {
             finish()
         }.bindToLifecycle(this)
+        iv_delete.clicks().subscribe {
+            novelId = ""
+            rl_book_detail.visible(false)
+            iv_add_book_comment.visible(true)
+        }.bindToLifecycle(this)
+        iv_add_book_comment.clicks().subscribe {
+            if (hotNovels.isEmpty()) {
+                mPresenter?.getHotSearch()
+            } else
+                JumpManager.jumpSearch(this, hotNovels, 0, true)
+        }.bindToLifecycle(this)
         mUnregistrar = KeyboardVisibilityEvent.registerEventListener(this) { isOpen ->
-            if(isOpen)
+            if (isOpen)
                 hindEmojiKeyboard()
             else
-                if(showEmoji){
+                if (showEmoji) {
                     showEmojiKeyboard()
                     showEmoji = false
                 }
@@ -212,12 +254,26 @@ class PublishActivity : BaseActivity<PublishPresenter>(), PublishContract.View {
         }
     }
 
+    override fun getHotSearchSuccess(list: List<BookInfo>) {
+        hotNovels.addAll(list)
+        JumpManager.jumpSearch(this, hotNovels, 0)
+    }
+
+    override fun getMomentNovelSuccess(novel: Novel) {
+        rl_book_detail.visible(true)
+        iv_add_book_comment.visible(false)
+        novelId = novel.novelId
+        iv_book_image.loadImage(novel.novelPhoto)
+        tv_book_name.text = novel.novelTitle
+        tv_book_detail.text = "书评${novel.commentNum}  书友${novel.readNum}  周排名${novel.weeklyRank}"
+    }
+
+
     override fun onBackPressed() {
         if (emojiShow) {
             hindEmojiKeyboard()
-            true
         } else {
-            false
+            super.onBackPressed()
         }
 
     }
@@ -253,12 +309,9 @@ class PublishActivity : BaseActivity<PublishPresenter>(), PublishContract.View {
         super.onDestroy()
     }
 
-    override fun launchActivity(intent: Intent) {
-        ArmsUtils.startActivity(intent)
-    }
-
-    override fun killMyself() {
-        finish()
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    fun onAddBookComment(event: BookEvent) {
+        mPresenter?.getMomentNovel(event.novelId)
     }
 
 }

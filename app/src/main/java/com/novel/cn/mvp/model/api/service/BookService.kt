@@ -250,7 +250,13 @@ interface BookService {
     @Multipart
     @POST("novelAppService/moments/publishMoment")
     fun publishMoment(
-                      @Part parts: List<MultipartBody.Part>): Observable<BaseResponse<Any>>
+            @Part parts: List<MultipartBody.Part>): Observable<BaseResponse<Any>>
+
+    /**
+     * 获取书评书籍信息
+     */
+    @GET("novelAppService/moments/getMomentNovel")
+    fun getMomentNovel(@Query("novelId") novelId: String): Observable<BaseResponse<Novel>>
 
     /**
      * 查看所有圈子

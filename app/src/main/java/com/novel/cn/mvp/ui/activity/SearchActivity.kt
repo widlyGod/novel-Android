@@ -10,9 +10,8 @@ import com.google.android.flexbox.FlexWrap
 import com.google.android.flexbox.FlexboxLayoutManager
 import com.jess.arms.base.BaseActivity
 import com.jess.arms.di.component.AppComponent
-import com.jess.arms.utils.ArmsUtils
-import com.jess.arms.utils.DeviceUtils
-import com.jess.arms.utils.LoginEvent
+import com.jess.arms.integration.EventBusManager
+import com.jess.arms.utils.*
 import com.novel.cn.R
 import com.novel.cn.app.JumpManager
 import com.novel.cn.app.visible
@@ -44,6 +43,7 @@ class SearchActivity : BaseActivity<SearchPresenter>(), SearchContract.View {
 
     private val hotNovels by lazy { intent.getParcelableArrayListExtra<BookInfo>("hotNovels") }
     private val type by lazy { intent.getIntExtra("type", 0) }
+    private val isAddBookComment by lazy { intent.getBooleanExtra("isAddBookComment", false) }
 
     @Inject
     lateinit var mHotWordAdapter: HotWordAdapter
@@ -89,6 +89,7 @@ class SearchActivity : BaseActivity<SearchPresenter>(), SearchContract.View {
             et_keyword.setText(searchWord)
             et_keyword.requestFocus()
             et_keyword.setSelection(et_keyword.text.length)
+            hideSoftKeyboard()
             mPresenter?.getSearchResult(searchWord, type = type)
         }.bindToLifecycle(this)
 
@@ -108,7 +109,12 @@ class SearchActivity : BaseActivity<SearchPresenter>(), SearchContract.View {
 
         mHotWordAdapter.setOnItemClickListener { _, _, position ->
             val item = mHotWordAdapter.getItem(position)
-            JumpManager.jumpBookDetail(this, item?.novelId)
+            if (isAddBookComment) {
+                EventBusManager.getInstance().post(BookEvent(item?.novelId))
+                finish()
+            } else {
+                JumpManager.jumpBookDetail(this, item?.novelId)
+            }
         }
 
         iv_clean.setOnClickListener { mPresenter?.cleanRecord(type) }
@@ -118,6 +124,7 @@ class SearchActivity : BaseActivity<SearchPresenter>(), SearchContract.View {
         et_keyword.setOnEditorActionListener { v, actionId, event ->
             if (actionId == EditorInfo.IME_ACTION_SEARCH) {
                 if (et_keyword.text.toString().isNotBlank()) {
+                    hideSoftKeyboard()
                     searchWord = et_keyword.text.toString()
                     mPresenter?.saveKeyword(et_keyword.text.toString(), type)
                     mPresenter?.getSearchResult(searchWord, type = type)
@@ -127,6 +134,13 @@ class SearchActivity : BaseActivity<SearchPresenter>(), SearchContract.View {
         }
 
         rlv_search_result.adapter = mSearchResultAdapter
+        mSearchResultAdapter.clicks().subscribe {
+            if (isAddBookComment) {
+                EventBusManager.getInstance().post(BookEvent(mSearchResultAdapter.data[it.second].id))
+                finish()
+            } else
+                JumpManager.jumpBookDetail(this, mSearchResultAdapter.data[it.second].id)
+        }.bindToLifecycle(this)
         mSearchResultAdapter.apply {
             setLoadMoreView(CustomLoadMoreView())
             setOnLoadMoreListener({

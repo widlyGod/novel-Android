@@ -13,9 +13,6 @@ class SearchResultAdapter : BaseQuickAdapter<SearchInfo, BaseViewHolder>(R.layou
         with(helper.itemView) {
             iv_book_image.loadImage(item.photoContent)
             tv_book_name.text = item.title
-            setOnClickListener {
-                JumpManager.jumpBookDetail(mContext, item.id)
-            }
         }
     }
 }

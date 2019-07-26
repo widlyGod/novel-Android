@@ -48,7 +48,7 @@ constructor(model: CircleContract.Model, rootView: CircleContract.View) :
 
     private var mPageIndex = 1
 
-    fun getAllMoments(pullToRefresh: Boolean = true){
+    fun getAllMoments(pullToRefresh: Boolean = true) {
         if (pullToRefresh) mPageIndex = 1
 
         val params = HashMap<String, String>()
@@ -82,6 +82,8 @@ constructor(model: CircleContract.Model, rootView: CircleContract.View) :
 
                     override fun onError(t: Throwable) {
                         mRootView.refreshComplete()
+                        if (mPageIndex == 1)
+                            mRootView.showState(MultiStateView.VIEW_STATE_ERROR)
                         super.onError(t)
                     }
                 })
