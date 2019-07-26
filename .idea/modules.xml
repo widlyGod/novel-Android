@@ -3,13 +3,24 @@
   <component name="ProjectModuleManager">
     <modules>
       <module fileurl="file://$PROJECT_DIR$/Common/Common.iml" filepath="$PROJECT_DIR$/Common/Common.iml" />
+      <module fileurl="file://$PROJECT_DIR$/Documents-novel-Android.iml" filepath="$PROJECT_DIR$/Documents-novel-Android.iml" />
       <module fileurl="file://$PROJECT_DIR$/WheelPicker/WheelPicker.iml" filepath="$PROJECT_DIR$/WheelPicker/WheelPicker.iml" />
       <module fileurl="file://$PROJECT_DIR$/app/app.iml" filepath="$PROJECT_DIR$/app/app.iml" />
       <module fileurl="file://$PROJECT_DIR$/arms/arms.iml" filepath="$PROJECT_DIR$/arms/arms.iml" />
       <module fileurl="file://$PROJECT_DIR$/arms-imageloader-glide/arms-imageloader-glide.iml" filepath="$PROJECT_DIR$/arms-imageloader-glide/arms-imageloader-glide.iml" />
       <module fileurl="file://$PROJECT_DIR$/dsbridge/dsbridge.iml" filepath="$PROJECT_DIR$/dsbridge/dsbridge.iml" />
+      <module fileurl="file://$PROJECT_DIR$/emoji-library/emoji-library.iml" filepath="$PROJECT_DIR$/emoji-library/emoji-library.iml" />
       <module fileurl="file://$PROJECT_DIR$/filepicker/filepicker.iml" filepath="$PROJECT_DIR$/filepicker/filepicker.iml" />
       <module fileurl="file://$PROJECT_DIR$/novel-Android.iml" filepath="$PROJECT_DIR$/novel-Android.iml" />
+      <module fileurl="file://$PROJECT_DIR$/Common/novel-Android-Common.iml" filepath="$PROJECT_DIR$/Common/novel-Android-Common.iml" />
+      <module fileurl="file://$PROJECT_DIR$/WheelPicker/novel-Android-WheelPicker.iml" filepath="$PROJECT_DIR$/WheelPicker/novel-Android-WheelPicker.iml" />
+      <module fileurl="file://$PROJECT_DIR$/app/novel-Android-app.iml" filepath="$PROJECT_DIR$/app/novel-Android-app.iml" />
+      <module fileurl="file://$PROJECT_DIR$/arms/novel-Android-arms.iml" filepath="$PROJECT_DIR$/arms/novel-Android-arms.iml" />
+      <module fileurl="file://$PROJECT_DIR$/arms-imageloader-glide/novel-Android-arms-imageloader-glide.iml" filepath="$PROJECT_DIR$/arms-imageloader-glide/novel-Android-arms-imageloader-glide.iml" />
+      <module fileurl="file://$PROJECT_DIR$/dsbridge/novel-Android-dsbridge.iml" filepath="$PROJECT_DIR$/dsbridge/novel-Android-dsbridge.iml" />
+      <module fileurl="file://$PROJECT_DIR$/filepicker/novel-Android-filepicker.iml" filepath="$PROJECT_DIR$/filepicker/novel-Android-filepicker.iml" />
+      <module fileurl="file://$PROJECT_DIR$/rxcache/novel-Android-rxcache.iml" filepath="$PROJECT_DIR$/rxcache/novel-Android-rxcache.iml" />
+      <module fileurl="file://$PROJECT_DIR$/rxcache-kotlin/novel-Android-rxcache-kotlin.iml" filepath="$PROJECT_DIR$/rxcache-kotlin/novel-Android-rxcache-kotlin.iml" />
       <module fileurl="file://$PROJECT_DIR$/rxcache/rxcache.iml" filepath="$PROJECT_DIR$/rxcache/rxcache.iml" />
       <module fileurl="file://$PROJECT_DIR$/rxcache-kotlin/rxcache-kotlin.iml" filepath="$PROJECT_DIR$/rxcache-kotlin/rxcache-kotlin.iml" />
     </modules>

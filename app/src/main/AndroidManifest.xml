@@ -32,7 +32,9 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         tools:replace="android:name,android:theme">
-        <activity android:name=".mvp.ui.activity.VipActivity"></activity>
+        <activity android:name=".mvp.ui.activity.CirclePublishActivity"></activity>
+        <activity android:name=".mvp.ui.activity.PublishActivity" />
+        <activity android:name=".mvp.ui.activity.VipActivity" />
         <activity
             android:name=".mvp.ui.activity.MineBillActivity"
             android:label="我的购买" />

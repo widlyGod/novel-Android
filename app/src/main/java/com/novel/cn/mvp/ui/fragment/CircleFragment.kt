@@ -1,0 +1,91 @@
+package com.novel.cn.mvp.ui.fragment
+
+import android.os.Bundle
+import android.view.LayoutInflater
+import android.view.View
+import android.view.ViewGroup
+import com.jess.arms.base.BaseFragment
+import com.jess.arms.di.component.AppComponent
+import com.novel.cn.R
+import com.novel.cn.di.component.DaggerCircleComponent
+import com.novel.cn.di.module.CircleModule
+import com.novel.cn.mvp.contract.CircleContract
+import com.novel.cn.mvp.presenter.CirclePresenter
+import com.novel.cn.mvp.ui.adapter.CircleAdapter
+import com.novel.cn.view.CustomLoadMoreView
+import kotlinx.android.synthetic.main.fragment_circle.*
+import javax.inject.Inject
+
+
+/**
+ * ================================================
+ * Description:
+ * <p>
+ * Created by MVPArmsTemplate on 07/19/2019 16:14
+ * <a href="mailto:jess.yan.effort@gmail.com">Contact me</a>
+ * <a href="https://github.com/JessYanCoding">Follow me</a>
+ * <a href="https://github.com/JessYanCoding/MVPArms">Star me</a>
+ * <a href="https://github.com/JessYanCoding/MVPArms/wiki">See me</a>
+ * <a href="https://github.com/JessYanCoding/MVPArmsTemplate">模版请保持更新</a>
+ * ================================================
+ */
+/**
+ * 如果没presenter
+ * 你可以这样写
+ *
+ * @FragmentScope(請注意命名空間) class NullObjectPresenterByFragment
+ * @Inject constructor() : IPresenter {
+ * override fun onStart() {
+ * }
+ *
+ * override fun onDestroy() {
+ * }
+ * }
+ */
+class CircleFragment : BaseFragment<CirclePresenter>(), CircleContract.View {
+
+
+    companion object {
+        fun newInstance(): CircleFragment {
+            val fragment = CircleFragment()
+            return fragment
+        }
+    }
+
+    @Inject
+    lateinit var mCircleAdapter: CircleAdapter
+
+    override fun setupFragmentComponent(appComponent: AppComponent) {
+        DaggerCircleComponent //如找不到该类,请编译一下项目
+                .builder()
+                .appComponent(appComponent)
+                .circleModule(CircleModule(this))
+                .build()
+                .inject(this)
+    }
+
+    override fun initView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
+        return inflater.inflate(R.layout.fragment_circle, container, false)
+    }
+
+    override fun initData(savedInstanceState: Bundle?) {
+        recyclerView.adapter = mCircleAdapter.apply {
+            setEnableLoadMore(true)
+            setLoadMoreView(CustomLoadMoreView())
+            setOnLoadMoreListener({
+                mPresenter?.getAllMoments(false)
+            }, recyclerView)
+        }
+        mPresenter?.getAllMoments()
+        refreshLayout.setOnRefreshListener {  mPresenter?.getAllMoments() }
+    }
+
+    override fun refreshComplete() {
+        refreshLayout.finishRefresh()
+    }
+
+    override fun showState(state: Int) {
+        multiStateView.viewState = state
+    }
+
+}

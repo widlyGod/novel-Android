@@ -6,10 +6,14 @@ import com.jess.arms.integration.AppManager
 import com.jess.arms.di.scope.FragmentScope
 import com.jess.arms.mvp.BasePresenter
 import com.jess.arms.http.imageloader.ImageLoader
+import com.novel.cn.ext.applySchedulers
 import me.jessyan.rxerrorhandler.core.RxErrorHandler
 import javax.inject.Inject
 
 import com.novel.cn.mvp.contract.DiscoveryContract
+import com.novel.cn.mvp.model.entity.BaseResponse
+import com.novel.cn.mvp.model.entity.BookInfo
+import me.jessyan.rxerrorhandler.handler.ErrorHandleSubscriber
 
 
 /**
@@ -38,8 +42,14 @@ constructor(model: DiscoveryContract.Model, rootView: DiscoveryContract.View) :
     @Inject
     lateinit var mAppManager: AppManager
 
-
-    override fun onDestroy() {
-        super.onDestroy();
+    fun getHotSearch(){
+        mModel.getHotSearch()
+                .applySchedulers(mRootView)
+                .subscribe(object : ErrorHandleSubscriber<BaseResponse<List<BookInfo>>>(mErrorHandler) {
+                    override fun onNext(t: BaseResponse<List<BookInfo>>) {
+                        mRootView.getHotSearchSuccess(t.data)
+                    }
+                })
     }
+
 }

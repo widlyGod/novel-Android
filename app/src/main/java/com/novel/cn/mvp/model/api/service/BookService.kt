@@ -2,6 +2,8 @@ package com.novel.cn.mvp.model.api.service
 
 import com.novel.cn.mvp.model.entity.*
 import io.reactivex.Observable
+import okhttp3.MultipartBody
+import okhttp3.RequestBody
 import okhttp3.ResponseBody
 import retrofit2.http.*
 import java.util.*
@@ -140,7 +142,7 @@ interface BookService {
      * 点赞
      */
     @GET("novelOAService/comment/giveThumbUp")
-    fun agree(@Query("commentId") commentId: String,@Query("type") type: Int): Observable<BaseResponse<Any>>
+    fun agree(@Query("commentId") commentId: String, @Query("type") type: Int): Observable<BaseResponse<Any>>
 
     /**
      * 获取热门搜索
@@ -243,6 +245,18 @@ interface BookService {
 
     @POST("novelOAService/novelDetail/isChargeChapter")
     fun isChargeChapter(@Body param: HashMap<String, Any?>): Observable<BaseResponse<ChargeChapter>>
+
+    //发布圈子
+    @Multipart
+    @POST("novelAppService/moments/publishMoment")
+    fun publishMoment(
+                      @Part parts: List<MultipartBody.Part>): Observable<BaseResponse<Any>>
+
+    /**
+     * 查看所有圈子
+     */
+    @POST("novelAppService/moments/getAllMoments")
+    fun getAllMoments(@Body params: HashMap<String, String>): Observable<BaseResponse<CircleBean>>
 
     @GET("novelOAService/mobile/getChapter")
     fun getChapterInfo(@Query("chapterId") link: String?): Observable<BaseResponse<ChapterInfoBean>>

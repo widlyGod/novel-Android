@@ -1,12 +1,14 @@
 package com.novel.cn.di.module
 
+import com.flyco.tablayout.listener.CustomTabEntity
 import com.jess.arms.di.scope.FragmentScope
-
-import dagger.Module
-import dagger.Provides
-
 import com.novel.cn.mvp.contract.DiscoveryContract
 import com.novel.cn.mvp.model.DiscoveryModel
+import com.novel.cn.mvp.model.entity.TabEntity
+import com.novel.cn.mvp.ui.dialog.CircleMorePopup
+import dagger.Module
+import dagger.Provides
+import javax.inject.Named
 
 
 /**
@@ -34,5 +36,16 @@ class DiscoveryModule(private val view: DiscoveryContract.View) {
     @Provides
     fun provideDiscoveryModel(model: DiscoveryModel): DiscoveryContract.Model {
         return model
+    }
+
+    @FragmentScope
+    @Provides
+    fun provideMorePopup() = CircleMorePopup(view.getContext())
+
+    @FragmentScope
+    @Provides
+    @Named("TabEntity")
+    fun provideTabEnty(): ArrayList<CustomTabEntity> {
+        return arrayListOf(TabEntity("聊天"), TabEntity("圈子"))
     }
 }

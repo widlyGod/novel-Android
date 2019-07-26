@@ -9,6 +9,10 @@ import com.jess.arms.di.scope.FragmentScope
 import javax.inject.Inject
 
 import com.novel.cn.mvp.contract.DiscoveryContract
+import com.novel.cn.mvp.model.api.service.BookService
+import com.novel.cn.mvp.model.entity.BaseResponse
+import com.novel.cn.mvp.model.entity.BookInfo
+import io.reactivex.Observable
 
 
 /**
@@ -32,7 +36,7 @@ constructor(repositoryManager: IRepositoryManager) : BaseModel(repositoryManager
     @Inject
     lateinit var mApplication: Application;
 
-    override fun onDestroy() {
-        super.onDestroy();
+    override fun getHotSearch(): Observable<BaseResponse<List<BookInfo>>> {
+        return mRepositoryManager.obtainRetrofitService(BookService::class.java).getHotSearch()
     }
 }

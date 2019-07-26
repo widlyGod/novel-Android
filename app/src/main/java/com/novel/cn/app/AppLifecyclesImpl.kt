@@ -17,11 +17,14 @@ package com.novel.cn.app
 
 import android.app.Application
 import android.content.Context
+import android.graphics.Bitmap
+import android.widget.ImageView
 import com.didichuxing.doraemonkit.DoraemonKit
 
 import com.jess.arms.base.delegate.AppLifecycles
 import com.jess.arms.integration.cache.IntelligentCache
 import com.jess.arms.utils.ArmsUtils
+import com.lzy.ninegrid.NineGridView
 import com.mob.MobSDK
 import com.novel.cn.BuildConfig
 import com.novel.cn.db.DbManager
@@ -84,6 +87,17 @@ class AppLifecyclesImpl : AppLifecycles {
                 .put(IntelligentCache.getKeyOfKeep(RefWatcher::class.java.name), if (BuildConfig.USE_CANARY) LeakCanary.install(application) else RefWatcher.DISABLED)
         Bugly.init(application, "289ea54a9a", false)
         DoraemonKit.install(application)
+
+        NineGridView.setImageLoader( object : NineGridView.ImageLoader {
+
+            override fun onDisplayImage(context: Context, imageView: ImageView, url: String) {
+                imageView.loadImage(url)
+            }
+
+            override fun getCacheImage(url: String): Bitmap? {
+                return null
+            }
+        })
     }
 
     override fun onTerminate(application: Application) {

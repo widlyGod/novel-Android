@@ -110,4 +110,11 @@ object JumpManager {
     fun toCategoryList(context: Context?, novelTypeId: Int?, parentId: Int?, title: String?) {
         context?.startActivity<CategoryListActivity>("novelTypeId" to novelTypeId, "parentId" to parentId, "title" to title)
     }
+
+    /**
+     * 跳转圈子发布
+     */
+    fun toPublish(context: Context?, type:Int) {
+        context?.startActivity<PublishActivity>("type" to type)
+    }
 }

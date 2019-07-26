@@ -20,6 +20,9 @@ buildscript {
         classpath "com.didiglobal.booster:booster-gradle-plugin:$booster_version"
         classpath "com.didiglobal.booster:booster-task-all:$booster_version"
         classpath "com.didiglobal.booster:booster-transform-all:$booster_version"
+
+        classpath 'com.jfrog.bintray.gradle:gradle-bintray-plugin:1.8.4'
+        classpath 'com.github.dcendents:android-maven-gradle-plugin:2.1'
     }
 }
 

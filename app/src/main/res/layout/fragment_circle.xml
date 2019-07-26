@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <com.novel.cn.view.MultiStateView
+        android:id="@+id/multiStateView"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        app:msv_animateViewChanges="true"
+        app:msv_emptyView="@layout/layout_empty"
+        app:msv_empty_text="暂无数据"
+        app:msv_errorView="@layout/layout_error"
+        app:msv_loadingView="@layout/layout_loading">
+
+        <com.scwang.smartrefresh.layout.SmartRefreshLayout
+            android:id="@+id/refreshLayout"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            app:srlEnableLoadMore="false">
+
+            <android.support.v7.widget.RecyclerView
+                android:id="@+id/recyclerView"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:overScrollMode="never"
+                app:layoutManager="android.support.v7.widget.LinearLayoutManager" />
+        </com.scwang.smartrefresh.layout.SmartRefreshLayout>
+
+    </com.novel.cn.view.MultiStateView>
+
+</LinearLayout>
