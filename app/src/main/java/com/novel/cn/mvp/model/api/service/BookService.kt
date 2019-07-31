@@ -268,7 +268,7 @@ interface BookService {
      * 圈子点赞
      */
     @POST("novelAppService/moments/commendMoment")
-    fun circleAgree(@Query("momentId") momentId: String): Observable<BaseResponse<Any>>
+    fun circleAgree(@Body params: HashMap<String, String>): Observable<BaseResponse<Any>>
 
     /**
      * 圈子评论

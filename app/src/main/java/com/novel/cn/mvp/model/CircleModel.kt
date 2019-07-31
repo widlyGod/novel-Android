@@ -44,7 +44,9 @@ constructor(repositoryManager: IRepositoryManager) : BaseModel(repositoryManager
     }
 
     override fun agree(momentId: String): Observable<BaseResponse<Any>> {
-        return mRepositoryManager.obtainRetrofitService(BookService::class.java).circleAgree(momentId)
+        val params = HashMap<String, String>()
+        params["momentId"] = momentId
+        return mRepositoryManager.obtainRetrofitService(BookService::class.java).circleAgree(params)
     }
 
     override fun chapterComment(params: HashMap<String, Any?>): Observable<BaseResponse<Any>> {
