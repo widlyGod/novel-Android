@@ -92,6 +92,7 @@ android {
             resValue("string", "app_name", "云纵文学-dev")
         }
 
+
         beta {
             applicationId "com.novel.cn"
             addFieldsAndPlaceholders(it, [
@@ -155,8 +156,6 @@ dependencies {
     implementation rootProject.ext.dependencies["anko"]
     //arms
     implementation project(':arms')
-
-//    implementation rootProject.ext.dependencies["autosize"]
     implementation project(':arms-imageloader-glide')
     //test
     testImplementation rootProject.ext.dependencies["junit"]
@@ -193,6 +192,7 @@ dependencies {
     implementation project(':rxcache')
     implementation project(':rxcache-kotlin')
     implementation project(':emoji-library')
+    implementation project(':ninegridview')
 
     implementation 'com.tencent.bugly:crashreport_upgrade:latest.release'//其中latest.release指代最新版本号，也可以指定明确的版本号，例如1.2.0
     implementation 'com.tencent.bugly:nativecrashreport:latest.release' //其中latest.release指代最新版本号，也可以指定明确的版本号，例如2.2.0
@@ -207,6 +207,11 @@ dependencies {
     implementation  project(':filepicker')
     debugImplementation 'com.didichuxing.doraemonkit:doraemonkit:1.1.8'
     releaseImplementation 'com.didichuxing.doraemonkit:doraemonkit-no-op:1.1.8'
-    implementation 'com.lzy.widget:ninegridview:0.2.0'
     implementation 'net.yslibrary.keyboardvisibilityevent:keyboardvisibilityevent:2.3.0'
+
+
+    //定位功能
+    implementation 'com.amap.api:location:latest.integration'
+    //搜索功能
+    implementation 'com.amap.api:search:latest.integration'
 }

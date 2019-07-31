@@ -38,6 +38,9 @@ import com.jess.arms.utils.ArmsUtils;
 import java.io.File;
 import java.io.InputStream;
 
+import me.jessyan.progressmanager.ProgressManager;
+import okhttp3.OkHttpClient;
+
 /**
  * ================================================
  * {@link AppGlideModule} 的默认实现类
@@ -50,7 +53,7 @@ import java.io.InputStream;
  */
 @GlideModule(glideName = "GlideArms")
 public class GlideConfiguration extends AppGlideModule {
-    public static final int IMAGE_DISK_CACHE_MAX_SIZE = 100 * 1024 * 1024;//图片缓存文件最大值为100Mb
+    public static final int IMAGE_DISK_CACHE_MAX_SIZE = 200 * 1024 * 1024;//图片缓存文件最大值为100Mb
 
     @Override
     public void applyOptions(@NonNull Context context, @NonNull GlideBuilder builder) {
@@ -86,7 +89,10 @@ public class GlideConfiguration extends AppGlideModule {
     public void registerComponents(@NonNull Context context, @NonNull Glide glide, @NonNull Registry registry) {
         //Glide 默认使用 HttpURLConnection 做网络请求,在这切换成 Okhttp 请求
         AppComponent appComponent = ArmsUtils.obtainAppComponentFromContext(context);
-        registry.replace(GlideUrl.class, InputStream.class, new OkHttpUrlLoader.Factory(appComponent.okHttpClient()));
+//        registry.replace(GlideUrl.class, InputStream.class, new OkHttpUrlLoader.Factory(appComponent.okHttpClient()));
+
+        registry.replace(GlideUrl.class, InputStream.class, new OkHttpUrlLoader.Factory(ProgressManager.getInstance().with(new OkHttpClient.Builder())
+                .build()));
     }
 
     @Override

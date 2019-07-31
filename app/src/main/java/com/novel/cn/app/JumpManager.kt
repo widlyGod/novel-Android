@@ -117,4 +117,11 @@ object JumpManager {
     fun toPublish(context: Context?, type: Int) {
         context?.startActivity<PublishActivity>("type" to type)
     }
+
+    /**
+     * 跳转圈子详情
+     */
+    fun toCircleComment(context: Context?, momentId: String) {
+        context?.startActivity<CircleCommentActivity>("momentId" to momentId)
+    }
 }

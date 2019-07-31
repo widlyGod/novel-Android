@@ -105,7 +105,6 @@ class PublishActivity : BaseActivity<PublishPresenter>(), PublishContract.View {
                 .inject(this)
     }
 
-
     override fun initView(savedInstanceState: Bundle?): Int {
         return R.layout.activity_publish //如果你不需要框架帮你设置 setContentView(id) 需要自行设置,请返回 0
     }

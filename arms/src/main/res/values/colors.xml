@@ -11,6 +11,8 @@
     <color name="color_333333">#333333</color>
     <color name="color_666666">#666666</color>
     <color name="color_5e8fca">#5e8fca</color>
+    <color name="image_holder">#f4f4f4</color>
+    <color name="image_holder_big">#00000000</color>
 
     <color name="read_font">#333333</color>
 

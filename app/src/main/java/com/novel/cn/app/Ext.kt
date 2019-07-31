@@ -1,6 +1,7 @@
 package com.novel.cn.app
 
 import android.content.Context
+import android.util.Log
 import android.view.View
 import android.view.View.GONE
 import android.view.View.VISIBLE
@@ -11,7 +12,12 @@ import com.jess.arms.http.imageloader.ImageConfig
 import com.jess.arms.http.imageloader.glide.GlideArms
 import com.jess.arms.http.imageloader.glide.ImageConfigImpl
 import com.jess.arms.utils.ArmsUtils
+import com.jess.arms.utils.LogUtils
 import com.novel.cn.R
+import com.novel.cn.ext.setVisible
+import me.jessyan.progressmanager.ProgressListener
+import me.jessyan.progressmanager.ProgressManager
+import me.jessyan.progressmanager.body.ProgressInfo
 
 fun click(vararg views: View, method: (view: View) -> Unit) {
     for (item in views) {
@@ -58,8 +64,8 @@ fun ImageView.loadImage(url: Any?, placeholder: Int, error: Int) {
             .imageLoader()
             .loadImage(this.context, ImageConfigImpl.builder()
                     .url(url)
-                    .cacheStrategy(DiskCacheStrategy.RESOURCE)
                     .placeholder(placeholder)
+                    .cacheStrategy(DiskCacheStrategy.DATA)
                     .errorPic(error)
                     .imageView(this)
                     .build())

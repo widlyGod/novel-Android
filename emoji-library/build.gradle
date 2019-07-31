@@ -47,8 +47,6 @@ ext {
     licenseName = properties.getProperty('repo.license.name')
     licenseUrl = properties.getProperty('repo.license.url')
     allLicenses = [properties.getProperty('repo.license.label')]
-    apply from: 'https://raw.githubusercontent.com/nuuneoi/JCenter/master/installv1.gradle'
-    apply from: 'https://raw.githubusercontent.com/nuuneoi/JCenter/master/bintrayv1.gradle'
 }
 
 

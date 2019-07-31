@@ -34,7 +34,6 @@ class CircleModel
 @Inject
 constructor(repositoryManager: IRepositoryManager) : BaseModel(repositoryManager), CircleContract.Model {
 
-
     @Inject
     lateinit var mGson: Gson;
     @Inject
@@ -43,4 +42,13 @@ constructor(repositoryManager: IRepositoryManager) : BaseModel(repositoryManager
     override fun getAllMoments(params: HashMap<String, String>):  Observable<BaseResponse<CircleBean>> {
         return mRepositoryManager.obtainRetrofitService(BookService::class.java).getAllMoments(params)
     }
+
+    override fun agree(momentId: String): Observable<BaseResponse<Any>> {
+        return mRepositoryManager.obtainRetrofitService(BookService::class.java).circleAgree(momentId)
+    }
+
+    override fun chapterComment(params: HashMap<String, Any?>): Observable<BaseResponse<Any>> {
+        return mRepositoryManager.obtainRetrofitService(BookService::class.java).circleChapterComment(params)
+    }
+
 }

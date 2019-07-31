@@ -9,6 +9,7 @@ import com.jess.arms.http.imageloader.ImageLoader
 import com.jess.arms.utils.RxLifecycleUtils
 import com.novel.cn.app.Constant
 import com.novel.cn.ext.applySchedulers
+import com.novel.cn.ext.toast
 import me.jessyan.rxerrorhandler.core.RxErrorHandler
 import javax.inject.Inject
 
@@ -85,6 +86,45 @@ constructor(model: CircleContract.Model, rootView: CircleContract.View) :
                         if (mPageIndex == 1)
                             mRootView.showState(MultiStateView.VIEW_STATE_ERROR)
                         super.onError(t)
+                    }
+                })
+    }
+
+    fun agree(position: Int) {
+        val item = mCircleAdapter.getItem(position)
+        mModel.agree(item?.momentId!!)
+                .applySchedulers(mRootView)
+                .subscribe(object : ErrorHandleSubscriber<BaseResponse<Any>>(mErrorHandler) {
+                    override fun onNext(t: BaseResponse<Any>) {
+                        item.hadThumbed = true
+                        item.likeNum++
+                        mCircleAdapter.notifyDataSetChanged()
+                    }
+
+                    override fun onError(t: Throwable) {
+                        super.onError(t)
+                        toast(t.message)
+                    }
+                })
+    }
+
+    fun chapterComment(momentId: String, commentContent: String, position: Int) {
+        val item = mCircleAdapter.getItem(position)
+        val params = HashMap<String, Any?>()
+        params["momentId"] = momentId
+        params["commentContent"] = commentContent
+        mModel.chapterComment(params)
+                .applySchedulers(mRootView)
+                .subscribe(object : ErrorHandleSubscriber<BaseResponse<Any>>(mErrorHandler) {
+                    override fun onNext(t: BaseResponse<Any>) {
+                        item!!.commentNum++
+                        mCircleAdapter.notifyDataSetChanged()
+                        toast("评论成功")
+                    }
+
+                    override fun onError(t: Throwable) {
+                        super.onError(t)
+                        toast(t.message)
                     }
                 })
     }

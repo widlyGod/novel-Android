@@ -11,6 +11,7 @@
       <module fileurl="file://$PROJECT_DIR$/dsbridge/dsbridge.iml" filepath="$PROJECT_DIR$/dsbridge/dsbridge.iml" />
       <module fileurl="file://$PROJECT_DIR$/emoji-library/emoji-library.iml" filepath="$PROJECT_DIR$/emoji-library/emoji-library.iml" />
       <module fileurl="file://$PROJECT_DIR$/filepicker/filepicker.iml" filepath="$PROJECT_DIR$/filepicker/filepicker.iml" />
+      <module fileurl="file://$PROJECT_DIR$/ninegridview/ninegridview.iml" filepath="$PROJECT_DIR$/ninegridview/ninegridview.iml" />
       <module fileurl="file://$PROJECT_DIR$/novel-Android.iml" filepath="$PROJECT_DIR$/novel-Android.iml" />
       <module fileurl="file://$PROJECT_DIR$/Common/novel-Android-Common.iml" filepath="$PROJECT_DIR$/Common/novel-Android-Common.iml" />
       <module fileurl="file://$PROJECT_DIR$/WheelPicker/novel-Android-WheelPicker.iml" filepath="$PROJECT_DIR$/WheelPicker/novel-Android-WheelPicker.iml" />

@@ -18,16 +18,23 @@ package com.novel.cn.app
 import android.app.Application
 import android.content.Context
 import android.graphics.Bitmap
+import android.util.Log
+import android.view.View
 import android.widget.ImageView
 import com.didichuxing.doraemonkit.DoraemonKit
 
 import com.jess.arms.base.delegate.AppLifecycles
 import com.jess.arms.integration.cache.IntelligentCache
 import com.jess.arms.utils.ArmsUtils
+import com.jess.arms.utils.LogUtils
+import com.lzy.ninegrid.CircleProgressView
 import com.lzy.ninegrid.NineGridView
+import com.lzy.ninegrid.preview.ImagePreviewAdapter
 import com.mob.MobSDK
 import com.novel.cn.BuildConfig
+import com.novel.cn.R
 import com.novel.cn.db.DbManager
+import com.novel.cn.ext.setVisible
 import com.scwang.smartrefresh.layout.SmartRefreshLayout
 import com.scwang.smartrefresh.layout.header.ClassicsHeader
 import com.squareup.leakcanary.LeakCanary
@@ -35,6 +42,9 @@ import com.squareup.leakcanary.RefWatcher
 import com.tencent.bugly.Bugly
 import com.zchu.rxcache.RxCache
 import com.zchu.rxcache.diskconverter.GsonDiskConverter
+import me.jessyan.progressmanager.ProgressListener
+import me.jessyan.progressmanager.ProgressManager
+import me.jessyan.progressmanager.body.ProgressInfo
 
 import timber.log.Timber
 import java.io.File
@@ -88,11 +98,31 @@ class AppLifecyclesImpl : AppLifecycles {
         Bugly.init(application, "289ea54a9a", false)
         DoraemonKit.install(application)
 
-        NineGridView.setImageLoader( object : NineGridView.ImageLoader {
+        NineGridView.setImageLoader(object : NineGridView.ImageLoader {
 
             override fun onDisplayImage(context: Context, imageView: ImageView, url: String) {
-                imageView.loadImage(url)
+                imageView.loadImage(url, R.color.image_holder, R.drawable.ic_load_image_error)
             }
+
+            override fun onDisplayImagePreview(context: Context, imageView: ImageView, progressed: ImagePreviewAdapter.Progress, url: String) {
+                ProgressManager.getInstance().addResponseListener(url.replace(":80", ""), object : ProgressListener {
+                    override fun onProgress(progressInfo: ProgressInfo) {
+                        val progress = progressInfo.percent
+                        LogUtils.warnInfo("aaaaaaaaa$progress")
+                        progressed.onProgress(progress)
+                        if (progressInfo.isFinish || progress >= 100) {
+                            //说明已经加载完成
+                            progressed.onSuccess(true)
+                        }
+                    }
+
+                    override fun onError(id: Long, e: Exception) {
+                        progressed.onSuccess(false)
+                    }
+                })
+                imageView.loadImage(url, R.color.image_holder_big, R.drawable.ic_load_image_error)
+            }
+
 
             override fun getCacheImage(url: String): Bitmap? {
                 return null

@@ -32,7 +32,7 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         tools:replace="android:name,android:theme">
-        <activity android:name=".mvp.ui.activity.CirclePublishActivity"></activity>
+        <activity android:name=".mvp.ui.activity.CirclePublishActivity" />
         <activity android:name=".mvp.ui.activity.PublishActivity" />
         <activity android:name=".mvp.ui.activity.VipActivity" />
         <activity
@@ -146,6 +146,9 @@
             android:name=".mvp.ui.activity.ChapterCommentActivity"
             android:label="章节评论" />
         <activity android:name=".mvp.ui.activity.CropImageActivity" />
+
+        <activity android:name=".mvp.ui.activity.CircleCommentActivity"
+            android:label="详情"/>
         <activity
             android:name="com.tencent.bugly.beta.ui.BetaActivity"
             android:configChanges="keyboardHidden|orientation|screenSize|locale"

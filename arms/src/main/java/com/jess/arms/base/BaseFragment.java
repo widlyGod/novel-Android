@@ -24,6 +24,7 @@ import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.inputmethod.InputMethodManager;
 
 import com.jess.arms.base.delegate.IFragment;
 import com.jess.arms.integration.cache.Cache;
@@ -145,6 +146,15 @@ public abstract class BaseFragment<P extends IPresenter> extends Fragment implem
         mLoading.hide();
     }
 
+    protected void hideSoftKeyboard() {
+        View view = getActivity().getWindow().peekDecorView();
+        if (view != null) {
+            InputMethodManager inputmanger = (InputMethodManager) getActivity().getSystemService(Context.INPUT_METHOD_SERVICE);
+            inputmanger.hideSoftInputFromWindow(view.getWindowToken(), 0);
+
+        }
+
+    }
 
     /**
      * 是否使用 EventBus
