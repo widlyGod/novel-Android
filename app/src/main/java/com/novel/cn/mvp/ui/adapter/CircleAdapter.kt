@@ -40,6 +40,7 @@ class CircleAdapter : BaseQuickAdapter<Circle, BaseViewHolder>(R.layout.item_cir
         with(helper.itemView) {
             iv_avatar.loadHeadImage(item.userPhoto)
             tv_user_name.text = item.userName
+            tv_circle_title.visible(item.momentTitle.isNotEmpty())
             tv_circle_title.text = item.momentTitle
             tv_circle_content.text = item.momentContent
             tv_num.text = item.likeNum.toString()

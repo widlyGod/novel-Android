@@ -33,7 +33,9 @@ interface CircleCommentContract {
         fun getMomentDetail(momentId: String): Observable<BaseResponse<Circle>>
         fun getComments(params: HashMap<String, String>): Observable<BaseResponse<CircleCommentBean>>
         fun agree(momentId: String): Observable<BaseResponse<Any>>
+        fun agreeReply(momentId: String): Observable<BaseResponse<Any>>
         fun chapterComment(params: HashMap<String, Any?>): Observable<BaseResponse<Any>>
+        fun chapterCommentReply(params: HashMap<String, Any?>): Observable<BaseResponse<Any>>
     }
 
 }

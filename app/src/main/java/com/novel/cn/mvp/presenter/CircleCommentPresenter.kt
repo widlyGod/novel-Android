@@ -122,11 +122,49 @@ constructor(model: CircleCommentContract.Model, rootView: CircleCommentContract.
                 })
     }
 
-    fun chapterComment(momentId: String, commentContent: String) {
+    fun chapter(momentId: String, commentContent: String) {
         val params = HashMap<String, Any?>()
         params["momentId"] = momentId
         params["commentContent"] = commentContent
         mModel.chapterComment(params)
+                .applySchedulers(mRootView)
+                .subscribe(object : ErrorHandleSubscriber<BaseResponse<Any>>(mErrorHandler) {
+                    override fun onNext(t: BaseResponse<Any>) {
+                        mRootView.chapterCommentSuccess()
+                        toast("评论成功")
+                    }
+
+                    override fun onError(t: Throwable) {
+                        super.onError(t)
+                        toast(t.message)
+                    }
+                })
+    }
+
+    fun agreeComment(position: Int) {
+        val item = mCircleCommentAdapter.getItem(position)
+        mModel.agreeReply(item?.commentId!!)
+                .applySchedulers(mRootView)
+                .subscribe(object : ErrorHandleSubscriber<BaseResponse<Any>>(mErrorHandler) {
+                    override fun onNext(t: BaseResponse<Any>) {
+                        item.hadThumbed = true
+                        item.thumbNum++
+                        mCircleCommentAdapter.notifyDataSetChanged()
+                    }
+
+                    override fun onError(t: Throwable) {
+                        super.onError(t)
+                        toast(t.message)
+                    }
+                })
+    }
+
+    fun chapterComment(momentId: String, commentContent: String,toReplyUserId:String) {
+        val params = HashMap<String, Any?>()
+        params["commentId"] = momentId
+        params["replyContent"] = commentContent
+        params["toReplyUserId"] = toReplyUserId
+        mModel.chapterCommentReply(params)
                 .applySchedulers(mRootView)
                 .subscribe(object : ErrorHandleSubscriber<BaseResponse<Any>>(mErrorHandler) {
                     override fun onNext(t: BaseResponse<Any>) {

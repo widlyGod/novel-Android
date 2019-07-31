@@ -102,10 +102,6 @@ public abstract class BaseActivity<P extends IPresenter> extends AppCompatActivi
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        mLoading = new TipDialog.Builder(this)
-                .setIconType(TipDialog.Builder.ICON_TYPE_LOADING)
-                .setTipWord("请稍后")
-                .create(false);
         compositeDisposable = new CompositeDisposable();
         try {
             int layoutResID = initView(savedInstanceState);
@@ -117,6 +113,10 @@ public abstract class BaseActivity<P extends IPresenter> extends AppCompatActivi
             if (e instanceof InflateException) throw e;
             e.printStackTrace();
         }
+        mLoading = new TipDialog.Builder(this)
+                .setIconType(TipDialog.Builder.ICON_TYPE_LOADING)
+                .setTipWord("请稍后")
+                .create(true);
         initStatusBar(savedInstanceState);
         initData(savedInstanceState);
 

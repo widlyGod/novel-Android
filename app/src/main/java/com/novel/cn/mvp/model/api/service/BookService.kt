@@ -277,6 +277,19 @@ interface BookService {
     fun circleChapterComment(@Body params: HashMap<String, Any?>): Observable<BaseResponse<Any>>
 
     /**
+     * 圈子评论点赞
+     */
+    @POST("novelAppService/moments/commendComment")
+    fun agreeReply(@Body params: HashMap<String, String>): Observable<BaseResponse<Any>>
+
+
+    /**
+     * 圈子评论回复
+     */
+    @POST("novelAppService/moments/reply")
+    fun chapterCommentReply(@Body params: HashMap<String, Any?>): Observable<BaseResponse<Any>>
+
+    /**
      * 圈子详情
      */
     @GET("novelAppService/moments/getMoment")

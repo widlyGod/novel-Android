@@ -1,63 +1,91 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:orientation="vertical">
-
-    <include layout="@layout/include_title" />
-
-    <android.support.v7.widget.RecyclerView
-        android:id="@+id/recyclerView"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_weight="1"
-        android:overScrollMode="never"
-        app:layoutManager="android.support.v7.widget.LinearLayoutManager" />
+    android:layout_height="match_parent">
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="45dp"
-        android:orientation="horizontal">
+        android:layout_height="match_parent"
+        android:orientation="vertical">
 
-        <RelativeLayout
-            android:id="@+id/rl_comment_num"
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"
-            android:layout_weight="1">
+        <include layout="@layout/include_title" />
 
-            <TextView
-                android:id="@+id/tv_comment_num"
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/recyclerView"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:overScrollMode="never"
+            app:layoutManager="android.support.v7.widget.LinearLayoutManager" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="45dp"
+            android:orientation="horizontal">
+
+            <RelativeLayout
+                android:id="@+id/rl_comment_num"
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
-                android:layout_centerInParent="true"
-                android:drawableRight="@drawable/ic_circle_comment"
-                android:drawablePadding="4dp"
-                android:gravity="center"
-                android:textColor="#5e8fca"
-                android:textSize="14sp"/>
+                android:layout_weight="1">
 
-        </RelativeLayout>
+                <TextView
+                    android:id="@+id/tv_comment_num"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:layout_centerInParent="true"
+                    android:drawableRight="@drawable/ic_circle_comment"
+                    android:drawablePadding="4dp"
+                    android:gravity="center"
+                    android:textColor="#5e8fca"
+                    android:textSize="14sp" />
 
-        <RelativeLayout
-            android:id="@+id/rl_agree_num"
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"
-            android:layout_weight="1">
+            </RelativeLayout>
 
-            <TextView
-                android:id="@+id/tv_agree_num"
+            <RelativeLayout
+                android:id="@+id/rl_agree_num"
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
-                android:layout_centerInParent="true"
-                android:drawableRight="@drawable/ic_circle_agree"
-                android:drawablePadding="4dp"
-                android:gravity="center"
-                android:textColor="#5e8fca"
-                android:textSize="14sp"/>
+                android:layout_weight="1">
 
-        </RelativeLayout>
+                <TextView
+                    android:id="@+id/tv_agree_num"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:layout_centerInParent="true"
+                    android:gravity="center"
+                    android:textColor="#5e8fca"
+                    android:textSize="14sp" />
+
+                <ImageView
+                    android:id="@+id/iv_agree_num"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:layout_marginLeft="4dp"
+                    android:layout_toRightOf="@+id/tv_agree_num"
+                    android:src="@drawable/ic_circle_agree" />
+
+            </RelativeLayout>
+
+        </LinearLayout>
 
     </LinearLayout>
 
-</LinearLayout>
+    <RelativeLayout
+        android:id="@+id/rl_loading"
+        android:layout_width="120dp"
+        android:layout_height="56dp"
+        android:layout_centerInParent="true"
+        android:visibility="gone"
+        android:background="@drawable/ui_tip_dialog_bg">
+
+        <com.jess.arms.utils.LoadingView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true" />
+
+    </RelativeLayout>
+
+</RelativeLayout>
