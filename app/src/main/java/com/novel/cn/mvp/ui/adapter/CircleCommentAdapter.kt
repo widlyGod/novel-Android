@@ -19,6 +19,7 @@ class CircleCommentAdapter : BaseQuickAdapter<Content, BaseViewHolder>(R.layout.
 
     private var onReplyClickListener: ((Int) -> Unit)? = null
     private var onLikeClickListener: ((Int) -> Unit)? = null
+    private var onCommentReplyMoreClickListener: ((Int) -> Unit)? = null
 
     fun setOnLikeClickListener(listener: ((Int) -> Unit)?) {
         this.onLikeClickListener = listener
@@ -26,6 +27,10 @@ class CircleCommentAdapter : BaseQuickAdapter<Content, BaseViewHolder>(R.layout.
 
     fun setOnReplyClickListener(listener: ((Int) -> Unit)?) {
         this.onReplyClickListener = listener
+    }
+
+    fun setOnCommentReplyMoreClickListenerListener(listener: ((Int) -> Unit)?) {
+        this.onCommentReplyMoreClickListener = listener
     }
 
     override fun convert(helper: BaseViewHolder, item: Content) {
@@ -41,13 +46,13 @@ class CircleCommentAdapter : BaseQuickAdapter<Content, BaseViewHolder>(R.layout.
             circle_reply_recyclerView.adapter = adapter.apply {
                 setNewData(item.replyList)
             }
+            circle_reply_recyclerView.setOnClickListener {
+                onCommentReplyMoreClickListener?.invoke(helper.adapterPosition - headerLayoutCount)
+            }
             if (item.replyNum > 3) {
                 val footer = LayoutInflater.from(context).inflate(R.layout.item_circle_reply, recyclerView, false)
                 adapter.addFooterView(footer)
                 footer.tv_user_name.text = "共${item.replyNum}条回复 >"
-                footer.setOnClickListener {
-
-                }
             }
         }
     }

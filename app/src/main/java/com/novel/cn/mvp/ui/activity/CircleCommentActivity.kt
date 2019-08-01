@@ -117,8 +117,7 @@ class CircleCommentActivity : BaseActivity<CircleCommentPresenter>(), CircleComm
 
     override fun initData(savedInstanceState: Bundle?) {
         user = Preference.getDeviceData(Constant.LOGIN_INFO)!!
-        mPresenter?.getComments(momentId)
-        mPresenter?.getMomentDetail(momentId)
+        onRefresh()
         mCircleCommentAdapter.setHeaderView(header)
         recyclerView.adapter = mCircleCommentAdapter.apply {
             setOnLoadMoreListener({
@@ -133,15 +132,29 @@ class CircleCommentActivity : BaseActivity<CircleCommentPresenter>(), CircleComm
                     return@setOnReplyClickListener
                 }
                 commentId = data[it].commentId
-                toReplyUserId = data[it].commentUserId
+                toReplyUserId = ""
                 dialogComment.show("@${this.data[it].commentUserName}")
             }
         }
+        refreshLayout.setOnRefreshListener {
+            onRefresh()
+        }
     }
+
+    private fun onRefresh() {
+        mPresenter?.getComments(momentId)
+        mPresenter?.getMomentDetail(momentId)
+    }
+
+    override fun RefreshFinsh() {
+        refreshLayout.finishRefresh()
+    }
+
 
     override fun getMomentDetailSuccess(circle: Circle) {
         header.iv_avatar.loadHeadImage(circle.userPhoto)
         header.tv_user_name.text = circle.userName
+        header.tv_circle_title.visible(circle.momentTitle.isNotEmpty())
         header.tv_circle_title.text = circle.momentTitle
         header.tv_circle_content.text = circle.momentContent
         header.tv_num.text = circle.likeNum.toString()

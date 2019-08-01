@@ -3,23 +3,23 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:orientation="horizontal"
-    android:paddingRight="10dp"
     android:paddingLeft="10dp"
     android:paddingTop="6dp"
+    android:paddingRight="10dp"
     android:paddingBottom="6dp">
 
     <TextView
         android:id="@+id/tv_user_name"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:textSize="11sp"
-        android:textColor="#268ded"/>
+        android:textColor="#268ded"
+        android:textSize="11sp" />
 
     <TextView
         android:id="@+id/tv_reply"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:textSize="11sp"
-        android:textColor="#666666"/>
+        android:textColor="#666666"
+        android:textSize="11sp" />
 
 </LinearLayout>

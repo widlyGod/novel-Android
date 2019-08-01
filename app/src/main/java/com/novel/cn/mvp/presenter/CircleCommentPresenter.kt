@@ -84,10 +84,12 @@ constructor(model: CircleCommentContract.Model, rootView: CircleCommentContract.
 
                             mPageIndex++
                         }
+                        mRootView.RefreshFinsh()
                     }
 
                     override fun onError(t: Throwable) {
                         super.onError(t)
+                        mRootView.RefreshFinsh()
                     }
                 })
     }
