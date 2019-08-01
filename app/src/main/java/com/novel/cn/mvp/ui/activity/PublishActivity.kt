@@ -343,7 +343,7 @@ class PublishActivity : BaseActivity<PublishPresenter>(), PublishContract.View, 
 
     override fun getHotSearchSuccess(list: List<BookInfo>) {
         hotNovels.addAll(list)
-        JumpManager.jumpSearch(this, hotNovels, 0)
+        JumpManager.jumpSearch(this, hotNovels, 0, true)
     }
 
     override fun getMomentNovelSuccess(novel: Novel) {
