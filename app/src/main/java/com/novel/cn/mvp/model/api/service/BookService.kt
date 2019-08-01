@@ -301,6 +301,24 @@ interface BookService {
     @POST("novelAppService/moments/getComments")
     fun getComments(@Body params: HashMap<String, String>): Observable<BaseResponse<CircleCommentBean>>
 
+    /**
+     * 圈子评论下的评论点赞
+     */
+    @POST("novelAppService/moments/commendReply")
+    fun agreeReplyReply(@Body params: HashMap<String, String>): Observable<BaseResponse<Any>>
+
+    /**
+     * 圈子评论详情
+     */
+    @GET("novelAppService/moments/getComment")
+    fun getReplyDetail(@Query("commentId") commentId: String): Observable<BaseResponse<Content>>
+
+    /**
+     * 圈子评论详情评论列表
+     */
+    @POST("novelAppService/moments/getCommentReply")
+    fun getReplys(@Body params: HashMap<String, String>): Observable<BaseResponse<CircleCommentRaeplyAllBean>>
+
     @GET("novelOAService/mobile/getChapter")
     fun getChapterInfo(@Query("chapterId") link: String?): Observable<BaseResponse<ChapterInfoBean>>
 

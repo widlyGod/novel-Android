@@ -13,7 +13,7 @@ class CircleReplyAdapter : BaseQuickAdapter<CircleCommentReply, BaseViewHolder>(
 
     override fun convert(helper: BaseViewHolder, item: CircleCommentReply) {
         with(helper.itemView) {
-            if (item.toReplyUserId.isNotEmpty()) {
+            if (item.replyType == 1) {
                 val spannableString = SpannableString("${item.replyUserName}回复@${item.toReplyUserName}: ${item.replyContent}")
                 spannableString.setSpan(ForegroundColorSpan(Color.parseColor("#666666")), item.replyUserName.length, item.replyUserName.length + 2, SpannableString.SPAN_EXCLUSIVE_EXCLUSIVE)
                 spannableString.setSpan(ForegroundColorSpan(Color.parseColor("#666666")), item.replyUserName.length + item.toReplyUserName.length + 2, spannableString.length, SpannableString.SPAN_EXCLUSIVE_EXCLUSIVE)

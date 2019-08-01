@@ -124,4 +124,11 @@ object JumpManager {
     fun toCircleComment(context: Context?, momentId: String) {
         context?.startActivity<CircleCommentActivity>("momentId" to momentId)
     }
+
+    /**
+     * 跳转圈子评论回复详情
+     */
+    fun toCircleCommentReplyDetail(context: Context?, commentId: String) {
+        context?.startActivity<CircleCommentReplyDetailActivity>("commentId" to commentId)
+    }
 }

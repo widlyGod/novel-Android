@@ -7,6 +7,8 @@ import android.view.LayoutInflater
 import com.jess.arms.base.BaseActivity
 import com.jess.arms.di.component.AppComponent
 import com.jess.arms.utils.ArmsUtils
+import com.jess.arms.utils.CircleCommentEvent
+import com.jess.arms.utils.LoginEvent
 import com.lzy.ninegrid.ImageInfo
 import com.lzy.ninegrid.preview.NineGridViewClickAdapter
 
@@ -27,6 +29,8 @@ import kotlinx.android.synthetic.main.activity_circle_comment.recyclerView
 import kotlinx.android.synthetic.main.activity_circle_comment.rl_loading
 import kotlinx.android.synthetic.main.activity_contents.*
 import kotlinx.android.synthetic.main.item_circle.view.*
+import org.greenrobot.eventbus.Subscribe
+import org.greenrobot.eventbus.ThreadMode
 import org.jetbrains.anko.startActivity
 import java.util.ArrayList
 import javax.inject.Inject
@@ -70,7 +74,7 @@ class CircleCommentActivity : BaseActivity<CircleCommentPresenter>(), CircleComm
                 .inject(this)
     }
 
-    val header by lazy { LayoutInflater.from(this).inflate(R.layout.item_circle, recyclerView, false) }
+    private val header by lazy { LayoutInflater.from(this).inflate(R.layout.item_circle, recyclerView, false) }
 
     private val dialog by lazy {
         val dialog = CommentDialog(this)
@@ -93,7 +97,7 @@ class CircleCommentActivity : BaseActivity<CircleCommentPresenter>(), CircleComm
         dialog.setOnReleaseClickListener {
             val user = Preference.getDeviceData<LoginInfo?>(Constant.LOGIN_INFO)
             if (!user?.userId.isNullOrEmpty()) {
-                mPresenter?.chapterComment(commentId, it,toReplyUserId)
+                mPresenter?.chapterComment(commentId, it, toReplyUserId)
                 if (dialog.isShowing)
                     dialog.dismiss()
                 hideSoftKeyboard()
@@ -132,8 +136,11 @@ class CircleCommentActivity : BaseActivity<CircleCommentPresenter>(), CircleComm
                     return@setOnReplyClickListener
                 }
                 commentId = data[it].commentId
-                toReplyUserId = ""
+                toReplyUserId = data[it].commentUserId
                 dialogComment.show("@${this.data[it].commentUserName}")
+            }
+            setOnCommentReplyMoreClickListenerListener {
+                JumpManager.toCircleCommentReplyDetail(this@CircleCommentActivity, this.data[it].commentId)
             }
         }
         refreshLayout.setOnRefreshListener {
@@ -240,6 +247,11 @@ class CircleCommentActivity : BaseActivity<CircleCommentPresenter>(), CircleComm
 
     override fun hideLoading() {
         rl_loading.visible(false)
+    }
+
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    fun CircleCommentEvent(event: CircleCommentEvent) {
+        mPresenter?.getComments(momentId)
     }
 
 }

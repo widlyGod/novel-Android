@@ -13,13 +13,9 @@ import com.novel.cn.ext.toast
 import me.jessyan.rxerrorhandler.core.RxErrorHandler
 import javax.inject.Inject
 
-import com.novel.cn.mvp.contract.CircleCommentContract
-import com.novel.cn.mvp.model.entity.BaseResponse
-import com.novel.cn.mvp.model.entity.Circle
-import com.novel.cn.mvp.model.entity.CircleBean
-import com.novel.cn.mvp.model.entity.CircleCommentBean
-import com.novel.cn.mvp.ui.adapter.CircleCommentAdapter
-import com.novel.cn.view.MultiStateView
+import com.novel.cn.mvp.contract.CircleCommentReplyDetailContract
+import com.novel.cn.mvp.model.entity.*
+import com.novel.cn.mvp.ui.adapter.CircleCommentReplyAdapter
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.schedulers.Schedulers
 import me.jessyan.rxerrorhandler.handler.ErrorHandleSubscriber
@@ -29,7 +25,7 @@ import me.jessyan.rxerrorhandler.handler.ErrorHandleSubscriber
  * ================================================
  * Description:
  * <p>
- * Created by MVPArmsTemplate on 07/29/2019 11:37
+ * Created by MVPArmsTemplate on 08/01/2019 14:21
  * <a href="mailto:jess.yan.effort@gmail.com">Contact me</a>
  * <a href="https://github.com/JessYanCoding">Follow me</a>
  * <a href="https://github.com/JessYanCoding/MVPArms">Star me</a>
@@ -38,10 +34,10 @@ import me.jessyan.rxerrorhandler.handler.ErrorHandleSubscriber
  * ================================================
  */
 @ActivityScope
-class CircleCommentPresenter
+class CircleCommentReplyDetailPresenter
 @Inject
-constructor(model: CircleCommentContract.Model, rootView: CircleCommentContract.View) :
-        BasePresenter<CircleCommentContract.Model, CircleCommentContract.View>(model, rootView) {
+constructor(model: CircleCommentReplyDetailContract.Model, rootView: CircleCommentReplyDetailContract.View) :
+        BasePresenter<CircleCommentReplyDetailContract.Model, CircleCommentReplyDetailContract.View>(model, rootView) {
     @Inject
     lateinit var mErrorHandler: RxErrorHandler
     @Inject
@@ -54,33 +50,33 @@ constructor(model: CircleCommentContract.Model, rootView: CircleCommentContract.
     private var mPageIndex = 1
 
     @Inject
-    lateinit var mCircleCommentAdapter: CircleCommentAdapter
+    lateinit var mAdapter: CircleCommentReplyAdapter
 
-    fun getComments(momentId: String, pullToRefresh: Boolean = true) {
+    fun getReplys(commentId: String, pullToRefresh: Boolean = true) {
         if (pullToRefresh) mPageIndex = 1
 
         val params = HashMap<String, String>()
         params["pageNum"] = mPageIndex.toString()
         params["pageSize"] = Constant.PAGE_SIZE.toString()
-        params["momentId"] = momentId
-        mModel.getComments(params)
+        params["commentId"] = commentId
+        mModel.getReplys(params)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .compose(RxLifecycleUtils.bindToLifecycle(mRootView))
-                .subscribe(object : ErrorHandleSubscriber<BaseResponse<CircleCommentBean>>(mErrorHandler) {
-                    override fun onNext(t: BaseResponse<CircleCommentBean>) {
+                .subscribe(object : ErrorHandleSubscriber<BaseResponse<CircleCommentRaeplyAllBean>>(mErrorHandler) {
+                    override fun onNext(t: BaseResponse<CircleCommentRaeplyAllBean>) {
                         if (t.data.totalElements == 0) {
                         } else {
                             val noMore = t.data.totalPages <= mPageIndex
 
                             if (pullToRefresh) {
-                                mCircleCommentAdapter.setNewData(t.data.content)
+                                mAdapter.setNewData(t.data.content)
                             } else {
-                                mCircleCommentAdapter.addData(t.data.content)
-                                mCircleCommentAdapter.loadMoreComplete()
+                                mAdapter.addData(t.data.content)
+                                mAdapter.loadMoreComplete()
                             }
                             if (noMore)
-                                mCircleCommentAdapter.loadMoreEnd()
+                                mAdapter.loadMoreEnd()
 
                             mPageIndex++
                         }
@@ -94,12 +90,12 @@ constructor(model: CircleCommentContract.Model, rootView: CircleCommentContract.
                 })
     }
 
-    fun getMomentDetail(momentId: String) {
-        mModel.getMomentDetail(momentId)
+    fun getReplyDetail(commentId: String) {
+        mModel.getReplyDetail(commentId)
                 .applySchedulers(mRootView)
-                .subscribe(object : ErrorHandleSubscriber<BaseResponse<Circle>>(mErrorHandler) {
-                    override fun onNext(t: BaseResponse<Circle>) {
-                        mRootView.getMomentDetailSuccess(t.data)
+                .subscribe(object : ErrorHandleSubscriber<BaseResponse<Content>>(mErrorHandler) {
+                    override fun onNext(t: BaseResponse<Content>) {
+                        mRootView.getReplyDetaillSuccess(t.data)
                     }
 
                     override fun onError(t: Throwable) {
@@ -109,8 +105,8 @@ constructor(model: CircleCommentContract.Model, rootView: CircleCommentContract.
                 })
     }
 
-    fun agree(momentId: String) {
-        mModel.agree(momentId)
+    fun agreeReply(commentId: String) {
+        mModel.agreeReply(commentId)
                 .applySchedulers(mRootView)
                 .subscribe(object : ErrorHandleSubscriber<BaseResponse<Any>>(mErrorHandler) {
                     override fun onNext(t: BaseResponse<Any>) {
@@ -124,49 +120,12 @@ constructor(model: CircleCommentContract.Model, rootView: CircleCommentContract.
                 })
     }
 
-    fun chapter(momentId: String, commentContent: String) {
+    fun chapterComment(commentId: String, commentContent: String, toReplyUserId: String, replyType: String) {
         val params = HashMap<String, Any?>()
-        params["momentId"] = momentId
-        params["commentContent"] = commentContent
-        mModel.chapterComment(params)
-                .applySchedulers(mRootView)
-                .subscribe(object : ErrorHandleSubscriber<BaseResponse<Any>>(mErrorHandler) {
-                    override fun onNext(t: BaseResponse<Any>) {
-                        mRootView.chapterCommentSuccess()
-                        toast("评论成功")
-                    }
-
-                    override fun onError(t: Throwable) {
-                        super.onError(t)
-                        toast(t.message)
-                    }
-                })
-    }
-
-    fun agreeComment(position: Int) {
-        val item = mCircleCommentAdapter.getItem(position)
-        mModel.agreeReply(item?.commentId!!)
-                .applySchedulers(mRootView)
-                .subscribe(object : ErrorHandleSubscriber<BaseResponse<Any>>(mErrorHandler) {
-                    override fun onNext(t: BaseResponse<Any>) {
-                        item.hadThumbed = true
-                        item.thumbNum++
-                        mCircleCommentAdapter.notifyDataSetChanged()
-                    }
-
-                    override fun onError(t: Throwable) {
-                        super.onError(t)
-                        toast(t.message)
-                    }
-                })
-    }
-
-    fun chapterComment(momentId: String, commentContent: String, toReplyUserId: String) {
-        val params = HashMap<String, Any?>()
-        params["commentId"] = momentId
+        params["commentId"] = commentId
         params["replyContent"] = commentContent
         params["toReplyUserId"] = toReplyUserId
-        params["replyType"] = "0"
+        params["replyType"] = replyType
         mModel.chapterCommentReply(params)
                 .applySchedulers(mRootView)
                 .subscribe(object : ErrorHandleSubscriber<BaseResponse<Any>>(mErrorHandler) {
@@ -181,4 +140,23 @@ constructor(model: CircleCommentContract.Model, rootView: CircleCommentContract.
                     }
                 })
     }
+
+    fun agreeReplyReply(position: Int) {
+        val item = mAdapter.getItem(position)
+        mModel.agreeReplyReply(item?.replyId!!)
+                .applySchedulers(mRootView)
+                .subscribe(object : ErrorHandleSubscriber<BaseResponse<Any>>(mErrorHandler) {
+                    override fun onNext(t: BaseResponse<Any>) {
+                        item.hadThumbed = true
+                        item.thumbNum++
+                        mAdapter.notifyDataSetChanged()
+                    }
+
+                    override fun onError(t: Throwable) {
+                        super.onError(t)
+                        toast(t.message)
+                    }
+                })
+    }
+
 }
