@@ -165,6 +165,7 @@ class CircleCommentActivity : BaseActivity<CircleCommentPresenter>(), CircleComm
         header.tv_circle_title.text = circle.momentTitle
         header.tv_circle_content.text = circle.momentContent
         header.tv_num.text = circle.likeNum.toString()
+        header.tv_location.text = circle.address?.address
         tv_agree_num.text = circle.likeNum.toString()
         header.tv_comment_num.text = circle.commentNum.toString()
         tv_comment_num.text = circle.commentNum.toString()

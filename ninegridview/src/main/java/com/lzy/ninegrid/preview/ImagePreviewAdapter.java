@@ -30,7 +30,7 @@ import uk.co.senab.photoview.PhotoViewAttacher;
  * 修订历史：
  * ================================================
  */
-public class ImagePreviewAdapter extends PagerAdapter implements PhotoViewAttacher.OnPhotoTapListener {
+public class ImagePreviewAdapter extends PagerAdapter  {
 
     private List<ImageInfo> imageInfo;
     private Context context;
@@ -56,6 +56,8 @@ public class ImagePreviewAdapter extends PagerAdapter implements PhotoViewAttach
     public void setPrimaryItem(ViewGroup container, int position, Object object) {
         super.setPrimaryItem(container, position, object);
         currentView = (View) object;
+
+
     }
 
     public View getPrimaryItem() {
@@ -73,7 +75,7 @@ public class ImagePreviewAdapter extends PagerAdapter implements PhotoViewAttach
         final CircleProgressView circleProgressView = (CircleProgressView) view.findViewById(R.id.progressView);
 
         ImageInfo info = this.imageInfo.get(position);
-        imageView.setOnPhotoTapListener(this);
+        imageView.setOnViewTapListener((view1, x, y) -> ((ImagePreviewActivity) context).finishActivityAnim());
         showExcessPic(info, imageView);
         circleProgressView.setVisibility(View.GONE);
 
@@ -134,14 +136,6 @@ public class ImagePreviewAdapter extends PagerAdapter implements PhotoViewAttach
     @Override
     public void destroyItem(ViewGroup container, int position, Object object) {
         container.removeView((View) object);
-    }
-
-    /**
-     * 单击屏幕关闭
-     */
-    @Override
-    public void onPhotoTap(View view, float x, float y) {
-        ((ImagePreviewActivity) context).finishActivityAnim();
     }
 
     public interface Progress {

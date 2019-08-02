@@ -43,7 +43,8 @@
             android:value="e01b0055a021560d3ca2b9beab8ace19" /> <!-- 定位需要的服务 适配Android Q需要加上android:foregroundServiceType="location" -->
         <service android:name="com.amap.api.location.APSService" />
 
-        <activity android:name=".mvp.ui.activity.PublishActivity" />
+        <activity android:name=".mvp.ui.activity.PublishActivity"
+            android:windowSoftInputMode="stateVisible|adjustResize"/>
         <activity android:name=".mvp.ui.activity.VipActivity" />
         <activity
             android:name=".mvp.ui.activity.MineBillActivity"
@@ -125,6 +126,9 @@
         <activity
             android:name=".mvp.ui.activity.MessageActivity"
             android:label="我的消息" />
+        <activity
+            android:name=".mvp.ui.activity.LocationSelectActivity"
+            android:label="所在位置" />
         <activity
             android:name=".mvp.ui.activity.SettingActivity"
             android:label="设置" />

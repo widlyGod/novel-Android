@@ -48,11 +48,11 @@ constructor(model: PublishContract.Model, rootView: PublishContract.View) :
     @Inject
     lateinit var mAppManager: AppManager
 
-    fun public(type: Int, momentTitle: String, momentContent: String, address: String, fliesPath: List<String>,novelId:String) {
+    fun public(type: Int, momentTitle: String, momentContent: String, address: String, fliesPath: List<String>, novelId: String, longitude: Double, latitude: Double) {
         var flies = mutableListOf<String>()
         flies.addAll(fliesPath)
         val parts = ArrayList<MultipartBody.Part>(fliesPath.size)
-        if(flies[flies.lastIndex].isBlank()){
+        if (flies[flies.lastIndex].isBlank()) {
             flies.removeAt(flies.lastIndex)
         }
         flies.forEach {
@@ -63,14 +63,20 @@ constructor(model: PublishContract.Model, rootView: PublishContract.View) :
         }
         val type = MultipartBody.Part.createFormData("momentType", type.toString())
         parts.add(type)
-        val momentTitle = MultipartBody.Part.createFormData("momentTitle",momentTitle)
+        val momentTitle = MultipartBody.Part.createFormData("momentTitle", momentTitle)
         parts.add(momentTitle)
-        val momentContent = MultipartBody.Part.createFormData("momentContent",momentContent)
+        val momentContent = MultipartBody.Part.createFormData("momentContent", momentContent)
         parts.add(momentContent)
-        val address = MultipartBody.Part.createFormData("address",address)
-        parts.add(address)
-        val novelId = MultipartBody.Part.createFormData("novelId",novelId)
+        val novelId = MultipartBody.Part.createFormData("novelId", novelId)
         parts.add(novelId)
+        if (address.isNotEmpty()) {
+            val address = MultipartBody.Part.createFormData("address", address)
+            parts.add(address)
+            val longitude = MultipartBody.Part.createFormData("longitude", longitude.toString())
+            parts.add(longitude)
+            val latitude = MultipartBody.Part.createFormData("latitude", latitude.toString())
+            parts.add(latitude)
+        }
         mModel.public(parts)
                 .applySchedulers(mRootView)
                 .subscribe(object : ErrorHandleSubscriber<BaseResponse<Any>>(mErrorHandler) {
@@ -85,7 +91,7 @@ constructor(model: PublishContract.Model, rootView: PublishContract.View) :
                 })
     }
 
-    fun getHotSearch(){
+    fun getHotSearch() {
         mModel.getHotSearch()
                 .applySchedulers(mRootView)
                 .subscribe(object : ErrorHandleSubscriber<BaseResponse<List<BookInfo>>>(mErrorHandler) {
@@ -100,7 +106,7 @@ constructor(model: PublishContract.Model, rootView: PublishContract.View) :
                 })
     }
 
-    fun getMomentNovel(novelId:String){
+    fun getMomentNovel(novelId: String) {
         mModel.getMomentNovel(novelId)
                 .applySchedulers(mRootView)
                 .subscribe(object : ErrorHandleSubscriber<BaseResponse<Novel>>(mErrorHandler) {

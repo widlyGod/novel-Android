@@ -43,6 +43,7 @@ class CircleAdapter : BaseQuickAdapter<Circle, BaseViewHolder>(R.layout.item_cir
             tv_circle_title.visible(item.momentTitle.isNotEmpty())
             tv_circle_title.text = item.momentTitle
             tv_circle_content.text = item.momentContent
+            tv_location.text = item.address?.address
             tv_num.text = item.likeNum.toString()
             tv_comment_num.text = item.commentNum.toString()
             tv_isAuthor.visible(item.beNovelAuthor)

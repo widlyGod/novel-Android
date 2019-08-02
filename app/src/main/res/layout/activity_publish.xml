@@ -79,126 +79,141 @@
 
     </android.support.constraint.ConstraintLayout>
 
-    <br.com.instachat.emojilibrary.model.layout.EmojiEditText
-        android:id="@+id/et_title"
+    <android.support.v4.widget.NestedScrollView
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/cl_title"
-        android:layout_marginLeft="18dp"
-        android:layout_marginTop="21dp"
-        android:layout_marginRight="18dp"
-        android:background="@drawable/shape_title_edit_bg_gray"
-        android:hint="请输入主标题"
-        android:maxLength="20"
-        android:maxLines="1"
-        android:paddingLeft="12dp"
-        android:paddingTop="6dp"
-        android:paddingRight="12dp"
-        android:paddingBottom="6dp"
-        android:textColor="#222222"
-        android:textColorHint="#999999"
-        android:textSize="16sp"
-        app:emojiSize="16dp" />
+        android:layout_height="match_parent"
+        android:layout_above="@+id/ll_bottom"
+        android:layout_below="@+id/cl_title">
 
-    <br.com.instachat.emojilibrary.model.layout.EmojiEditText
-        android:id="@+id/et_main"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/et_title"
-        android:layout_marginLeft="18dp"
-        android:layout_marginRight="18dp"
-        android:background="@color/white"
-        android:hint="分享新鲜事..."
-        android:maxLength="500"
-        android:paddingTop="20dp"
-        android:paddingBottom="20dp"
-        android:textColor="#222222"
-        android:textColorHint="#999999"
-        android:textSize="16sp"
-        app:emojiSize="16dp" />
-
-    <android.support.v7.widget.RecyclerView
-        android:id="@+id/rv_images"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/et_main"
-        android:layout_marginLeft="16dp"
-        android:layout_marginRight="16dp"
-        android:overScrollMode="never"
-        app:layoutManager="android.support.v7.widget.GridLayoutManager"
-        app:spanCount="3" />
-
-    <ImageView
-        android:id="@+id/iv_add_book_comment"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/et_main"
-        android:paddingLeft="16dp"
-        android:paddingRight="16dp"
-        android:paddingBottom="16dp"
-        android:src="@drawable/ic_add_book_comment"/>
-
-    <RelativeLayout
-        android:id="@+id/rl_book_detail"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/et_main"
-        android:layout_marginLeft="16dp"
-        android:layout_marginRight="16dp"
-        android:background="@drawable/shape_hollow_gray_bg"
-        android:visibility="gone" >
-
-        <ImageView
-            android:id="@+id/iv_book_image"
-            android:layout_width="36dp"
-            android:layout_height="48dp"
-            android:layout_gravity="center_horizontal"
-            android:layout_margin="10dp"
-            android:layout_marginTop="10dp"
-            android:scaleType="centerCrop" />
-
-        <LinearLayout
+        <RelativeLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_centerInParent="true"
-            android:layout_toRightOf="@id/iv_book_image"
-            android:orientation="vertical">
+            android:layout_height="match_parent">
 
-            <TextView
-                android:id="@+id/tv_book_name"
+            <br.com.instachat.emojilibrary.model.layout.EmojiEditText
+                android:id="@+id/et_title"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="18dp"
+                android:layout_marginTop="21dp"
+                android:layout_marginRight="18dp"
+                android:background="@drawable/shape_title_edit_bg_gray"
+                android:hint="请输入主标题"
+                android:maxLength="20"
+                android:maxLines="1"
+                android:paddingLeft="12dp"
+                android:paddingTop="6dp"
+                android:paddingRight="12dp"
+                android:paddingBottom="6dp"
+                android:textColor="#222222"
+                android:textColorHint="#999999"
+                android:textSize="16sp"
+                app:emojiSize="16dp" />
+
+            <br.com.instachat.emojilibrary.model.layout.EmojiEditText
+                android:id="@+id/et_main"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/et_title"
+                android:layout_marginLeft="18dp"
+                android:layout_marginRight="18dp"
+                android:background="@color/white"
+                android:hint="分享新鲜事..."
+                android:maxLength="500"
+                android:paddingTop="20dp"
+                android:paddingBottom="20dp"
+                android:textColor="#222222"
+                android:textColorHint="#999999"
+                android:textSize="16sp"
+                app:emojiSize="16dp" />
+
+            <android.support.v7.widget.RecyclerView
+                android:id="@+id/rv_images"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/et_main"
+                android:layout_marginLeft="16dp"
+                android:layout_marginRight="16dp"
+                android:overScrollMode="never"
+                app:layoutManager="android.support.v7.widget.GridLayoutManager"
+                app:spanCount="3" />
+
+            <ImageView
+                android:id="@+id/iv_add_book_comment"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text=""
-                android:textColor="@color/black"
-                android:textSize="14sp" />
+                android:layout_below="@+id/et_main"
+                android:paddingLeft="16dp"
+                android:paddingRight="16dp"
+                android:paddingBottom="16dp"
+                android:src="@drawable/ic_add_book_comment" />
 
-            <TextView
-                android:id="@+id/tv_book_detail"
-                android:layout_width="wrap_content"
+            <RelativeLayout
+                android:id="@+id/rl_book_detail"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="4dp"
-                android:text=""
-                android:textColor="#acacac"
-                android:textSize="12sp" />
+                android:layout_below="@+id/et_main"
+                android:layout_marginLeft="16dp"
+                android:layout_marginRight="16dp"
+                android:background="@drawable/shape_hollow_gray_bg"
+                android:visibility="gone">
 
-        </LinearLayout>
+                <ImageView
+                    android:id="@+id/iv_book_image"
+                    android:layout_width="36dp"
+                    android:layout_height="48dp"
+                    android:layout_gravity="center_horizontal"
+                    android:layout_margin="10dp"
+                    android:layout_marginTop="10dp"
+                    android:scaleType="centerCrop" />
 
-        <ImageView
-            android:id="@+id/iv_delete"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentRight="true"
-            android:paddingLeft="5dp"
-            android:paddingBottom="5dp"
-            android:src="@drawable/ic_delete_image" />
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_centerInParent="true"
+                    android:layout_toRightOf="@id/iv_book_image"
+                    android:orientation="vertical">
 
-    </RelativeLayout>
+                    <TextView
+                        android:id="@+id/tv_book_name"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text=""
+                        android:textColor="@color/black"
+                        android:textSize="14sp" />
+
+                    <TextView
+                        android:id="@+id/tv_book_detail"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="4dp"
+                        android:text=""
+                        android:textColor="#acacac"
+                        android:textSize="12sp" />
+
+                </LinearLayout>
+
+                <ImageView
+                    android:id="@+id/iv_delete"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentRight="true"
+                    android:paddingLeft="5dp"
+                    android:paddingBottom="5dp"
+                    android:src="@drawable/ic_delete_image" />
+
+            </RelativeLayout>
+
+        </RelativeLayout>
+
+    </android.support.v4.widget.NestedScrollView>
 
     <LinearLayout
+        android:id="@+id/ll_bottom"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
-        android:orientation="vertical">
+        android:orientation="vertical"
+        android:background="#00000000">
 
         <LinearLayout
             android:id="@+id/rl_location"
@@ -206,27 +221,80 @@
             android:layout_height="wrap_content"
             android:layout_marginLeft="18dp"
             android:layout_marginBottom="10dp"
+            android:background="@drawable/shape_bill_date_change_bg"
             android:orientation="horizontal"
             android:paddingLeft="10dp"
-            android:paddingRight="10dp"
-            android:paddingTop="4dp"
-            android:paddingBottom="4dp"
-            android:background="@drawable/shape_bill_date_change_bg">
+            android:paddingRight="10dp">
 
-            <ImageView
+            <LinearLayout
+                android:id="@+id/ll_location_select"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:src="@drawable/ic_location_gray"
-                android:layout_gravity="center_vertical"/>
+                android:orientation="horizontal"
+                android:paddingTop="4dp"
+                android:paddingBottom="4dp">
 
-            <TextView
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_vertical"
+                    android:src="@drawable/ic_location_gray" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_vertical"
+                    android:layout_marginLeft="4dp"
+                    android:text="你在哪里？"
+                    android:textColor="#999999"
+                    android:textSize="14sp" />
+
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/ll_location_selected_show"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textColor="#999999"
-                android:textSize="14sp"
-                android:layout_marginLeft="4dp"
-                android:text="你在哪里？"
-                android:layout_gravity="center_vertical"/>
+                android:orientation="horizontal"
+                android:visibility="gone">
+
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_vertical"
+                    android:paddingTop="4dp"
+                    android:paddingBottom="4dp"
+                    android:src="@drawable/ic_location_blue" />
+
+                <TextView
+                    android:id="@+id/tv_location_name"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_vertical"
+                    android:layout_marginLeft="4dp"
+                    android:paddingTop="4dp"
+                    android:paddingBottom="4dp"
+                    android:text="你在哪里？"
+                    android:textColor="#4f7fb6"
+                    android:textSize="14sp" />
+
+                <View
+                    android:layout_width="1px"
+                    android:layout_height="match_parent"
+                    android:layout_marginLeft="2dp"
+                    android:layout_marginRight="2dp"
+                    android:background="#cdcdcd" />
+
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_vertical"
+                    android:paddingTop="4dp"
+                    android:paddingBottom="4dp"
+                    android:src="@drawable/ic_location_clean" />
+
+            </LinearLayout>
 
         </LinearLayout>
 

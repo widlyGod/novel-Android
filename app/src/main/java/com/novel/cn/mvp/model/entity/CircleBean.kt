@@ -24,7 +24,7 @@ data class CircleBean(
 )
 
 data class Circle(
-        val address: String,
+        val address: Address,
         val beNovelAuthor: Boolean,
         var commentNum: Int,
         val createTime: Long,
@@ -55,4 +55,12 @@ data class ImageInfo(
         val litUrl: String,
         val momentId: Int,
         val url: String
+)
+
+data class Address(
+        val id: String,
+        val momentId: String,
+        val address: String,
+        val longitude: Double,
+        val latitude: Double
 )

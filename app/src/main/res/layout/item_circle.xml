@@ -148,42 +148,20 @@
             app:ngv_singleImageRatio="1"
             app:ngv_singleImageSize="210dp"/>
 
-        <LinearLayout
+        <RelativeLayout
             android:id="@+id/ll_comment_like"
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_gravity="end"
             android:orientation="horizontal">
 
-            <LinearLayout
-                android:id="@+id/ll_comment"
+            <TextView
+                android:id="@+id/tv_location"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:orientation="horizontal"
-                android:paddingLeft="8dp"
-                android:paddingTop="16dp"
-                android:paddingRight="8dp"
-                android:paddingBottom="19dp"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toStartOf="@+id/fl_1"
-                app:layout_constraintRight_toLeftOf="@+id/fl_1">
-
-                <TextView
-                    android:id="@+id/tv_comment_num"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text=""
-                    android:textColor="@color/color_999999"
-                    android:textSize="13sp" />
-
-                <ImageView
-                    android:id="@+id/iv_comment"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginLeft="3dp"
-                    android:src="@drawable/ic_comment" />
-
-            </LinearLayout>
+                android:textColor="@color/color_999999"
+                android:textSize="13sp"
+                android:layout_centerVertical="true"/>
 
             <LinearLayout
                 android:id="@+id/ll_like"
@@ -192,10 +170,8 @@
                 android:orientation="horizontal"
                 android:paddingLeft="8dp"
                 android:paddingTop="16dp"
-                android:paddingBottom="19dp"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toStartOf="@+id/fl_1"
-                app:layout_constraintRight_toLeftOf="@+id/fl_1">
+                android:layout_alignParentRight="true"
+                android:paddingBottom="19dp">
 
                 <TextView
                     android:id="@+id/tv_num"
@@ -214,7 +190,36 @@
 
             </LinearLayout>
 
-        </LinearLayout>
+            <LinearLayout
+                android:id="@+id/ll_comment"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:paddingLeft="8dp"
+                android:paddingTop="16dp"
+                android:paddingRight="8dp"
+                android:paddingBottom="19dp"
+                android:layout_toLeftOf="@+id/ll_like">
+
+                <TextView
+                    android:id="@+id/tv_comment_num"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text=""
+                    android:textColor="@color/color_999999"
+                    android:textSize="13sp" />
+
+                <ImageView
+                    android:id="@+id/iv_comment"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="3dp"
+                    android:src="@drawable/ic_comment" />
+
+            </LinearLayout>
+
+
+        </RelativeLayout>
 
     </LinearLayout>
 

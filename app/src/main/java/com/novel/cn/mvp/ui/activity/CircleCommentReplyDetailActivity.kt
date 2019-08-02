@@ -30,6 +30,7 @@ import com.novel.cn.mvp.ui.adapter.CircleCommentReplyAdapter
 import com.novel.cn.mvp.ui.dialog.CommentDialog
 import com.novel.cn.utils.TimeUtils
 import kotlinx.android.synthetic.main.activity_circle_comment_reply_detail.*
+import kotlinx.android.synthetic.main.include_title.*
 import kotlinx.android.synthetic.main.item_circle_comment_reply_head.view.*
 import org.jetbrains.anko.startActivity
 import java.text.SimpleDateFormat
@@ -64,6 +65,7 @@ import javax.inject.Inject
 class CircleCommentReplyDetailActivity : BaseActivity<CircleCommentReplyDetailPresenter>(), CircleCommentReplyDetailContract.View {
 
     override fun getReplyDetaillSuccess(content: Content) {
+        toolbar_title.text = "${content.replyNum}条回复"
         header.iv_avatar.loadHeadImage(content?.commentUserPhoto)
         header.tv_nickname.text = content?.commentUserName
         header.tv_content.text = content?.commentContent
