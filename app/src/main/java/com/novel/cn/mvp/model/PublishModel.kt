@@ -10,9 +10,11 @@ import javax.inject.Inject
 
 import com.novel.cn.mvp.contract.PublishContract
 import com.novel.cn.mvp.model.api.service.BookService
+import com.novel.cn.mvp.model.api.service.UserService
 import com.novel.cn.mvp.model.entity.BaseResponse
 import com.novel.cn.mvp.model.entity.BookInfo
 import com.novel.cn.mvp.model.entity.Novel
+import com.novel.cn.mvp.model.entity.User
 import io.reactivex.Observable
 import okhttp3.MediaType
 import okhttp3.MultipartBody
@@ -55,4 +57,7 @@ constructor(repositoryManager: IRepositoryManager) : BaseModel(repositoryManager
         return mRepositoryManager.obtainRetrofitService(BookService::class.java).getMomentNovel(novelId)
     }
 
+    override fun getUserInfo(): Observable<BaseResponse<User>> {
+        return mRepositoryManager.obtainRetrofitService(UserService::class.java).getUserInfo()
+    }
 }

@@ -46,6 +46,7 @@ import com.novel.cn.ext.clicks
 import com.novel.cn.ext.toast
 import com.novel.cn.mvp.model.entity.BookInfo
 import com.novel.cn.mvp.model.entity.Novel
+import com.novel.cn.mvp.model.entity.User
 import com.novel.cn.mvp.ui.adapter.PublicCircleImageAdapter
 import com.novel.cn.utils.AppPermissions
 import com.novel.cn.utils.Glide4Engine
@@ -152,10 +153,15 @@ class PublishActivity : BaseActivity<PublishPresenter>(), PublishContract.View {
         }
     }
 
+    override fun showUserInfo(data: User) {
+        tv_user_name.text = data.userNickName
+    }
+
+
     override fun initData(savedInstanceState: Bundle?) {
         loadArguments()
         mImageList.add("")
-
+        mPresenter?.getUserInfo()
         mCurtain = findViewById(br.com.instachat.emojilibrary.R.id.curtain)
         mEmojiKeyboard = EmojiKeyboard(this, et_title)
         rv_images.adapter = mImageListAdapter.apply {
@@ -169,10 +175,6 @@ class PublishActivity : BaseActivity<PublishPresenter>(), PublishContract.View {
                 }
                 .bindToLifecycle(this)
         tv_send.clicks().subscribe {
-            if (et_title.text.toString().isBlank()) {
-                toast("请输入标题")
-                return@subscribe
-            }
             if (et_main.text.toString().isBlank()) {
                 toast("请输入内容")
                 return@subscribe

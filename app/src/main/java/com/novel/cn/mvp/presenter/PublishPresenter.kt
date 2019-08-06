@@ -6,6 +6,7 @@ import com.jess.arms.integration.AppManager
 import com.jess.arms.di.scope.ActivityScope
 import com.jess.arms.mvp.BasePresenter
 import com.jess.arms.http.imageloader.ImageLoader
+import com.jess.arms.utils.RxLifecycleUtils
 import com.novel.cn.ext.applySchedulers
 import com.novel.cn.ext.toast
 import me.jessyan.rxerrorhandler.core.RxErrorHandler
@@ -15,6 +16,9 @@ import com.novel.cn.mvp.contract.PublishContract
 import com.novel.cn.mvp.model.entity.BaseResponse
 import com.novel.cn.mvp.model.entity.BookInfo
 import com.novel.cn.mvp.model.entity.Novel
+import com.novel.cn.mvp.model.entity.User
+import io.reactivex.android.schedulers.AndroidSchedulers
+import io.reactivex.schedulers.Schedulers
 import me.jessyan.rxerrorhandler.handler.ErrorHandleSubscriber
 import okhttp3.MediaType
 import okhttp3.MultipartBody
@@ -63,8 +67,10 @@ constructor(model: PublishContract.Model, rootView: PublishContract.View) :
         }
         val type = MultipartBody.Part.createFormData("momentType", type.toString())
         parts.add(type)
-        val momentTitle = MultipartBody.Part.createFormData("momentTitle", momentTitle)
-        parts.add(momentTitle)
+        if (momentTitle.isNotEmpty()) {
+            val momentTitle = MultipartBody.Part.createFormData("momentTitle", momentTitle)
+            parts.add(momentTitle)
+        }
         val momentContent = MultipartBody.Part.createFormData("momentContent", momentContent)
         parts.add(momentContent)
         val novelId = MultipartBody.Part.createFormData("novelId", novelId)
@@ -117,6 +123,18 @@ constructor(model: PublishContract.Model, rootView: PublishContract.View) :
                     override fun onError(t: Throwable) {
                         super.onError(t)
                         toast(t.message)
+                    }
+                })
+    }
+
+    fun getUserInfo() {
+        mModel.getUserInfo()
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .compose(RxLifecycleUtils.bindToLifecycle(mRootView))
+                .subscribe(object : ErrorHandleSubscriber<BaseResponse<User>>(mErrorHandler) {
+                    override fun onNext(t: BaseResponse<User>) {
+                        mRootView.showUserInfo(t.data)
                     }
                 })
     }

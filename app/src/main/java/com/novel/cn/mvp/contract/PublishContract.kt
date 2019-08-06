@@ -5,6 +5,7 @@ import com.jess.arms.mvp.IModel
 import com.novel.cn.mvp.model.entity.BaseResponse
 import com.novel.cn.mvp.model.entity.BookInfo
 import com.novel.cn.mvp.model.entity.Novel
+import com.novel.cn.mvp.model.entity.User
 import io.reactivex.Observable
 import okhttp3.MultipartBody
 
@@ -27,6 +28,7 @@ interface PublishContract {
         fun publicSuccess()
         fun getHotSearchSuccess(list:List<BookInfo>)
         fun getMomentNovelSuccess(novel: Novel)
+        fun showUserInfo(data: User)
     }
 
     //Model层定义接口,外部只需关心Model返回的数据,无需关心内部细节,即是否使用缓存
@@ -34,6 +36,7 @@ interface PublishContract {
         fun public(fliesPath: List<MultipartBody.Part>): Observable<BaseResponse<Any>>
         fun getHotSearch(): Observable<BaseResponse<List<BookInfo>>>
         fun getMomentNovel(novelId:String): Observable<BaseResponse<Novel>>
+        fun getUserInfo():Observable<BaseResponse<User>>
     }
 
 }
