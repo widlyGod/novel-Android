@@ -208,7 +208,7 @@ class CircleCommentActivity : BaseActivity<CircleCommentPresenter>(), CircleComm
                 header.nineGrid.visible(false)
                 header.iv_book_image.loadImage(circle?.novelInfo?.novelPhoto)
                 header.tv_book_name.text = circle?.novelInfo?.novelTitle
-                header.tv_book_detail.text = "书评${circle?.novelInfo?.commentNum}  书友${circle?.novelInfo?.readNum}  周排名${circle?.novelInfo?.weeklyRank}"
+                header.tv_book_detail.text ="书评${circle?.novelInfo?.commentNum}  书友${circle?.novelInfo?.readNum}  周排名"+ if (circle?.novelInfo?.weeklyRank.toInt() > 99) "99+" else circle?.novelInfo?.weeklyRank
             }
             0 -> {
                 header.rl_book_detail.visible(false)

@@ -56,7 +56,7 @@ class CircleAdapter : BaseQuickAdapter<Circle, BaseViewHolder>(R.layout.item_cir
                     nineGrid.visible(false)
                     iv_book_image.loadImage(item?.novelInfo?.novelPhoto)
                     tv_book_name.text = item?.novelInfo?.novelTitle
-                    tv_book_detail.text = "书评${item?.novelInfo?.commentNum}  书友${item?.novelInfo?.readNum}  周排名${item?.novelInfo?.weeklyRank}"
+                    tv_book_detail.text = "书评${item?.novelInfo?.commentNum}  书友${item?.novelInfo?.readNum}  周排名" + if (item?.novelInfo?.weeklyRank.toInt() > 99) "99+" else item?.novelInfo?.weeklyRank
                 }
                 0 -> {
                     rl_book_detail.visible(false)

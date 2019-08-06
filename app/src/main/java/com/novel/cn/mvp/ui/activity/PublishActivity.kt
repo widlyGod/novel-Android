@@ -186,7 +186,7 @@ class PublishActivity : BaseActivity<PublishPresenter>(), PublishContract.View {
                 toast("请添加书籍")
                 return@subscribe
             }
-            mPresenter?.public(publicType, et_title.text.toString(), et_main.text.toString(), locationTitle, mImageList, novelId,longitude,latitude)
+            mPresenter?.public(publicType, et_title.text.toString(), et_main.text.toString(), locationTitle, mImageList, novelId, longitude, latitude)
         }.bindToLifecycle(this)
         iv_emoji.clicks().subscribe {
             if (!emojiShow) {
@@ -292,7 +292,7 @@ class PublishActivity : BaseActivity<PublishPresenter>(), PublishContract.View {
         novelId = novel.novelId
         iv_book_image.loadImage(novel.novelPhoto)
         tv_book_name.text = novel.novelTitle
-        tv_book_detail.text = "书评${novel.commentNum}  书友${novel.readNum}  周排名${novel.weeklyRank}"
+        tv_book_detail.text = "书评${novel.commentNum}  书友${novel.readNum}  周排名"+if (novel.weeklyRank.toInt() > 99) "99+" else novel.weeklyRank
     }
 
 
