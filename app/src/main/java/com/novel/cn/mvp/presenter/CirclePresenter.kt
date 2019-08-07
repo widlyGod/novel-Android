@@ -108,6 +108,27 @@ constructor(model: CircleContract.Model, rootView: CircleContract.View) :
                 })
     }
 
+    fun disAgree(position: Int) {
+        val item = mCircleAdapter.getItem(position)
+        val params = HashMap<String, Any?>()
+        params["type"] = 0
+        params["id"] = item?.momentId!!
+        mModel.disAgree(params)
+                .applySchedulers(mRootView)
+                .subscribe(object : ErrorHandleSubscriber<BaseResponse<Any>>(mErrorHandler) {
+                    override fun onNext(t: BaseResponse<Any>) {
+                        item.hadThumbed = false
+                        item.likeNum--
+                        mCircleAdapter.notifyDataSetChanged()
+                    }
+
+                    override fun onError(t: Throwable) {
+                        super.onError(t)
+                        toast(t.message)
+                    }
+                })
+    }
+
     fun chapterComment(momentId: String, commentContent: String, position: Int) {
         val item = mCircleAdapter.getItem(position)
         val params = HashMap<String, Any?>()

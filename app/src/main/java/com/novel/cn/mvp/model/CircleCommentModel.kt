@@ -33,7 +33,6 @@ class CircleCommentModel
 @Inject
 constructor(repositoryManager: IRepositoryManager) : BaseModel(repositoryManager), CircleCommentContract.Model {
 
-
     @Inject
     lateinit var mGson: Gson;
     @Inject
@@ -65,6 +64,14 @@ constructor(repositoryManager: IRepositoryManager) : BaseModel(repositoryManager
 
     override fun chapterCommentReply(params: HashMap<String, Any?>): Observable<BaseResponse<Any>> {
         return mRepositoryManager.obtainRetrofitService(BookService::class.java).chapterCommentReply(params)
+    }
+
+    override fun deleteCircleComment(params: HashMap<String, Any?>): Observable<BaseResponse<Any>> {
+        return mRepositoryManager.obtainRetrofitService(BookService::class.java).deleteCircleComment(params)
+    }
+
+    override fun disAgree(params: HashMap<String, Any?>): Observable<BaseResponse<Any>> {
+        return mRepositoryManager.obtainRetrofitService(BookService::class.java).disAgree(params)
     }
 
 }

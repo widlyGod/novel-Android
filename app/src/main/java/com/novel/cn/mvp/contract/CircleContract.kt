@@ -30,6 +30,7 @@ interface CircleContract {
         fun getAllMoments(params: HashMap<String, String>): Observable<BaseResponse<CircleBean>>
         fun agree(momentId: String): Observable<BaseResponse<Any>>
         fun chapterComment(params: HashMap<String, Any?>): Observable<BaseResponse<Any>>
+        fun disAgree(params: HashMap<String, Any?>): Observable<BaseResponse<Any>>
     }
 
 }

@@ -41,15 +41,23 @@
                 android:layout_weight="1">
 
                 <TextView
-                    android:id="@+id/tv_comment_num"
+                    android:id="@+id/tv_comment_num_circle"
                     android:layout_width="wrap_content"
                     android:layout_height="match_parent"
                     android:layout_centerInParent="true"
-                    android:drawableRight="@drawable/ic_circle_comment"
                     android:drawablePadding="4dp"
                     android:gravity="center"
                     android:textColor="#5e8fca"
                     android:textSize="14sp" />
+
+                <ImageView
+                    android:id="@+id/iv_comment_num"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:layout_marginLeft="4dp"
+                    android:layout_toRightOf="@+id/tv_comment_num_circle"
+                    android:src="@drawable/ic_circle_comment" />
 
             </RelativeLayout>
 

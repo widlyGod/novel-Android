@@ -212,12 +212,10 @@ class BookDetailActivity : BaseActivity<BookDetailPresenter>(), BookDetailContra
     }
 
     override fun showState(state: Int) {
-        if (state == MultiStateView.VIEW_STATE_EMPTY) {
-            mAdapter.setFooterView(footerEmpty)
-        } else if (state == MultiStateView.VIEW_STATE_ERROR) {
-            mAdapter.setFooterView(footerError)
-        } else if (state == MultiStateView.VIEW_STATE_CONTENT) {
-            mAdapter.removeAllFooterView()
+        when (state) {
+            MultiStateView.VIEW_STATE_EMPTY -> mAdapter.setFooterView(footerEmpty)
+            MultiStateView.VIEW_STATE_ERROR -> mAdapter.setFooterView(footerError)
+            MultiStateView.VIEW_STATE_CONTENT -> mAdapter.removeAllFooterView()
         }
     }
 

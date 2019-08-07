@@ -120,6 +120,24 @@ constructor(model: CircleCommentReplyDetailContract.Model, rootView: CircleComme
                 })
     }
 
+    fun disAgreeReply(commentId: String) {
+        val params = HashMap<String, Any?>()
+        params["type"] = 1
+        params["id"] = commentId
+        mModel.disAgree(params)
+                .applySchedulers(mRootView)
+                .subscribe(object : ErrorHandleSubscriber<BaseResponse<Any>>(mErrorHandler) {
+                    override fun onNext(t: BaseResponse<Any>) {
+                        mRootView.agreeSuccess()
+                    }
+
+                    override fun onError(t: Throwable) {
+                        super.onError(t)
+                        toast(t.message)
+                    }
+                })
+    }
+
     fun chapterComment(commentId: String, commentContent: String, toReplyUserId: String, replyType: String) {
         val params = HashMap<String, Any?>()
         params["commentId"] = commentId
@@ -150,6 +168,45 @@ constructor(model: CircleCommentReplyDetailContract.Model, rootView: CircleComme
                         item.hadThumbed = true
                         item.thumbNum++
                         mAdapter.notifyDataSetChanged()
+                    }
+
+                    override fun onError(t: Throwable) {
+                        super.onError(t)
+                        toast(t.message)
+                    }
+                })
+    }
+
+    fun disAgreeReplyReply(position: Int) {
+        val item = mAdapter.getItem(position)
+        val params = HashMap<String, Any?>()
+        params["type"] = 2
+        params["id"] = item?.commentId!!
+        mModel.disAgree(params)
+                .applySchedulers(mRootView)
+                .subscribe(object : ErrorHandleSubscriber<BaseResponse<Any>>(mErrorHandler) {
+                    override fun onNext(t: BaseResponse<Any>) {
+                        item.hadThumbed = false
+                        item.thumbNum--
+                        mAdapter.notifyDataSetChanged()
+                    }
+
+                    override fun onError(t: Throwable) {
+                        super.onError(t)
+                        toast(t.message)
+                    }
+                })
+    }
+
+    fun deleteCircleComment(id: String) {
+        val params = HashMap<String, Any?>()
+        params["type"] = 2
+        params["id"] = id
+        mModel.deleteCircleReply(params)
+                .applySchedulers(mRootView)
+                .subscribe(object : ErrorHandleSubscriber<BaseResponse<Any>>(mErrorHandler) {
+                    override fun onNext(t: BaseResponse<Any>) {
+                        mRootView.chapterCommentSuccess()
                     }
 
                     override fun onError(t: Throwable) {

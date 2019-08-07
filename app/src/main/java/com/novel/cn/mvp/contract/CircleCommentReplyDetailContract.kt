@@ -36,6 +36,8 @@ interface CircleCommentReplyDetailContract {
         fun chapterCommentReply(params: HashMap<String, Any?>): Observable<BaseResponse<Any>>
         fun getReplyDetail(replyId: String): Observable<BaseResponse<Content>>
         fun getReplys(params: HashMap<String, String>): Observable<BaseResponse<CircleCommentRaeplyAllBean>>
+        fun disAgree(params: HashMap<String, Any?>): Observable<BaseResponse<Any>>
+        fun deleteCircleReply(params: HashMap<String, Any?>): Observable<BaseResponse<Any>>
     }
 
 }

@@ -302,6 +302,18 @@ interface BookService {
     fun getComments(@Body params: HashMap<String, String>): Observable<BaseResponse<CircleCommentBean>>
 
     /**
+     * 删除圈子评论
+     */
+    @POST("novelAppService/moments/delMomentSomething")
+    fun deleteCircleComment(@Body params: HashMap<String, Any?>): Observable<BaseResponse<Any>>
+
+    /**
+     * 取消圈子点赞
+     */
+    @POST("novelAppService/moments/cancelThumb")
+    fun disAgree(@Body params: HashMap<String, Any?>): Observable<BaseResponse<Any>>
+
+    /**
      * 圈子评论下的评论点赞
      */
     @POST("novelAppService/moments/commendReply")

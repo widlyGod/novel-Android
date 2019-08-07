@@ -32,6 +32,7 @@ import io.reactivex.Observable
 class CircleCommentReplyDetailModel
 @Inject
 constructor(repositoryManager: IRepositoryManager) : BaseModel(repositoryManager), CircleCommentReplyDetailContract.Model {
+
     override fun agreeReplyReply(replyId: String): Observable<BaseResponse<Any>> {
         val params = HashMap<String, String>()
         params["replyId"] = replyId
@@ -54,6 +55,14 @@ constructor(repositoryManager: IRepositoryManager) : BaseModel(repositoryManager
 
     override fun getReplys(params: HashMap<String, String>): Observable<BaseResponse<CircleCommentRaeplyAllBean>> {
         return mRepositoryManager.obtainRetrofitService(BookService::class.java).getReplys(params)
+    }
+
+    override fun disAgree(params: HashMap<String, Any?>): Observable<BaseResponse<Any>> {
+        return mRepositoryManager.obtainRetrofitService(BookService::class.java).disAgree(params)
+    }
+
+    override fun deleteCircleReply(params: HashMap<String, Any?>): Observable<BaseResponse<Any>> {
+        return mRepositoryManager.obtainRetrofitService(BookService::class.java).deleteCircleComment(params)
     }
 
     @Inject

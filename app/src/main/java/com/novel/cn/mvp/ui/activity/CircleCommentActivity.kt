@@ -1,38 +1,37 @@
 package com.novel.cn.mvp.ui.activity
 
-import android.content.Intent
+import android.graphics.Color
 import android.os.Bundle
+import android.text.SpannableString
+import android.text.style.ForegroundColorSpan
 import android.view.LayoutInflater
-
 import com.jess.arms.base.BaseActivity
 import com.jess.arms.di.component.AppComponent
-import com.jess.arms.utils.ArmsUtils
+import com.jess.arms.integration.EventBusManager
 import com.jess.arms.utils.CircleCommentEvent
-import com.jess.arms.utils.LoginEvent
+import com.jess.arms.utils.CircleEvent
 import com.lzy.ninegrid.ImageInfo
 import com.lzy.ninegrid.preview.NineGridViewClickAdapter
-
-import com.novel.cn.di.component.DaggerCircleCommentComponent
-import com.novel.cn.di.module.CircleCommentModule
-import com.novel.cn.mvp.contract.CircleCommentContract
-import com.novel.cn.mvp.presenter.CircleCommentPresenter
-
 import com.novel.cn.R
 import com.novel.cn.app.*
+import com.novel.cn.di.component.DaggerCircleCommentComponent
+import com.novel.cn.di.module.CircleCommentModule
 import com.novel.cn.ext.toast
+import com.novel.cn.mvp.contract.CircleCommentContract
 import com.novel.cn.mvp.model.entity.Circle
 import com.novel.cn.mvp.model.entity.LoginInfo
+import com.novel.cn.mvp.presenter.CircleCommentPresenter
 import com.novel.cn.mvp.ui.adapter.CircleCommentAdapter
 import com.novel.cn.mvp.ui.dialog.CommentDialog
+import com.novel.cn.view.MultiStateView
+import kotlinx.android.synthetic.main.activity_book_detail.*
 import kotlinx.android.synthetic.main.activity_circle_comment.*
 import kotlinx.android.synthetic.main.activity_circle_comment.recyclerView
-import kotlinx.android.synthetic.main.activity_circle_comment.rl_loading
-import kotlinx.android.synthetic.main.activity_contents.*
 import kotlinx.android.synthetic.main.item_circle.view.*
 import org.greenrobot.eventbus.Subscribe
 import org.greenrobot.eventbus.ThreadMode
 import org.jetbrains.anko.startActivity
-import java.util.ArrayList
+import java.util.*
 import javax.inject.Inject
 
 
@@ -75,6 +74,8 @@ class CircleCommentActivity : BaseActivity<CircleCommentPresenter>(), CircleComm
     }
 
     private val header by lazy { LayoutInflater.from(this).inflate(R.layout.item_circle, recyclerView, false) }
+    val footerEmpty by lazy { LayoutInflater.from(this).inflate(R.layout.layout_empty, recyclerView, false) }
+    val footerError by lazy { LayoutInflater.from(this).inflate(R.layout.layout_error, recyclerView, false) }
 
     private val dialog by lazy {
         val dialog = CommentDialog(this)
@@ -130,6 +131,9 @@ class CircleCommentActivity : BaseActivity<CircleCommentPresenter>(), CircleComm
             setOnLikeClickListener {
                 mPresenter?.agreeComment(it)
             }
+            setOnUnLikeClickListener {
+                mPresenter?.disAgreeComment(it)
+            }
             setOnReplyClickListener {
                 if (user.isNull() || user.userId.isBlank()) {
                     startActivity<LoginActivity>()
@@ -142,6 +146,9 @@ class CircleCommentActivity : BaseActivity<CircleCommentPresenter>(), CircleComm
             setOnCommentReplyMoreClickListenerListener {
                 JumpManager.toCircleCommentReplyDetail(this@CircleCommentActivity, this.data[it].commentId)
             }
+            setOnDeleteClickListener {
+                mPresenter?.deleteCircleComment(data[it].commentId)
+            }
         }
         refreshLayout.setOnRefreshListener {
             onRefresh()
@@ -153,7 +160,7 @@ class CircleCommentActivity : BaseActivity<CircleCommentPresenter>(), CircleComm
         mPresenter?.getMomentDetail(momentId)
     }
 
-    override fun RefreshFinsh() {
+    override fun refreshFinish() {
         refreshLayout.finishRefresh()
     }
 
@@ -166,28 +173,38 @@ class CircleCommentActivity : BaseActivity<CircleCommentPresenter>(), CircleComm
         header.tv_circle_content.text = circle.momentContent
         header.tv_num.text = circle.likeNum.toString()
         header.tv_location.text = circle.address?.address
+        header.ll_circle_reply_num.visible(true)
+        val spannableString = SpannableString("共${circle.commentNum}条")
+        spannableString.setSpan(ForegroundColorSpan(Color.parseColor("#ea4b1a")), 2, spannableString.length - 1, SpannableString.SPAN_EXCLUSIVE_EXCLUSIVE)
+        header.tv_circle_reply_num.text = spannableString
         tv_agree_num.text = circle.likeNum.toString()
         header.tv_comment_num.text = circle.commentNum.toString()
-        tv_comment_num.text = circle.commentNum.toString()
+        tv_comment_num_circle.text = circle.commentNum.toString()
         header.tv_isAuthor.visible(circle.beNovelAuthor)
         header.iv_thumbUp.setImageResource(if (circle.hadThumbed) R.drawable.ic_zan_check else R.drawable.ic_zan_uncheck)
-        iv_agree_num.setImageResource(if (circle.hadThumbed) R.drawable.ic_zan_check else R.drawable.ic_zan_uncheck)
-        if (!circle.hadThumbed) {
-            rl_agree_num.setOnClickListener {
-                if (user.isNull() || user.userId.isBlank()) {
-                    startActivity<LoginActivity>()
-                    return@setOnClickListener
-                }
-                mPresenter?.agree(momentId)
+        iv_agree_num.setImageResource(if (circle.hadThumbed) R.drawable.ic_zan_check else R.drawable.ic_circle_agree)
+
+        rl_agree_num.setOnClickListener {
+            if (user.isNull() || user.userId.isBlank()) {
+                startActivity<LoginActivity>()
+                return@setOnClickListener
             }
-            header.ll_like.setOnClickListener {
-                if (user.isNull() || user.userId.isBlank()) {
-                    startActivity<LoginActivity>()
-                    return@setOnClickListener
-                }
+            if (!circle.hadThumbed)
                 mPresenter?.agree(momentId)
-            }
+            else
+                mPresenter?.disAgree(momentId)
         }
+        header.ll_like.setOnClickListener {
+            if (user.isNull() || user.userId.isBlank()) {
+                startActivity<LoginActivity>()
+                return@setOnClickListener
+            }
+            if (!circle.hadThumbed)
+                mPresenter?.agree(momentId)
+            else
+                mPresenter?.disAgree(momentId)
+        }
+
         rl_comment_num.setOnClickListener {
             if (user.isNull() || user.userId.isBlank()) {
                 startActivity<LoginActivity>()
@@ -208,7 +225,7 @@ class CircleCommentActivity : BaseActivity<CircleCommentPresenter>(), CircleComm
                 header.nineGrid.visible(false)
                 header.iv_book_image.loadImage(circle?.novelInfo?.novelPhoto)
                 header.tv_book_name.text = circle?.novelInfo?.novelTitle
-                header.tv_book_detail.text ="书评${circle?.novelInfo?.commentNum}  书友${circle?.novelInfo?.readNum}  周排名"+ if (circle?.novelInfo?.weeklyRank.toInt() > 99) "99+" else circle?.novelInfo?.weeklyRank
+                header.tv_book_detail.text = "书评${circle?.novelInfo?.commentNum}  书友${circle?.novelInfo?.readNum}  周排名" + if (circle?.novelInfo?.weeklyRank.toInt() > 99) "99+" else circle?.novelInfo?.weeklyRank
             }
             0 -> {
                 header.rl_book_detail.visible(false)
@@ -232,14 +249,22 @@ class CircleCommentActivity : BaseActivity<CircleCommentPresenter>(), CircleComm
         }
     }
 
+    override fun showState(state: Int) {
+        when (state) {
+            MultiStateView.VIEW_STATE_EMPTY -> mCircleCommentAdapter.setFooterView(footerEmpty)
+            MultiStateView.VIEW_STATE_ERROR -> mCircleCommentAdapter.setFooterView(footerError)
+            MultiStateView.VIEW_STATE_CONTENT -> mCircleCommentAdapter.removeAllFooterView()
+        }
+    }
+
     override fun agreeSuccess() {
-        rl_agree_num.setOnClickListener(null)
-        header.iv_thumbUp.setOnClickListener(null)
         mPresenter?.getMomentDetail(momentId)
+        EventBusManager.getInstance().post(CircleEvent())
     }
 
     override fun chapterCommentSuccess() {
         mPresenter?.getComments(momentId)
+        EventBusManager.getInstance().post(CircleEvent())
     }
 
     override fun showLoading() {

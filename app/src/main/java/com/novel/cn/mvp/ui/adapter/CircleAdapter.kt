@@ -23,9 +23,14 @@ class CircleAdapter : BaseQuickAdapter<Circle, BaseViewHolder>(R.layout.item_cir
     private var onReplyClickListener: ((Int) -> Unit)? = null
     private var onDeleteClickListener: ((Int) -> Unit)? = null
     private var onLikeClickListener: ((Int) -> Unit)? = null
+    private var onUnLikeClickListener: ((Int) -> Unit)? = null
 
     fun setOnLikeClickListener(listener: ((Int) -> Unit)?) {
         this.onLikeClickListener = listener
+    }
+
+    fun setOnUnLikeClickListener(listener: ((Int) -> Unit)?) {
+        this.onUnLikeClickListener = listener
     }
 
     fun setOnDeleteClickListener(listener: ((Int) -> Unit)?) {
@@ -48,7 +53,7 @@ class CircleAdapter : BaseQuickAdapter<Circle, BaseViewHolder>(R.layout.item_cir
             tv_comment_num.text = item.commentNum.toString()
             tv_isAuthor.visible(item.beNovelAuthor)
             iv_thumbUp.setImageResource(if (item.hadThumbed) R.drawable.ic_zan_check else R.drawable.ic_zan_uncheck)
-            ll_like.setOnClickListener { if (!item.hadThumbed) onLikeClickListener?.invoke(helper.adapterPosition - headerLayoutCount) }
+            ll_like.setOnClickListener { if (!item.hadThumbed) onLikeClickListener?.invoke(helper.adapterPosition - headerLayoutCount) else onUnLikeClickListener?.invoke(helper.adapterPosition - headerLayoutCount) }
             ll_comment.setOnClickListener { onReplyClickListener?.invoke(helper.adapterPosition - headerLayoutCount) }
             when (item.momentType) {
                 2 -> {

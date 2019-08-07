@@ -26,7 +26,8 @@ interface CircleCommentContract {
         fun getMomentDetailSuccess(circle: Circle)
         fun agreeSuccess()
         fun chapterCommentSuccess()
-        fun RefreshFinsh()
+        fun refreshFinish()
+        fun showState(state: Int)
     }
 
     //Model层定义接口,外部只需关心Model返回的数据,无需关心内部细节,即是否使用缓存
@@ -34,9 +35,11 @@ interface CircleCommentContract {
         fun getMomentDetail(momentId: String): Observable<BaseResponse<Circle>>
         fun getComments(params: HashMap<String, String>): Observable<BaseResponse<CircleCommentBean>>
         fun agree(momentId: String): Observable<BaseResponse<Any>>
+        fun disAgree(params: HashMap<String, Any?>): Observable<BaseResponse<Any>>
         fun agreeReply(momentId: String): Observable<BaseResponse<Any>>
         fun chapterComment(params: HashMap<String, Any?>): Observable<BaseResponse<Any>>
         fun chapterCommentReply(params: HashMap<String, Any?>): Observable<BaseResponse<Any>>
+        fun deleteCircleComment(params: HashMap<String, Any?>): Observable<BaseResponse<Any>>
     }
 
 }

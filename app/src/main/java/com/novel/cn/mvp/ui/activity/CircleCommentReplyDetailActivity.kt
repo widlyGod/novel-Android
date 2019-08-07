@@ -71,11 +71,14 @@ class CircleCommentReplyDetailActivity : BaseActivity<CircleCommentReplyDetailPr
         header.tv_content.text = content?.commentContent
         header.tv_time.text = TimeUtils.millis2String(content?.commentTime!!, SimpleDateFormat("yyyy-MM-dd HH:mm"))
         header.iv_thumbUp.setImageResource(if (content?.hadThumbed!!) R.drawable.ic_zan_check else R.drawable.ic_zan_uncheck)
-        if (!content?.hadThumbed!!) {
-            header.iv_thumbUp.clicks().subscribe {
+
+        header.ll_like.clicks().subscribe {
+            if (!content?.hadThumbed!!)
                 mPresenter?.agreeReply(content?.commentId!!)
-            }.bindToLifecycle(this)
-        }
+            else
+                mPresenter?.disAgreeReply(content?.commentId!!)
+        }.bindToLifecycle(this)
+
         header.tv_reply_num.clicks().subscribe {
             if (user.isNull() || user.userId.isBlank()) {
                 startActivity<LoginActivity>()
@@ -138,6 +141,12 @@ class CircleCommentReplyDetailActivity : BaseActivity<CircleCommentReplyDetailPr
             setOnLikeClickListener {
                 mPresenter?.agreeReplyReply(it)
             }
+            setOnUnLikeClickListener {
+                mPresenter?.disAgreeReplyReply(it)
+            }
+            setOnDeleteClickListener {
+                mPresenter?.deleteCircleComment(data[it].replyId)
+            }
             setOnReplyClickListener {
                 if (user.isNull() || user.userId.isBlank()) {
                     startActivity<LoginActivity>()
@@ -165,7 +174,6 @@ class CircleCommentReplyDetailActivity : BaseActivity<CircleCommentReplyDetailPr
 
     override fun agreeSuccess() {
         mPresenter?.getReplyDetail(commentId)
-        header.iv_thumbUp.setOnClickListener(null)
         EventBusManager.getInstance().post(CircleCommentEvent())
     }
 

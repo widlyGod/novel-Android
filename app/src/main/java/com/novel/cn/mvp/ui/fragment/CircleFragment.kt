@@ -117,6 +117,9 @@ class CircleFragment : BaseFragment<CirclePresenter>(), CircleContract.View {
             setOnLikeClickListener {
                 mPresenter?.agree(it)
             }
+            setOnUnLikeClickListener {
+                mPresenter?.disAgree(it)
+            }
             setOnReplyClickListener {
                 if (user.isNull() || user.userId.isBlank()) {
                     context?.startActivity<LoginActivity>()
