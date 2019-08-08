@@ -29,7 +29,10 @@ import com.novel.cn.mvp.model.entity.LoginInfo
 import com.novel.cn.mvp.ui.adapter.CircleCommentReplyAdapter
 import com.novel.cn.mvp.ui.dialog.CommentDialog
 import com.novel.cn.utils.TimeUtils
+import com.novel.cn.view.MultiStateView
+import kotlinx.android.synthetic.main.activity_circle_comment.*
 import kotlinx.android.synthetic.main.activity_circle_comment_reply_detail.*
+import kotlinx.android.synthetic.main.activity_circle_comment_reply_detail.refreshLayout
 import kotlinx.android.synthetic.main.include_title.*
 import kotlinx.android.synthetic.main.item_circle_comment_reply_head.view.*
 import org.jetbrains.anko.startActivity
@@ -109,6 +112,8 @@ class CircleCommentReplyDetailActivity : BaseActivity<CircleCommentReplyDetailPr
     private var replyType = "0"
 
     private val header by lazy { LayoutInflater.from(this).inflate(R.layout.item_circle_comment_reply_head, recyclerView_reply, false) }
+    val footerEmpty by lazy { LayoutInflater.from(this).inflate(R.layout.layout_empty, recyclerView, false) }
+    val footerError by lazy { LayoutInflater.from(this).inflate(R.layout.layout_error, recyclerView, false) }
 
     private val dialogReply by lazy {
         val dialog = CommentDialog(this)
@@ -166,6 +171,13 @@ class CircleCommentReplyDetailActivity : BaseActivity<CircleCommentReplyDetailPr
         refreshLayout.finishRefresh()
     }
 
+    override fun showState(state: Int) {
+        when (state) {
+            MultiStateView.VIEW_STATE_EMPTY -> mAdapter.setFooterView(footerEmpty)
+            MultiStateView.VIEW_STATE_ERROR -> mAdapter.setFooterView(footerError)
+            MultiStateView.VIEW_STATE_CONTENT -> mAdapter.removeAllFooterView()
+        }
+    }
 
     private fun onRefresh() {
         mPresenter?.getReplyDetail(commentId)

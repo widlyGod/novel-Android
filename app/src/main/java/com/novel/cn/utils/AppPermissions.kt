@@ -109,4 +109,45 @@ object AppPermissions {
                     }
                 }.bindToLifecycle(view)
     }
+
+    fun requestLocationPermission(rxPermissions: RxPermissions, view: IView, settingRequestCode: Int = 1000, call: (() -> Unit)? = null) {
+        val isActivity = view is Activity
+        if (!isActivity && view !is Fragment) {
+            view.showMessage("view必须继承activity或fragment")
+            return
+        }
+        rxPermissions.requestEachCombined(
+                Manifest.permission.ACCESS_FINE_LOCATION
+        ).observeOnMain()
+                .subscribe { permission ->
+                    when {
+                        permission.granted -> {
+                            call?.invoke()
+                        }
+                        permission.shouldShowRequestPermissionRationale -> {
+                            view.showMessage("请开启GPS、位置权限")
+                            Single.just(Unit) // 避免看不到提示消息
+                                    .delay(1, TimeUnit.SECONDS)
+                                    .applySchedulers(view)
+                                    .subscribe({
+
+                                    }, {}).bindToLifecycle(view)
+                        }
+                        else -> {
+                            val builder = if (isActivity) {
+                                AppSettingsDialog.Builder(view as Activity)
+                            } else {
+                                AppSettingsDialog.Builder(view as Fragment)
+                            }
+                            builder
+                                    .setTitle("权限设置")
+                                    .setRationale("请打开GPS、位置权限")
+                                    .setRequestCode(settingRequestCode)
+                                    .setThemeResId(R.style.Base_Theme_AppCompat_Light_Dialog)
+                                    .build()
+                                    .show()
+                        }
+                    }
+                }.bindToLifecycle(view)
+    }
 }

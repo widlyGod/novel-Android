@@ -16,6 +16,7 @@ import javax.inject.Inject
 import com.novel.cn.mvp.contract.CircleCommentReplyDetailContract
 import com.novel.cn.mvp.model.entity.*
 import com.novel.cn.mvp.ui.adapter.CircleCommentReplyAdapter
+import com.novel.cn.view.MultiStateView
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.schedulers.Schedulers
 import me.jessyan.rxerrorhandler.handler.ErrorHandleSubscriber
@@ -66,7 +67,11 @@ constructor(model: CircleCommentReplyDetailContract.Model, rootView: CircleComme
                 .subscribe(object : ErrorHandleSubscriber<BaseResponse<CircleCommentRaeplyAllBean>>(mErrorHandler) {
                     override fun onNext(t: BaseResponse<CircleCommentRaeplyAllBean>) {
                         if (t.data.totalElements == 0) {
+                            mAdapter.data.clear()
+                            mAdapter.notifyDataSetChanged()
+                            mRootView.showState(MultiStateView.VIEW_STATE_EMPTY)
                         } else {
+                            mRootView.showState(MultiStateView.VIEW_STATE_CONTENT)
                             val noMore = t.data.totalPages <= mPageIndex
 
                             if (pullToRefresh) {
@@ -86,6 +91,7 @@ constructor(model: CircleCommentReplyDetailContract.Model, rootView: CircleComme
                     override fun onError(t: Throwable) {
                         super.onError(t)
                         mRootView.RefreshFinsh()
+                        mRootView.showState(MultiStateView.VIEW_STATE_ERROR)
                     }
                 })
     }

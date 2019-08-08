@@ -29,63 +29,76 @@
 
         </com.scwang.smartrefresh.layout.SmartRefreshLayout>
 
+
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="45dp"
-            android:orientation="horizontal">
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
 
-            <RelativeLayout
-                android:id="@+id/rl_comment_num"
-                android:layout_width="wrap_content"
-                android:layout_height="match_parent"
-                android:layout_weight="1">
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1px"
+                android:background="@color/line"/>
 
-                <TextView
-                    android:id="@+id/tv_comment_num_circle"
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="45dp"
+                android:orientation="horizontal">
+
+                <RelativeLayout
+                    android:id="@+id/rl_comment_num"
                     android:layout_width="wrap_content"
                     android:layout_height="match_parent"
-                    android:layout_centerInParent="true"
-                    android:drawablePadding="4dp"
-                    android:gravity="center"
-                    android:textColor="#5e8fca"
-                    android:textSize="14sp" />
+                    android:layout_weight="1">
 
-                <ImageView
-                    android:id="@+id/iv_comment_num"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_centerVertical="true"
-                    android:layout_marginLeft="4dp"
-                    android:layout_toRightOf="@+id/tv_comment_num_circle"
-                    android:src="@drawable/ic_circle_comment" />
+                    <TextView
+                        android:id="@+id/tv_comment_num_circle"
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:layout_centerInParent="true"
+                        android:drawablePadding="4dp"
+                        android:gravity="center"
+                        android:textColor="#5e8fca"
+                        android:textSize="14sp" />
 
-            </RelativeLayout>
+                    <ImageView
+                        android:id="@+id/iv_comment_num"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_centerVertical="true"
+                        android:layout_marginLeft="4dp"
+                        android:layout_toRightOf="@+id/tv_comment_num_circle"
+                        android:src="@drawable/ic_circle_comment" />
 
-            <RelativeLayout
-                android:id="@+id/rl_agree_num"
-                android:layout_width="wrap_content"
-                android:layout_height="match_parent"
-                android:layout_weight="1">
+                </RelativeLayout>
 
-                <TextView
-                    android:id="@+id/tv_agree_num"
+                <RelativeLayout
+                    android:id="@+id/rl_agree_num"
                     android:layout_width="wrap_content"
                     android:layout_height="match_parent"
-                    android:layout_centerInParent="true"
-                    android:gravity="center"
-                    android:textColor="#5e8fca"
-                    android:textSize="14sp" />
+                    android:layout_weight="1">
 
-                <ImageView
-                    android:id="@+id/iv_agree_num"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_centerVertical="true"
-                    android:layout_marginLeft="4dp"
-                    android:layout_toRightOf="@+id/tv_agree_num"
-                    android:src="@drawable/ic_circle_agree" />
+                    <TextView
+                        android:id="@+id/tv_agree_num"
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:layout_centerInParent="true"
+                        android:gravity="center"
+                        android:textColor="#5e8fca"
+                        android:textSize="14sp" />
 
-            </RelativeLayout>
+                    <ImageView
+                        android:id="@+id/iv_agree_num"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_centerVertical="true"
+                        android:layout_marginLeft="4dp"
+                        android:layout_toRightOf="@+id/tv_agree_num"
+                        android:src="@drawable/ic_circle_agree" />
+
+                </RelativeLayout>
+
+            </LinearLayout>
 
         </LinearLayout>
 

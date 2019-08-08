@@ -70,6 +70,8 @@ constructor(model: CircleCommentContract.Model, rootView: CircleCommentContract.
                 .subscribe(object : ErrorHandleSubscriber<BaseResponse<CircleCommentBean>>(mErrorHandler) {
                     override fun onNext(t: BaseResponse<CircleCommentBean>) {
                         if (t.data.totalElements == 0) {
+                            mCircleCommentAdapter.data.clear()
+                            mCircleCommentAdapter.notifyDataSetChanged()
                             mRootView.showState(MultiStateView.VIEW_STATE_EMPTY)
                         } else {
                             mRootView.showState(MultiStateView.VIEW_STATE_CONTENT)

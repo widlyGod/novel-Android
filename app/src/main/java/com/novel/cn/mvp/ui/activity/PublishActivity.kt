@@ -224,7 +224,9 @@ class PublishActivity : BaseActivity<PublishPresenter>(), PublishContract.View {
                 JumpManager.jumpSearch(this, hotNovels, 0, true)
         }.bindToLifecycle(this)
         ll_location_select.clicks().subscribe {
-            startActivity<LocationSelectActivity>()
+            AppPermissions.requestLocationPermission(mRxPermissions, this) {
+                startActivity<LocationSelectActivity>()
+            }
         }.bindToLifecycle(this)
         ll_location_selected_show.clicks().subscribe {
             ll_location_select.visible(true)
@@ -292,7 +294,7 @@ class PublishActivity : BaseActivity<PublishPresenter>(), PublishContract.View {
         novelId = novel.novelId
         iv_book_image.loadImage(novel.novelPhoto)
         tv_book_name.text = novel.novelTitle
-        tv_book_detail.text = "书评${novel.commentNum}  书友${novel.readNum}  周排名"+if (novel.weeklyRank.toInt() > 99) "99+" else novel.weeklyRank
+        tv_book_detail.text = "书评${novel.commentNum}  书友${novel.readNum}  周排名" + if (novel.weeklyRank.toInt() > 99) "99+" else novel.weeklyRank
     }
 
 
