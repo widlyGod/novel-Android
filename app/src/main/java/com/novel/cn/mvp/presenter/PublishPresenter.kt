@@ -21,6 +21,7 @@ import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.schedulers.Schedulers
 import me.jessyan.rxerrorhandler.handler.ErrorHandleSubscriber
 import okhttp3.MediaType
+import okhttp3.MediaType.Companion.toMediaTypeOrNull
 import okhttp3.MultipartBody
 import okhttp3.RequestBody
 import java.io.File
@@ -61,7 +62,7 @@ constructor(model: PublishContract.Model, rootView: PublishContract.View) :
         }
         flies.forEach {
             val file = File(it)
-            val requestBody = RequestBody.create(MediaType.parse("image/png"), file)
+            val requestBody = RequestBody.create("image/png".toMediaTypeOrNull(), file)
             val part = MultipartBody.Part.createFormData("file", file.name, requestBody)
             parts.add(part)
         }

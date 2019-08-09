@@ -163,8 +163,7 @@ class CircleCommentActivity : BaseActivity<CircleCommentPresenter>(), CircleComm
     override fun refreshFinish() {
         refreshLayout.finishRefresh()
     }
-
-
+    
     override fun getMomentDetailSuccess(circle: Circle) {
         header.iv_avatar.loadHeadImage(circle.userPhoto)
         header.tv_user_name.text = circle.userName
@@ -183,7 +182,9 @@ class CircleCommentActivity : BaseActivity<CircleCommentPresenter>(), CircleComm
         header.tv_isAuthor.visible(circle.beNovelAuthor)
         header.iv_thumbUp.setImageResource(if (circle.hadThumbed) R.drawable.ic_zan_check else R.drawable.ic_zan_uncheck)
         iv_agree_num.setImageResource(if (circle.hadThumbed) R.drawable.ic_zan_check else R.drawable.ic_circle_agree)
-
+        header.rl_book_detail.setOnClickListener {
+            JumpManager.jumpBookDetail(this, circle.novelInfo.novelId)
+        }
         rl_agree_num.setOnClickListener {
             if (user.isNull() || user.userId.isBlank()) {
                 startActivity<LoginActivity>()

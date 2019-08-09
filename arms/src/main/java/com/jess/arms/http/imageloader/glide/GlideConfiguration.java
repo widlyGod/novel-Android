@@ -97,6 +97,6 @@ public class GlideConfiguration extends AppGlideModule {
 
     @Override
     public boolean isManifestParsingEnabled() {
-        return false;
+        return true;
     }
 }

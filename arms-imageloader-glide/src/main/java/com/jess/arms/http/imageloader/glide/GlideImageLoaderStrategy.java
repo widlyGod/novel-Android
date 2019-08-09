@@ -65,7 +65,7 @@ public class GlideImageLoaderStrategy implements BaseImageLoaderStrategy<ImageCo
         if (config.getCacheStrategy() != null) {
             glideRequest.diskCacheStrategy(config.getCacheStrategy());
         } else {
-            glideRequest.diskCacheStrategy(DiskCacheStrategy.RESOURCE);
+            glideRequest.diskCacheStrategy(DiskCacheStrategy.ALL);
         }
         if (config.isCrossFade()) {
             glideRequest.transition(DrawableTransitionOptions.withCrossFade());

@@ -14,19 +14,25 @@ import com.jakewharton.rxbinding3.view.clicks
 import com.jess.arms.base.BaseFragment
 import com.jess.arms.di.component.AppComponent
 import com.novel.cn.R
+import com.novel.cn.app.Constant
 import com.novel.cn.app.JumpManager
+import com.novel.cn.app.Preference
+import com.novel.cn.app.isNull
 import com.novel.cn.di.component.DaggerDiscoveryComponent
 import com.novel.cn.di.module.DiscoveryModule
 import com.novel.cn.ext.bindToLifecycle
 import com.novel.cn.ext.dp2px
 import com.novel.cn.mvp.contract.DiscoveryContract
 import com.novel.cn.mvp.model.entity.BookInfo
+import com.novel.cn.mvp.model.entity.LoginInfo
 import com.novel.cn.mvp.presenter.DiscoveryPresenter
+import com.novel.cn.mvp.ui.activity.LoginActivity
 import com.novel.cn.mvp.ui.dialog.CircleMorePopup
 import com.novel.cn.utils.StatusBarUtils
 import kotlinx.android.synthetic.main.fragment_book_store.*
 import kotlinx.android.synthetic.main.fragment_discovery.*
 import kotlinx.android.synthetic.main.fragment_discovery.tabLayout
+import org.jetbrains.anko.startActivity
 import javax.inject.Inject
 import javax.inject.Named
 
@@ -41,6 +47,7 @@ class DiscoveryFragment : BaseFragment<DiscoveryPresenter>(), DiscoveryContract.
     lateinit var mTabEntities: ArrayList<CustomTabEntity>
 
     private var hotNovels = mutableListOf<BookInfo>()
+    private lateinit var user: LoginInfo
 
     companion object {
         fun newInstance(): DiscoveryFragment {
@@ -69,7 +76,12 @@ class DiscoveryFragment : BaseFragment<DiscoveryPresenter>(), DiscoveryContract.
     }
 
     override fun initData(savedInstanceState: Bundle?) {
+        user = Preference.getDeviceData(Constant.LOGIN_INFO)!!
         iv_circle_add.clicks().subscribe {
+            if (user.isNull() || user.userId.isBlank()) {
+                context.startActivity<LoginActivity>()
+                return@subscribe
+            }
             mCircleMorePopup.showAsDropDown(iv_circle_add, dp2px(20), -dp2px(10))
         }.bindToLifecycle(this)
         iv_circle_search.clicks().subscribe {

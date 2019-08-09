@@ -1,6 +1,7 @@
 package com.lzy.ninegrid;
 
 import android.content.Context;
+import android.graphics.Color;
 import android.widget.ImageView;
 
 import java.io.Serializable;
@@ -37,7 +38,8 @@ public abstract class NineGridViewAdapter implements Serializable {
     protected ImageView generateImageView(Context context) {
         NineGridViewWrapper imageView = new NineGridViewWrapper(context);
         imageView.setScaleType(ImageView.ScaleType.CENTER_CROP);
-        imageView.setImageResource(R.drawable.ic_default_color);
+//        imageView.setImageResource(R.drawable.ic_default_color);
+        imageView.setBackground(context.getResources().getDrawable(R.mipmap.ic_load_image_error));
         return imageView;
     }
 

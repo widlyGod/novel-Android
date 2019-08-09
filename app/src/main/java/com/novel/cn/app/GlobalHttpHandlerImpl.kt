@@ -31,7 +31,7 @@ class GlobalHttpHandlerImpl(private val context: Context) : GlobalHttpHandler {
      * @return [Response]
      */
     override fun onHttpResultResponse(httpResult: String?, chain: Interceptor.Chain, response: Response): Response {
-        if (!TextUtils.isEmpty(httpResult) && RequestInterceptor.isJson(response.body()!!.contentType())) {
+        if (!TextUtils.isEmpty(httpResult) && RequestInterceptor.isJson(response.body!!.contentType())) {
             val data = ArmsUtils.obtainAppComponentFromContext(context).gson().fromJson(httpResult, BaseResponse::class.java)
 
             if (!data.success) {

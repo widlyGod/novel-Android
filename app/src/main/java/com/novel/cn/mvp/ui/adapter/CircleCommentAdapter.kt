@@ -23,7 +23,6 @@ import kotlinx.android.synthetic.main.item_circle_comment.view.tv_num
 import kotlinx.android.synthetic.main.item_circle_comment.view.tv_reply_num
 import kotlinx.android.synthetic.main.item_circle_comment.view.tv_time
 import kotlinx.android.synthetic.main.item_circle_reply.view.*
-import kotlinx.android.synthetic.main.item_comment.view.*
 import java.text.SimpleDateFormat
 
 class CircleCommentAdapter : BaseQuickAdapter<Content, BaseViewHolder>(R.layout.item_circle_comment) {

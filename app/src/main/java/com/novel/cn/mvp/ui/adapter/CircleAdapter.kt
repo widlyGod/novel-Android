@@ -55,6 +55,9 @@ class CircleAdapter : BaseQuickAdapter<Circle, BaseViewHolder>(R.layout.item_cir
             iv_thumbUp.setImageResource(if (item.hadThumbed) R.drawable.ic_zan_check else R.drawable.ic_zan_uncheck)
             ll_like.setOnClickListener { if (!item.hadThumbed) onLikeClickListener?.invoke(helper.adapterPosition - headerLayoutCount) else onUnLikeClickListener?.invoke(helper.adapterPosition - headerLayoutCount) }
             ll_comment.setOnClickListener { onReplyClickListener?.invoke(helper.adapterPosition - headerLayoutCount) }
+            rl_book_detail.setOnClickListener {
+                JumpManager.jumpBookDetail(mContext, item.novelInfo.novelId)
+            }
             when (item.momentType) {
                 2 -> {
                     rl_book_detail.visible(true)
