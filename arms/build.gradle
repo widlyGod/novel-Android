@@ -110,5 +110,4 @@ dependencies {
     api rootProject.ext.dependencies["timber"]
 
     implementation rootProject.ext.dependencies["multidex"]
-    api 'me.jessyan:progressmanager:1.5.0'
 }

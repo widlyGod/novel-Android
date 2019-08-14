@@ -62,6 +62,7 @@ class GlobalConfiguration : ConfigModule {
                     okhttpBuilder.readTimeout(30, TimeUnit.SECONDS)
                     okhttpBuilder.writeTimeout(30, TimeUnit.SECONDS)
                     okhttpBuilder.connectTimeout(30, TimeUnit.SECONDS)
+
                     //使用一行代码监听 Retrofit／Okhttp 上传下载进度监听,以及 Glide 加载进度监听, 详细使用方法请查看 https://github.com/JessYanCoding/ProgressManager
                     ProgressManager.getInstance().with(okhttpBuilder)
                     //让 Retrofit 同时支持多个 BaseUrl 以及动态改变 BaseUrl, 详细使用方法请查看 https://github.com/JessYanCoding/RetrofitUrlManager

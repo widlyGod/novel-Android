@@ -127,6 +127,8 @@ class DiscoveryFragment : BaseFragment<DiscoveryPresenter>(), DiscoveryContract.
             override fun onPageScrollStateChanged(state: Int) {
             }
         })
+//        tabLayout.currentTab = 1
+        vp_circle.currentItem = 1
     }
 
     override fun getHotSearchSuccess(list: List<BookInfo>) {

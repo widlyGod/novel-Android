@@ -22,6 +22,7 @@ import com.novel.cn.mvp.model.entity.Circle
 import com.novel.cn.mvp.model.entity.LoginInfo
 import com.novel.cn.mvp.presenter.CircleCommentPresenter
 import com.novel.cn.mvp.ui.adapter.CircleCommentAdapter
+import com.novel.cn.mvp.ui.adapter.CircleImageAdapter
 import com.novel.cn.mvp.ui.dialog.CommentDialog
 import com.novel.cn.view.MultiStateView
 import kotlinx.android.synthetic.main.activity_book_detail.*
@@ -223,18 +224,18 @@ class CircleCommentActivity : BaseActivity<CircleCommentPresenter>(), CircleComm
         when (circle.momentType) {
             2 -> {
                 header.rl_book_detail.visible(true)
-                header.nineGrid.visible(false)
+                header.recycler.visible(false)
                 header.iv_book_image.loadImage(circle?.novelInfo?.novelPhoto)
                 header.tv_book_name.text = circle?.novelInfo?.novelTitle
                 header.tv_book_detail.text = "书评${circle?.novelInfo?.commentNum}  书友${circle?.novelInfo?.readNum}  周排名" + if (circle?.novelInfo?.weeklyRank.toInt() > 99) "99+" else circle?.novelInfo?.weeklyRank
             }
             0 -> {
                 header.rl_book_detail.visible(false)
-                header.nineGrid.visible(false)
+                header.recycler.visible(false)
             }
             1 -> {
                 header.rl_book_detail.visible(false)
-                header.nineGrid.visible(true)
+                header.recycler.visible(true)
                 val imageInfo = ArrayList<ImageInfo>()
                 val images = circle.imgUrls
                 if (images != null) {
@@ -245,7 +246,7 @@ class CircleCommentActivity : BaseActivity<CircleCommentPresenter>(), CircleComm
                         imageInfo.add(info)
                     }
                 }
-                header.nineGrid.setAdapter(NineGridViewClickAdapter(this, imageInfo))
+                header.recycler.setAdapter(CircleImageAdapter().apply { setNewData(imageInfo) })
             }
         }
     }

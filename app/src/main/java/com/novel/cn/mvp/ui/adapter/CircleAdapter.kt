@@ -61,18 +61,18 @@ class CircleAdapter : BaseQuickAdapter<Circle, BaseViewHolder>(R.layout.item_cir
             when (item.momentType) {
                 2 -> {
                     rl_book_detail.visible(true)
-                    nineGrid.visible(false)
+                    recycler.visible(false)
                     iv_book_image.loadImage(item?.novelInfo?.novelPhoto)
                     tv_book_name.text = item?.novelInfo?.novelTitle
                     tv_book_detail.text = "书评${item?.novelInfo?.commentNum}  书友${item?.novelInfo?.readNum}  周排名" + if (item?.novelInfo?.weeklyRank.toInt() > 99) "99+" else item?.novelInfo?.weeklyRank
                 }
                 0 -> {
                     rl_book_detail.visible(false)
-                    nineGrid.visible(false)
+                    recycler.visible(false)
                 }
                 1 -> {
                     rl_book_detail.visible(false)
-                    nineGrid.visible(true)
+                    recycler.visible(true)
                     val imageInfo = ArrayList<ImageInfo>()
                     val images = item.imgUrls
                     if (images != null) {
@@ -83,7 +83,7 @@ class CircleAdapter : BaseQuickAdapter<Circle, BaseViewHolder>(R.layout.item_cir
                             imageInfo.add(info)
                         }
                     }
-                    nineGrid.setAdapter(NineGridViewClickAdapter(mContext, imageInfo))
+                    recycler.setAdapter(CircleImageAdapter().apply { setNewData(imageInfo) })
                 }
             }
 
