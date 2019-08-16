@@ -173,6 +173,7 @@ class CircleCommentActivity : BaseActivity<CircleCommentPresenter>(), CircleComm
         header.tv_circle_content.text = circle.momentContent
         header.tv_num.text = circle.likeNum.toString()
         header.tv_location.text = circle.address?.address
+        header.ll_location_selected_show.visible(!circle.address.isNull())
         header.ll_circle_reply_num.visible(true)
         val spannableString = SpannableString("共${circle.commentNum}条")
         spannableString.setSpan(ForegroundColorSpan(Color.parseColor("#ea4b1a")), 1, spannableString.length - 1, SpannableString.SPAN_EXCLUSIVE_EXCLUSIVE)

@@ -9,10 +9,7 @@ import com.lzy.ninegrid.ImageInfo
 import com.lzy.ninegrid.NineGridView
 import com.lzy.ninegrid.preview.NineGridViewClickAdapter
 import com.novel.cn.R
-import com.novel.cn.app.JumpManager
-import com.novel.cn.app.loadHeadImage
-import com.novel.cn.app.loadImage
-import com.novel.cn.app.visible
+import com.novel.cn.app.*
 import com.novel.cn.mvp.model.entity.Circle
 import kotlinx.android.synthetic.main.item_circle.view.*
 import java.util.*
@@ -49,6 +46,7 @@ class CircleAdapter : BaseQuickAdapter<Circle, BaseViewHolder>(R.layout.item_cir
             tv_circle_title.text = item.momentTitle
             tv_circle_content.text = item.momentContent
             tv_location.text = item.address?.address
+            ll_location_selected_show.visible(!item.address.isNull())
             tv_num.text = item.likeNum.toString()
             tv_comment_num.text = item.commentNum.toString()
             tv_isAuthor.visible(item.beNovelAuthor)

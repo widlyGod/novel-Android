@@ -155,13 +155,38 @@
             android:layout_gravity="end"
             android:orientation="horizontal">
 
-            <TextView
-                android:id="@+id/tv_location"
+            <LinearLayout
+                android:id="@+id/ll_location_selected_show"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:orientation="horizontal"
                 android:layout_centerVertical="true"
-                android:textColor="@color/color_999999"
-                android:textSize="13sp" />
+                android:paddingLeft="10dp"
+                android:paddingRight="10dp"
+                android:background="@drawable/shape_bill_date_change_bg"
+                android:visibility="gone">
+
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_vertical"
+                    android:paddingTop="4dp"
+                    android:paddingBottom="4dp"
+                    android:src="@drawable/ic_location_blue" />
+
+                <TextView
+                    android:id="@+id/tv_location"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_vertical"
+                    android:layout_marginLeft="4dp"
+                    android:paddingTop="4dp"
+                    android:paddingBottom="4dp"
+                    android:text="你在哪里？"
+                    android:textColor="#4f7fb6"
+                    android:textSize="14sp" />
+
+            </LinearLayout>
 
             <LinearLayout
                 android:id="@+id/ll_like"
