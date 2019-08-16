@@ -175,7 +175,7 @@ class CircleCommentActivity : BaseActivity<CircleCommentPresenter>(), CircleComm
         header.tv_location.text = circle.address?.address
         header.ll_circle_reply_num.visible(true)
         val spannableString = SpannableString("共${circle.commentNum}条")
-        spannableString.setSpan(ForegroundColorSpan(Color.parseColor("#ea4b1a")), 2, spannableString.length - 1, SpannableString.SPAN_EXCLUSIVE_EXCLUSIVE)
+        spannableString.setSpan(ForegroundColorSpan(Color.parseColor("#ea4b1a")), 1, spannableString.length - 1, SpannableString.SPAN_EXCLUSIVE_EXCLUSIVE)
         header.tv_circle_reply_num.text = spannableString
         tv_agree_num.text = circle.likeNum.toString()
         header.tv_comment_num.text = circle.commentNum.toString()
@@ -266,6 +266,7 @@ class CircleCommentActivity : BaseActivity<CircleCommentPresenter>(), CircleComm
 
     override fun chapterCommentSuccess() {
         mPresenter?.getComments(momentId)
+        mPresenter?.getMomentDetail(momentId)
         EventBusManager.getInstance().post(CircleEvent())
     }
 
