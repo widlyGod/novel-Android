@@ -1,0 +1,126 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+
+    <LinearLayout
+        android:id="@+id/ll_chat_message"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:visibility="gone">
+
+        <de.hdodenhof.circleimageview.CircleImageView
+            android:id="@+id/iv_chat_user_avatar"
+            android:layout_width="45dp"
+            android:layout_height="45dp"
+            android:layout_marginLeft="18dp"
+            android:layout_marginTop="13dp"
+            android:scaleType="centerCrop" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="9dp"
+            android:layout_marginTop="13dp"
+            android:layout_marginRight="40dp"
+            android:layout_marginBottom="9dp"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/tv_chat_user_name"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="#666666"
+                android:textSize="12sp"
+                tools:text="sadasd" />
+
+            <RelativeLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:background="@drawable/ic_chat_frame">
+
+                <TextView
+                    android:id="@+id/tv_chat_message"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:textColor="@color/black"
+                    android:textSize="15sp" />
+
+                <ImageView
+                    android:id="@+id/iv_chat_photo"
+                    android:layout_width="match_parent"
+                    android:layout_height="200dp"
+                    android:visibility="gone"/>
+
+            </RelativeLayout>
+
+        </LinearLayout>
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/ll_chat_message_mine"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_height="wrap_content"
+            android:layout_marginRight="9dp"
+            android:layout_marginTop="13dp"
+            android:layout_marginLeft="40dp"
+            android:layout_marginBottom="9dp"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/tv_chat_user_name_mine"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="#666666"
+                android:layout_gravity="end"
+                android:textSize="12sp"
+                tools:text="sadasd" />
+
+            <RelativeLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:layout_gravity="end"
+                android:background="@drawable/ic_chat_frame_blue">
+
+                <TextView
+                    android:id="@+id/tv_chat_message_mine"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:textColor="@color/black"
+                    android:textSize="15sp" />
+
+                <ImageView
+                    android:id="@+id/iv_chat_photo_mine"
+                    android:layout_width="match_parent"
+                    android:layout_height="200dp"
+                    android:visibility="gone"/>
+
+            </RelativeLayout>
+
+        </LinearLayout>
+
+        <de.hdodenhof.circleimageview.CircleImageView
+            android:id="@+id/iv_chat_user_avatar_mine"
+            android:layout_width="45dp"
+            android:layout_height="45dp"
+            android:layout_marginRight="18dp"
+            android:layout_marginTop="13dp"
+            android:scaleType="centerCrop" />
+
+
+    </LinearLayout>
+
+</RelativeLayout>

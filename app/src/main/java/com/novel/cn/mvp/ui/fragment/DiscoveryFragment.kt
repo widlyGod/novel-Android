@@ -12,7 +12,9 @@ import com.flyco.tablayout.listener.CustomTabEntity
 import com.flyco.tablayout.listener.OnTabSelectListener
 import com.jakewharton.rxbinding3.view.clicks
 import com.jess.arms.base.BaseFragment
+import com.jess.arms.base.BaseLazyLoadFragment
 import com.jess.arms.di.component.AppComponent
+import com.jess.arms.utils.LogUtils
 import com.novel.cn.R
 import com.novel.cn.app.Constant
 import com.novel.cn.app.JumpManager
@@ -37,7 +39,11 @@ import javax.inject.Inject
 import javax.inject.Named
 
 
-class DiscoveryFragment : BaseFragment<DiscoveryPresenter>(), DiscoveryContract.View {
+class DiscoveryFragment : BaseLazyLoadFragment<DiscoveryPresenter>(), DiscoveryContract.View {
+
+    override fun lazyLoadData() {
+
+    }
 
     @Inject
     lateinit var mCircleMorePopup: CircleMorePopup
@@ -60,7 +66,6 @@ class DiscoveryFragment : BaseFragment<DiscoveryPresenter>(), DiscoveryContract.
         //给布局加一个状态栏高度
         StatusBarUtils.setPaddingSmart(activity, ll_tab)
     }
-
 
     override fun setupFragmentComponent(appComponent: AppComponent) {
         DaggerDiscoveryComponent //如找不到该类,请编译一下项目
@@ -107,7 +112,7 @@ class DiscoveryFragment : BaseFragment<DiscoveryPresenter>(), DiscoveryContract.
         vp_circle.adapter = object : FragmentPagerAdapter(childFragmentManager) {
             override fun getItem(position: Int): Fragment {
                 return when (position) {
-                    0 -> VipPowerFragment().apply { setArguments(0) }
+                    0 -> ChatFragment()
                     else -> CircleFragment()
                 }
             }

@@ -14,7 +14,7 @@ import java.util.List;
 public abstract class BaseLazyLoadFragment<P extends IPresenter> extends BaseFragment<P> {
 
     private boolean isViewCreated; // 界面是否已创建完成
-    private boolean isVisibleToUser; // 是否对用户可见
+    private boolean isVisibleToUser = true; // 是否对用户可见
     private boolean isDataLoaded; // 数据是否已请求
 
     /**
@@ -26,6 +26,13 @@ public abstract class BaseLazyLoadFragment<P extends IPresenter> extends BaseFra
     public void setUserVisibleHint(boolean isVisibleToUser) {
         super.setUserVisibleHint(isVisibleToUser);
         this.isVisibleToUser = isVisibleToUser;
+        tryLoadData();
+    }
+
+    @Override
+    public void onHiddenChanged(boolean hidden) {
+        super.onHiddenChanged(hidden);
+        this.isVisibleToUser = !hidden;
         tryLoadData();
     }
 
@@ -51,7 +58,7 @@ public abstract class BaseLazyLoadFragment<P extends IPresenter> extends BaseFra
      * ViewPager场景下，当前fragment可见时，如果其子fragment也可见，则让子fragment请求数据
      */
     private void dispatchParentVisibleState() {
-        if(!isAdded()){
+        if (!isAdded()) {
             return;
         }
         FragmentManager fragmentManager = getChildFragmentManager();

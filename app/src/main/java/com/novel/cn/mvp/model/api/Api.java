@@ -27,4 +27,6 @@ package com.novel.cn.mvp.model.api;
 public interface Api {
     String APP_DOMAIN = "http://59.110.124.41/novelapi/";
     String RequestSuccess = "0";
+    String ws = "ws://59.110.124.41:9999/chatRoom/";//websocket地址
+
 }

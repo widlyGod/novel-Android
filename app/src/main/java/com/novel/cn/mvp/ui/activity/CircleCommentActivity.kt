@@ -163,6 +163,7 @@ class CircleCommentActivity : BaseActivity<CircleCommentPresenter>(), CircleComm
 
     override fun refreshFinish() {
         refreshLayout.finishRefresh()
+        intent.setClass(this, MainActivity::class.java!!)
     }
     
     override fun getMomentDetailSuccess(circle: Circle) {
